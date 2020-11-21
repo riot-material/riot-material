@@ -28,7 +28,7 @@ export default [
             typescript()
         ],
         output: {
-            name: "positionController",
+            name: "riotMaterial.positionController",
             file: "index.umd.js",
             format: "umd"
         }
