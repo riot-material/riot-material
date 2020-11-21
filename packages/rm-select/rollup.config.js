@@ -74,7 +74,7 @@ export default [
             riot()
         ],
         output: {
-            name: "riotMaterial.components.button",
+            name: "riotMaterial.components.select",
             file: "index.umd.js",
             format: "umd",
             globals
