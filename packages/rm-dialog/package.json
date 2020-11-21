@@ -1,0 +1,17 @@
+{
+  "name": "@riot-material/rm-dialog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kal Aster",
+  "license": "MIT",
+  "devDependencies": {
+    "@riotjs/compiler": "^5.0.0",
+    "riot": "^5.0.0",
+    "rollup": "^2.33.3",
+    "rollup-plugin-riot": "^5.0.0"
+  }
+}
