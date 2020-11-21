@@ -1,7 +1,6 @@
 import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import ButtonComponent from '@riot-material/rm-button';
 import MenuComponent from '@riot-material/rm-menu';
-import 'riot';
 import beforeFocusListener from '@riot-material/before-focus-listener';
 
 const blockedInputs = [];

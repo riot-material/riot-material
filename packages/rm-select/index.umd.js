@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/rm-textfield-container'), require('@riot-material/rm-button'), require('@riot-material/rm-menu'), require('riot'), require('@riot-material/before-focus-listener')) :
-    typeof define === 'function' && define.amd ? define(['@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', 'riot', '@riot-material/before-focus-listener'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.button = factory(global.riotMaterial.components.textfieldContainer, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riot, global.riotMaterial.beforeFocusListener)));
-}(this, (function (TextfieldContainerComponent, ButtonComponent, MenuComponent, riot, beforeFocusListener) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/rm-textfield-container'), require('@riot-material/rm-button'), require('@riot-material/rm-menu'), require('@riot-material/before-focus-listener')) :
+    typeof define === 'function' && define.amd ? define(['@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', '@riot-material/before-focus-listener'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.button = factory(global.riotMaterial.components.textfieldContainer, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riotMaterial.beforeFocusListener)));
+}(this, (function (TextfieldContainerComponent, ButtonComponent, MenuComponent, beforeFocusListener) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 

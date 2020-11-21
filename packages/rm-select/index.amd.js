@@ -1,4 +1,4 @@
-define(['@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', 'riot', '@riot-material/before-focus-listener'], function (TextfieldContainerComponent, ButtonComponent, MenuComponent, riot, beforeFocusListener) { 'use strict';
+define(['@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', '@riot-material/before-focus-listener'], function (TextfieldContainerComponent, ButtonComponent, MenuComponent, beforeFocusListener) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 

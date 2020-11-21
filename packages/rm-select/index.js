@@ -3,7 +3,6 @@
 var TextfieldContainerComponent = require('@riot-material/rm-textfield-container');
 var ButtonComponent = require('@riot-material/rm-button');
 var MenuComponent = require('@riot-material/rm-menu');
-require('riot');
 var beforeFocusListener = require('@riot-material/before-focus-listener');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
