@@ -3,7 +3,7 @@ const commonjs = require("@rollup/plugin-commonjs");
 const nodeResolve = require("@rollup/plugin-node-resolve").default;
 
 const globals = {
-    "@riot-material/position-controller": "riotMaterial.positionController",
+    "@riot-material/before-focus-listener": "riotMaterial.beforeFocusListener",
     "@riot-material/ripple": "riotMaterial.ripple",
     "@riot-material/rm-icon": "riotMaterial.components.icon",
     "riot": "riot"

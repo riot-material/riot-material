@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/position-controller": "^1.0.1",
+    "@riot-material/before-focus-listener": "^1.0.0",
     "@riot-material/ripple": "^1.0.0",
     "@riot-material/rm-icon": "^1.0.0"
   }

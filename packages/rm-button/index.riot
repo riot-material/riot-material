@@ -377,9 +377,10 @@
         import * as riot from "riot";
         import IconComponent from "@riot-material/rm-icon";
 
-        import positionController from "@riot-material/position-controller";
+        import beforeFocusListener from "@riot-material/before-focus-listener";
 
         export default {
+            _onclick: null,
             _updateRipple() {
                 const button = this.root.querySelector("button");
                 const rippleOptions = this.isIcon() ? { centered: true } : {};
@@ -446,18 +447,17 @@
                         }, 0);
                     }
                 });
-                let onclick = null;
                 button.addEventListener("click", () => {
                     if (shouldBeClick) {
                         rippleObj.start(null, null, null).end();
-                        if (onclick) {
-                            onclick();
+                        if (this._onclick) {
+                            this._onclick();
                         }
                     }
                 });
                 let openOverlay = this.props.openOverlay;
                 if (openOverlay) {
-                    positionController(button, onclick = () => {
+                    beforeFocusListener.addListener(button, this._onclick = () => {
                         let overlay = document.querySelector("#" + openOverlay);
                         if (!overlay) {
                             return;
@@ -473,7 +473,9 @@
                 }
             },
             onBeforeUnmount() {
-                positionController(this.root.querySelector("button"), null);
+                if (this._onclick) {
+                    beforeFocusListener.removeListener(this.root.querySelector("button"), this._onclick);
+                }
             },
             onUpdated() {
                 let button = this.root.querySelector("button");
