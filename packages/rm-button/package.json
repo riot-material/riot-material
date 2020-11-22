@@ -1,8 +1,8 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,7 @@
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/before-focus-listener": "^1.0.0",
+    "@riot-material/before-focus-listener": "^1.0.2",
     "@riot-material/ripple": "^1.0.0",
     "@riot-material/rm-icon": "^1.0.0"
   }
