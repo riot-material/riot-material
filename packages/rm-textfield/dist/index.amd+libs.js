@@ -177,7 +177,7 @@ define(function () { 'use strict';
     'name': 'rm-textfield-container'
   };
 
-  var rmTextfieldContainer = index;
+  var dist = index;
 
   var index$1 = {
     'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled]{ cursor: default; } rm-textfield input,[is="rm-textfield"] input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; }`,
@@ -252,7 +252,7 @@ define(function () { 'use strict';
       },
 
       components: {
-          "rm-textfield-container": rmTextfieldContainer
+          "rm-textfield-container": dist
       }
     },
 
