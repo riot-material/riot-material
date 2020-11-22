@@ -2,34 +2,34 @@ const typescript = require("@rollup/plugin-typescript");
 
 export default [
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             typescript()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd"
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             typescript()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             exports: "auto",
             format: "cjs"
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             typescript()
         ],
         output: {
             name: "riotMaterial.beforeFocusListener",
-            file: "index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd"
         }
     }

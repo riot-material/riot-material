@@ -13,7 +13,7 @@ interface IBeforeFocusController {
     }[];
 }
 
-export function addListener(element: HTMLElement, handler: (event: TouchEvent | MouseEvent) => void, context?: any): void {
+export function addListener<T>(element: HTMLElement, handler: (this: T, event: TouchEvent | MouseEvent) => void, context?: T): void {
     if (handler === void 0 || typeof handler !== "function") {
         throw new Error("invalid handler");
     }
