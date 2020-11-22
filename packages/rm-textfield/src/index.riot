@@ -1,7 +1,7 @@
 <rm-textfield>
     <rm-textfield-container variant={ props.variant }
         label={ props.label } full-width={ isFullWidth() } disabled={ isDisabled() }
-        class={ _getTextfieldContainerComponentClass() } onmousedown={ _oncontainermousedown}
+        class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
     >
         <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
             value={ props.value } name={ props.name } disabled={ isDisabled() } slot="input"

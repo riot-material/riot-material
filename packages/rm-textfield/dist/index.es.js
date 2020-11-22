@@ -1,10 +1,4 @@
-'use strict';
-
-var TextfieldContainerComponent = require('@riot-material/rm-textfield-container');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var TextfieldContainerComponent__default = /*#__PURE__*/_interopDefaultLegacy(TextfieldContainerComponent);
+import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 
 var index = {
   'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled]{ cursor: default; } rm-textfield input,[is="rm-textfield"] input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; }`,
@@ -79,12 +73,12 @@ var index = {
     },
 
     components: {
-        "rm-textfield-container": TextfieldContainerComponent__default['default']
+        "rm-textfield-container": TextfieldContainerComponent
     }
   },
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<rm-textfield-container expr0="expr0"></rm-textfield-container>', [{
+    return template('<rm-textfield-container expr5="expr5"></rm-textfield-container>', [{
       'type': bindingTypes.TAG,
       'getComponent': getComponent,
 
@@ -94,11 +88,11 @@ var index = {
 
       'slots': [{
         'id': 'input',
-        'html': '<input expr1="expr1" slot="input"/>',
+        'html': '<input expr6="expr6" slot="input"/>',
 
         'bindings': [{
-          'redundantAttribute': 'expr1',
-          'selector': '[expr1]',
+          'redundantAttribute': 'expr6',
+          'selector': '[expr6]',
 
           'expressions': [{
             'type': expressionTypes.EVENT,
@@ -145,18 +139,18 @@ var index = {
         }]
       }, {
         'id': 'leading',
-        'html': '<slot expr2="expr2" name="leading" slot="leading"></slot>',
+        'html': '<slot expr7="expr7" name="leading" slot="leading"></slot>',
 
         'bindings': [{
           'type': bindingTypes.SLOT,
           'attributes': [],
           'name': 'leading',
-          'redundantAttribute': 'expr2',
-          'selector': '[expr2]'
+          'redundantAttribute': 'expr7',
+          'selector': '[expr7]'
         }]
       }, {
         'id': 'trailing',
-        'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr3="expr3" variant="icon" dense></rm-button><slot expr4="expr4" name="trailing"></slot></span>',
+        'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr8="expr8" variant="icon" dense></rm-button><slot expr9="expr9" name="trailing"></slot></span>',
 
         'bindings': [{
           'type': bindingTypes.IF,
@@ -165,8 +159,8 @@ var index = {
             return scope.isClearable() && scope.root.value;
           },
 
-          'redundantAttribute': 'expr3',
-          'selector': '[expr3]',
+          'redundantAttribute': 'expr8',
+          'selector': '[expr8]',
 
           'template': template(null, [{
             'type': bindingTypes.TAG,
@@ -202,8 +196,8 @@ var index = {
           'type': bindingTypes.SLOT,
           'attributes': [],
           'name': 'trailing',
-          'redundantAttribute': 'expr4',
-          'selector': '[expr4]'
+          'redundantAttribute': 'expr9',
+          'selector': '[expr9]'
         }]
       }],
 
@@ -240,7 +234,7 @@ var index = {
         'name': 'class',
 
         'evaluate': function(scope) {
-          return scope._getTextfieldContainerComponentClass();
+          return scope._getTextfieldContainerClass();
         }
       }, {
         'type': expressionTypes.EVENT,
@@ -251,12 +245,12 @@ var index = {
         }
       }],
 
-      'redundantAttribute': 'expr0',
-      'selector': '[expr0]'
+      'redundantAttribute': 'expr5',
+      'selector': '[expr5]'
     }]);
   },
 
   'name': 'rm-textfield'
 };
 
-module.exports = index;
+export default index;

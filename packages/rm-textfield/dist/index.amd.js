@@ -238,7 +238,7 @@ define(['@riot-material/rm-textfield-container'], function (TextfieldContainerCo
             'name': 'class',
 
             'evaluate': function(scope) {
-              return scope._getTextfieldContainerComponentClass();
+              return scope._getTextfieldContainerClass();
             }
           }, {
             'type': expressionTypes.EVENT,

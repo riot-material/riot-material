@@ -242,7 +242,7 @@
             'name': 'class',
 
             'evaluate': function(scope) {
-              return scope._getTextfieldContainerComponentClass();
+              return scope._getTextfieldContainerClass();
             }
           }, {
             'type': expressionTypes.EVENT,
