@@ -5,7 +5,7 @@ const postcssurl = require("postcss-url");
 
 export default [
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             postcss({
@@ -17,12 +17,12 @@ export default [
             typescript()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd"
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             postcss({
@@ -34,13 +34,13 @@ export default [
             typescript()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             exports: "auto",
             format: "cjs"
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             postcss({
@@ -53,7 +53,7 @@ export default [
         ],
         output: {
             name: "riotMaterial.elevation",
-            file: "index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd"
         }
     }
