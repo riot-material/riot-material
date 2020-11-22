@@ -2,44 +2,44 @@ const riot = require("rollup-plugin-riot");
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             riot()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             format: "cjs",
             exports: "auto"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             riot()
         ],
         output: {
-            file: "index.es.js",
+            file: "dist/index.es.js",
             format: "es"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             riot()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             riot()
         ],
         output: {
             name: "riotMaterial.components.textfieldContainer",
-            file: "index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd"
         }
     }
