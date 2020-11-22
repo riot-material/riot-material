@@ -234,6 +234,32 @@ define(function () { 'use strict';
           return Object.keys(names).join(" ");
       },
 
+      getType() {
+          switch (this.props.type) {
+              case "email": {
+                  return "email";
+              }
+              case "number": {
+                  return "number";
+              }
+              case "password": {
+                  return "password";
+              }
+              case "search": {
+                  return "search";
+              }
+              case "tel": {
+                  return "tel";
+              }
+              case "url": {
+                  return "url";
+              }
+              default: {
+                  return "text";
+              }
+          }
+      },
+
       isClearable() {
           return this.props.clearable != null && this.props.clearable !== false;
       },
@@ -293,6 +319,13 @@ define(function () { 'use strict';
 
               'evaluate': function(scope) {
                 return scope._oninputinput;
+              }
+            }, {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'type',
+
+              'evaluate': function(scope) {
+                return scope.getType();
               }
             }, {
               'type': expressionTypes.VALUE,

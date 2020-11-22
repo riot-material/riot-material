@@ -50,14 +50,24 @@ Any value will be result in the disabled state
 ### `full-width` *optional*
 ### `label` *optional*
 ### `name` *optional*
+### `type` *optional* (default: `text`)
+Valid values:
+- `email`
+- `number`
+- `password`
+- `search`
+- `tel`
+- `url`
+- `text`
 ### `value` *optional*
 ### `variant` *optional* (default: `flat`)
-Possible values:  
+Valid values:  
 - `flat`  
 - `filled`  
 - `outlined`
 ## Methods
 ### `clear(): void`
+### `getType(): string`
 ### `isClearable(): boolean`
 ### `isDisabled(): boolean`
 ### `isFullWidth(): boolean`

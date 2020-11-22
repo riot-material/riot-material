@@ -4,7 +4,8 @@
         class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
     >
         <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
-            value={ props.value } name={ props.name } disabled={ isDisabled() } slot="input"
+            type={ getType() } value={ props.value } name={ props.name }
+            disabled={ isDisabled() } slot="input"
         >
         <slot name="leading" slot="leading" />
         <span style="white-space: nowrap;" slot="trailing">
@@ -81,6 +82,31 @@
                     names["rm-label-should-float"] = true;
                 }
                 return Object.keys(names).join(" ");
+            },
+            getType() {
+                switch (this.props.type) {
+                    case "email": {
+                        return "email";
+                    }
+                    case "number": {
+                        return "number";
+                    }
+                    case "password": {
+                        return "password";
+                    }
+                    case "search": {
+                        return "search";
+                    }
+                    case "tel": {
+                        return "tel";
+                    }
+                    case "url": {
+                        return "url";
+                    }
+                    default: {
+                        return "text";
+                    }
+                }
             },
             isClearable() {
                 return this.props.clearable != null && this.props.clearable !== false;
