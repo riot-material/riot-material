@@ -1,13 +1,24 @@
 const POSITION_CONTROLLER: unique symbol = Symbol("position-controller");
 
+export type PositionChangedEvent = CustomEvent<{
+    position: number
+}>;
+export type PositionAppliedEvent = CustomEvent<{
+    previousIndex: number, currentIndex: number
+}>;
+interface IPositionEvent {
+    "positionapplied": PositionAppliedEvent;
+    "positionchanged": PositionChangedEvent;
+}
+
 export interface IPositionController {
     getPosition(): number;
     getSelectedIndex(): number;
     setSelectedIndex(index: number): IPositionController;
     getLength(): number;
     setLength(length: number): IPositionController;
-    on(type: string, callback: (event: any) => void): IPositionController;
-    off(type: string, callback: (event: any) => void): IPositionController;
+    on<T extends keyof IPositionEvent>(type: T, callback: (event: IPositionEvent[T]) => void): IPositionController;
+    off<T extends keyof IPositionEvent>(type: T, callback: (event: IPositionEvent[T]) => void): IPositionController;
 }
 
 export default function positionController(element: HTMLElement): IPositionController {
