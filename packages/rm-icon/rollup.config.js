@@ -6,7 +6,7 @@ const postcssurl = require("postcss-url");
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
@@ -19,13 +19,13 @@ export default [
             riot()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             format: "cjs",
             exports: "auto"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
@@ -38,12 +38,12 @@ export default [
             riot()
         ],
         output: {
-            file: "index.es.js",
+            file: "dist/index.es.js",
             format: "es"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
@@ -56,12 +56,12 @@ export default [
             riot()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
@@ -75,7 +75,7 @@ export default [
         ],
         output: {
             name: "riotMaterial.components.icon",
-            file: "index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd"
         }
     }
