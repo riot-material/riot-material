@@ -1,8 +1,8 @@
 {
   "name": "@riot-material/rm-tabbed-pages",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +16,7 @@
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/position-controller": "^1.0.1",
+    "@riot-material/position-controller": "^1.0.2",
     "@riot-material/ripple": "^1.0.0",
     "riot": "^5.0.0"
   }

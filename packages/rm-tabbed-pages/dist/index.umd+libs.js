@@ -1,4 +1,8 @@
-define(function () { 'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.tabbedPages = factory()));
+}(this, (function () { 'use strict';
 
   /* Riot v5.0.0, @license MIT */
   /**
@@ -2365,7 +2369,7 @@ define(function () { 'use strict';
       };
   }
 
-  var positionController_1 = positionController;
+  var dist = positionController;
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -3278,7 +3282,7 @@ define(function () { 'use strict';
               window.requestAnimationFrame(frame);
           };
           window.requestAnimationFrame(frame);
-          positionController_1(this.root.children[1])
+          dist(this.root.children[1])
           .setSelectedIndex(this.getSelectedIndex())
           .on("positionchanged", event => this.update({ instant: true }))
           .on("positionapplied", event => {
@@ -3405,7 +3409,7 @@ define(function () { 'use strict';
           }
 
           // update positionController length
-          positionController_1(this.root.children[1]).setLength(this.getLength());
+          dist(this.root.children[1]).setLength(this.getLength());
 
           // set indicator to correct position and size
           this._updateIndicator(!update || this.state.instant);
@@ -3499,7 +3503,7 @@ define(function () { 'use strict';
               return;
           }
           this.update({ selectedIndex: index });
-          positionController_1(this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
+          dist(this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
       },
 
       getIndicatorLeft() {
@@ -3564,7 +3568,7 @@ define(function () { 'use strict';
       },
 
       getPosition() {
-          return positionController_1(this.root.children[1]).getPosition();
+          return dist(this.root.children[1]).getPosition();
       }
     },
 
@@ -3580,4 +3584,4 @@ define(function () { 'use strict';
 
   return index;
 
-});
+})));

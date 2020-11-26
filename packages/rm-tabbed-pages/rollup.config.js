@@ -11,7 +11,7 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.riot",
         external,
         plugins: [
             nodeResolve(),
@@ -19,13 +19,13 @@ export default [
             riot()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             format: "cjs",
             exports: "auto"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         external,
         plugins: [
             nodeResolve(),
@@ -33,12 +33,12 @@ export default [
             riot()
         ],
         output: {
-            file: "index.es.js",
+            file: "dist/index.es.js",
             format: "es"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         external,
         plugins: [
             nodeResolve(),
@@ -46,25 +46,25 @@ export default [
             riot()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd",
             globals
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
             riot()
         ],
         output: {
-            file: "index.amd+libs.js",
+            file: "dist/index.amd+libs.js",
             format: "amd"
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         external,
         plugins: [
             nodeResolve(),
@@ -73,13 +73,13 @@ export default [
         ],
         output: {
             name: "riotMaterial.components.tabbedPages",
-            file: "index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd",
             globals
         }
     },
     {
-        input: "index.riot",
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
@@ -87,7 +87,7 @@ export default [
         ],
         output: {
             name: "riotMaterial.components.tabbedPages",
-            file: "index.umd+libs.js",
+            file: "dist/index.umd+libs.js",
             format: "umd"
         }
     }
