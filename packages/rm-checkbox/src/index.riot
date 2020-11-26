@@ -1,13 +1,13 @@
 <rm-checkbox>
     <label>
-        <input type="checkbox" checked={ props.checked } name={ props.name } tabindex="0">
+        <input type="checkbox" checked={ isChecked() } name={ props.name } tabindex="0" disabled={ isDisabled() }>
         <div ref="box">
             <div ref="border"></div>
             <div ref="check-box">
                 <div ref="check"><div></div><div></div></div>
             </div>
         </div>
-        <div style="vertical-align: top; display: inline-block;">{ props.label }</div>
+        <div style="vertical-align: middle; display: inline-block;">{ props.label }</div>
     </label>
     
     <style>
@@ -26,6 +26,9 @@
             /* https://stackoverflow.com/a/21003770/9228492 */
             -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
+        }
+        :host[disabled] {
+            opacity: 0.6;
         }
         label {
             cursor: inherit;
@@ -239,7 +242,8 @@
                         radius: 16,
                         unboundedFocus: true,
                         focusTarget: input,
-                        color: "currentColor"
+                        color: "currentColor",
+                        disabled: this.isDisabled()
                     }
                 );
                 let refresh = (event) => {
@@ -260,6 +264,18 @@
                     }
                 });
                 refresh();
+            },
+            onUpdated() {
+                let box = this.root.querySelector("[ref=box]");
+                let boxRipple = ripple(box, {
+                    disabled: this.isDisabled()
+                });
+            },
+            isChecked() {
+                return this.props.checked != null && this.props.checked !== false;
+            },
+            isDisabled() {
+                return this.props.disabled != null && this.props.disabled !== false;
             }
         }
     </script>
