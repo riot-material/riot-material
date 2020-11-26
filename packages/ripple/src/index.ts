@@ -181,6 +181,7 @@ export function ripple(element: HTMLElement, options?: IRippleOptions): IRipple 
         detectLabel: true,
         usePointerFocus: false,
         stopRippling: false,
+        ...(ripple != null ? ripple[RIPPLE_OPTIONS] : {}),
         ...options
     };
     if (options.detectLabel != null && !options.detectLabel) {

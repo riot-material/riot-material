@@ -1,8 +1,4 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('what-input')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'what-input'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.ripple = {}), global.whatInput));
-}(this, (function (exports, whatInput) { 'use strict';
+define(['exports', 'what-input'], function (exports, whatInput) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -147,7 +143,7 @@
         if (options == null && ripple != null) {
             return ripple;
         }
-        options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+        options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
         if (options.detectLabel != null && !options.detectLabel) {
             options.usePointerFocus = false;
         }
@@ -353,4 +349,4 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+});

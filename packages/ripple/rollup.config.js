@@ -9,7 +9,7 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "index.ts",
+        input: "src/index.ts",
         external,
         plugins: [
             nodeResolve(),
@@ -17,51 +17,38 @@ export default [
             typescript()
         ],
         output: {
-            file: "index.amd.js",
+            file: "dist/index.amd.js",
             format: "amd",
             globals
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             commonjs(),
             typescript()
         ],
         output: {
-            file: "index.amd+libs.js",
+            file: "dist/index.amd+libs.js",
             format: "amd"
         }
     },
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             commonjs(),
             typescript()
         ],
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             exports: "auto",
             format: "cjs"
         }
     },
     {
-        input: "index.ts",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            typescript()
-        ],
-        output: {
-            name: "riotMaterial.ripple",
-            file: "index.umd.js",
-            format: "umd"
-        }
-    },
-    {
-        input: "index.ts",
+        input: "src/index.ts",
         external,
         plugins: [
             nodeResolve(),
@@ -70,9 +57,22 @@ export default [
         ],
         output: {
             name: "riotMaterial.ripple",
-            file: "index.umd+libs.js",
+            file: "dist/index.umd.js",
             format: "umd",
             globals
+        }
+    },
+    {
+        input: "src/index.ts",
+        plugins: [
+            nodeResolve(),
+            commonjs(),
+            typescript()
+        ],
+        output: {
+            name: "riotMaterial.ripple",
+            file: "dist/index.umd+libs.js",
+            format: "umd"
         }
     }
 ]
