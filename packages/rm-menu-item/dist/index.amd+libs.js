@@ -2254,7 +2254,7 @@ define(function () { 'use strict';
   	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
   }
 
-  var ripple_1 = createCommonjsModule(function (module, exports) {
+  var dist = createCommonjsModule(function (module, exports) {
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -2923,7 +2923,7 @@ define(function () { 'use strict';
       if (options == null && ripple != null) {
           return ripple;
       }
-      options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+      options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
       if (options.detectLabel != null && !options.detectLabel) {
           options.usePointerFocus = false;
       }
@@ -3163,7 +3163,7 @@ define(function () { 'use strict';
               this._select = parent;
           }
           if (this.props.tabindex == null || !(parseInt(this.props.tabindex) < 0)) {
-              ripple_1.ripple(this.root.firstElementChild, {
+              dist.ripple(this.root.firstElementChild, {
                   highlight: !this.getPassive(),
                   instantHighlight: true,
                   disabled: this.getPassive()
@@ -3173,7 +3173,7 @@ define(function () { 'use strict';
 
       onUpdated() {
           if (this.props.tabindex == null || !(parseInt(this.props.tabindex) < 0)) {
-              ripple_1.ripple(this.root.firstElementChild, {
+              dist.ripple(this.root.firstElementChild, {
                   highlight: !this.getPassive(),
                   instantHighlight: true,
                   disabled: this.getPassive()
