@@ -1,4 +1,8 @@
-define(function () { 'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.button = factory()));
+}(this, (function () { 'use strict';
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -16,7 +20,7 @@ define(function () { 'use strict';
 		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 	}
 
-	var ripple_1 = createCommonjsModule(function (module, exports) {
+	var dist = createCommonjsModule(function (module, exports) {
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -685,7 +689,7 @@ define(function () { 'use strict';
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
-	    options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
 	    }
@@ -895,9 +899,9 @@ define(function () { 'use strict';
 
 	  'exports': {
 	    onMounted() {
-	        let circle = this.root.querySelector("[ref=circle]");
-	        let input = this.root.querySelector("input");
-	        let circleRipple = ripple_1.ripple(
+	        const circle = this.root.querySelector("[ref=circle]");
+	        const input = this.root.querySelector("input");
+	        const circleRipple = dist.ripple(
 	            circle,
 	            {
 	                centered: true,
@@ -908,16 +912,16 @@ define(function () { 'use strict';
 	                color: "currentColor"
 	            }
 	        );
-	        let refreshUI = () => {
+	        const refreshUI = () => {
 	            if (input.checked) {
 	                this.root.classList.add("rm-checked");
 	            } else {
 	                this.root.classList.remove("rm-checked");
 	            }
 	        };
-	        let refresh = () => {
+	        const refresh = () => {
 	            refreshUI();
-	            let name = this.getName();
+	            const name = this.getName();
 	            if (!name) {
 	                return;
 	            }
@@ -930,8 +934,8 @@ define(function () { 'use strict';
 	            if (!parent) {
 	                parent = document;
 	            }
-	            let selector = "input[type=radio][name=\"" + name + "\"]";
-	            let invertedMask = parent.querySelectorAll(":scope form " + selector);
+	            const selector = "input[type=radio][name=\"" + name + "\"]";
+	            const invertedMask = parent.querySelectorAll(":scope form " + selector);
 	            Array.prototype.forEach.call(
 	                parent.querySelectorAll(selector),
 	                input => {
@@ -949,18 +953,32 @@ define(function () { 'use strict';
 	        refresh();
 	    },
 
+	    onUpdated() {
+	        dist.ripple(this.root.querySelector("[ref=circle]"), {
+	            disabled: this.isDisabled()
+	        });
+	    },
+
 	    getName() {
-	        let name = this.props.name;
+	        const name = this.props.name;
 	        return typeof name === "string" && !name.match(/^\s*$/) ? name : null;
+	    },
+
+	    isChecked() {
+	        return this.props.checked != null && this.props.checked !== false;
+	    },
+
+	    isDisabled() {
+	        return this.props.disabled != null && this.props.disabled !== false;
 	    }
 	  },
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
 	    return template(
-	      '<label><input expr6="expr6" type="radio" tabindex="0"/><div ref="circle"><div ref="border"></div><div ref="radio-circle"></div></div><div expr7="expr7" style="vertical-align: middle; display: inline-block;"> </div></label>',
+	      '<label><input expr10="expr10" type="radio" tabindex="0"/><div ref="circle"><div ref="border"></div><div ref="radio-circle"></div></div><div expr11="expr11" style="vertical-align: middle; display: inline-block;"> </div></label>',
 	      [{
-	        'redundantAttribute': 'expr6',
-	        'selector': '[expr6]',
+	        'redundantAttribute': 'expr10',
+	        'selector': '[expr10]',
 
 	        'expressions': [{
 	          'type': expressionTypes.VALUE,
@@ -975,10 +993,24 @@ define(function () { 'use strict';
 	          'evaluate': function(scope) {
 	            return scope.props.name;
 	          }
+	        }, {
+	          'type': expressionTypes.ATTRIBUTE,
+	          'name': 'checked',
+
+	          'evaluate': function(scope) {
+	            return scope.isChecked();
+	          }
+	        }, {
+	          'type': expressionTypes.ATTRIBUTE,
+	          'name': 'disabled',
+
+	          'evaluate': function(scope) {
+	            return scope.isDisabled();
+	          }
 	        }]
 	      }, {
-	        'redundantAttribute': 'expr7',
-	        'selector': '[expr7]',
+	        'redundantAttribute': 'expr11',
+	        'selector': '[expr11]',
 
 	        'expressions': [{
 	          'type': expressionTypes.TEXT,
@@ -997,4 +1029,4 @@ define(function () { 'use strict';
 
 	return index;
 
-});
+})));

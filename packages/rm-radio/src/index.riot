@@ -1,6 +1,6 @@
 <rm-radio>
     <label>
-        <input type="radio" value={ props.value } name={ props.name } tabindex="0">
+        <input type="radio" value={ props.value } name={ props.name } tabindex="0" checked={ isChecked() } disabled={ isDisabled() }>
         <div ref="circle">
             <div ref="border"></div>
             <div ref="radio-circle"></div>
@@ -157,9 +157,9 @@
 
         export default {
             onMounted() {
-                let circle = this.root.querySelector("[ref=circle]");
-                let input = this.root.querySelector("input");
-                let circleRipple = ripple(
+                const circle = this.root.querySelector("[ref=circle]");
+                const input = this.root.querySelector("input");
+                const circleRipple = ripple(
                     circle,
                     {
                         centered: true,
@@ -170,16 +170,16 @@
                         color: "currentColor"
                     }
                 );
-                let refreshUI = () => {
+                const refreshUI = () => {
                     if (input.checked) {
                         this.root.classList.add("rm-checked");
                     } else {
                         this.root.classList.remove("rm-checked");
                     }
                 }
-                let refresh = () => {
+                const refresh = () => {
                     refreshUI();
-                    let name = this.getName();
+                    const name = this.getName();
                     if (!name) {
                         return;
                     }
@@ -192,8 +192,8 @@
                     if (!parent) {
                         parent = document;
                     }
-                    let selector = "input[type=radio][name=\"" + name + "\"]";
-                    let invertedMask = parent.querySelectorAll(":scope form " + selector);
+                    const selector = "input[type=radio][name=\"" + name + "\"]";
+                    const invertedMask = parent.querySelectorAll(":scope form " + selector);
                     Array.prototype.forEach.call(
                         parent.querySelectorAll(selector),
                         input => {
@@ -210,9 +210,20 @@
                 input.addEventListener("unchecked", refreshUI);
                 refresh();
             },
+            onUpdated() {
+                ripple(this.root.querySelector("[ref=circle]"), {
+                    disabled: this.isDisabled()
+                });
+            },
             getName() {
-                let name = this.props.name;
+                const name = this.props.name;
                 return typeof name === "string" && !name.match(/^\s*$/) ? name : null;
+            },
+            isChecked() {
+                return this.props.checked != null && this.props.checked !== false;
+            },
+            isDisabled() {
+                return this.props.disabled != null && this.props.disabled !== false;
             }
         }
     </script>
