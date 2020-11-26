@@ -16,7 +16,7 @@ define(function () { 'use strict';
 		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 	}
 
-	var ripple_1 = createCommonjsModule(function (module, exports) {
+	var dist = createCommonjsModule(function (module, exports) {
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -685,7 +685,7 @@ define(function () { 'use strict';
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
-	    options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
 	    }
@@ -897,7 +897,7 @@ define(function () { 'use strict';
 	    onMounted() {
 	        let box = this.root.querySelector("[ref=box]");
 	        let input = this.root.querySelector("input");
-	        let boxRipple = ripple_1.ripple(
+	        let boxRipple = dist.ripple(
 	            box,
 	            {
 	                centered: true,
@@ -931,7 +931,7 @@ define(function () { 'use strict';
 
 	    onUpdated() {
 	        let box = this.root.querySelector("[ref=box]");
-	        let boxRipple = ripple_1.ripple(box, {
+	        let boxRipple = dist.ripple(box, {
 	            disabled: this.isDisabled()
 	        });
 	    },
@@ -947,10 +947,10 @@ define(function () { 'use strict';
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
 	    return template(
-	      '<label><input expr42="expr42" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr43="expr43" style="vertical-align: middle; display: inline-block;"> </div></label>',
+	      '<label><input expr6="expr6" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr7="expr7" style="vertical-align: middle; display: inline-block;"> </div></label>',
 	      [{
-	        'redundantAttribute': 'expr42',
-	        'selector': '[expr42]',
+	        'redundantAttribute': 'expr6',
+	        'selector': '[expr6]',
 
 	        'expressions': [{
 	          'type': expressionTypes.ATTRIBUTE,
@@ -975,8 +975,8 @@ define(function () { 'use strict';
 	          }
 	        }]
 	      }, {
-	        'redundantAttribute': 'expr43',
-	        'selector': '[expr43]',
+	        'redundantAttribute': 'expr7',
+	        'selector': '[expr7]',
 
 	        'expressions': [{
 	          'type': expressionTypes.TEXT,

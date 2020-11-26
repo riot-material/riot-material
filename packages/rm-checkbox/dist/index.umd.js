@@ -61,10 +61,10 @@
 
       'template': function(template, expressionTypes, bindingTypes, getComponent) {
         return template(
-          '<label><input expr44="expr44" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr45="expr45" style="vertical-align: middle; display: inline-block;"> </div></label>',
+          '<label><input expr8="expr8" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr9="expr9" style="vertical-align: middle; display: inline-block;"> </div></label>',
           [{
-            'redundantAttribute': 'expr44',
-            'selector': '[expr44]',
+            'redundantAttribute': 'expr8',
+            'selector': '[expr8]',
 
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -89,8 +89,8 @@
               }
             }]
           }, {
-            'redundantAttribute': 'expr45',
-            'selector': '[expr45]',
+            'redundantAttribute': 'expr9',
+            'selector': '[expr9]',
 
             'expressions': [{
               'type': expressionTypes.TEXT,

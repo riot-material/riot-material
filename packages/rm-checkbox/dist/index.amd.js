@@ -57,10 +57,10 @@ define(['@riot-material/ripple'], function (ripple) { 'use strict';
 
       'template': function(template, expressionTypes, bindingTypes, getComponent) {
         return template(
-          '<label><input expr40="expr40" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr41="expr41" style="vertical-align: middle; display: inline-block;"> </div></label>',
+          '<label><input expr4="expr4" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr5="expr5" style="vertical-align: middle; display: inline-block;"> </div></label>',
           [{
-            'redundantAttribute': 'expr40',
-            'selector': '[expr40]',
+            'redundantAttribute': 'expr4',
+            'selector': '[expr4]',
 
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -85,8 +85,8 @@ define(['@riot-material/ripple'], function (ripple) { 'use strict';
               }
             }]
           }, {
-            'redundantAttribute': 'expr41',
-            'selector': '[expr41]',
+            'redundantAttribute': 'expr5',
+            'selector': '[expr5]',
 
             'expressions': [{
               'type': expressionTypes.TEXT,

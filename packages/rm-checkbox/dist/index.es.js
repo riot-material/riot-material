@@ -57,10 +57,10 @@ var index = {
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
     return template(
-      '<label><input expr38="expr38" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr39="expr39" style="vertical-align: middle; display: inline-block;"> </div></label>',
+      '<label><input expr2="expr2" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr3="expr3" style="vertical-align: middle; display: inline-block;"> </div></label>',
       [{
-        'redundantAttribute': 'expr38',
-        'selector': '[expr38]',
+        'redundantAttribute': 'expr2',
+        'selector': '[expr2]',
 
         'expressions': [{
           'type': expressionTypes.ATTRIBUTE,
@@ -85,8 +85,8 @@ var index = {
           }
         }]
       }, {
-        'redundantAttribute': 'expr39',
-        'selector': '[expr39]',
+        'redundantAttribute': 'expr3',
+        'selector': '[expr3]',
 
         'expressions': [{
           'type': expressionTypes.TEXT,

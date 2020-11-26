@@ -20,7 +20,7 @@
 		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 	}
 
-	var ripple_1 = createCommonjsModule(function (module, exports) {
+	var dist = createCommonjsModule(function (module, exports) {
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -689,7 +689,7 @@
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
-	    options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
 	    }
@@ -901,7 +901,7 @@
 	    onMounted() {
 	        let box = this.root.querySelector("[ref=box]");
 	        let input = this.root.querySelector("input");
-	        let boxRipple = ripple_1.ripple(
+	        let boxRipple = dist.ripple(
 	            box,
 	            {
 	                centered: true,
@@ -935,7 +935,7 @@
 
 	    onUpdated() {
 	        let box = this.root.querySelector("[ref=box]");
-	        let boxRipple = ripple_1.ripple(box, {
+	        let boxRipple = dist.ripple(box, {
 	            disabled: this.isDisabled()
 	        });
 	    },
@@ -951,10 +951,10 @@
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
 	    return template(
-	      '<label><input expr46="expr46" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr47="expr47" style="vertical-align: middle; display: inline-block;"> </div></label>',
+	      '<label><input expr10="expr10" type="checkbox" tabindex="0"/><div ref="box"><div ref="border"></div><div ref="check-box"><div ref="check"><div></div><div></div></div></div></div><div expr11="expr11" style="vertical-align: middle; display: inline-block;"> </div></label>',
 	      [{
-	        'redundantAttribute': 'expr46',
-	        'selector': '[expr46]',
+	        'redundantAttribute': 'expr10',
+	        'selector': '[expr10]',
 
 	        'expressions': [{
 	          'type': expressionTypes.ATTRIBUTE,
@@ -979,8 +979,8 @@
 	          }
 	        }]
 	      }, {
-	        'redundantAttribute': 'expr47',
-	        'selector': '[expr47]',
+	        'redundantAttribute': 'expr11',
+	        'selector': '[expr11]',
 
 	        'expressions': [{
 	          'type': expressionTypes.TEXT,
