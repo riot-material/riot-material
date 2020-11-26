@@ -2387,7 +2387,7 @@
   	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
   }
 
-  var ripple_1 = createCommonjsModule(function (module, exports) {
+  var dist$1 = createCommonjsModule(function (module, exports) {
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
@@ -3056,7 +3056,7 @@
       if (options == null && ripple != null) {
           return ripple;
       }
-      options = __assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, options);
+      options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
       if (options.detectLabel != null && !options.detectLabel) {
           options.usePointerFocus = false;
       }
@@ -3378,7 +3378,7 @@
                       this.setSelectedIndex(this._getUpdatedIndexOf(index));
                   });
                   button.innerText = slot.id;
-                  ripple_1.ripple(button, { detectLabel: false, color: "currentColor", instantHighlight: true });
+                  dist$1.ripple(button, { detectLabel: false, color: "currentColor", instantHighlight: true });
               }
           });
 

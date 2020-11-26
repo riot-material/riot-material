@@ -46,17 +46,17 @@ window.riotMaterial.components.tabbedPages;
 `riot`  
 Be sure to have them when installing manually or including via html*
 ## Properties
-### hidden-tabs *optional*
-### selected-index *optional*
+### `hidden-tabs` *optional*
+### `selected-index` *optional*
 ## Methods
-### isDisabled(): boolean
-### isFlat(): boolean
-### isIcon(): boolean
-### isOutlined(): boolean
-### isRaised(): boolean
-### isUnelevated(): boolean
-### setDisabled(disabled: boolean): void
+### `isDisabled(): boolean`
+### `isFlat(): boolean`
+### `isIcon(): boolean`
+### `isOutlined(): boolean`
+### `isRaised(): boolean`
+### `isUnelevated(): boolean`
+### `setDisabled(disabled: boolean): void`
 ## Slots
-### <tab-name>
+### `<tab-name>`
 Every slot is a tab named as the slot and with the slot innerHTML as content.  
 It is hidden if the tab name is contained in [props.hiddenTabs](#hidden-tabs-optional)
