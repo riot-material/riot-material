@@ -88,7 +88,7 @@
 
     <script>
         import * as riot from "riot";
-        import positionController from "@riot-material/position-controller";
+        import { default as positionController } from "@riot-material/position-controller";
         import { ripple } from "@riot-material/ripple";
 
         const PAGE_INDEX = Symbol("page-index");
@@ -133,42 +133,6 @@
             },
             _lastHiddenTabsPropValue: undefined,
             _hiddenTabs: [],
-            getHiddenTabs() {
-                if (this.props.hiddenTabs !== this._lastHiddenTabsPropValue) {
-                    let newHiddenTabs = [];
-                    switch (typeof this.props.hiddenTabs) {
-                        case "string": {
-                            if (/^(\W*(\d+)\W*)+$/.test(this.props.hiddenTabs)) {
-                                const regex = /(\d+)/g;
-                                let match;
-                                const hiddenTabs = [];
-                                while (match = regex.exec(this.props.hiddenTabs)) {
-                                    if (match.length === 0) {
-                                        continue;
-                                    }
-                                    hiddenTabs.push(parseInt(match[0], 10));
-                                }
-                                newHiddenTabs = hiddenTabs.filter(a => a >= 0).sort((a, b) => a > b);
-                            }
-                            break;
-                        }
-                        case "number": {
-                            newHiddenTabs = [ this.props.hiddenTabs ];
-                            break;
-                        }
-                        case "object": {
-                            if (Array.isArray(this.props.hiddenTabs)) {
-                                newHiddenTabs = this.props.hiddenTabs.filter(item => {
-                                    return typeof item === "number" && item >= 0;
-                                }).sort((a, b) => a > b);
-                            }
-                            break;
-                        }
-                    }
-                    this._hiddenTabs = newHiddenTabs;
-                }
-                return this._hiddenTabs;
-            },
             _manipulate(update = false) {
                 const tabContainer = this.root
                     .firstElementChild // SCROLLBAR HIDER
@@ -178,22 +142,55 @@
                 const pageContainer = this.root.children[1];
 
                 // restore hidden tabs and set correct view
+                const currentlySelectedIndex = this.getSelectedIndex();
+                const currentlyRawSelectedIndex = this._getRawIndexOf(this.getSelectedIndex());
+                this._hiddenTabs = [];
                 this.slots.forEach((slot, index) => {
+                    if (slot.bindings.some(binding => {
+                        if (binding.type !== 1 || binding.evaluate(Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]))) {
+                            return false;
+                        }
+
+                        const updatedIndex = this._getUpdatedIndexOf(index);
+                        const page = pageContainer.children[updatedIndex];
+                        if (page && page[PAGE_INDEX] === index) {
+                            tabContainer.removeChild(tabContainer.children[updatedIndex]);
+                            // unmount page at hidden index
+                            const instance = page[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                            if (instance != null) {
+                                instance.unmount(
+                                    Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
+                                    this[riot.__.globals.PARENT_KEY_SYMBOL]
+                                );
+                            }
+                            pageContainer.removeChild(page);
+                        }
+
+                        this._hiddenTabs.push(index);
+                        return true;
+                    })) {
+                        return;
+                    }
+
                     let tabButton = null;
                     let page;
-                    if (index >= pageContainer.children.length) {
+                    const updatedIndex = this._getUpdatedIndexOf(index);
+                    const pageTest = pageContainer.children[updatedIndex];
+                    if (updatedIndex >= pageContainer.children.length) {
                         page = pageContainer.appendChild(document.createElement("div"));
                         page[PAGE_INDEX] = index;
                         tabButton = tabContainer.appendChild(document.createElement("div"));
-                    } else if (index !== (page = pageContainer.children[index])[PAGE_INDEX]) {
+                    } else if (index !== (page = pageContainer.children[updatedIndex])[PAGE_INDEX]) {
                         page = pageContainer.insertBefore(document.createElement("div"), pageContainer.children[index]);
                         page[PAGE_INDEX] = index;
                         tabButton = tabContainer.insertBefore(document.createElement("div"), tabContainer.children[index]);
                     }
                     // scroll to selected index
-                    page.style.transition = this.state.instant ? "none" : "";
-                    page.style.transform = "translateX(-" + ((this.getSelectedIndex() + this.getPosition()) * 100) + "%)";
-                    page.style.visibility = this.getSelectedIndex() === this._getUpdatedIndexOf(index) ? "visible" : "hidden";
+                    const updatedSelectedIndex = this._getUpdatedIndexOf(currentlyRawSelectedIndex);
+                    page.style.transition = this.state.instant || updatedSelectedIndex !== currentlySelectedIndex ? "none" : "";
+                    page.style.transform = "translateX(-" + ((updatedSelectedIndex + this.getPosition()) * 100) + "%)";
+                    page.style.visibility = updatedSelectedIndex === updatedIndex ? "visible" : "hidden";
+
                     if (tabButton != null) {
                         const button = tabButton.appendChild(document.createElement("button"));
                         button.addEventListener("click", event => {
@@ -203,31 +200,11 @@
                         ripple(button, { detectLabel: false, color: "currentColor", instantHighlight: true });
                     }
                 });
-
-                // hide desired tabs
-                const hiddenTabs = this.getHiddenTabs();
-                for (let i = hiddenTabs.length - 1; i >= 0; i--) {
-                    const index = hiddenTabs[i];
-                    if (index >= this.slots.length) {
-                        continue;
-                    }
-                    // removing tab button at hidden index
-                    tabContainer.removeChild(tabContainer.children[index]);
-                    // unmount page at hidden index
-                    const page = pageContainer.children[index];
-                    const instance = page[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                    if (instance != null) {
-                        instance.unmount(
-                            Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
-                            this[riot.__.globals.PARENT_KEY_SYMBOL]
-                        );
-                    }
-                    // if (page.nextElementSibling) {
-                    //     console.log("setting page index of", index);
-                    //     page.nextElementSibling[PAGE_INDEX] = index;
-                    // }
-                    // removing page at hidden index
-                    pageContainer.removeChild(page);
+                const newlySelectedIndex = this._getUpdatedIndexOf(currentlyRawSelectedIndex);
+                if (currentlySelectedIndex !== newlySelectedIndex) {
+                    this.state.selectedIndex = newlySelectedIndex;
+                    positionController(this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
+                    this._updateIndicator(true);
                 }
 
                 // update positionController length
@@ -246,7 +223,7 @@
 
                 if (!this.state.instant) {
                     const selectedIndex = this.getSelectedIndex();
-                    const slot = this.getSlotAt(selectedIndex);
+                    const slot = this._getSlotAt(selectedIndex);
                     const el = pageContainer.children[selectedIndex];
                     let instance = el[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                     if (instance == null) {
@@ -272,13 +249,13 @@
                     .children[1]       // INDICATOR
                 ;
                 indicator.style.transition = instant ? "none" : "";
-                indicator.style.transform = `translateX(${ this.getIndicatorLeft() }px) scaleX(${ this.getIndicatorWidth() })`;
+                indicator.style.transform = `translateX(${ this._getIndicatorLeft() }px) scaleX(${ this._getIndicatorWidth() })`;
             },
             _getUpdatedIndexOf(index) {
-                return index - this.getHiddenTabs().filter(a => a < index).length;
+                return index - this._hiddenTabs.filter(a => a < index).length;
             },
             _getRawIndexOf(index) {
-                this.getHiddenTabs().some(hidden => {
+                this._hiddenTabs.some(hidden => {
                     if (hidden > index) {
                         return true;
                     }
@@ -287,11 +264,11 @@
                 });
                 return index;
             },
-            getSlotAt(index) {
+            _getSlotAt(index) {
                 return this.slots[this._getRawIndexOf(index)];
             },
             getLength() {
-                return this.slots.length - this.getHiddenTabs().filter(a => a < this.slots.length).length;
+                return this.slots.length - this._hiddenTabs.filter(a => a < this.slots.length).length;
             },
             _lastSelectedIndexPropValue: undefined,
             getSelectedIndex() {
@@ -319,7 +296,7 @@
                 this.update({ selectedIndex: index });
                 positionController(this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
             },
-            getIndicatorLeft() {
+            _getIndicatorLeft() {
                 const selectedIndex = this.getSelectedIndex();
                 if (selectedIndex == null) {
                     return 0;
@@ -352,7 +329,7 @@
                 }
                 return left;
             },
-            getIndicatorWidth() {
+            _getIndicatorWidth() {
                 const selectedIndex = this.getSelectedIndex();
                 if (selectedIndex == null) {
                     return 0;

@@ -1,6 +1,13 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.3] - 2020-11-27
+- use the "if" binding to show or hide tabs
+- DEPRECATE "hidden-tabs" attribute
+- update README
+- create test page
+- tidy up the rollup config, same result, more concise
+
 ## [1.0.2] - 2020-11-26
 - update README
 - update ripple dependency

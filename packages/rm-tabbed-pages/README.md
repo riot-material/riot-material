@@ -43,20 +43,15 @@ window.riotMaterial.components.tabbedPages;
 *Note: all the bundled file having `+libs` contain also the dependencies needed by the component, which, in this case, are:  
 `@riot-material/position-controller`  
 `@riot-material/ripple`  
-`riot`  
 Be sure to have them when installing manually or including via html*
 ## Properties
-### `hidden-tabs` *optional*
 ### `selected-index` *optional*
 ## Methods
-### `isDisabled(): boolean`
-### `isFlat(): boolean`
-### `isIcon(): boolean`
-### `isOutlined(): boolean`
-### `isRaised(): boolean`
-### `isUnelevated(): boolean`
-### `setDisabled(disabled: boolean): void`
+### `getLength(): number`
+### `getPosition(): number`
+### `getSelectedIndex(): number`
+### `setSelectedIndex(index: number)`
 ## Slots
 ### `<tab-name>`
 Every slot is a tab named as the slot and with the slot innerHTML as content.  
-It is hidden if the tab name is contained in [props.hiddenTabs](#hidden-tabs-optional)
+It is hidden if the slot "if" binding evaluates to false

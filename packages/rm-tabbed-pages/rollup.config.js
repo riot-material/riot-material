@@ -4,8 +4,7 @@ const nodeResolve = require("@rollup/plugin-node-resolve").default;
 
 const globals = {
     "@riot-material/position-controller": "riotMaterial.positionController",
-    "@riot-material/ripple": "riotMaterial.ripple",
-    "riot": "riot"
+    "@riot-material/ripple": "riotMaterial.ripple"
 };
 const external = Object.keys(globals);
 
@@ -18,77 +17,61 @@ export default [
             commonjs(),
             riot()
         ],
-        output: {
-            file: "dist/index.js",
-            format: "cjs",
-            exports: "auto"
-        }
+        output: [
+            {
+                file: "dist/index.js",
+                format: "cjs",
+                exports: "auto"
+            },
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            },
+            {
+                file: "dist/index.amd.js",
+                format: "amd",
+                globals
+            },
+            {
+                name: "riotMaterial.components.tabbedPages",
+                file: "dist/index.umd.js",
+                format: "umd",
+                globals
+            }
+        ]
     },
     {
         input: "src/index.riot",
-        external,
+        external: [ "riot" ],
         plugins: [
             nodeResolve(),
             commonjs(),
             riot()
         ],
-        output: {
-            file: "dist/index.es.js",
-            format: "es"
-        }
-    },
-    {
-        input: "src/index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "dist/index.amd.js",
-            format: "amd",
-            globals
-        }
-    },
-    {
-        input: "src/index.riot",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "dist/index.amd+libs.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "src/index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.tabbedPages",
-            file: "dist/index.umd.js",
-            format: "umd",
-            globals
-        }
-    },
-    {
-        input: "src/index.riot",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.tabbedPages",
-            file: "dist/index.umd+libs.js",
-            format: "umd"
-        }
+        output: [
+            {
+                file: "dist/index.amd+libs.js",
+                format: "amd",
+                globals: {
+                    "riot": "riot"
+                }
+            },
+            {
+                name: "riotMaterial.components.tabbedPages",
+                file: "dist/index.umd+libs.js",
+                format: "umd",
+                globals: {
+                    "riot": "riot"
+                }
+            },
+            {
+                name: "riotMaterial.components.tabbedPages",
+                file: "test/rm-tabbed-pages.js",
+                format: "umd",
+                globals: {
+                    "riot": "riot"
+                }
+            }
+        ]
     }
 ];

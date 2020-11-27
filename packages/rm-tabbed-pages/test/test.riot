@@ -1,0 +1,25 @@
+<test>
+    <rm-tabbed-pages>
+        <div slot="Prova if" if={ state.hidden }>
+            <nested-component></nested-component>
+            <button onclick={ onclick }>Toggle</button>
+        </div>
+        <div slot="Other tab">
+            OK <button onclick={ onclick }>Toggle</button>
+        </div>
+        <div slot="YEAH">
+            This is great! <button onclick={ onclick }>Toggle</button>
+        </div>
+    </rm-tabbed-pages>
+
+    <script>
+        export default {
+            state: {
+                hidden: false
+            },
+            onclick() {
+                this.update({ hidden: !this.state.hidden });
+            }
+        }
+    </script>
+</test>
