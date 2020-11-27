@@ -43,7 +43,8 @@ window.riotMaterial.components.tabbedPages;
 *Note: all the bundled file having `+libs` contain also the dependencies needed by the component, which, in this case, are:  
 `@riot-material/position-controller`  
 `@riot-material/ripple`  
-Be sure to have them when installing manually or including via html*
+Be sure to have them when installing manually or including via html the non-`+libs` files.
+Be sure to have "riot" imported as well, because in any case it is consider external*
 ## Properties
 ### `selected-index` *optional*
 ## Methods

@@ -4,7 +4,8 @@ const nodeResolve = require("@rollup/plugin-node-resolve").default;
 
 const globals = {
     "@riot-material/position-controller": "riotMaterial.positionController",
-    "@riot-material/ripple": "riotMaterial.ripple"
+    "@riot-material/ripple": "riotMaterial.ripple",
+    "riot": "riot"
 };
 const external = Object.keys(globals);
 

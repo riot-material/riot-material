@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.4] - 2020-11-27
+- treating "riot" as external
+- update README
+
 ## [1.0.3] - 2020-11-27
 - use the "if" binding to show or hide tabs
 - DEPRECATE "hidden-tabs" attribute
