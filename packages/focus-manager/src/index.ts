@@ -13,6 +13,10 @@ previous.tabIndex =
 actual.tabIndex =
 next.tabIndex = 0;
 
+previous.style.outline =
+actual.style.outline =
+next.style.outline = "none";
+
 let currentOptions: IOptions = {};
 actual.addEventListener("blur", function onActualBlur(event: FocusEvent): void {
     setTimeout(() => {

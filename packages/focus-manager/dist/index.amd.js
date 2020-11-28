@@ -38,6 +38,9 @@ define(['exports'], function (exports) { 'use strict';
     previous.tabIndex =
         actual.tabIndex =
             next.tabIndex = 0;
+    previous.style.outline =
+        actual.style.outline =
+            next.style.outline = "none";
     var currentOptions = {};
     actual.addEventListener("blur", function onActualBlur(event) {
         setTimeout(function () {
