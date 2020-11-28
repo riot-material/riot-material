@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FOCUS-MANAGER test</title>
+    </head>
+    <body>
+        <div id="test">
+            <input>
+            <button onclick="console.log('works')">TEST</button>
+        </div>
+        <input>
+        <script src="../dist/index.umd.js"></script>
+        <script>
+            riotMaterial.focusManager.hold({
+                element: document.getElementById("test"),
+                onFocusInside(element) {
+                    return element.tagName.toLowerCase() === "input";
+                },
+                onFocusOutside() {
+                    console.log("release!");
+                    return true;
+                },
+                onPrevious() {
+                    console.log("on prev");
+                },
+                onNext() {
+                    console.log("on next");
+                }
+            });
+        </script>
+    </body>
+</html>
