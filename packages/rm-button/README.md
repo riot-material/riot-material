@@ -1,4 +1,4 @@
-# app-bar utilities based on [Material Design](https://material.io/) for [riot-material](https://github.com/riot-material/riot-material)
+# button component based on [Material Design](https://material.io/components/buttons/) for [riot-material](https://github.com/riot-material/riot-material)
 ## Installation
 You can install it via nodejs
 ```sh

@@ -4,9 +4,10 @@
     ><slot /></button>
     <button if={ isIcon() } disabled={ isDisabled() }
         type={ props.type } tabindex={ props.tabindex }
-    ><rm-icon style={ props.iconStyle }><slot /></rm-icon></button>
+    ><rm-icon style={ "vertical-align: middle;" + (props.iconStyle || "") }><slot /></rm-icon></button>
 
     <!--  https://material.angular.io/components/button/examples  -->
+
     <style>
         :host {
             font-size: 14px;
@@ -17,6 +18,7 @@
             background: transparent;
             height: 2.571em;
         }
+
         button {
             font-size: inherit;
             font-weight: inherit;
@@ -41,28 +43,35 @@
             -webkit-tap-highlight-color: transparent;
             position: relative;
         }
+
         :host[dense-padding]:not([dense-padding="false"]) button {
             padding: 0 8px;
         }
+
         /* https://stackoverflow.com/a/11603104 */
         button::-moz-focus-inner {
             border: none;
         }
+
         :host[variant=icon] {
             border-radius: 50%;
         }
+
         :host[variant=icon] button {
             padding: 0.5714285714285714em;
             height: 2.857142857142857em;
             width: 2.857142857142857em;
         }
+
         :host[variant=icon] button rm-icon {
             font-size: 1.7142857142857142em;
         }
+
         :host[variant=icon] {
             /* height: 2.8571em; */
             height: unset;
         }
+
         :host[variant="unelevated"],
         :host[variant="raised"] {
             background: rgb(255, 255, 255);
@@ -70,6 +79,7 @@
             color: rgb(0, 0, 0);
             color: rgb(var(--color-on-white, 0, 0, 0));
         }
+
         .rm-black-surface :host[variant="unelevated"],
         .rm-black-surface :host[variant="raised"] {
             background: rgb(255, 255, 255);
@@ -77,6 +87,7 @@
             color: rgb(0, 0, 0);
             color: rgb(var(--color-on-white, 0, 0, 0));
         }
+
         .rm-dark-surface :host[variant="unelevated"],
         .rm-dark-surface :host[variant="raised"] {
             background: rgb(250, 250, 250);
@@ -84,6 +95,7 @@
             color: rgb(0, 0, 0);
             color: rgb(var(--color-on-light, 0, 0, 0));
         }
+
         .rm-light-surface :host[variant="unelevated"],
         .rm-light-surface :host[variant="raised"] {
             background: rgb(10, 10, 10);
@@ -91,6 +103,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-dark, 255, 255, 255));
         }
+
         .rm-white-surface :host[variant="unelevated"],
         .rm-white-surface :host[variant="raised"] {
             background: rgb(0, 0, 0);
@@ -100,51 +113,63 @@
         }
 
         :host[variant="outlined"] button::before {
-            content: ""; position: absolute;
-            top: 0; bottom: 0;
-            right: 0; left: 0;
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
             border: 1px solid rgba(0, 0, 0, .12);
             border: 1px solid rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12));
             border-radius: inherit;
         }
+
         .rm-black-surface :host[variant="outlined"] button::before {
             border-color: rgba(255, 255, 255, .12);
             border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12));
         }
+
         .rm-dark-surface :host[variant="outlined"] button::before {
             border-color: rgba(255, 255, 255, .12);
             border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12));
         }
+
         .rm-light-surface :host[variant="outlined"] button::before {
             border-color: rgba(0, 0, 0, .12);
             border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12));
         }
+
         .rm-white-surface :host[variant="outlined"] button::before {
             border-color: rgba(0, 0, 0, .12);
             border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12));
         }
-        
+
         /* Primary */
         :host[color="primary"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(139, 0, 139);
             color: rgb(var(--color-primary, 139, 0, 139));
         }
+
         .rm-black-surface :host[color="primary"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(238, 130, 238);
             color: rgb(var(--color-primary-on-black, 238, 130, 238));
         }
+
         .rm-dark-surface :host[color="primary"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(238, 130, 238);
             color: rgb(var(--color-primary-on-dark, 238, 130, 238));
         }
+
         .rm-light-surface :host[color="primary"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(139, 0, 139);
             color: rgb(var(--color-primary-on-light, 139, 0, 139));
         }
+
         .rm-white-surface :host[color="primary"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(139, 0, 139);
             color: rgb(var(--color-primary-on-white, 139, 0, 139));
         }
+
         :host[color="primary"][variant="raised"],
         :host[color="primary"][variant="unelevated"] {
             background: rgb(139, 0, 139);
@@ -152,6 +177,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-primary, 255, 255, 255));
         }
+
         .rm-black-surface :host[color="primary"][variant="raised"],
         .rm-black-surface :host[color="primary"][variant="unelevated"] {
             background: rgb(238, 130, 238);
@@ -159,6 +185,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-primary-on-black, 255, 255, 255));
         }
+
         .rm-dark-surface :host[color="primary"][variant="raised"],
         .rm-dark-surface :host[color="primary"][variant="unelevated"] {
             background: rgb(238, 130, 238);
@@ -166,6 +193,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-primary-on-dark, 255, 255, 255));
         }
+
         .rm-light-surface :host[color="primary"][variant="raised"],
         .rm-light-surface :host[color="primary"][variant="unelevated"] {
             background: rgb(139, 0, 139);
@@ -173,6 +201,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-primary-on-light, 255, 255, 255));
         }
+
         .rm-white-surface :host[color="primary"][variant="raised"],
         .rm-white-surface :host[color="primary"][variant="unelevated"] {
             background: rgb(139, 0, 139);
@@ -186,22 +215,27 @@
             color: rgb(0, 0, 255);
             color: rgb(var(--color-accent, 0, 0, 255));
         }
+
         .rm-black-surface :host[color="accent"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(30, 144, 255);
             color: rgb(var(--color-accent-on-black, 30, 144, 255));
         }
+
         .rm-dark-surface :host[color="accent"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(30, 144, 255);
             color: rgb(var(--color-accent-on-dark, 30, 144, 255));
         }
+
         .rm-light-surface :host[color="accent"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(0, 0, 255);
             color: rgb(var(--color-accent-on-light, 0, 0, 255));
         }
+
         .rm-white-surface :host[color="accent"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(0, 0, 255);
             color: rgb(var(--color-accent-on-white, 0, 0, 255));
         }
+
         :host[color="accent"][variant="raised"],
         :host[color="accent"][variant="unelevated"] {
             background: rgb(0, 0, 255);
@@ -209,6 +243,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-accent, 255, 255, 255));
         }
+
         .rm-black-surface :host[color="accent"][variant="raised"],
         .rm-black-surface :host[color="accent"][variant="unelevated"] {
             background: rgb(30, 144, 255);
@@ -216,6 +251,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-accent-on-black, 255, 255, 255));
         }
+
         .rm-dark-surface :host[color="accent"][variant="raised"],
         .rm-dark-surface :host[color="accent"][variant="unelevated"] {
             background: rgb(30, 144, 255);
@@ -223,6 +259,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-accent-on-dark, 255, 255, 255));
         }
+
         .rm-light-surface :host[color="accent"][variant="raised"],
         .rm-light-surface :host[color="accent"][variant="unelevated"] {
             background: rgb(0, 0, 255);
@@ -230,6 +267,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-accent-on-light, 255, 255, 255));
         }
+
         .rm-white-surface :host[color="accent"][variant="raised"],
         .rm-white-surface :host[color="accent"][variant="unelevated"] {
             background: rgb(0, 0, 255);
@@ -243,22 +281,27 @@
             color: rgb(255, 0, 0);
             color: rgb(var(--color-warn, 255, 0, 0));
         }
+
         .rm-black-surface :host[color="warn"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(255, 69, 0);
             color: rgb(var(--color-warn-on-black, 255, 69, 0));
         }
+
         .rm-dark-surface :host[color="warn"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(255, 69, 0);
             color: rgb(var(--color-warn-on-dark, 255, 69, 0));
         }
+
         .rm-light-surface :host[color="warn"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(255, 0, 0);
             color: rgb(var(--color-warn-on-light, 255, 0, 0));
         }
+
         .rm-white-surface :host[color="warn"]:not([variant="raised"]):not([variant="unelevated"]) {
             color: rgb(255, 0, 0);
             color: rgb(var(--color-warn-on-white, 255, 0, 0));
         }
+
         :host[color="warn"][variant="raised"],
         :host[color="warn"][variant="unelevated"] {
             background: rgb(255, 0, 0);
@@ -266,6 +309,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-warn, 255, 255, 255));
         }
+
         .rm-black-surface :host[color="warn"][variant="raised"],
         .rm-black-surface :host[color="warn"][variant="unelevated"] {
             background: rgb(255, 69, 0);
@@ -273,6 +317,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-warn-on-black, 255, 255, 255));
         }
+
         .rm-dark-surface :host[color="warn"][variant="raised"],
         .rm-dark-surface :host[color="warn"][variant="unelevated"] {
             background: rgb(255, 69, 0);
@@ -280,6 +325,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-warn-on-dark, 255, 255, 255));
         }
+
         .rm-light-surface :host[color="warn"][variant="raised"],
         .rm-light-surface :host[color="warn"][variant="unelevated"] {
             background: rgb(255, 0, 0);
@@ -287,6 +333,7 @@
             color: rgb(255, 255, 255);
             color: rgb(var(--color-on-warn-on-light, 255, 255, 255));
         }
+
         .rm-white-surface :host[color="warn"][variant="raised"],
         .rm-white-surface :host[color="warn"][variant="unelevated"] {
             background: rgb(255, 0, 0);
@@ -300,22 +347,27 @@
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         .rm-black-surface :host[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]) {
             color: rgba(255, 255, 255, .42);
             color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42));
         }
+
         .rm-dark-surface :host[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]) {
             color: rgba(255, 255, 255, .42);
             color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42));
         }
+
         .rm-light-surface :host[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]) {
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         .rm-white-surface :host[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]) {
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         :host[disabled][variant="raised"]:not([disabled="false"]),
         :host[disabled][variant="unelevated"]:not([disabled="false"]) {
             background: rgba(0, 0, 0, .12);
@@ -323,6 +375,7 @@
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         .rm-black-surface :host[disabled][variant="raised"]:not([disabled="false"]),
         .rm-black-surface :host[disabled][variant="unelevated"]:not([disabled="false"]) {
             background: rgba(255, 255, 255, .12);
@@ -330,6 +383,7 @@
             color: rgba(255, 255, 255, .42);
             color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42));
         }
+
         .rm-dark-surface :host[disabled][variant="raised"]:not([disabled="false"]),
         .rm-dark-surface :host[disabled][variant="unelevated"]:not([disabled="false"]) {
             background: rgba(255, 255, 255, .12);
@@ -337,6 +391,7 @@
             color: rgba(255, 255, 255, .42);
             color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42));
         }
+
         .rm-light-surface :host[disabled][variant="raised"]:not([disabled="false"]),
         .rm-light-surface :host[disabled][variant="unelevated"]:not([disabled="false"]) {
             background: rgba(0, 0, 0, .12);
@@ -344,6 +399,7 @@
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         .rm-white-surface :host[disabled][variant="raised"]:not([disabled="false"]),
         .rm-white-surface :host[disabled][variant="unelevated"]:not([disabled="false"]) {
             background: rgba(0, 0, 0, .12);
@@ -351,6 +407,7 @@
             color: rgba(0, 0, 0, .42);
             color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42));
         }
+
         :host[disabled]:not([disabled="false"]) button {
             background: transparent;
             box-shadow: none;
@@ -360,12 +417,13 @@
         :host[variant=icon][dense] {
             margin-right: 0.2857142857142857em;
         }
+
         :host[variant=icon][dense] button {
             height: unset;
             width: unset;
             padding: 0;
         }
-        
+
         :host[variant]:last-child,
         :host:last-child {
             margin-right: 0;

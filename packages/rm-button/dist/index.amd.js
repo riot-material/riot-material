@@ -266,7 +266,7 @@ define(['@riot-material/ripple', 'riot', '@riot-material/rm-icon', '@riot-materi
               'name': 'style',
 
               'evaluate': function(scope) {
-                return scope.props.iconStyle;
+                return "vertical-align: middle;" + (scope.props.iconStyle || "");
               }
             }],
 

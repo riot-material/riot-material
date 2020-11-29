@@ -270,7 +270,7 @@
               'name': 'style',
 
               'evaluate': function(scope) {
-                return scope.props.iconStyle;
+                return "vertical-align: middle;" + (scope.props.iconStyle || "");
               }
             }],
 
