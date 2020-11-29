@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/focus-manager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "You can install it via nodejs\r ```sh\r npm install @riot-material/focus-manager\r ```\r or download one of the bundled file\r ```js\r /**\r  * `dist/index.amd.js`\r  * `dist/index.umd.js`\r  */\r requirejs.config({\r   paths: {\r     \"@riot-material/focus-manager\": \"path/to/@riot-material/focus-manager\",\r   },\r });",
   "main": "dist/index.js",
   "scripts": {

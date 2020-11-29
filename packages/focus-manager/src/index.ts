@@ -70,6 +70,15 @@ actual.addEventListener("blur", function onActualBlur(event: FocusEvent): void {
     });
 });
 
+let keydownListeners: ((event: KeyboardEvent) => void)[] = [];
+actual.addEventListener("keydown", function onActualKeydown(event: KeyboardEvent): void {
+    keydownListeners.forEach(listener => listener.call(this, event));
+});
+let keyupListeners: ((event: KeyboardEvent) => void)[] = [];
+actual.addEventListener("keyup", function onActualKeyup(event: KeyboardEvent): void {
+    keyupListeners.forEach(listener => listener.call(this, event));
+});
+
 export interface IOptions {
     element?: HTMLElement;
     onFocusInside?: (element: Element) => boolean; // if true: prevent default
@@ -90,6 +99,27 @@ export function release(): void {
     if (!container.isConnected) {
         return;
     }
+    keydownListeners = [];
+    keyupListeners = [];
     currentOptions = {};
     document.body.removeChild(container);
+}
+export interface IManageableEvent {
+    "keydown": KeyboardEvent;
+    "keyup": KeyboardEvent;
+}
+export function on<T extends keyof IManageableEvent>(type: T, listener: (event: HTMLElementEventMap[T]) => void): void {
+    if (!container.isConnected) {
+        return;
+    }
+    switch (type) {
+        case "keydown": {
+            keydownListeners.push(listener);
+            break;
+        }
+        case "keyup": {
+            keyupListeners.push(listener);
+            break;
+        }
+    }
 }

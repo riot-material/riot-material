@@ -94,6 +94,16 @@ define(['exports'], function (exports) { 'use strict';
             actual.focus();
         });
     });
+    var keydownListeners = [];
+    actual.addEventListener("keydown", function onActualKeydown(event) {
+        var _this = this;
+        keydownListeners.forEach(function (listener) { return listener.call(_this, event); });
+    });
+    var keyupListeners = [];
+    actual.addEventListener("keyup", function onActualKeyup(event) {
+        var _this = this;
+        keyupListeners.forEach(function (listener) { return listener.call(_this, event); });
+    });
     function hold(options) {
         currentOptions = __assign({ element: document.body }, options);
         document.body.appendChild(container);
@@ -103,11 +113,29 @@ define(['exports'], function (exports) { 'use strict';
         if (!container.isConnected) {
             return;
         }
+        keydownListeners = [];
+        keyupListeners = [];
         currentOptions = {};
         document.body.removeChild(container);
     }
+    function on(type, listener) {
+        if (!container.isConnected) {
+            return;
+        }
+        switch (type) {
+            case "keydown": {
+                keydownListeners.push(listener);
+                break;
+            }
+            case "keyup": {
+                keyupListeners.push(listener);
+                break;
+            }
+        }
+    }
 
     exports.hold = hold;
+    exports.on = on;
     exports.release = release;
 
     Object.defineProperty(exports, '__esModule', { value: true });

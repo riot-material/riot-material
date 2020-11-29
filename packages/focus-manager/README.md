@@ -40,6 +40,7 @@ window.riotMaterial.focusManager;
 ## Methods
 ### `hold(options?: `[`IOptions`](#ioptions)`): void`
 ### `release(): void`
+### `on<T extends keyof `[`IManageableEvent`](#imanageableevent)`>(type: T, listener: (event: HTMLElementEventMap[T]) => void): void
 ## Interfaces
 ### `IOptions`
 `element?: HTMLElement`
@@ -49,3 +50,6 @@ if returns `true` the focus is kept to the element and hold back when it blurs a
 if returns `true` the focus-manager is `release`d
 `onPrevious?: () => void`
 `onNext?: () => void`
+### `IManageableEvent`
+`"keydown": KeyboardEvent`
+`"keyup": KeyboardEvent`
