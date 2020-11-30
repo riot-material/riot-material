@@ -4,9 +4,10 @@ const nodeResolve = require("@rollup/plugin-node-resolve").default;
 
 const globals = {
     "@riot-material/before-focus-listener": "riotMaterial.beforeFocusListener",
-    "@riot-material/rm-textfield-container": "riotMaterial.components.textfieldContainer",
+    "@riot-material/ripple": "riotMaterial.ripple",
     "@riot-material/rm-button": "riotMaterial.components.button",
     "@riot-material/rm-menu": "riotMaterial.components.menu",
+    "@riot-material/rm-textfield-container": "riotMaterial.components.textfieldContainer",
     "riot": "riot"
 };
 const external = Object.keys(globals);

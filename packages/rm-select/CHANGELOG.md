@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.7] - 2020-11-30
+- fix rollup.config.js external modules
+
 ## [1.0.6] - 2020-11-30
 - fix "package.json" entry point
 

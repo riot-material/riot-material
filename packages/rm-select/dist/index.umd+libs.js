@@ -1743,7 +1743,598 @@
   exports.release = release;
   });
 
-  var t = dist$5, i$1 = dist$6; function n(t) { return t && "object" == typeof t && "default" in t ? t : { default: t } } var o = n(t); function r(t, i) { for (var n = null; t && t !== i;) { if (dist$1.isRipple(t)) { n = t; break } t = t.parentElement; } return n } function h() { var t = this, e = this.root.firstElementChild, n = Date.now(), o = function () { if (t._mounted && window.requestAnimationFrame(o), t.root.isConnected) { var r = n; if (n = Date.now(), 0 !== t._direction) { var h = (n - r) / 150; t._direction > 0 ? null == t._anchorElement ? t._time = 1 : t._time = Math.min(t._time + h, 1) : t._direction < 0 && (null == t._anchorElement ? t._time = 0 : t._time = Math.max(t._time - h, 0)), t._time >= 1 ? (t.getPreventFocus() || (i$1.hold({ element: e, onFocusInside: function () { }, onFocusOutside: function () { if (t.getPreventAutoClose()) { var e = new CustomEvent("wantsclose", { detail: { source: "FocusOutside" }, cancelable: !0 }); if (t.root.dispatchEvent(e), !e.defaultPrevented) return !1 } return t.close(), !0 }, onNext: function () { t.highlightNext(); }, onPrevious: function () { t.highlightPrevious(); } }), i$1.on("keydown", t._onkeydown)), t._direction = 0, t._setup(), t.root.dispatchEvent(new Event("open"))) : t._time <= 0 && (t._direction = 0, t.root.dispatchEvent(new Event("close"))); } if (0 === t._time) t.root.style.display = "none"; else { t.root.style.display = ""; var l = "top"; if (t._anchorElement) { var s = window.innerHeight, a = t._anchorElement.getBoundingClientRect(); if (a.bottom < 0) t.root.style.top = "0px", t.root.style.bottom = "", e.firstElementChild.style.maxHeight = s - 3 * parseFloat(window.getComputedStyle(e).fontSize) + "px"; else if (a.top > s) t.root.style.top = "", t.root.style.bottom = "0px", e.firstElementChild.style.maxHeight = s - 3 * parseFloat(window.getComputedStyle(e).fontSize) + "px", l = "bottom"; else { a.top < s - a.bottom ? (t.root.style.top = a.bottom + "px", t.root.style.bottom = "", e.firstElementChild.style.maxHeight = s - a.bottom - 3 * parseFloat(window.getComputedStyle(e).fontSize) + "px") : (t.root.style.bottom = s - a.top + "px", t.root.style.top = "", l = "bottom", e.firstElementChild.style.maxHeight = a.top - 3 * parseFloat(window.getComputedStyle(e).fontSize) + "px"); } if (t.getInheritWidth()) { var d = window.innerWidth - a.right; a.left >= d ? (t.root.style.left = "", t.root.style.right = d + "px") : (t.root.style.left = a.left + "px", t.root.style.right = ""); } else t.root.style.left = a.left + "px", t.root.style.width = a.width + "px"; t.root.setAttribute("anchor", l); } var u = function (t, e) { return t = parseFloat(t), isNaN(t) && (t = 0), { opacity: t, transform: "translateY(" + ({ top: -100, bottom: 100 }[e] || -100) * (1 - t) + "%) scale(" + (.8 + .2 * t) + ")" } }(t._time, l); e.style.transform = u.transform, e.style.opacity = u.opacity + ""; } } }; o(); } var l = { css: 'rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }', exports: { _onkeydown: null, _lastOpenedProp: null, _anchorElement: null, _closeThis: null, _direction: 0, _mounted: !1, _time: 0, _realParent: null, _canHighlight: [], _currentHighlighted: null, _lastHighlighted: null, _selected: [], onBeforeMount: function () { this._closeThis = this.close.bind(this); }, onMounted: function () { var t = this; this._mounted = !0, h.call(this), ["_bindTo", "close", "getAnchorElement", "isOpened", "open", "setAnchorElement"].forEach((function (e) { t.root[e] = t[e].bind(t); })), this._onkeydown = function (i) { if (t.isOpened()) switch (i.key) { case "ArrowDown": return t.highlightNext(); case "ArrowUp": return t.highlightPrevious(); case "Enter": return t._lastHighlighted && (dist$1.ripple(t._lastHighlighted).start().end(), t._lastHighlighted.click()), void i.preventDefault(); case "Escape": if (t.getPreventAutoClose()) { var n = new CustomEvent("wantsclose", { detail: { source: "Escape" }, cancelable: !0 }); t.root.dispatchEvent(n), n.defaultPrevented && t.close(); } else t.close(); return } }, this._lastOpenedProp = this.props.opened, null != this.props.opened && !1 !== this.props.opened && this.open(); }, _lastHighlightedBeforeUpdate: null, onBeforeUpdate: function () { this._lastHighlightedBeforeUpdate = this._lastHighlighted, this._clean(); }, onUpdated: function () { this._setup(), this._lastHighlightedBeforeUpdate = null, this.props.opened !== this._lastOpenedProp && (null != (this._lastOpenedProp = this.props.opened) && !1 !== this.props.opened ? this.open() : this.close()); }, onUnmounted: function () { this._mounted = !1; }, _onmousedown: function (t) { this.getPreventFocus() && t.preventDefault(); }, _bindedElement: null, _bindTo: function (t) { this._bindedElement !== t && (this._bindedElement && (this._bindedElement.removeEventListener("keydown", this._onkeydown), this._bindedElement = null), t && t instanceof HTMLElement ? (this.setAnchorElement(this._bindedElement = t), this._bindedElement.addEventListener("keydown", this._onkeydown)) : this.setAnchorElement(null)); }, _clean: function () { this._lastHighlighted = null, this._clearHighlight(), this._canHighlight.forEach((function (t) { dist$1.ripple(t, { highlight: !0 }); })), this._canHighlight = [], this._selected.forEach((function (t) { t.end(); })), this._selected = []; }, _setup: function () { var t = this, i = this.props.selected || []; this.root.querySelectorAll("[menu-option]").forEach((function (n) { var o = r(n, t.root.firstElementChild.firstElementChild); if (o && dist$1.ripple(o).getOption("highlight")) { t._canHighlight.push(o); var h = dist$1.ripple(o, { highlight: !1 }); t._lastHighlightedBeforeUpdate === o && (t._lastHighlighted = o, t._currentHighlighted = h.highlight()), i.some((function (t) { return "value" in n && n.value === t })) && t._selected.push(h.highlight()); } })); }, _clearHighlight: function () { this._currentHighlighted && (this._currentHighlighted.end(), this._currentHighlighted = null); }, _setHighlighted: function (t) { var i = this, n = r(t.target, this.root.firstElementChild.firstElementChild); this.getKeepHighlight() || this._clearHighlight(), null != n && this._canHighlight.some((function (t) { return n === t && (i._clearHighlight(), i._currentHighlighted = dist$1.ripple(i._lastHighlighted = n).highlight(), !0) })); }, _handleHighlightOnLeave: function () { this.getKeepHighlight() || this._clearHighlight(); }, highlightNext: function () { var t = this; if (this.isOpened()) { this._clearHighlight(); var i = -1; this._lastHighlighted && this._canHighlight.some((function (e, n) { if (t._lastHighlighted === e) return i = n, !0 })) ? this._currentHighlighted = dist$1.ripple(this._lastHighlighted = this._canHighlight[(i + 1) % this._canHighlight.length]).highlight() : this._canHighlight.length > 0 && (this._currentHighlighted = dist$1.ripple(this._lastHighlighted = this._canHighlight[0]).highlight()); } }, highlightPrevious: function () { var t = this; if (this.isOpened()) { this._clearHighlight(); var i = -1; this._lastHighlighted && this._canHighlight.some((function (e, n) { if (t._lastHighlighted === e) return i = n, !0 })) ? this._currentHighlighted = dist$1.ripple(this._lastHighlighted = this._canHighlight[(i - 1 + this._canHighlight.length) % this._canHighlight.length]).highlight() : this._canHighlight.length > 0 && (this._currentHighlighted = dist$1.ripple(this._lastHighlighted = this._canHighlight[this._canHighlight.length - 1]).highlight()); } }, isOpened: function () { return 0 === this._direction ? this._time > 0 : this._direction > 0 }, open: function () { this._time > 0 && -1 !== this._direction || (o.default(this.root.firstElementChild, 4), this._direction = 1, this.root.dispatchEvent(new Event("opening"))); }, close: function () { this._time < 1 && 1 !== this._direction || (i$1.release(), this._clean(), o.default(this.root.firstElementChild, 0), this._direction = -1, this.root.dispatchEvent(new Event("closing"))); }, setAnchorElement: function (t) { var e = this._anchorElement; if (null == t) this._anchorElement = null; else { if (!(t instanceof HTMLElement)) throw new Error("invalid element"); if (this.root.contains(t)) throw new Error("element is in menu tree"); this._anchorElement = t; } e && (document.body.removeChild(this.root), this._realParent.appendChild(this.root)), this._anchorElement ? ((this._realParent = this.root.parentElement).removeChild(this.root), document.body.appendChild(this.root), this.root.style.position = "fixed") : (this._realParent = null, this.root.style.top = "", this.root.style.left = "", this.root.style.width = "", this.root.style.position = ""); }, getAnchorElement: function () { return this._anchorElement }, getPreventFocus: function () { return null != this.props.preventFocus && !1 !== this.props.preventFocus }, getPreventAutoClose: function () { return null != this.props.preventAutoClose && !1 !== this.props.preventAutoClose }, getInheritWidth: function () { return null == this.props.inheritWidth && !1 !== this.props.inheritWidth }, getKeepHighlight: function () { return null != this.props.keepHighlight && !1 !== this.props.keepHighlight } }, template: function (t, e, i, n) { return t('<div expr0="expr0" tabindex="0" style="outline: none;"><div expr1="expr1" style="overflow-y: auto;"><slot expr2="expr2"></slot></div></div>', [{ redundantAttribute: "expr0", selector: "[expr0]", expressions: [{ type: e.EVENT, name: "onmousedown", evaluate: function (t) { return t._onmousedown } }] }, { redundantAttribute: "expr1", selector: "[expr1]", expressions: [{ type: e.EVENT, name: "onmouseenter", evaluate: function (t) { return t._setHighlighted } }, { type: e.EVENT, name: "onmousemove", evaluate: function (t) { return t._setHighlighted } }, { type: e.EVENT, name: "onmouseleave", evaluate: function (t) { return t._handleHighlightOnLeave } }] }, { type: i.SLOT, attributes: [{ type: e.ATTRIBUTE, name: "close-menu", evaluate: function (t) { return t._closeThis } }], name: "default", redundantAttribute: "expr2", selector: "[expr2]" }]) }, name: "rm-menu" }; var dist$7 = l;
+  function _interopDefaultLegacy$2 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var elevation__default = /*#__PURE__*/_interopDefaultLegacy$2(dist$5);
+
+  function getMenuStyleAt(time, anchor) {
+      time = parseFloat(time);
+      if (isNaN(time)) {
+          time = 0;
+      }
+      return {
+          opacity: time,
+          transform: "translateY(" + (({
+              "top": -100,
+              "bottom": 100
+          }[anchor] || -100) * (1 - time)) + "%) scale(" + (0.8 + (0.2 * time)) + ")"
+      };
+  }
+  function getRippleElement(element, container) {
+      var rippleElement = null;
+      while (element && element !== container) {
+          if (dist$1.isRipple(element)) {
+              rippleElement = element;
+              break;
+          }
+          element = element.parentElement;
+      }
+      return rippleElement;
+  }
+  var Component = {
+      _onkeydown: null,
+      _lastOpenedProp: null,
+      _anchorElement: null,
+      _closeThis: null,
+      _direction: 0,
+      _mounted: false,
+      _time: 0,
+      _realParent: null,
+      _canHighlight: new Map(),
+      _currentHighlighted: null,
+      _lastHighlighted: null,
+      _selected: [],
+      onBeforeMount: function () {
+          this._closeThis = this.close.bind(this);
+      },
+      onMounted: function () {
+          var _this = this;
+          this._mounted = true;
+          menuAnimationFrame.call(this);
+          [
+              "_bindTo",
+              "close",
+              "getAnchorElement",
+              "isOpened",
+              "open",
+              "setAnchorElement"
+          ].forEach(function (method) {
+              _this.root[method] = _this[method].bind(_this);
+          });
+          Object.defineProperties(this.root, {
+              "options": {
+                  get: function () {
+                      return _this._getOptions();
+                  }
+              }
+          });
+          this._onkeydown = function (event) {
+              if (!_this.isOpened()) {
+                  return;
+              }
+              switch (event.key) {
+                  case "ArrowDown": {
+                      return _this.highlightNext();
+                  }
+                  case "ArrowUp": {
+                      return _this.highlightPrevious();
+                  }
+                  case "Enter": {
+                      _this._selectHighlighted(true);
+                      event.preventDefault();
+                      return;
+                  }
+                  case "Escape": {
+                      if (!_this.getPreventAutoClose()) {
+                          _this.close();
+                      }
+                      else {
+                          var wantsCloseEvent = new CustomEvent("wantsclose", {
+                              detail: { source: "Escape" },
+                              cancelable: true
+                          });
+                          _this.root.dispatchEvent(wantsCloseEvent);
+                          if (wantsCloseEvent.defaultPrevented) {
+                              _this.close();
+                          }
+                      }
+                      return;
+                  }
+              }
+          };
+          this._lastOpenedProp = this.props.opened;
+          if (this.props.opened != null && this.props.opened !== false) {
+              this.open();
+          }
+      },
+      _lastHighlightedBeforeUpdate: null,
+      onBeforeUpdate: function () {
+          this._lastHighlightedBeforeUpdate = this._lastHighlighted;
+          this._clean();
+      },
+      onUpdated: function () {
+          this._setup();
+          this._lastHighlightedBeforeUpdate = null;
+          if (this.props.opened !== this._lastOpenedProp) {
+              if ((this._lastOpenedProp = this.props.opened) != null && this.props.opened !== false) {
+                  this.open();
+              }
+              else {
+                  this.close();
+              }
+          }
+      },
+      onUnmounted: function () {
+          this._mounted = false;
+      },
+      _scrollToHighlighted: function () {
+          if (!this._lastHighlighted) {
+              return;
+          }
+          var container = this.root.firstElementChild.firstElementChild;
+          var containerRect = container.getBoundingClientRect();
+          var highlightRect = this._lastHighlighted.getBoundingClientRect();
+          var highlightTop = highlightRect.top - containerRect.top;
+          var highlightBottom = highlightRect.bottom - containerRect.top;
+          if (highlightTop < 0) {
+              container.scrollBy(0, highlightTop);
+          }
+          else if (highlightBottom > containerRect.height) {
+              container.scrollBy(0, highlightBottom - containerRect.height);
+          }
+      },
+      _selectHighlighted: function (programmatical) {
+          if (programmatical === void 0) { programmatical = false; }
+          if (!this._lastHighlighted) {
+              return;
+          }
+          if (programmatical) {
+              dist$1.ripple(this._lastHighlighted).start().end();
+          }
+          var option = this._canHighlight.get(this._lastHighlighted);
+          option.dispatchEvent(new CustomEvent("selected", {
+              detail: {
+                  value: option.getAttribute("value")
+              },
+              bubbles: true, cancelable: false
+          }));
+      },
+      _handleClick: function (event) {
+          if (!this._lastHighlighted ||
+              (this._lastHighlighted !== event.target && !this._lastHighlighted.contains(event.target))) {
+              return;
+          }
+          this._selectHighlighted();
+      },
+      _onmousedown: function (event) {
+          if (this.getPreventFocus()) {
+              event.preventDefault();
+          }
+      },
+      _bindedElement: null,
+      _bindTo: function (element) {
+          if (this._bindedElement === element) {
+              return;
+          }
+          if (this._bindedElement) {
+              this._bindedElement.removeEventListener("keydown", this._onkeydown);
+              this._bindedElement = null;
+          }
+          if (element && element instanceof HTMLElement) {
+              this.setAnchorElement(this._bindedElement = element);
+              this._bindedElement.addEventListener("keydown", this._onkeydown);
+          }
+          else {
+              this.setAnchorElement(null);
+          }
+      },
+      _getOptions: function () {
+          var options = [];
+          var container = this.root.firstElementChild.firstElementChild;
+          this.root.querySelectorAll("[menu-option]").forEach(function (option) {
+              if (getRippleElement(option, container) == null) {
+                  return;
+              }
+              options.push(option);
+          });
+          return options;
+      },
+      _clean: function () {
+          this._lastHighlighted = this._lastHighlightedBeforeUpdate = null;
+          this._clearHighlight();
+          this._canHighlight.forEach(function (_, element) {
+              dist$1.ripple(element, { highlight: true });
+          });
+          this._canHighlight.clear();
+          this._selected.forEach(function (selected) {
+              selected.end();
+          });
+          this._selected = [];
+      },
+      _setup: function () {
+          var _this = this;
+          var selected = this.props.selected || [];
+          this._getOptions().forEach(function (option) {
+              var rippleElement = getRippleElement(option, _this.root.firstElementChild.firstElementChild);
+              if (dist$1.ripple(rippleElement).getOption("highlight") && !_this._canHighlight.has(rippleElement)) {
+                  _this._canHighlight.set(rippleElement, option);
+                  var rippleObject = dist$1.ripple(rippleElement, { highlight: false });
+                  var isSelected = selected.some(function (value) { return ("value" in option) && (option.value === value); });
+                  if ((isSelected && !_this._lastHighlighted && !_this._lastHighlightedBeforeUpdate) ||
+                      _this._lastHighlightedBeforeUpdate === rippleElement) {
+                      _this._lastHighlighted = rippleElement;
+                      _this._currentHighlighted = rippleObject.highlight();
+                  }
+                  if (isSelected) {
+                      _this._selected.push(rippleObject.highlight());
+                  }
+              }
+          });
+      },
+      _clearHighlight: function () {
+          if (this._currentHighlighted) {
+              this._currentHighlighted.end();
+              this._currentHighlighted = null;
+          }
+      },
+      _setHighlighted: function (event) {
+          var _this = this;
+          var rippleElement = getRippleElement(event.target, this.root.firstElementChild.firstElementChild);
+          if (!this.getKeepHighlight()) {
+              this._clearHighlight();
+          }
+          if (rippleElement != null) {
+              Array.from(this._canHighlight.keys()).some(function (highligthable) {
+                  if (rippleElement !== highligthable) {
+                      return false;
+                  }
+                  _this._clearHighlight();
+                  _this._currentHighlighted = dist$1.ripple(_this._lastHighlighted = rippleElement).highlight();
+                  return true;
+              });
+          }
+      },
+      _handleHighlightOnLeave: function () {
+          if (this.getKeepHighlight()) {
+              return;
+          }
+          this._clearHighlight();
+      },
+      highlightNext: function () {
+          var _this = this;
+          if (!this.isOpened()) {
+              return;
+          }
+          this._clearHighlight();
+          var index = -1;
+          if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some(function (highlightable, i) {
+              if (_this._lastHighlighted === highlightable) {
+                  index = i;
+                  return true;
+              }
+          })) {
+              if (this._canHighlight.size > 0) {
+                  this._currentHighlighted = dist$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
+              }
+          }
+          else {
+              this._currentHighlighted = dist$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]).highlight();
+          }
+          this._scrollToHighlighted();
+      },
+      highlightPrevious: function () {
+          var _this = this;
+          if (!this.isOpened()) {
+              return;
+          }
+          this._clearHighlight();
+          var index = -1;
+          if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some(function (highlightable, i) {
+              if (_this._lastHighlighted === highlightable) {
+                  index = i;
+                  return true;
+              }
+          })) {
+              if (this._canHighlight.size > 0) {
+                  this._currentHighlighted = dist$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
+              }
+              return;
+          }
+          else {
+              this._currentHighlighted = dist$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index - 1 + this._canHighlight.size) % this._canHighlight.size]).highlight();
+          }
+          this._scrollToHighlighted();
+      },
+      isOpened: function () {
+          if (this._direction === 0) {
+              return this._time > 0;
+          }
+          return this._direction > 0;
+      },
+      open: function () {
+          if (this._time > 0 && this._direction !== -1) {
+              return;
+          }
+          elevation__default['default'](this.root.firstElementChild, 4);
+          this._direction = 1;
+          this.root.dispatchEvent(new Event("opening"));
+      },
+      close: function () {
+          if (this._time < 1 && this._direction !== 1) {
+              return;
+          }
+          dist$6.release();
+          this._clean();
+          elevation__default['default'](this.root.firstElementChild, 0);
+          this._direction = -1;
+          this.root.dispatchEvent(new Event("closing"));
+      },
+      setAnchorElement: function (element) {
+          var previousAnchorElement = this._anchorElement;
+          if (element == null) {
+              this._anchorElement = null;
+          }
+          else if (element instanceof HTMLElement) {
+              if (this.root.contains(element)) {
+                  throw new Error("element is in menu tree");
+              }
+              else {
+                  this._anchorElement = element;
+              }
+          }
+          else {
+              throw new Error("invalid element");
+          }
+          if (previousAnchorElement) {
+              document.body.removeChild(this.root);
+              this._realParent.appendChild(this.root);
+          }
+          if (this._anchorElement) {
+              (this._realParent = this.root.parentElement).removeChild(this.root);
+              document.body.appendChild(this.root);
+              this.root.style.position = "fixed";
+          }
+          else {
+              this._realParent = null;
+              this.root.style.top = "";
+              this.root.style.left = "";
+              this.root.style.width = "";
+              this.root.style.position = "";
+          }
+      },
+      getAnchorElement: function () {
+          return this._anchorElement;
+      },
+      getPreventFocus: function () {
+          return this.props.preventFocus != null && this.props.preventFocus !== false;
+      },
+      getPreventAutoClose: function () {
+          return this.props.preventAutoClose != null && this.props.preventAutoClose !== false;
+      },
+      getInheritWidth: function () {
+          return this.props.inheritWidth == null && this.props.inheritWidth !== false;
+      },
+      getKeepHighlight: function () {
+          return this.props.keepHighlight != null && this.props.keepHighlight !== false;
+      }
+  };
+  function menuAnimationFrame() {
+      var _this = this;
+      var child = this.root.firstElementChild;
+      var _lastNow = Date.now();
+      var frame = function () {
+          if (_this._mounted) {
+              window.requestAnimationFrame(frame);
+          }
+          if (!_this.root.isConnected) {
+              return;
+          }
+          var last = _lastNow;
+          _lastNow = Date.now();
+          if (_this._direction !== 0) {
+              var duration = 150;
+              var delta = (_lastNow - last) / duration;
+              if (_this._direction > 0) {
+                  if (_this._anchorElement == null) {
+                      _this._time = 1;
+                  }
+                  else {
+                      _this._time = Math.min(_this._time + delta, 1);
+                  }
+              }
+              else if (_this._direction < 0) {
+                  if (_this._anchorElement == null) {
+                      _this._time = 0;
+                  }
+                  else {
+                      _this._time = Math.max(_this._time - delta, 0);
+                  }
+              }
+              if (_this._time >= 1) {
+                  if (!_this.getPreventFocus()) {
+                      dist$6.hold({
+                          element: child,
+                          onFocusInside: function () {
+                          },
+                          onFocusOutside: function () {
+                              if (_this.getPreventAutoClose()) {
+                                  var wantsCloseEvent = new CustomEvent("wantsclose", {
+                                      detail: { source: "FocusOutside" },
+                                      cancelable: true
+                                  });
+                                  _this.root.dispatchEvent(wantsCloseEvent);
+                                  if (!wantsCloseEvent.defaultPrevented) {
+                                      return false;
+                                  }
+                              }
+                              _this.close();
+                              return true;
+                          },
+                          onNext: function () {
+                              _this.highlightNext();
+                          },
+                          onPrevious: function () {
+                              _this.highlightPrevious();
+                          }
+                      });
+                      dist$6.on("keydown", _this._onkeydown);
+                  }
+                  _this._direction = 0;
+                  _this._setup();
+                  _this.root.dispatchEvent(new Event("open"));
+              }
+              else if (_this._time <= 0) {
+                  _this._direction = 0;
+                  _this.root.dispatchEvent(new Event("close"));
+              }
+          }
+          if (_this._time === 0) {
+              _this.root.style.display = "none";
+          }
+          else {
+              _this.root.style.display = "";
+              var anchor = "top";
+              if (_this._anchorElement) {
+                  var height = window.innerHeight;
+                  var rect = _this._anchorElement.getBoundingClientRect();
+                  if (rect.bottom < 0) {
+                      _this.root.style.top = "0px";
+                      _this.root.style.bottom = "";
+                      child.firstElementChild.style.maxHeight = height -
+                          (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                  }
+                  else if (rect.top > height) {
+                      _this.root.style.top = "";
+                      _this.root.style.bottom = "0px";
+                      child.firstElementChild.style.maxHeight = height -
+                          (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                      anchor = "bottom";
+                  }
+                  else {
+                      var heightTop = rect.top;
+                      var heightBottom = height - rect.bottom;
+                      if (heightTop < heightBottom) {
+                          _this.root.style.top = rect.bottom + "px";
+                          _this.root.style.bottom = "";
+                          child.firstElementChild.style.maxHeight = height - rect.bottom -
+                              (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                      }
+                      else {
+                          _this.root.style.bottom = (height - rect.top) + "px";
+                          _this.root.style.top = "";
+                          anchor = "bottom";
+                          child.firstElementChild.style.maxHeight = rect.top -
+                              (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                      }
+                  }
+                  if (_this.getInheritWidth()) {
+                      var right = window.innerWidth - rect.right;
+                      if (rect.left >= right) {
+                          _this.root.style.left = "";
+                          _this.root.style.right = right + "px";
+                      }
+                      else {
+                          _this.root.style.left = rect.left + "px";
+                          _this.root.style.right = "";
+                      }
+                  }
+                  else {
+                      _this.root.style.left = rect.left + "px";
+                      _this.root.style.width = rect.width + "px";
+                  }
+                  _this.root.setAttribute("anchor", anchor);
+              }
+              var styleAt = getMenuStyleAt(_this._time, anchor);
+              child.style.transform = styleAt.transform;
+              child.style.opacity = styleAt.opacity + "";
+              if (_this._direction > 0) {
+                  if (_this._lastHighlighted) {
+                      _this._scrollToHighlighted();
+                  }
+                  else {
+                      _this.root.firstElementChild.firstElementChild.scrollTo(0, 0);
+                  }
+              }
+          }
+      };
+      frame();
+  }
+
+  var index$3 = {
+    'css': `rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; z-index: 100; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }`,
+    'exports': Component,
+
+    'template': function(template, expressionTypes, bindingTypes, getComponent) {
+      return template(
+        '<div expr0="expr0" tabindex="0" style="outline: none;"><div expr1="expr1" style="overflow-y: auto; position: relative;"><slot expr2="expr2"></slot><div style="position: absolute;" ref="item-highlight"></div></div></div>',
+        [{
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
+
+          'expressions': [{
+            'type': expressionTypes.EVENT,
+            'name': 'onmousedown',
+
+            'evaluate': function(scope) {
+              return scope._onmousedown;
+            }
+          }]
+        }, {
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]',
+
+          'expressions': [{
+            'type': expressionTypes.EVENT,
+            'name': 'onmouseenter',
+
+            'evaluate': function(scope) {
+              return scope._setHighlighted;
+            }
+          }, {
+            'type': expressionTypes.EVENT,
+            'name': 'onmousemove',
+
+            'evaluate': function(scope) {
+              return scope._setHighlighted;
+            }
+          }, {
+            'type': expressionTypes.EVENT,
+            'name': 'onmouseleave',
+
+            'evaluate': function(scope) {
+              return scope._handleHighlightOnLeave;
+            }
+          }, {
+            'type': expressionTypes.EVENT,
+            'name': 'onclick',
+
+            'evaluate': function(scope) {
+              return scope._handleClick;
+            }
+          }]
+        }, {
+          'type': bindingTypes.SLOT,
+
+          'attributes': [{
+            'type': expressionTypes.ATTRIBUTE,
+            'name': 'close-menu',
+
+            'evaluate': function(scope) {
+              return scope._closeThis;
+            }
+          }],
+
+          'name': 'default',
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]'
+        }]
+      );
+    },
+
+    'name': 'rm-menu'
+  };
+
+  var dist$7 = index$3;
 
   const blockedInputs = [];
   window.addEventListener("change", event => {
@@ -1752,7 +2343,7 @@
       }
   }, true);
 
-  var index$3 = {
+  var index$4 = {
     'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; opacity: 0; cursor: default; width: 100%; color: currentColor; } rm-select[filterable]:not([filterable=false]) .rm-select--input,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--input{ opacity: 1; cursor: text; } rm-select .rm-select--label,[is="rm-select"] .rm-select--label{ position: absolute; top: 0; left: 0; font-size: inherit; line-height: inherit; } rm-select[filterable]:not([filterable=false]) .rm-select--label,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--label{ display: none; }`,
 
     'exports': {
@@ -1999,6 +2590,15 @@
               arr.push(`[value='${value}']:not([disabled])`);
               return arr;
           }, []).join(","));
+          // return (this._menu || this.root).querySelectorAll(this.state.selected.map(value => {
+          //     return ["option", "rm-menu-item"].map(tag => {
+          //         const selectors = [ `[value='${value}']:not([disabled]):not([passive])` ];
+          //         if (!value) {
+          //             selectors.push(":not([value]):not([disabled]):not([passive])");
+          //         }
+          //         return selectors.map(selector => tag + selector).join(",");
+          //     }).join(",")
+          // }).join(","));
       },
 
       getOptions() {
@@ -2047,7 +2647,7 @@
 
     'template': function(template, expressionTypes, bindingTypes, getComponent) {
       return template(
-        '<rm-menu expr351="expr351" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr353="expr353"></rm-textfield-container>',
+        '<rm-menu expr9="expr9" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr11="expr11"></rm-textfield-container>',
         [{
           'type': bindingTypes.TAG,
           'getComponent': getComponent,
@@ -2058,14 +2658,14 @@
 
           'slots': [{
             'id': 'default',
-            'html': '<div ref="rm-select-menu"><slot expr352="expr352"></slot></div>',
+            'html': '<div ref="rm-select-menu"><slot expr10="expr10"></slot></div>',
 
             'bindings': [{
               'type': bindingTypes.SLOT,
               'attributes': [],
               'name': 'default',
-              'redundantAttribute': 'expr352',
-              'selector': '[expr352]'
+              'redundantAttribute': 'expr10',
+              'selector': '[expr10]'
             }]
           }],
 
@@ -2099,8 +2699,8 @@
             }
           }],
 
-          'redundantAttribute': 'expr351',
-          'selector': '[expr351]'
+          'redundantAttribute': 'expr9',
+          'selector': '[expr9]'
         }, {
           'type': bindingTypes.TAG,
           'getComponent': getComponent,
@@ -2111,11 +2711,11 @@
 
           'slots': [{
             'id': 'input',
-            'html': '<span slot="input"><input expr354="expr354" class="rm-select--input"/><div expr355="expr355" class="rm-select--label"> </div></span>',
+            'html': '<span slot="input"><input expr12="expr12" class="rm-select--input"/><div expr13="expr13" class="rm-select--label"> </div></span>',
 
             'bindings': [{
-              'redundantAttribute': 'expr354',
-              'selector': '[expr354]',
+              'redundantAttribute': 'expr12',
+              'selector': '[expr12]',
 
               'expressions': [{
                 'type': expressionTypes.EVENT,
@@ -2154,8 +2754,8 @@
                 }
               }]
             }, {
-              'redundantAttribute': 'expr355',
-              'selector': '[expr355]',
+              'redundantAttribute': 'expr13',
+              'selector': '[expr13]',
 
               'expressions': [{
                 'type': expressionTypes.TEXT,
@@ -2168,18 +2768,18 @@
             }]
           }, {
             'id': 'leading',
-            'html': '<slot expr356="expr356" name="leading" slot="leading"></slot>',
+            'html': '<slot expr14="expr14" name="leading" slot="leading"></slot>',
 
             'bindings': [{
               'type': bindingTypes.SLOT,
               'attributes': [],
               'name': 'leading',
-              'redundantAttribute': 'expr356',
-              'selector': '[expr356]'
+              'redundantAttribute': 'expr14',
+              'selector': '[expr14]'
             }]
           }, {
             'id': 'trailing',
-            'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr357="expr357" variant="icon" class="rm-select--clear" dense></rm-button><slot expr358="expr358" name="trailing"></slot><rm-button expr359="expr359" variant="icon" tabindex="-1" dense></rm-button></span>',
+            'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr15="expr15" variant="icon" class="rm-select--clear" dense></rm-button><slot expr16="expr16" name="trailing"></slot><rm-button expr17="expr17" variant="icon" tabindex="-1" dense></rm-button></span>',
 
             'bindings': [{
               'type': bindingTypes.IF,
@@ -2188,8 +2788,8 @@
                 return scope.isClearable() && scope.root.value;
               },
 
-              'redundantAttribute': 'expr357',
-              'selector': '[expr357]',
+              'redundantAttribute': 'expr15',
+              'selector': '[expr15]',
 
               'template': template(null, [{
                 'type': bindingTypes.TAG,
@@ -2225,8 +2825,8 @@
               'type': bindingTypes.SLOT,
               'attributes': [],
               'name': 'trailing',
-              'redundantAttribute': 'expr358',
-              'selector': '[expr358]'
+              'redundantAttribute': 'expr16',
+              'selector': '[expr16]'
             }, {
               'type': bindingTypes.TAG,
               'getComponent': getComponent,
@@ -2253,8 +2853,8 @@
                 }
               }],
 
-              'redundantAttribute': 'expr359',
-              'selector': '[expr359]'
+              'redundantAttribute': 'expr17',
+              'selector': '[expr17]'
             }]
           }],
 
@@ -2295,8 +2895,8 @@
             }
           }],
 
-          'redundantAttribute': 'expr353',
-          'selector': '[expr353]'
+          'redundantAttribute': 'expr11',
+          'selector': '[expr11]'
         }]
       );
     },
@@ -2304,6 +2904,6 @@
     'name': 'rm-select'
   };
 
-  return index$3;
+  return index$4;
 
 })));
