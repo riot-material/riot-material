@@ -1,7 +1,7 @@
 <rm-select>
     <rm-menu onselected={ _onmenuselected } opened={ state.menuopened } inherit-width prevent-close-on-click-out
-        prevent-focus variant={ props.variant } selected={ state.selected } keep-highlight
-    ><slot /></rm-menu>
+        prevent-focus variant={ props.variant || "flat" } selected={ state.selected } keep-highlight
+    ><div ref="rm-select-menu"><slot></slot></div></rm-menu>
     <rm-textfield-container variant={ props.variant }
         label={ props.label } full-width={ props.fullWidth }
         class={ _getClassNames() } disabled={ props.disabled }
@@ -78,6 +78,7 @@
         import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
         import ButtonComponent from "@riot-material/rm-button";
         import MenuComponent from "@riot-material/rm-menu";
+        import { ripple } from "@riot-material/ripple";
 
         // import * as riot from "riot";
 
@@ -97,6 +98,9 @@
             _mounted: false,
             _menu: null,
             _input: null,
+            _onmenuselected(event) {
+                this.update({ selected: [ event.detail.value || "" ], menuopened: false });
+            },
             onBeforeMount() {
                 const valueProperty = {
                     get: () => {
@@ -192,6 +196,7 @@
                         }
                     }
                 });
+                this._selectMenu = this.root.querySelector("[ref='rm-select-menu']");
                 (this._menu = this.root.firstElementChild)._bindTo(this.root.children[1]);
 
                 blockedInputs.push(input);
@@ -234,8 +239,11 @@
                 this._mounted = true;
                 // this.state.selectedOption = option;
                 // HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
+
+                this._manipulate();
             },
             onBeforeUnmount() {
+                this._restoreManipulated();
                 let index;
                 if (blockedInputs.some((input, i) => {
                     index = i;
@@ -246,14 +254,36 @@
                 beforeFocusListener.removeListener(this.root.firstElementChild, this._onclickFirstChild);
                 beforeFocusListener.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
             },
+            _manipulated: [],
+            _manipulate() {
+                this._selectMenu.querySelectorAll("option").forEach(option => {
+                    const container = document.createElement("div");
+                    option.replaceWith(container);
+                    option.setAttribute("menu-option", "");
+                    option.style.padding = "8px 12px";
+                    container.appendChild(option);
+                    ripple(container, { highlight: true });
+                    this._manipulated.push(option);
+                });
+            },
+            _restoreManipulated() {
+                while (this._manipulated.length > 0) {
+                    const option = this._manipulated.pop();
+                    const container = option.parentElement;
+                    container.removeChild(option);
+                    container.replaceWith(option);
+                }
+            },
             _lastSelected: null,
             onBeforeUpdate() {
+                this._restoreManipulated();
                 if (this.state.refreshLabel) {
                     HTMLInputElement.prototype.__lookupSetter__("value").call(this.root.querySelector("input"), this.getLabel());
                     delete this.state.refreshLabel;
                 }
             },
             onUpdated() {
+                this._manipulate();
                 const selected = this.state.selected.sort();
                 if (selected.length !== this._lastSelected.length || selected.some((item, i) => {
                     return item !== this._lastSelected[i];
@@ -295,15 +325,19 @@
                 if (this.state.selected.length === 0) {
                     return [];
                 }
-                return (this._menu || this.root).querySelectorAll(this.state.selected.map(value => {
-                    return ["option", "rm-menu-item"].map(tag => {
-                        const selectors = [ `[value='${value}']:not([disabled]):not([passive])` ];
-                        if (!value) {
-                            selectors.push(":not([value]):not([disabled]):not([passive])");
-                        }
-                        return selectors.map(selector => tag + selector).join(",");
-                    }).join(",")
-                }).join(","));
+                return (this._menu || this.root).querySelectorAll(this.state.selected.reduce((arr, value) => {
+                    arr.push(`[value='${value}']:not([disabled])`);
+                    return arr;
+                }, []).join(","));
+                // return (this._menu || this.root).querySelectorAll(this.state.selected.map(value => {
+                //     return ["option", "rm-menu-item"].map(tag => {
+                //         const selectors = [ `[value='${value}']:not([disabled]):not([passive])` ];
+                //         if (!value) {
+                //             selectors.push(":not([value]):not([disabled]):not([passive])");
+                //         }
+                //         return selectors.map(selector => tag + selector).join(",");
+                //     }).join(",")
+                // }).join(","));
             },
             getOptions() {
                 return this.root.querySelectorAll("option");

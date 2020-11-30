@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-select",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,17 +9,19 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riotjs/compiler": "^5.0.0",
+    "@riot-material/focus-manager": "^1.0.2",
+    "@riotjs/compiler": "^5.1.2",
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
-    "rollup": "^2.33.3",
+    "riot": "^5.1.0",
+    "rollup": "^2.34.0",
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/before-focus-listener": "^1.0.0",
-    "@riot-material/rm-button": "^1.0.1",
-    "@riot-material/rm-menu": "^1.0.0",
-    "@riot-material/rm-textfield-container": "^1.0.0",
-    "riot": "^5.0.0"
+    "@riot-material/before-focus-listener": "^1.0.2",
+    "@riot-material/ripple": "^1.0.2",
+    "@riot-material/rm-button": "^1.0.3",
+    "@riot-material/rm-menu": "^1.0.2",
+    "@riot-material/rm-textfield-container": "^1.0.2"
   }
 }
