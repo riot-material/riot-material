@@ -1,0 +1,47 @@
+<rm-list-item>
+    <slot></slot>
+
+    <style>
+        :host {
+            display: block;
+            padding: 8px 12px;
+        }
+    </style>
+
+    <script>
+        import { ripple } from "@riot-material/ripple";
+
+        export default {
+            _updateRipple() {
+                if (this.root.value != null) {
+                    ripple(this.root, { highlight: true });
+                } else {
+                    ripple(this.root, { disabled: true, highlight: false });
+                }
+            },
+            onMounted() {
+                let value = undefined;
+                Object.defineProperty(this.root, "value", {
+                    get: () => {
+                        if (value === undefined) {
+                            return this.props.value == null ? null : this.props.value + "";
+                        }
+                        return value;
+                    },
+                    set(v) {
+                        value = v == null ? null : this.props.value + "";
+                    }
+                });
+                Object.defineProperty(this.root, "label", {
+                    get: () => {
+                        return this.props.label == null ? this.root.innerText : this.props.label + "";
+                    }
+                });
+                this._updateRipple();
+            },
+            onUpdated() {
+                this._updateRipple();
+            }
+        }
+    </script>
+</rm-list-item>
