@@ -1,0 +1,78 @@
+<test>
+    <rm-menu
+        inherit-width keep-highlight variant="flat" onclosing={ menuclose }
+        selected={ state.selected } prevent-focus opened={ true || state.menuopened }
+    >
+        <div style="padding: 8px 12px; cursor: pointer; white-space: nowrap; text-overflow: ellipsis;"
+            ref="ripple" onclick={
+                () => {
+                    window.console.log("a-ah!");
+                    closeMenu();
+                }
+            } menu-option
+        >Elemento 1</div>
+        <div style="padding: 8px 12px; cursor: pointer; white-space: nowrap; text-overflow: ellipsis;"
+            ref="ripple" menu-option
+        >Elemento 2</div>
+        <div style="padding: 8px 12px; cursor: pointer; white-space: nowrap; text-overflow: ellipsis;"
+            ref="ripplea" menu-option
+        >Elemento 3</div>
+        <div style="padding: 8px 12px; cursor: pointer; white-space: nowrap; text-overflow: ellipsis;"
+            ref="ripple" menu-option onclick={
+                () => {
+                    update({ selected: [ "1" ] });
+                }
+            }
+        >Elemento 4</div>
+        <option value="asdsad">Native option</option>
+    </rm-menu>
+    <button
+        onclick={ toggleMenu } onblur={ menuclose }
+        id="opener" style="width: 200px; background: white;"
+    >Open</button>
+
+    <script>
+        export default {
+            state: {
+                selected: [ "1", "3" ],
+                menuopened: false
+            },
+            onMounted() {
+                Array.prototype.forEach.call(this.root.querySelectorAll("[ref=ripple]"), el => {
+                    riotMaterial.ripple.ripple(el, {
+                        highlight: true
+                    });
+                });
+                Array.prototype.forEach.call(this.root.querySelectorAll("[ref=ripplea]"), el => {
+                    riotMaterial.ripple.ripple(el);
+                });
+                Array.prototype.forEach.call(this.root.querySelectorAll("[menu-option]"), (el, index) => {
+                    el.value = index + "";
+                });
+                const menu = this.menu = this.root.querySelector("rm-menu");
+                const opener = this.opener = this.root.querySelector("#opener");
+                this.menu._bindTo(this.opener);
+                riotMaterial.beforeFocusListener.addListener(opener, () => {
+                    return;
+                    if (!menu.isOpened()) {
+                        menu.setAnchorElement(opener);
+                        menu.open();
+                    }
+                });
+            },
+            toggleMenu() {
+                // if (this.menu.isOpened()) {
+                //     this.menu.close();
+                // } else {
+                //     this.menu.open();
+                // }
+                this.update({ menuopened: !this.state.menuopened });
+            },
+            menuclose() {
+                if (this.state.menuopened) {
+                    this.update({ menuopened: false });
+                }
+            }
+        }
+    </script>
+</test>

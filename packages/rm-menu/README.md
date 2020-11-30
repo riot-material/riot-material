@@ -42,16 +42,13 @@ window.riotMaterial.components.menu;
 ```
 *Note: all the bundled file having `+libs` contain also the dependencies needed by the component, which, in this case, are:  
 `@riot-material/elevation`  
+`@riot-material/focus-manager`  
 `@riot-material/ripple`  
-`focus-trap`  
 Be sure to have them when installing manually or including via html*
 ## Properties
-### `chcked` optional
-### `disabled` optional
-Any value will be result in the disabled state
-### `label` optional
-### `name` optional
-## Methods
-### `getName(): string|null`
-### `isChecked(): boolean`
-### `isDisabled(): boolean`
+### `keep-highlight`
+### `opened`
+### `prevent-auto-close`
+### `prevent-focus`
+### `selected`
+### `variant`
