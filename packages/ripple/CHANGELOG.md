@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.3] - 2020-12-01
+- set "what-input" as external module in cjs export
+- add es bundle export
+
 ## [1.0.2] - 2020-11-26
 - fix package.json entry point
 

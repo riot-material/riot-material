@@ -28,27 +28,19 @@ define(['exports'], function (exports) { 'use strict';
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-    function createCommonjsModule(fn, basedir, module) {
-    	return module = {
-    		path: basedir,
-    		exports: {},
-    		require: function (path, base) {
-    			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    		}
-    	}, fn(module, module.exports), module.exports;
+    function createCommonjsModule(fn) {
+      var module = { exports: {} };
+    	return fn(module, module.exports), module.exports;
     }
 
-    function commonjsRequire () {
-    	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-    }
-
-    var whatInput = createCommonjsModule(function (module, exports) {
     /**
      * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
      * @version v5.2.10
      * @link https://github.com/ten1seven/what-input
      * @license MIT
      */
+
+    var whatInput = createCommonjsModule(function (module, exports) {
     (function webpackUniversalModuleDefinition(root, factory) {
     	module.exports = factory();
     })(commonjsGlobal, function() {

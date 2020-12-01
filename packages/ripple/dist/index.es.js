@@ -1,12 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var whatInput = require('what-input');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var whatInput__default = /*#__PURE__*/_interopDefaultLegacy(whatInput);
+import whatInput from 'what-input';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -37,11 +29,12 @@ var __assign = function() {
 var RIPPLE = Symbol("ripple");
 var RIPPLE_COUNT = Symbol("ripple-count");
 var RIPPLE_OPTIONS = Symbol("ripple_options");
+var TYPE;
 (function (TYPE) {
     TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
     TYPE[TYPE["QUICK"] = 1] = "QUICK";
     TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
-})(exports.TYPE || (exports.TYPE = {}));
+})(TYPE || (TYPE = {}));
 document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
 var scaleUpStyle;
 {
@@ -53,7 +46,7 @@ var scaleUpStyle;
 }
 var Ripple = (function () {
     function Ripple(x, y, r, type) {
-        if (type === void 0) { type = exports.TYPE.NORMAL; }
+        if (type === void 0) { type = TYPE.NORMAL; }
         this._ended = false;
         this._onEnd = null;
         var div = this._div = document.createElement("div");
@@ -72,11 +65,11 @@ var Ripple = (function () {
                 "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
         }
         switch (type) {
-            case exports.TYPE.QUICK: {
+            case TYPE.QUICK: {
                 div.style.transitionDuration = "175ms";
                 break;
             }
-            case exports.TYPE.INSTANT: {
+            case TYPE.INSTANT: {
                 div.style.transitionDuration = "0ms";
             }
         }
@@ -162,7 +155,7 @@ function ripple(element, options) {
     var pointerElement = element;
     var lastFocusTarget = undefined;
     var onFocus = function (event) {
-        if (whatInput__default['default'].ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
             return;
         }
         ripple.start(null, null, event);
@@ -176,7 +169,7 @@ function ripple(element, options) {
     ripple = (_a = {
             highlight: function () {
                 var _this = this;
-                var currentRipple = new Ripple(0, 0, null, exports.TYPE.INSTANT).attachTo(element, function () {
+                var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
                     _this[RIPPLE_COUNT]--;
                 });
                 this[RIPPLE_COUNT]++;
@@ -184,15 +177,15 @@ function ripple(element, options) {
             },
             start: function (x, y, event, type) {
                 var _this = this;
-                if (type === void 0) { type = exports.TYPE.NORMAL; }
+                if (type === void 0) { type = TYPE.NORMAL; }
                 var isFocus = !!(event && event.type === "focus");
                 var isMouseEnter = !!(event && event.type === "mouseenter");
                 var options = this[RIPPLE_OPTIONS];
                 if (isFocus) {
-                    type = options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                    type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                 }
                 else if (isMouseEnter) {
-                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                 }
                 var r = null;
                 var rect = null;
@@ -348,5 +341,4 @@ function isRipple(element) {
     return element[RIPPLE] != null;
 }
 
-exports.isRipple = isRipple;
-exports.ripple = ripple;
+export { TYPE, isRipple, ripple };
