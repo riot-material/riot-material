@@ -1,7 +1,7 @@
 import { ripple } from '@riot-material/ripple';
 
 var index = {
-  'css': `rm-list-item,[is="rm-list-item"]{ display: block; padding: 8px 12px; }`,
+  'css': `rm-list-item,[is="rm-list-item"]{ display: block; padding: 8px 12px; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 24px; }`,
 
   'exports': {
     _updateRipple() {
