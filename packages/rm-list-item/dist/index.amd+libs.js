@@ -877,7 +877,7 @@ define(function () { 'use strict';
 
 	  'exports': {
 	    _updateRipple() {
-	        if (this.root.value != null) {
+	        if (this.root.value != null || this.props.menuOption != null) {
 	            dist.ripple(this.root, { highlight: true });
 	        } else {
 	            dist.ripple(this.root, { disabled: true, highlight: false });
@@ -902,6 +902,9 @@ define(function () { 'use strict';
 	                return this.props.label == null ? this.root.innerText : this.props.label + "";
 	            }
 	        });
+	        if (this.props.value != null && this.props.menuOption == null) {
+	            this.root.setAttribute("menu-option", "");
+	        }
 	        this._updateRipple();
 	    },
 

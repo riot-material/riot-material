@@ -7,7 +7,7 @@ var index = {
 
   'exports': {
     _updateRipple() {
-        if (this.root.value != null) {
+        if (this.root.value != null || this.props.menuOption != null) {
             ripple.ripple(this.root, { highlight: true });
         } else {
             ripple.ripple(this.root, { disabled: true, highlight: false });
@@ -32,6 +32,9 @@ var index = {
                 return this.props.label == null ? this.root.innerText : this.props.label + "";
             }
         });
+        if (this.props.value != null && this.props.menuOption == null) {
+            this.root.setAttribute("menu-option", "");
+        }
         this._updateRipple();
     },
 
