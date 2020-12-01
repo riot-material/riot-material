@@ -159,9 +159,17 @@
                 }
             });
 
-            this._lastSelected = this.state.selected.sort();
-
             this._mounted = true;
+
+            this._lastSelected = this.state.selected.sort();
+            {
+                const selected = this.getOptions().filter(option => option.getAttribute("selected") != null).pop();
+                if (selected) {
+                    this.select(selected.getAttribute("value"));
+                }
+
+            }
+
             // this.state.selectedOption = option;
             // HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
 
@@ -277,7 +285,7 @@
         },
 
         getOptions() {
-            return this.root.querySelectorAll("option");
+            return this._menu.options;
         },
 
         getLabel() {

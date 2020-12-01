@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-select",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -10,16 +10,17 @@
   "license": "MIT",
   "devDependencies": {
     "@riot-material/focus-manager": "^1.0.2",
+    "@riot-material/rm-list-item": "^1.0.2",
     "@riotjs/compiler": "^5.1.2",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "riot": "^5.1.0",
     "rollup": "^2.34.0",
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
     "@riot-material/before-focus-listener": "^1.0.2",
-    "@riot-material/ripple": "^1.0.2",
+    "@riot-material/ripple": "^1.0.3",
     "@riot-material/rm-button": "^1.0.3",
     "@riot-material/rm-menu": "^1.0.2",
     "@riot-material/rm-textfield-container": "^1.0.2"

@@ -224,19 +224,17 @@
                     }
                 });
 
+                this._mounted = true;
+
                 this._lastSelected = this.state.selected.sort();
                 {
-                    // const selected = this.getSelected();
-                    // for (let i = selected.length - 1; i >= 0; i--) {
-                    //     const item = selected[i];
-                    //     const riotInstance = item[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                    //     if (riotInstance && riotInstance.name === "rm-menu-item") {
-                    //         item.firstElementChild.classList.add("rm-ripple-container--highlighted");
-                    //     }
-                    // }
+                    const selected = this.getOptions().filter(option => option.getAttribute("selected") != null).pop();
+                    if (selected) {
+                        this.select(selected.getAttribute("value"));
+                    }
+
                 }
 
-                this._mounted = true;
                 // this.state.selectedOption = option;
                 // HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
 
@@ -340,7 +338,7 @@
                 // }).join(","));
             },
             getOptions() {
-                return this.root.querySelectorAll("option");
+                return this._menu.options;
             },
             getLabel() {
                 return Array.prototype.map.call(this.getSelected(), option => option.label).join(", ");

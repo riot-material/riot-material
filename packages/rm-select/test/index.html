@@ -17,14 +17,14 @@
         <script src="../node_modules/@riot-material/elevation/dist/index.umd.js"></script>
         <script src="../node_modules/@riot-material/rm-menu/dist/index.umd.js"></script>
         <script src="../dist/index.umd.js"></script>
-        <!-- <script src="../dist/index.umd+libs.js"></script> -->
-        <script data-src="rm-list-item.riot" type="riot"></script>
+        <script src="../node_modules/@riot-material/rm-list-item/dist/index.umd.js"></script>
         <script data-src="test.riot" type="riot"></script>
 
         <script>
             riot.compile().then(() => {
                 console.log(riotMaterial);
                 riot.register("rm-select", riotMaterial.components.select);
+                riot.register("rm-list-item", riotMaterial.components.listItem);
                 riot.mount("test");
             });
         </script>

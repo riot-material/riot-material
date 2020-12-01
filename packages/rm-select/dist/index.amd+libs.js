@@ -185,80 +185,22 @@ define(['riot'], function (riot) { 'use strict';
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-  function getDefaultExportFromCjs (x) {
-  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+  function createCommonjsModule(fn) {
+    var module = { exports: {} };
+  	return fn(module, module.exports), module.exports;
   }
 
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  		path: basedir,
-  		exports: {},
-  		require: function (path, base) {
-  			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-  		}
-  	}, fn(module, module.exports), module.exports;
-  }
-
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var dist$1 = createCommonjsModule(function (module, exports) {
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
-  /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation.
-
-  Permission to use, copy, modify, and/or distribute this software for any
-  purpose with or without fee is hereby granted.
-
-  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  PERFORMANCE OF THIS SOFTWARE.
-  ***************************************************************************** */
-
-  var __assign = function() {
-      __assign = Object.assign || function __assign(t) {
-          for (var s, i = 1, n = arguments.length; i < n; i++) {
-              s = arguments[i];
-              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-          }
-          return t;
-      };
-      return __assign.apply(this, arguments);
-  };
-
-  var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : typeof self !== 'undefined' ? self : {};
-
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  		path: basedir,
-  		exports: {},
-  		require: function (path, base) {
-  			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-  		}
-  	}, fn(module, module.exports), module.exports;
-  }
-
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var whatInput = createCommonjsModule(function (module, exports) {
   /**
    * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
    * @version v5.2.10
    * @link https://github.com/ten1seven/what-input
    * @license MIT
    */
+
+  var whatInput = createCommonjsModule(function (module, exports) {
   (function webpackUniversalModuleDefinition(root, factory) {
   	module.exports = factory();
-  })(commonjsGlobal$1, function() {
+  })(commonjsGlobal, function() {
   return /******/ (function(modules) { // webpackBootstrap
   /******/ 	// The module cache
   /******/ 	var installedModules = {};
@@ -759,6 +701,42 @@ define(['riot'], function (riot) { 'use strict';
   });
   });
 
+  var dist$1 = createCommonjsModule(function (module, exports) {
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+
+
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var whatInput__default = /*#__PURE__*/_interopDefaultLegacy(whatInput);
+
+  /*! *****************************************************************************
+  Copyright (c) Microsoft Corporation.
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
+
+  var __assign = function() {
+      __assign = Object.assign || function __assign(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+              s = arguments[i];
+              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+          }
+          return t;
+      };
+      return __assign.apply(this, arguments);
+  };
+
   var RIPPLE = Symbol("ripple");
   var RIPPLE_COUNT = Symbol("ripple-count");
   var RIPPLE_OPTIONS = Symbol("ripple_options");
@@ -887,7 +865,7 @@ define(['riot'], function (riot) { 'use strict';
       var pointerElement = element;
       var lastFocusTarget = undefined;
       var onFocus = function (event) {
-          if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+          if (whatInput__default['default'].ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
               return;
           }
           ripple.start(null, null, event);
@@ -1131,10 +1109,6 @@ define(['riot'], function (riot) { 'use strict';
 
   var dist$2 = index$1;
 
-  var dist$3 = createCommonjsModule(function (module, exports) {
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
   function addListener(element, handler, context) {
       if (handler === void 0 || typeof handler !== "function") {
@@ -1258,11 +1232,13 @@ define(['riot'], function (riot) { 'use strict';
       }
   }
 
-  exports.addListener = addListener;
-  exports.removeListener = removeListener;
-  });
+  var addListener_1 = addListener;
+  var removeListener_1 = removeListener;
 
-  var beforeFocusListener = /*@__PURE__*/getDefaultExportFromCjs(dist$3);
+  var dist$3 = /*#__PURE__*/Object.defineProperty({
+  	addListener: addListener_1,
+  	removeListener: removeListener_1
+  }, '__esModule', {value: true});
 
   function _interopDefaultLegacy$1 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -1596,10 +1572,6 @@ define(['riot'], function (riot) { 'use strict';
 
   var dist$5 = elevation;
 
-  var dist$6 = createCommonjsModule(function (module, exports) {
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation.
 
@@ -1734,10 +1706,15 @@ define(['riot'], function (riot) { 'use strict';
       }
   }
 
-  exports.hold = hold;
-  exports.on = on;
-  exports.release = release;
-  });
+  var hold_1 = hold;
+  var on_1 = on;
+  var release_1 = release;
+
+  var dist$6 = /*#__PURE__*/Object.defineProperty({
+  	hold: hold_1,
+  	on: on_1,
+  	release: release_1
+  }, '__esModule', {value: true});
 
   function _interopDefaultLegacy$2 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -2457,7 +2434,7 @@ define(['riot'], function (riot) { 'use strict';
 
           blockedInputs.push(input);
 
-          beforeFocusListener.addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
+          dist$3.addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
               if (this.props.disabled) {
                   return;
               }
@@ -2471,7 +2448,7 @@ define(['riot'], function (riot) { 'use strict';
                   this.update({ menuopened: !this.state.menuopened });
               }
           });
-          beforeFocusListener.addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
+          dist$3.addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
               if (this.props.disabled) {
                   return;
               }
@@ -2480,9 +2457,17 @@ define(['riot'], function (riot) { 'use strict';
               }
           });
 
-          this._lastSelected = this.state.selected.sort();
-
           this._mounted = true;
+
+          this._lastSelected = this.state.selected.sort();
+          {
+              const selected = this.getOptions().filter(option => option.getAttribute("selected") != null).pop();
+              if (selected) {
+                  this.select(selected.getAttribute("value"));
+              }
+
+          }
+
           // this.state.selectedOption = option;
           // HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
 
@@ -2496,8 +2481,8 @@ define(['riot'], function (riot) { 'use strict';
           })) {
               blockedInputs.splice(i, 1);
           }
-          beforeFocusListener.removeListener(this.root.firstElementChild, this._onclickFirstChild);
-          beforeFocusListener.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
+          dist$3.removeListener(this.root.firstElementChild, this._onclickFirstChild);
+          dist$3.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
       },
 
       _manipulated: [],
@@ -2598,7 +2583,7 @@ define(['riot'], function (riot) { 'use strict';
       },
 
       getOptions() {
-          return this.root.querySelectorAll("option");
+          return this._menu.options;
       },
 
       getLabel() {
