@@ -873,7 +873,7 @@ define(function () { 'use strict';
 	});
 
 	var index = {
-	  'css': `rm-list-item,[is="rm-list-item"]{ display: block; padding: 8px 12px; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 24px; }`,
+	  'css': `rm-list-item,[is="rm-list-item"]{ display: block; padding: .5em .75em; line-height: 1.5em; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; }`,
 
 	  'exports': {
 	    _updateRipple() {
