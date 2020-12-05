@@ -19,7 +19,6 @@ var index = {
             }
         }
         rippleOptions.color = "currentColor";
-        rippleOptions.stopRippling = true;
         Object.entries(this.props).forEach(entry => {
             const [key, value] = entry;
             const rippleKeyMatch = key.match(/ripple([A-Z]\w+)/);
@@ -158,17 +157,17 @@ var index = {
   },
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<button expr5="expr5"></button><button expr7="expr7"></button>', [{
+    return template('<button expr0="expr0"></button><button expr2="expr2"></button>', [{
       'type': bindingTypes.IF,
 
       'evaluate': function(scope) {
         return !scope.isIcon();
       },
 
-      'redundantAttribute': 'expr5',
-      'selector': '[expr5]',
+      'redundantAttribute': 'expr0',
+      'selector': '[expr0]',
 
-      'template': template('<slot expr6="expr6"></slot>', [{
+      'template': template('<slot expr1="expr1"></slot>', [{
         'expressions': [{
           'type': expressionTypes.ATTRIBUTE,
           'name': 'style',
@@ -202,8 +201,8 @@ var index = {
         'type': bindingTypes.SLOT,
         'attributes': [],
         'name': 'default',
-        'redundantAttribute': 'expr6',
-        'selector': '[expr6]'
+        'redundantAttribute': 'expr1',
+        'selector': '[expr1]'
       }])
     }, {
       'type': bindingTypes.IF,
@@ -212,10 +211,10 @@ var index = {
         return scope.isIcon();
       },
 
-      'redundantAttribute': 'expr7',
-      'selector': '[expr7]',
+      'redundantAttribute': 'expr2',
+      'selector': '[expr2]',
 
-      'template': template('<rm-icon expr8="expr8"></rm-icon>', [{
+      'template': template('<rm-icon expr3="expr3"></rm-icon>', [{
         'expressions': [{
           'type': expressionTypes.ATTRIBUTE,
           'name': 'disabled',
@@ -248,14 +247,14 @@ var index = {
 
         'slots': [{
           'id': 'default',
-          'html': '<slot expr9="expr9"></slot>',
+          'html': '<slot expr4="expr4"></slot>',
 
           'bindings': [{
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'default',
-            'redundantAttribute': 'expr9',
-            'selector': '[expr9]'
+            'redundantAttribute': 'expr4',
+            'selector': '[expr4]'
           }]
         }],
 
@@ -268,8 +267,8 @@ var index = {
           }
         }],
 
-        'redundantAttribute': 'expr8',
-        'selector': '[expr8]'
+        'redundantAttribute': 'expr3',
+        'selector': '[expr3]'
       }])
     }]);
   },

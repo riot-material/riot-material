@@ -33,38 +33,18 @@ export default [
             commonjs(),
             riot()
         ],
-        output: {
-            file: "dist/index.js",
-            format: "cjs",
-            exports: "auto"
-        }
-    },
-    {
-        input: "src/index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "dist/index.es.js",
-            format: "es"
-        }
-    },
-    {
-        input: "src/index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "dist/index.amd.js",
-            format: "amd",
-            globals
-        }
+        output: [
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            },
+            {
+                name: "riotMaterial.components.button",
+                file: "dist/index.js",
+                format: "umd",
+                globals
+            }
+        ]
     },
     {
         input: "src/index.riot",
@@ -73,37 +53,12 @@ export default [
             commonjs(),
             riot()
         ],
-        output: {
-            file: "dist/index.amd+libs.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "src/index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.button",
-            file: "dist/index.umd.js",
-            format: "umd",
-            globals
-        }
-    },
-    {
-        input: "src/index.riot",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.button",
-            file: "dist/index.umd+libs.js",
-            format: "umd"
-        }
+        output: [
+            {
+                name: "riotMaterial.components.button",
+                file: "dist/index+libs.js",
+                format: "umd"
+            }
+        ]
     }
 ];

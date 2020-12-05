@@ -1,8 +1,10 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,8 +12,8 @@
   "license": "MIT",
   "devDependencies": {
     "@riotjs/compiler": "^5.1.2",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "node-sass": "^5.0.0",
     "riot": "^5.1.0",
     "rollup": "^2.34.0",
@@ -22,5 +24,9 @@
     "@riot-material/before-focus-listener": "^1.0.2",
     "@riot-material/ripple": "^1.0.2",
     "@riot-material/rm-icon": "^1.0.1"
-  }
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }
