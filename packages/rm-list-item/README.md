@@ -46,6 +46,7 @@ Be sure to have them when installing manually or including via html*
 ## Properties
 <!-- ### `disabled` -->
 ### `label` *optional*
+### `passive` *optional*
 ### `value` *optional*
 ## Slots
 ### `default`

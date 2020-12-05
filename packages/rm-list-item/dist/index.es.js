@@ -1,11 +1,19 @@
 import { ripple } from '@riot-material/ripple';
 
 var index = {
-  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; }`,
+  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; }`,
 
   'exports': {
     _hasSlot(name) {
         return this.slots.some(slot => slot.id === name);
+    },
+
+    _updateRipple() {
+        ripple(this.root, { highlight: true, instantHighlight: true, disabled: this.isPassive() });
+    },
+
+    isPassive() {
+        return this.props.passive != null && this.props.passive !== false;
     },
 
     onMounted() {
@@ -29,7 +37,11 @@ var index = {
         if (this.props.value != null && this.props.menuOption == null) {
             this.root.setAttribute("menu-option", "");
         }
-        ripple(this.root, { highlight: true, instantHighlight: true });
+        this._updateRipple();
+    },
+
+    onUpdated() {
+        this._updateRipple();
     }
   },
 

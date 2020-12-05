@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.7] - 2020-12-05
+- add "passive" prop
+- remove "short-inset" prop
+
 ## [1.0.6] - 2020-12-05
 - label attribute can differ from display text, using `default` slot
 

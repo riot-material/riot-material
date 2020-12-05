@@ -22,9 +22,6 @@
             cursor: pointer;
             user-select: none;
         }
-        :host[short-inset] {
-            padding-left: 1.5em;
-        }
 
         rm-icon, .material-icons {
             margin-right: 16px;
@@ -41,6 +38,12 @@
         export default {
             _hasSlot(name) {
                 return this.slots.some(slot => slot.id === name);
+            },
+            _updateRipple() {
+                ripple(this.root, { highlight: true, instantHighlight: true, disabled: this.isPassive() });
+            },
+            isPassive() {
+                return this.props.passive != null && this.props.passive !== false;
             },
             onMounted() {
                 let value = undefined;
@@ -63,7 +66,10 @@
                 if (this.props.value != null && this.props.menuOption == null) {
                     this.root.setAttribute("menu-option", "");
                 }
-                ripple(this.root, { highlight: true, instantHighlight: true });
+                this._updateRipple();
+            },
+            onUpdated() {
+                this._updateRipple();
             }
         }
     </script>
