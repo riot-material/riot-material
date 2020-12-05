@@ -1,0 +1,10 @@
+<rm-list-group>
+    <rm-list-item passive>{ props.label }</rm-list-item>
+    <slot></slot>
+
+    <style>
+        rm-list-item:not(:host > :first-child) {
+            padding-left: 1.5em;
+        }
+    </style>
+</rm-list-group>

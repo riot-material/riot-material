@@ -1,0 +1,24 @@
+{
+  "name": "@riot-material/rm-list-group",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kal Aster",
+  "license": "MIT",
+  "devDependencies": {
+    "@riotjs/compiler": "^5.1.2",
+    "riot": "^5.1.0",
+    "rollup": "^2.34.1",
+    "rollup-plugin-riot": "^5.0.0"
+  },
+  "dependencies": {},
+  "files": [
+    "dist",
+    "src"
+  ]
+}
