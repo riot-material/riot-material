@@ -1,6 +1,13 @@
+import ListItemComponent from '@riot-material/rm-list-item';
+
 var index = {
-  'css': `rm-list-item:not(rm-list-group > :first-child),rm-list-item:not([is="rm-list-group"] > :first-child){ padding-left: 1.5em; }`,
-  'exports': null,
+  'css': `rm-list-group > rm-list-item:not(:first-child),[is="rm-list-group"] > rm-list-item:not(:first-child),rm-list-group > [is="rm-list-item"]:not(:first-child),[is="rm-list-group"] > [is="rm-list-item"]:not(:first-child){ padding-left: 2em; }`,
+
+  'exports': {
+    components: {
+        "rm-list-item": ListItemComponent
+    }
+  },
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
     return template(

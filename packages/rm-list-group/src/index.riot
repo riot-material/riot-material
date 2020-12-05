@@ -3,8 +3,19 @@
     <slot></slot>
 
     <style>
-        rm-list-item:not(:host > :first-child) {
-            padding-left: 1.5em;
+        :host > rm-list-item:not(:first-child),
+        :host > [is="rm-list-item"]:not(:first-child) {
+            padding-left: 2em;
         }
     </style>
+
+    <script>
+        import ListItemComponent from "@riot-material/rm-list-item";
+
+        export default {
+            components: {
+                "rm-list-item": ListItemComponent
+            }
+        }
+    </script>
 </rm-list-group>
