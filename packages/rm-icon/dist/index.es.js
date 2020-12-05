@@ -29,7 +29,7 @@ var css_248z = "@charset \"UTF-8\";@font-face{font-family:Material Icons;font-st
 styleInject(css_248z);
 
 var index = {
-  'css': `rm-icon,[is="rm-icon"]{ font-size: 24px; }`,
+  'css': `rm-icon,[is="rm-icon"]{ font-size: 24px; vertical-align: middle; }`,
 
   'exports': {
     onMounted() {
@@ -38,12 +38,12 @@ var index = {
   },
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<slot expr1="expr1"></slot>', [{
+    return template('<slot expr0="expr0"></slot>', [{
       'type': bindingTypes.SLOT,
       'attributes': [],
       'name': 'default',
-      'redundantAttribute': 'expr1',
-      'selector': '[expr1]'
+      'redundantAttribute': 'expr0',
+      'selector': '[expr0]'
     }]);
   },
 
