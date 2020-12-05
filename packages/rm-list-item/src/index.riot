@@ -1,11 +1,23 @@
-<rm-list-item>
-    <slot></slot>
+<rm-list-item tabindex="0">
+    <div style="display: table; width: 100%;">
+        <div style="display: table-cell; width: 1px; padding-right: 32px;" if={ _hasLeadingSlot() }>
+            <slot name="leading"></slot>
+        </div>
+        <div style="display: table-cell; max-width: 1px;"><div>
+            <span style="float: right;"><slot name="trailing"></slot></span>
+            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{ props.label }</div>
+            <div style="clear: both;"></div>
+        </div></div>
+    </div>
 
     <style>
         :host {
+            outline: none;
             display: block;
-            padding: .5em .75em;
+            padding: .75em 1em;
             line-height: 1.5em;
+            cursor: pointer;
+            user-select: none;
         }
         :host[short-inset] {
             padding-left: 1.5em;
@@ -16,12 +28,8 @@
         import { ripple } from "@riot-material/ripple";
 
         export default {
-            _updateRipple() {
-                if (this.root.value != null || this.props.menuOption != null) {
-                    ripple(this.root, { highlight: true });
-                } else {
-                    ripple(this.root, { disabled: true, highlight: false });
-                }
+            _hasLeadingSlot() {
+                return this.slots.some(slot => slot.id === "leading");
             },
             onMounted() {
                 let value = undefined;
@@ -44,10 +52,7 @@
                 if (this.props.value != null && this.props.menuOption == null) {
                     this.root.setAttribute("menu-option", "");
                 }
-                this._updateRipple();
-            },
-            onUpdated() {
-                this._updateRipple();
+                ripple(this.root, { highlight: true, instantHighlight: true });
             }
         }
     </script>

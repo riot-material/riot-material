@@ -1,6 +1,16 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.4] - 2020-12-05
+- use always ripple
+- add slot "leading" and "trailing"
+- create content from `props.label`
+- set `root` as focusable
+- change dist structure
+- update "package.json" entry points
+- add "files" in "package.json"
+- add tests
+
 ## [1.0.3] - 2020-12-01
 - set automatically "menu-option" attribute when "value" is set
 

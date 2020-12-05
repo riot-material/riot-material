@@ -522,16 +522,6 @@
 	});
 	});
 
-	var dist = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, '__esModule', { value: true });
-
-
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var whatInput__default = /*#__PURE__*/_interopDefaultLegacy(whatInput);
-
 	/*! *****************************************************************************
 	Copyright (c) Microsoft Corporation.
 
@@ -561,11 +551,12 @@
 	var RIPPLE = Symbol("ripple");
 	var RIPPLE_COUNT = Symbol("ripple-count");
 	var RIPPLE_OPTIONS = Symbol("ripple_options");
+	var TYPE;
 	(function (TYPE) {
 	    TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
 	    TYPE[TYPE["QUICK"] = 1] = "QUICK";
 	    TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
-	})(exports.TYPE || (exports.TYPE = {}));
+	})(TYPE || (TYPE = {}));
 	document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
 	var scaleUpStyle;
 	{
@@ -577,7 +568,7 @@
 	}
 	var Ripple = (function () {
 	    function Ripple(x, y, r, type) {
-	        if (type === void 0) { type = exports.TYPE.NORMAL; }
+	        if (type === void 0) { type = TYPE.NORMAL; }
 	        this._ended = false;
 	        this._onEnd = null;
 	        var div = this._div = document.createElement("div");
@@ -596,11 +587,11 @@
 	                "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
 	        }
 	        switch (type) {
-	            case exports.TYPE.QUICK: {
+	            case TYPE.QUICK: {
 	                div.style.transitionDuration = "175ms";
 	                break;
 	            }
-	            case exports.TYPE.INSTANT: {
+	            case TYPE.INSTANT: {
 	                div.style.transitionDuration = "0ms";
 	            }
 	        }
@@ -671,7 +662,7 @@
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
-	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
 	    }
@@ -686,7 +677,7 @@
 	    var pointerElement = element;
 	    var lastFocusTarget = undefined;
 	    var onFocus = function (event) {
-	        if (whatInput__default['default'].ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+	        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
 	            return;
 	        }
 	        ripple.start(null, null, event);
@@ -700,7 +691,7 @@
 	    ripple = (_a = {
 	            highlight: function () {
 	                var _this = this;
-	                var currentRipple = new Ripple(0, 0, null, exports.TYPE.INSTANT).attachTo(element, function () {
+	                var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
 	                    _this[RIPPLE_COUNT]--;
 	                });
 	                this[RIPPLE_COUNT]++;
@@ -708,15 +699,15 @@
 	            },
 	            start: function (x, y, event, type) {
 	                var _this = this;
-	                if (type === void 0) { type = exports.TYPE.NORMAL; }
+	                if (type === void 0) { type = TYPE.NORMAL; }
 	                var isFocus = !!(event && event.type === "focus");
 	                var isMouseEnter = !!(event && event.type === "mouseenter");
 	                var options = this[RIPPLE_OPTIONS];
 	                if (isFocus) {
-	                    type = options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+	                    type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
 	                }
 	                else if (isMouseEnter) {
-	                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+	                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
 	                }
 	                var r = null;
 	                var rect = null;
@@ -868,24 +859,13 @@
 	    ripple.set(options);
 	    return ripple;
 	}
-	function isRipple(element) {
-	    return element[RIPPLE] != null;
-	}
-
-	exports.isRipple = isRipple;
-	exports.ripple = ripple;
-	});
 
 	var index = {
-	  'css': `rm-list-item,[is="rm-list-item"]{ display: block; padding: .5em .75em; line-height: 1.5em; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; }`,
+	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .75em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; }`,
 
 	  'exports': {
-	    _updateRipple() {
-	        if (this.root.value != null || this.props.menuOption != null) {
-	            dist.ripple(this.root, { highlight: true });
-	        } else {
-	            dist.ripple(this.root, { disabled: true, highlight: false });
-	        }
+	    _hasLeadingSlot() {
+	        return this.slots.some(slot => slot.id === "leading");
 	    },
 
 	    onMounted() {
@@ -909,22 +889,59 @@
 	        if (this.props.value != null && this.props.menuOption == null) {
 	            this.root.setAttribute("menu-option", "");
 	        }
-	        this._updateRipple();
-	    },
-
-	    onUpdated() {
-	        this._updateRipple();
+	        ripple(this.root, { highlight: true, instantHighlight: true });
 	    }
 	  },
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
-	    return template('<slot expr1="expr1"></slot>', [{
-	      'type': bindingTypes.SLOT,
-	      'attributes': [],
-	      'name': 'default',
-	      'redundantAttribute': 'expr1',
-	      'selector': '[expr1]'
-	    }]);
+	    return template(
+	      '<div style="display: table; width: 100%;"><div expr4="expr4" style="display: table-cell; width: 1px; padding-right: 32px;"></div><div style="display: table-cell; max-width: 1px;"><div><span style="float: right;"><slot expr6="expr6" name="trailing"></slot></span><div expr7="expr7" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> </div><div style="clear: both;"></div></div></div></div>',
+	      [{
+	        'expressions': [{
+	          'type': expressionTypes.ATTRIBUTE,
+	          'name': 'tabindex',
+
+	          'evaluate': function(scope) {
+	            return '0';
+	          }
+	        }]
+	      }, {
+	        'type': bindingTypes.IF,
+
+	        'evaluate': function(scope) {
+	          return scope._hasLeadingSlot();
+	        },
+
+	        'redundantAttribute': 'expr4',
+	        'selector': '[expr4]',
+
+	        'template': template('<slot expr5="expr5" name="leading"></slot>', [{
+	          'type': bindingTypes.SLOT,
+	          'attributes': [],
+	          'name': 'leading',
+	          'redundantAttribute': 'expr5',
+	          'selector': '[expr5]'
+	        }])
+	      }, {
+	        'type': bindingTypes.SLOT,
+	        'attributes': [],
+	        'name': 'trailing',
+	        'redundantAttribute': 'expr6',
+	        'selector': '[expr6]'
+	      }, {
+	        'redundantAttribute': 'expr7',
+	        'selector': '[expr7]',
+
+	        'expressions': [{
+	          'type': expressionTypes.TEXT,
+	          'childNodeIndex': 0,
+
+	          'evaluate': function(scope) {
+	            return scope.props.label;
+	          }
+	        }]
+	      }]
+	    );
 	  },
 
 	  'name': 'rm-list-item'
