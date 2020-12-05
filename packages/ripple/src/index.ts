@@ -179,8 +179,8 @@ export function ripple(element: HTMLElement, options?: IRippleOptions): IRipple 
         color: "currentColor",
         focusTarget: undefined,
         detectLabel: true,
-        usePointerFocus: false,
-        stopRippling: false,
+        usePointerFocus: true,
+        stopRippling: true,
         ...(ripple != null ? ripple[RIPPLE_OPTIONS] : {}),
         ...options
     };

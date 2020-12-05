@@ -1,6 +1,13 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.4] - 2020-12-05
+- set default "usePointerFocus" and "stopRippling" to true
+- change dist structure
+- update "package.json" entry points
+- add test
+- add "files" in "package.json"
+
 ## [1.0.3] - 2020-12-01
 - set "what-input" as external module in cjs export
 - add es bundle export

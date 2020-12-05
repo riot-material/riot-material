@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RIPPLE test</title>
+    </head>
+    <body>
+        <div id="ripple1">
+            <div id="ripple2">
+            </div>
+        </div>
+
+        <style>
+            body {
+                background: wheat;
+            }
+            #ripple1 {
+                background: white;
+                height: 100px;
+                width: 100px;
+                padding: 16px;
+            }
+            #ripple2 {
+                background: aliceblue;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+        <script src="../dist/index+libs.js"></script>
+        <script>
+            riotMaterial.ripple.ripple(document.getElementById("ripple1"), {
+                highlight: true
+            });
+            riotMaterial.ripple.ripple(document.getElementById("ripple2"), {
+                highlight: true,
+                stopRippling: true
+            });
+        </script>
+    </body>
+</html>
