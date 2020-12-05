@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.3] - 2020-12-25
+- change "vertical-align" default to "top"
+
 ## [1.0.2] - 2020-12-05
 - add default "vertical-align: middle"
 - update dist config

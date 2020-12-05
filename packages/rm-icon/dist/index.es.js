@@ -29,7 +29,7 @@ var css_248z = "@charset \"UTF-8\";@font-face{font-family:Material Icons;font-st
 styleInject(css_248z);
 
 var index = {
-  'css': `rm-icon,[is="rm-icon"]{ font-size: 24px; vertical-align: middle; }`,
+  'css': `rm-icon,[is="rm-icon"]{ font-size: 24px; vertical-align: top; }`,
 
   'exports': {
     onMounted() {
