@@ -1,11 +1,14 @@
 <rm-list-item tabindex="0">
     <div style="display: table; width: 100%;">
-        <div style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;" if={ _hasLeadingSlot() }>
+        <div style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;" if={ _hasSlot("leading") }>
             <slot name="leading"></slot>
         </div>
         <div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div>
             <span style="float: right;"><slot name="trailing"></slot></span>
-            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{ props.label }</div>
+            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <template if={ !_hasSlot("default") }>{ props.label }</template>
+                <slot></slot>
+            </div>
             <div style="clear: both;"></div>
         </div></div>
     </div>
@@ -36,8 +39,8 @@
         import { ripple } from "@riot-material/ripple";
 
         export default {
-            _hasLeadingSlot() {
-                return this.slots.some(slot => slot.id === "leading");
+            _hasSlot(name) {
+                return this.slots.some(slot => slot.id === name);
             },
             onMounted() {
                 let value = undefined;

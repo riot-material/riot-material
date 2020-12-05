@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.6] - 2020-12-05
+- label attribute can differ from display text, using `default` slot
+
 ## [1.0.5] - 2020-12-05
 - handle better the "leading" slot
 - update README

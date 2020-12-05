@@ -864,8 +864,8 @@
 	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; }`,
 
 	  'exports': {
-	    _hasLeadingSlot() {
-	        return this.slots.some(slot => slot.id === "leading");
+	    _hasSlot(name) {
+	        return this.slots.some(slot => slot.id === name);
 	    },
 
 	    onMounted() {
@@ -895,7 +895,7 @@
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
 	    return template(
-	      '<div style="display: table; width: 100%;"><div expr36="expr36" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr38="expr38" name="trailing"></slot></span><div expr39="expr39" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> </div><div style="clear: both;"></div></div></div></div>',
+	      '<div style="display: table; width: 100%;"><div expr5="expr5" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr7="expr7" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr8="expr8"></template><slot expr9="expr9"></slot></div><div style="clear: both;"></div></div></div></div>',
 	      [{
 	        'expressions': [{
 	          'type': expressionTypes.ATTRIBUTE,
@@ -909,37 +909,51 @@
 	        'type': bindingTypes.IF,
 
 	        'evaluate': function(scope) {
-	          return scope._hasLeadingSlot();
+	          return scope._hasSlot("leading");
 	        },
 
-	        'redundantAttribute': 'expr36',
-	        'selector': '[expr36]',
+	        'redundantAttribute': 'expr5',
+	        'selector': '[expr5]',
 
-	        'template': template('<slot expr37="expr37" name="leading"></slot>', [{
+	        'template': template('<slot expr6="expr6" name="leading"></slot>', [{
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'leading',
-	          'redundantAttribute': 'expr37',
-	          'selector': '[expr37]'
+	          'redundantAttribute': 'expr6',
+	          'selector': '[expr6]'
 	        }])
 	      }, {
 	        'type': bindingTypes.SLOT,
 	        'attributes': [],
 	        'name': 'trailing',
-	        'redundantAttribute': 'expr38',
-	        'selector': '[expr38]'
+	        'redundantAttribute': 'expr7',
+	        'selector': '[expr7]'
 	      }, {
-	        'redundantAttribute': 'expr39',
-	        'selector': '[expr39]',
+	        'type': bindingTypes.IF,
 
-	        'expressions': [{
-	          'type': expressionTypes.TEXT,
-	          'childNodeIndex': 0,
+	        'evaluate': function(scope) {
+	          return !scope._hasSlot("default");
+	        },
 
-	          'evaluate': function(scope) {
-	            return scope.props.label;
-	          }
-	        }]
+	        'redundantAttribute': 'expr8',
+	        'selector': '[expr8]',
+
+	        'template': template(' ', [{
+	          'expressions': [{
+	            'type': expressionTypes.TEXT,
+	            'childNodeIndex': 0,
+
+	            'evaluate': function(scope) {
+	              return scope.props.label;
+	            }
+	          }]
+	        }])
+	      }, {
+	        'type': bindingTypes.SLOT,
+	        'attributes': [],
+	        'name': 'default',
+	        'redundantAttribute': 'expr9',
+	        'selector': '[expr9]'
 	      }]
 	    );
 	  },
