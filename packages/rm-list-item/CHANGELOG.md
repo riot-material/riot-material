@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.5] - 2020-12-05
+- handle better the "leading" slot
+- update README
+
 ## [1.0.4] - 2020-12-05
 - use always ripple
 - add slot "leading" and "trailing"

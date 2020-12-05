@@ -2,18 +2,33 @@
     <div style="background: white; padding: 8px 0;">
         <rm-list-item label="Only text"></rm-list-item>
         <rm-list-item label="With trailing icon">
-            <rm-button variant="icon" style="margin: -8px; vertical-align: top;" slot="trailing">more_vert</rm-button>
+            <rm-button variant="icon" slot="trailing">more_vert</rm-button>
         </rm-list-item>
         <rm-list-item label="With leading icon">
             <rm-icon slot="leading">home</rm-icon>
         </rm-list-item>
         <rm-list-item label="With both leading and trailing icon">
             <rm-icon slot="leading">home</rm-icon>
-            <rm-button variant="icon" style="margin: -8px; vertical-align: top;" slot="trailing">more_vert</rm-button>
+            <rm-button variant="icon" slot="trailing">more_vert</rm-button>
         </rm-list-item>
         <rm-list-item label="With leading icon and meta text">
             <rm-icon slot="leading">home</rm-icon>
             <span slot="trailing">Meta</span>
+        </rm-list-item>
+        <rm-list-item label="With avatar">
+            <rm-circular-avatar slot="leading"></rm-circular-avatar>
+        </rm-list-item>
+        <rm-list-item label="With avatar and trailing icon">
+            <rm-circular-avatar slot="leading"></rm-circular-avatar>
+            <rm-button variant="icon" slot="trailing">more_vert</rm-button>
+        </rm-list-item>
+        <rm-list-item label="With image and trailing icon">
+            <rm-list-image slot="leading"></rm-list-image>
+            <rm-button variant="icon" slot="trailing">more_vert</rm-button>
+        </rm-list-item>
+        <rm-list-item label="With large image and trailing icon">
+            <rm-list-image large slot="leading"></rm-list-image>
+            <rm-button variant="icon" slot="trailing">more_vert</rm-button>
         </rm-list-item>
     </div>
 </test>

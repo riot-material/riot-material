@@ -44,6 +44,9 @@ window.riotMaterial.components.listItem;
 `@riot-material/ripple`  
 Be sure to have them when installing manually or including via html*
 ## Properties
-### `disabled`
+<!-- ### `disabled` -->
 ### `label` *optional*
 ### `value` *optional*
+## Slots
+### `leading`
+### `trailing`

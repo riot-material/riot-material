@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-list-item",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -12,7 +12,9 @@
   "license": "MIT",
   "devDependencies": {
     "@riot-material/rm-button": "^1.0.4",
+    "@riot-material/rm-circular-avatar": "^1.0.0",
     "@riot-material/rm-icon": "^1.0.3",
+    "@riot-material/rm-list-image": "^1.0.0",
     "@riotjs/compiler": "^5.1.2",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",

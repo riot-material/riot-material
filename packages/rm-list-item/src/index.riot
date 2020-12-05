@@ -1,9 +1,9 @@
 <rm-list-item tabindex="0">
     <div style="display: table; width: 100%;">
-        <div style="display: table-cell; width: 1px; padding-right: 32px;" if={ _hasLeadingSlot() }>
+        <div style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;" if={ _hasLeadingSlot() }>
             <slot name="leading"></slot>
         </div>
-        <div style="display: table-cell; max-width: 1px;"><div>
+        <div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div>
             <span style="float: right;"><slot name="trailing"></slot></span>
             <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{ props.label }</div>
             <div style="clear: both;"></div>
@@ -14,13 +14,21 @@
         :host {
             outline: none;
             display: block;
-            padding: .75em 1em;
+            padding: .5em 1em;
             line-height: 1.5em;
             cursor: pointer;
             user-select: none;
         }
         :host[short-inset] {
             padding-left: 1.5em;
+        }
+
+        rm-icon, .material-icons {
+            margin-right: 16px;
+        }
+        rm-button {
+            margin: -8px;
+            vertical-align: top;
         }
     </style>
 

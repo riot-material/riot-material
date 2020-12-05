@@ -5,7 +5,7 @@
 }(this, (function (ripple) { 'use strict';
 
     var index = {
-      'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .75em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; }`,
+      'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item[short-inset],[is="rm-list-item"][short-inset]{ padding-left: 1.5em; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; }`,
 
       'exports': {
         _hasLeadingSlot() {
@@ -39,7 +39,7 @@
 
       'template': function(template, expressionTypes, bindingTypes, getComponent) {
         return template(
-          '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 32px;"></div><div style="display: table-cell; max-width: 1px;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div expr3="expr3" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> </div><div style="clear: both;"></div></div></div></div>',
+          '<div style="display: table; width: 100%;"><div expr32="expr32" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr34="expr34" name="trailing"></slot></span><div expr35="expr35" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> </div><div style="clear: both;"></div></div></div></div>',
           [{
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -56,25 +56,25 @@
               return scope._hasLeadingSlot();
             },
 
-            'redundantAttribute': 'expr0',
-            'selector': '[expr0]',
+            'redundantAttribute': 'expr32',
+            'selector': '[expr32]',
 
-            'template': template('<slot expr1="expr1" name="leading"></slot>', [{
+            'template': template('<slot expr33="expr33" name="leading"></slot>', [{
               'type': bindingTypes.SLOT,
               'attributes': [],
               'name': 'leading',
-              'redundantAttribute': 'expr1',
-              'selector': '[expr1]'
+              'redundantAttribute': 'expr33',
+              'selector': '[expr33]'
             }])
           }, {
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'trailing',
-            'redundantAttribute': 'expr2',
-            'selector': '[expr2]'
+            'redundantAttribute': 'expr34',
+            'selector': '[expr34]'
           }, {
-            'redundantAttribute': 'expr3',
-            'selector': '[expr3]',
+            'redundantAttribute': 'expr35',
+            'selector': '[expr35]',
 
             'expressions': [{
               'type': expressionTypes.TEXT,

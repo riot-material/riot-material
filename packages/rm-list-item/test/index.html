@@ -15,12 +15,16 @@
         <script src="../node_modules/@riot-material/ripple/dist/index+libs.js"></script>
         <script src="../node_modules/@riot-material/rm-icon/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-button/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-circular-avatar/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-list-image/dist/index.js"></script>
         <script src="../dist/index.js"></script>
 
         <script data-src="test.riot" type="riot"></script>
 
         <script>
             riot.compile().then(() => {
+                riot.register("rm-circular-avatar", riotMaterial.components.circularAvatar);
+                riot.register("rm-list-image", riotMaterial.components.listImage);
                 riot.register("rm-list-item", riotMaterial.components.listItem);
                 riot.register("rm-icon", riotMaterial.components.icon);
                 riot.register("rm-button", riotMaterial.components.button);
