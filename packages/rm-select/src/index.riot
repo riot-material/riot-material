@@ -80,8 +80,6 @@
         import MenuComponent from "@riot-material/rm-menu";
         import { ripple } from "@riot-material/ripple";
 
-        // import * as riot from "riot";
-
         import beforeFocusListener from "@riot-material/before-focus-listener";
 
         const blockedInputs = [];
@@ -99,6 +97,7 @@
             _menu: null,
             _input: null,
             _onmenuselected(event) {
+                this._lastSelectedOption = event.target;
                 this.update({ selected: [ event.detail.value || "" ], menuopened: false });
             },
             onBeforeMount() {
@@ -119,6 +118,7 @@
             _onclickFirstChild: null,
             _onclickArrow: null,
             onMounted() {
+
                 const input = this._input = this.root.querySelector("input");
                 
                 Object.defineProperty(input, "value", {
@@ -129,22 +129,28 @@
                 Object.defineProperty(input, "label", { get: HTMLInputElement.prototype.__lookupGetter__("value").bind(input) });
 
                 this.root.children[1].addEventListener("keydown", event => {
-                    if (!this.state.menuopened && [ 32 ].some(keyCode => event.keyCode === keyCode)) {
+                    if (!this.state.menuopened && [ "Space" ].some(key => event.key === key)) {
                         this.update({ menuopened: true });
                         event.stopImmediatePropagation();
-                    } else if (this.state.menuopened && [ 27 ].some(keyCode => event.keyCode === keyCode)) {
+                    } else if (this.state.menuopened && [ "Escape" ].some(key => event.key === key)) {
                         this.update({ menuopened: false });
                         event.stopImmediatePropagation();
                     } else if (!this.state.menuopened) {
-                        switch (event.keyCode) {
-                            case 40: {
+                        switch (event.key) {
+                            case "ArrowDown": {
                                 if (this.isMultiple() || this.isFilterable()) {
                                     this.update({ menuopened: true });
                                 } else {
                                     const options = this._menu.options;
                                     if (options.length !== 0) {
                                         if (this.state.selected.length === 0) {
-                                            this.root.value = options[0].value;
+                                            options.some(option => {
+                                                if (option.value === this.root.value) {
+                                                    return false;
+                                                }
+                                                this.root.value = option.value;
+                                                return true;
+                                            });
                                         } else {
                                             const value = this.state.selected[0];
                                             let index = 0;
@@ -165,7 +171,7 @@
                                 event.preventDefault();
                                 break;
                             }
-                            case 38: {
+                            case "ArrowUp": {
                                 if (this.isMultiple() || this.isFilterable()) {
                                     this.update({ menuopened: true });
                                 } else {
@@ -363,6 +369,7 @@
                 if (this._mounted) {
                     this.update({ menuopened: this.isMultiple() ? state.menuopened : false, refreshLabel: true });
                 }
+                HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
             },
             hasSelected(value) {
                 return this.state.selected.some(s => s === value);

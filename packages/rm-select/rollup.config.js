@@ -23,21 +23,12 @@ export default [
         ],
         output: [
             {
-                file: "dist/index.js",
-                format: "cjs",
-                exports: "auto"
-            },
-            {
                 file: "dist/index.es.js",
                 format: "es"
             },
             {
-                file: "dist/index.amd.js",
-                format: "amd"
-            },
-            {
                 name: "riotMaterial.components.select",
-                file: "dist/index.umd.js",
+                file: "dist/index.js",
                 format: "umd",
                 globals
             }
@@ -53,12 +44,8 @@ export default [
         ],
         output: [
             {
-                file: "dist/index.amd+libs.js",
-                format: "amd"
-            },
-            {
                 name: "riotMaterial.components.select",
-                file: "dist/index.umd+libs.js",
+                file: "dist/index+libs.js",
                 format: "umd",
                 globals: {
                     "riot": "riot"

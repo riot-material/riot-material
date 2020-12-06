@@ -9,21 +9,23 @@
 
         <script src="../node_modules/riot/riot+compiler.js"></script>
         <script src="../node_modules/@riot-material/before-focus-listener/dist/index.umd.js"></script>
-        <script src="../node_modules/@riot-material/rm-icon/dist/index.umd.js"></script>
-        <script src="../node_modules/@riot-material/ripple/dist/index.umd+libs.js"></script>
-        <script src="../node_modules/@riot-material/rm-button/dist/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/rm-icon/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/ripple/dist/index+libs.js"></script>
+        <script src="../node_modules/@riot-material/rm-button/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-textfield-container/dist/index.umd.js"></script>
         <script src="../node_modules/@riot-material/focus-manager/dist/index.umd.js"></script>
         <script src="../node_modules/@riot-material/elevation/dist/index.umd.js"></script>
         <script src="../node_modules/@riot-material/rm-menu/dist/index.umd.js"></script>
-        <script src="../dist/index.umd.js"></script>
-        <script src="../node_modules/@riot-material/rm-list-item/dist/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/rm-list-item/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-list-group/dist/index.js"></script>
+        <script src="../dist/index.js"></script>
         <script data-src="test.riot" type="riot"></script>
 
         <script>
             riot.compile().then(() => {
                 console.log(riotMaterial);
                 riot.register("rm-select", riotMaterial.components.select);
+                riot.register("rm-list-group", riotMaterial.components.listGroup);
                 riot.register("rm-list-item", riotMaterial.components.listItem);
                 riot.mount("test");
             });

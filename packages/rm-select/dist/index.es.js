@@ -24,6 +24,7 @@ var index = {
     _input: null,
 
     _onmenuselected(event) {
+        this._lastSelectedOption = event.target;
         this.update({ selected: [ event.detail.value || "" ], menuopened: false });
     },
 
@@ -47,6 +48,7 @@ var index = {
     _onclickArrow: null,
 
     onMounted() {
+
         const input = this._input = this.root.querySelector("input");
         
         Object.defineProperty(input, "value", {
@@ -57,22 +59,28 @@ var index = {
         Object.defineProperty(input, "label", { get: HTMLInputElement.prototype.__lookupGetter__("value").bind(input) });
 
         this.root.children[1].addEventListener("keydown", event => {
-            if (!this.state.menuopened && [ 32 ].some(keyCode => event.keyCode === keyCode)) {
+            if (!this.state.menuopened && [ "Space" ].some(key => event.key === key)) {
                 this.update({ menuopened: true });
                 event.stopImmediatePropagation();
-            } else if (this.state.menuopened && [ 27 ].some(keyCode => event.keyCode === keyCode)) {
+            } else if (this.state.menuopened && [ "Escape" ].some(key => event.key === key)) {
                 this.update({ menuopened: false });
                 event.stopImmediatePropagation();
             } else if (!this.state.menuopened) {
-                switch (event.keyCode) {
-                    case 40: {
+                switch (event.key) {
+                    case "ArrowDown": {
                         if (this.isMultiple() || this.isFilterable()) {
                             this.update({ menuopened: true });
                         } else {
                             const options = this._menu.options;
                             if (options.length !== 0) {
                                 if (this.state.selected.length === 0) {
-                                    this.root.value = options[0].value;
+                                    options.some(option => {
+                                        if (option.value === this.root.value) {
+                                            return false;
+                                        }
+                                        this.root.value = option.value;
+                                        return true;
+                                    });
                                 } else {
                                     const value = this.state.selected[0];
                                     let index = 0;
@@ -93,7 +101,7 @@ var index = {
                         event.preventDefault();
                         break;
                     }
-                    case 38: {
+                    case "ArrowUp": {
                         if (this.isMultiple() || this.isFilterable()) {
                             this.update({ menuopened: true });
                         } else {
@@ -308,6 +316,7 @@ var index = {
         if (this._mounted) {
             this.update({ menuopened: this.isMultiple() ? state.menuopened : false, refreshLabel: true });
         }
+        HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
     },
 
     hasSelected(value) {
@@ -323,7 +332,7 @@ var index = {
 
   'template': function(template, expressionTypes, bindingTypes, getComponent) {
     return template(
-      '<rm-menu expr0="expr0" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr2="expr2"></rm-textfield-container>',
+      '<rm-menu expr342="expr342" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr344="expr344"></rm-textfield-container>',
       [{
         'type': bindingTypes.TAG,
         'getComponent': getComponent,
@@ -334,14 +343,14 @@ var index = {
 
         'slots': [{
           'id': 'default',
-          'html': '<div ref="rm-select-menu"><slot expr1="expr1"></slot></div>',
+          'html': '<div ref="rm-select-menu"><slot expr343="expr343"></slot></div>',
 
           'bindings': [{
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'default',
-            'redundantAttribute': 'expr1',
-            'selector': '[expr1]'
+            'redundantAttribute': 'expr343',
+            'selector': '[expr343]'
           }]
         }],
 
@@ -375,8 +384,8 @@ var index = {
           }
         }],
 
-        'redundantAttribute': 'expr0',
-        'selector': '[expr0]'
+        'redundantAttribute': 'expr342',
+        'selector': '[expr342]'
       }, {
         'type': bindingTypes.TAG,
         'getComponent': getComponent,
@@ -387,11 +396,11 @@ var index = {
 
         'slots': [{
           'id': 'input',
-          'html': '<span slot="input"><input expr3="expr3" class="rm-select--input"/><div expr4="expr4" class="rm-select--label"> </div></span>',
+          'html': '<span slot="input"><input expr345="expr345" class="rm-select--input"/><div expr346="expr346" class="rm-select--label"> </div></span>',
 
           'bindings': [{
-            'redundantAttribute': 'expr3',
-            'selector': '[expr3]',
+            'redundantAttribute': 'expr345',
+            'selector': '[expr345]',
 
             'expressions': [{
               'type': expressionTypes.EVENT,
@@ -430,8 +439,8 @@ var index = {
               }
             }]
           }, {
-            'redundantAttribute': 'expr4',
-            'selector': '[expr4]',
+            'redundantAttribute': 'expr346',
+            'selector': '[expr346]',
 
             'expressions': [{
               'type': expressionTypes.TEXT,
@@ -444,18 +453,18 @@ var index = {
           }]
         }, {
           'id': 'leading',
-          'html': '<slot expr5="expr5" name="leading" slot="leading"></slot>',
+          'html': '<slot expr347="expr347" name="leading" slot="leading"></slot>',
 
           'bindings': [{
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'leading',
-            'redundantAttribute': 'expr5',
-            'selector': '[expr5]'
+            'redundantAttribute': 'expr347',
+            'selector': '[expr347]'
           }]
         }, {
           'id': 'trailing',
-          'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr6="expr6" variant="icon" class="rm-select--clear" dense></rm-button><slot expr7="expr7" name="trailing"></slot><rm-button expr8="expr8" variant="icon" tabindex="-1" dense></rm-button></span>',
+          'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr348="expr348" variant="icon" class="rm-select--clear" dense></rm-button><slot expr349="expr349" name="trailing"></slot><rm-button expr350="expr350" variant="icon" tabindex="-1" dense></rm-button></span>',
 
           'bindings': [{
             'type': bindingTypes.IF,
@@ -464,8 +473,8 @@ var index = {
               return scope.isClearable() && scope.root.value;
             },
 
-            'redundantAttribute': 'expr6',
-            'selector': '[expr6]',
+            'redundantAttribute': 'expr348',
+            'selector': '[expr348]',
 
             'template': template(null, [{
               'type': bindingTypes.TAG,
@@ -501,8 +510,8 @@ var index = {
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'trailing',
-            'redundantAttribute': 'expr7',
-            'selector': '[expr7]'
+            'redundantAttribute': 'expr349',
+            'selector': '[expr349]'
           }, {
             'type': bindingTypes.TAG,
             'getComponent': getComponent,
@@ -529,8 +538,8 @@ var index = {
               }
             }],
 
-            'redundantAttribute': 'expr8',
-            'selector': '[expr8]'
+            'redundantAttribute': 'expr350',
+            'selector': '[expr350]'
           }]
         }],
 
@@ -571,8 +580,8 @@ var index = {
           }
         }],
 
-        'redundantAttribute': 'expr2',
-        'selector': '[expr2]'
+        'redundantAttribute': 'expr344',
+        'selector': '[expr344]'
       }]
     );
   },

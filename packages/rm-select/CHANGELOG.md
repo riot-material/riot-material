@@ -1,6 +1,11 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.9] - 2020-12-06
+- fix label on selection
+- change dist structure
+- update "package.json" entry point
+
 ## [1.0.8] - 2020-12-01
 - select last option with "selected" attribute set
 - `getOptions()` returns options from menu component
