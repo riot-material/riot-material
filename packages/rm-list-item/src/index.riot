@@ -60,7 +60,10 @@
                 });
                 Object.defineProperty(this.root, "label", {
                     get: () => {
-                        return this.props.label == null ? this.root.innerText : this.props.label + "";
+                        return this.props.label == null ?
+                            (this._hasSlot("default") ? this.root.innerText : "") :
+                            this.props.label + ""
+                        ;
                     }
                 });
                 if (this.props.value != null && this.props.menuOption == null) {

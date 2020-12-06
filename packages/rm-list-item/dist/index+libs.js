@@ -891,7 +891,10 @@
 	        });
 	        Object.defineProperty(this.root, "label", {
 	            get: () => {
-	                return this.props.label == null ? this.root.innerText : this.props.label + "";
+	                return this.props.label == null ?
+	                    (this._hasSlot("default") ? this.root.innerText : "") :
+	                    this.props.label + ""
+	                ;
 	            }
 	        });
 	        if (this.props.value != null && this.props.menuOption == null) {
@@ -907,7 +910,7 @@
 
 	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
 	    return template(
-	      '<div style="display: table; width: 100%;"><div expr15="expr15" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr17="expr17" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr18="expr18"></template><slot expr19="expr19"></slot></div><div style="clear: both;"></div></div></div></div>',
+	      '<div style="display: table; width: 100%;"><div expr5="expr5" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr7="expr7" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr8="expr8"></template><slot expr9="expr9"></slot></div><div style="clear: both;"></div></div></div></div>',
 	      [{
 	        'expressions': [{
 	          'type': expressionTypes.ATTRIBUTE,
@@ -924,22 +927,22 @@
 	          return scope._hasSlot("leading");
 	        },
 
-	        'redundantAttribute': 'expr15',
-	        'selector': '[expr15]',
+	        'redundantAttribute': 'expr5',
+	        'selector': '[expr5]',
 
-	        'template': template('<slot expr16="expr16" name="leading"></slot>', [{
+	        'template': template('<slot expr6="expr6" name="leading"></slot>', [{
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'leading',
-	          'redundantAttribute': 'expr16',
-	          'selector': '[expr16]'
+	          'redundantAttribute': 'expr6',
+	          'selector': '[expr6]'
 	        }])
 	      }, {
 	        'type': bindingTypes.SLOT,
 	        'attributes': [],
 	        'name': 'trailing',
-	        'redundantAttribute': 'expr17',
-	        'selector': '[expr17]'
+	        'redundantAttribute': 'expr7',
+	        'selector': '[expr7]'
 	      }, {
 	        'type': bindingTypes.IF,
 
@@ -947,8 +950,8 @@
 	          return !scope._hasSlot("default");
 	        },
 
-	        'redundantAttribute': 'expr18',
-	        'selector': '[expr18]',
+	        'redundantAttribute': 'expr8',
+	        'selector': '[expr8]',
 
 	        'template': template(' ', [{
 	          'expressions': [{
@@ -964,8 +967,8 @@
 	        'type': bindingTypes.SLOT,
 	        'attributes': [],
 	        'name': 'default',
-	        'redundantAttribute': 'expr19',
-	        'selector': '[expr19]'
+	        'redundantAttribute': 'expr9',
+	        'selector': '[expr9]'
 	      }]
 	    );
 	  },
