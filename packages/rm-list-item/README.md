@@ -7,10 +7,8 @@ npm install @riot-material/rm-list-item
 or download one of the bundled file
 ```js
 /**
- * `dist/index.amd.js`
- * `dist/index.amd+libs.js`
- * `dist/index.umd.js`
- * `dist/index.umd+libs.js`
+ * `dist/index.js`
+ * `dist/index+libs.js`
  */
 requirejs.config({
   paths: {
@@ -23,7 +21,6 @@ require(['@riot-material/rm-list-item'], function (ListItemComponent) {
 });
 
 /**
- * `dist/index.js`
  * `dist/index.es.js`
  * npm installation
  */
@@ -32,9 +29,9 @@ import ListItemComponent from "@riot-material/rm-list-item";
 ```
 otherwise you can include the script in your project html
 ```html
-<script src="@riot-material/rm-list-item/index.umd.js" />
+<script src="@riot-material/rm-list-item/index.js" />
 <!-- or -->
-<script src="@riot-material/rm-list-item/index.umd+libs.js" />
+<script src="@riot-material/rm-list-item/index+libs.js" />
 ```
 and access it via
 ```js

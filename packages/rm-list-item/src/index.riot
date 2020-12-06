@@ -6,7 +6,7 @@
         <div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div>
             <span style="float: right;"><slot name="trailing"></slot></span>
             <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                <template if={ !_hasSlot("default") }>{ props.label }</template>
+                <template if={ !_hasSlot("default") }>{ props.label || "\xa0" }</template>
                 <slot></slot>
             </div>
             <div style="clear: both;"></div>

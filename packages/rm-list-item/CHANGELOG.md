@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.8] - 2020-12-06
+- correct size when label is empty
+- update README
+
 ## [1.0.7] - 2020-12-05
 - add "passive" prop
 - remove "short-inset" prop
