@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.15] - 2020-12-07
+- add highlight when selected
+- passive rm-list-item can't be selected
+
 ## [1.0.14] - 2020-12-07
 - remove highlight and focusability from passive rm-list-item
 

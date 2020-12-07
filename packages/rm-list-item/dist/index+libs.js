@@ -864,6 +864,8 @@
 	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; }`,
 
 	  'exports': {
+	    _selectedHighlight: null,
+
 	    _hasSlot(name) {
 	        return this.slots.some(slot => slot.id === name);
 	    },
@@ -876,8 +878,15 @@
 	    _updateSelected() {
 	        if (this.isSelected()) {
 	            this.root.classList.add("selected");
+	            if (this._selectedHighlight == null) {
+	                this._selectedHighlight = ripple(this.root).highlight();
+	            }
 	        } else {
 	            this.root.classList.remove("selected");
+	            if (this._selectedHighlight != null) {
+	                this._selectedHighlight.end();
+	                this._selectedHighlight = null;
+	            }
 	        }
 	    },
 
@@ -933,9 +942,12 @@
 	    },
 
 	    isSelected() {
-	        return this.state.selected != null ?
-	            this.state.selected !== false :
-	            (this.props.selected != null && this.props.selected !== false)
+	        return this.isPassive() ?
+	            false :
+	            (this.state.selected != null ?
+	                this.state.selected !== false :
+	                (this.props.selected != null && this.props.selected !== false)
+	            )
 	        ;
 	    }
 	  },
@@ -947,7 +959,7 @@
 	    getComponent
 	  ) {
 	    return template(
-	      '<div style="display: table; width: 100%;"><div expr25="expr25" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr27="expr27" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr28="expr28"></template><slot expr29="expr29"></slot></div><div style="clear: both;"></div></div></div></div>',
+	      '<div style="display: table; width: 100%;"><div expr5="expr5" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr7="expr7" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr8="expr8"></template><slot expr9="expr9"></slot></div><div style="clear: both;"></div></div></div></div>',
 	      [
 	        {
 	          'expressions': [
@@ -982,18 +994,18 @@
 	            return scope._hasSlot("leading");
 	          },
 
-	          'redundantAttribute': 'expr25',
-	          'selector': '[expr25]',
+	          'redundantAttribute': 'expr5',
+	          'selector': '[expr5]',
 
 	          'template': template(
-	            '<slot expr26="expr26" name="leading"></slot>',
+	            '<slot expr6="expr6" name="leading"></slot>',
 	            [
 	              {
 	                'type': bindingTypes.SLOT,
 	                'attributes': [],
 	                'name': 'leading',
-	                'redundantAttribute': 'expr26',
-	                'selector': '[expr26]'
+	                'redundantAttribute': 'expr6',
+	                'selector': '[expr6]'
 	              }
 	            ]
 	          )
@@ -1002,8 +1014,8 @@
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'trailing',
-	          'redundantAttribute': 'expr27',
-	          'selector': '[expr27]'
+	          'redundantAttribute': 'expr7',
+	          'selector': '[expr7]'
 	        },
 	        {
 	          'type': bindingTypes.IF,
@@ -1014,8 +1026,8 @@
 	            return !scope._hasSlot("default");
 	          },
 
-	          'redundantAttribute': 'expr28',
-	          'selector': '[expr28]',
+	          'redundantAttribute': 'expr8',
+	          'selector': '[expr8]',
 
 	          'template': template(
 	            ' ',
@@ -1041,8 +1053,8 @@
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'default',
-	          'redundantAttribute': 'expr29',
-	          'selector': '[expr29]'
+	          'redundantAttribute': 'expr9',
+	          'selector': '[expr9]'
 	        }
 	      ]
 	    );

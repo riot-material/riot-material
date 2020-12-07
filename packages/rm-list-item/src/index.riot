@@ -47,6 +47,7 @@
         import { ripple } from "@riot-material/ripple";
 
         export default {
+            _selectedHighlight: null,
             _hasSlot(name) {
                 return this.slots.some(slot => slot.id === name);
             },
@@ -57,8 +58,15 @@
             _updateSelected() {
                 if (this.isSelected()) {
                     this.root.classList.add("selected");
+                    if (this._selectedHighlight == null) {
+                        this._selectedHighlight = ripple(this.root).highlight();
+                    }
                 } else {
                     this.root.classList.remove("selected");
+                    if (this._selectedHighlight != null) {
+                        this._selectedHighlight.end();
+                        this._selectedHighlight = null;
+                    }
                 }
             },
             isPassive() {
@@ -109,9 +117,12 @@
                 this._updateSelected();
             },
             isSelected() {
-                return this.state.selected != null ?
-                    this.state.selected !== false :
-                    (this.props.selected != null && this.props.selected !== false)
+                return this.isPassive() ?
+                    false :
+                    (this.state.selected != null ?
+                        this.state.selected !== false :
+                        (this.props.selected != null && this.props.selected !== false)
+                    )
                 ;
             }
         }
