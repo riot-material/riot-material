@@ -82,18 +82,16 @@ var Ripple = (function () {
             return;
         }
         var rect = this._div.getBoundingClientRect();
-        if (rect.width === 0 && rect.height === 0) {
-            element.removeChild(this._div);
-            return;
-        }
-        if (this._computedStyle.transform === scaleUpStyle) {
-            if (this._computedStyle.opacity === "0") {
-                element.removeChild(this._div);
-                return;
-            }
-            else {
-                if (this._ended) {
-                    this._div.style.opacity = "0";
+        if (rect.width !== 0 || rect.height !== 0) {
+            if (this._computedStyle.transform === scaleUpStyle) {
+                if (this._computedStyle.opacity === "0") {
+                    element.removeChild(this._div);
+                    return;
+                }
+                else {
+                    if (this._ended) {
+                        this._div.style.opacity = "0";
+                    }
                 }
             }
         }

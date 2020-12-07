@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.5] - 2020-12-07
+- make ripple does not vanish when the element they are attached to is currently not visibile
+
 ## [1.0.4] - 2020-12-05
 - set default "usePointerFocus" and "stopRippling" to true
 - change dist structure
