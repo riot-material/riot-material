@@ -61,23 +61,31 @@
             },
             onMounted() {
                 let value = undefined;
-                Object.defineProperty(this.root, "value", {
-                    get: () => {
-                        if (value === undefined) {
-                            return this.props.value == null ? null : this.props.value + "";
+                Object.defineProperties(this.root, {
+                    value: {
+                        get: () => {
+                            if (value === undefined) {
+                                return this.props.value == null ? null : this.props.value + "";
+                            }
+                            return value;
+                        },
+                        set(v) {
+                            value = v == null ? null : this.props.value + "";
                         }
-                        return value;
                     },
-                    set(v) {
-                        value = v == null ? null : this.props.value + "";
-                    }
-                });
-                Object.defineProperty(this.root, "label", {
-                    get: () => {
-                        return this.props.label == null ?
-                            (this._hasSlot("default") ? this.root.innerText : "") :
-                            this.props.label + ""
-                        ;
+                    label: {
+                        get: () => {
+                            return this.props.label == null ?
+                                (this._hasSlot("default") ? this.root.innerText : "") :
+                                this.props.label + ""
+                            ;
+                        }
+                    },
+                    selected: {
+                        get: () => this.isSelected(),
+                        set: value => {
+                            this.update({ selected: value != null && value !== false });
+                        }
                     }
                 });
                 if (this.props.value != null && this.props.menuOption == null) {

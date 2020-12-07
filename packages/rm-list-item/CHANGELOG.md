@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.13] - 2020-12-07
+- add `selected` property to `root`
+
 ## [1.0.12] - 2020-12-07
 - fix `selected` prop again
 
