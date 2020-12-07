@@ -87,7 +87,7 @@
                 this._updateSelected();
             },
             shouldUpdate(newProps, currentProps) {
-                if (newProps.selected !== currentProps.selected) {
+                if ("selected" in newProps) {
                     delete this.state.selected;
                 }
             },

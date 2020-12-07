@@ -53,7 +53,7 @@ var index = {
     },
 
     shouldUpdate(newProps, currentProps) {
-        if (newProps.selected !== currentProps.selected) {
+        if ("selected" in newProps) {
             delete this.state.selected;
         }
     },
@@ -78,7 +78,7 @@ var index = {
     getComponent
   ) {
     return template(
-      '<div style="display: table; width: 100%;"><div expr10="expr10" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr12="expr12" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr13="expr13"></template><slot expr14="expr14"></slot></div><div style="clear: both;"></div></div></div></div>',
+      '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
       [
         {
           'expressions': [
@@ -113,18 +113,18 @@ var index = {
             return scope._hasSlot("leading");
           },
 
-          'redundantAttribute': 'expr10',
-          'selector': '[expr10]',
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
 
           'template': template(
-            '<slot expr11="expr11" name="leading"></slot>',
+            '<slot expr1="expr1" name="leading"></slot>',
             [
               {
                 'type': bindingTypes.SLOT,
                 'attributes': [],
                 'name': 'leading',
-                'redundantAttribute': 'expr11',
-                'selector': '[expr11]'
+                'redundantAttribute': 'expr1',
+                'selector': '[expr1]'
               }
             ]
           )
@@ -133,8 +133,8 @@ var index = {
           'type': bindingTypes.SLOT,
           'attributes': [],
           'name': 'trailing',
-          'redundantAttribute': 'expr12',
-          'selector': '[expr12]'
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]'
         },
         {
           'type': bindingTypes.IF,
@@ -145,8 +145,8 @@ var index = {
             return !scope._hasSlot("default");
           },
 
-          'redundantAttribute': 'expr13',
-          'selector': '[expr13]',
+          'redundantAttribute': 'expr3',
+          'selector': '[expr3]',
 
           'template': template(
             ' ',
@@ -172,8 +172,8 @@ var index = {
           'type': bindingTypes.SLOT,
           'attributes': [],
           'name': 'default',
-          'redundantAttribute': 'expr14',
-          'selector': '[expr14]'
+          'redundantAttribute': 'expr4',
+          'selector': '[expr4]'
         }
       ]
     );
