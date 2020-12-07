@@ -60,6 +60,9 @@ var index = {
         let _lastSelectedOption = null;
         Object.defineProperty(this, "_lastSelectedOption", {
             set(option) {
+                if (option === this._lastSelectedOption) {
+                    return;
+                }
                 const newOptionComponent = option[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                 if (newOptionComponent != null) {
                     newOptionComponent.update({ selected: true });

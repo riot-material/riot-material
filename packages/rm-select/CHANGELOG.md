@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.11] - 2020-12-07
+- fix _lastSelectedOption bug
+
 ## [1.0.10] - 2020-12-07
 - delegate "selected" property to options and compute value on the fly
 - add "_lastSelectedOption" property
