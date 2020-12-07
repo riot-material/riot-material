@@ -861,7 +861,7 @@
 	}
 
 	var index = {
-	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item[selected],[is="rm-list-item"][selected]{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); }`,
+	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); }`,
 
 	  'exports': {
 	    _hasSlot(name) {
@@ -870,6 +870,14 @@
 
 	    _updateRipple() {
 	        ripple(this.root, { highlight: true, instantHighlight: true, disabled: this.isPassive() });
+	    },
+
+	    _updateSelected() {
+	        if (this.isSelected()) {
+	            this.root.classList.add("selected");
+	        } else {
+	            this.root.classList.remove("selected");
+	        }
 	    },
 
 	    isPassive() {
@@ -901,6 +909,7 @@
 	            this.root.setAttribute("menu-option", "");
 	        }
 	        this._updateRipple();
+	        this._updateSelected();
 	    },
 
 	    shouldUpdate(newProps, currentProps) {
@@ -911,6 +920,7 @@
 
 	    onUpdated() {
 	        this._updateRipple();
+	        this._updateSelected();
 	    },
 
 	    isSelected() {
@@ -928,7 +938,7 @@
 	    getComponent
 	  ) {
 	    return template(
-	      '<div style="display: table; width: 100%;"><div expr5="expr5" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr7="expr7" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr8="expr8"></template><slot expr9="expr9"></slot></div><div style="clear: both;"></div></div></div></div>',
+	      '<div style="display: table; width: 100%;"><div expr15="expr15" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr17="expr17" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr18="expr18"></template><slot expr19="expr19"></slot></div><div style="clear: both;"></div></div></div></div>',
 	      [
 	        {
 	          'expressions': [
@@ -951,16 +961,6 @@
 	              ) {
 	                return scope.isSelected() && scope.props.selectedColor != null ? "color:" + scope.props.selectedColor + ";" : "";
 	              }
-	            },
-	            {
-	              'type': expressionTypes.ATTRIBUTE,
-	              'name': 'class',
-
-	              'evaluate': function(
-	                scope
-	              ) {
-	                return scope.isSelected() ? "selected": "";
-	              }
 	            }
 	          ]
 	        },
@@ -973,18 +973,18 @@
 	            return scope._hasSlot("leading");
 	          },
 
-	          'redundantAttribute': 'expr5',
-	          'selector': '[expr5]',
+	          'redundantAttribute': 'expr15',
+	          'selector': '[expr15]',
 
 	          'template': template(
-	            '<slot expr6="expr6" name="leading"></slot>',
+	            '<slot expr16="expr16" name="leading"></slot>',
 	            [
 	              {
 	                'type': bindingTypes.SLOT,
 	                'attributes': [],
 	                'name': 'leading',
-	                'redundantAttribute': 'expr6',
-	                'selector': '[expr6]'
+	                'redundantAttribute': 'expr16',
+	                'selector': '[expr16]'
 	              }
 	            ]
 	          )
@@ -993,8 +993,8 @@
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'trailing',
-	          'redundantAttribute': 'expr7',
-	          'selector': '[expr7]'
+	          'redundantAttribute': 'expr17',
+	          'selector': '[expr17]'
 	        },
 	        {
 	          'type': bindingTypes.IF,
@@ -1005,8 +1005,8 @@
 	            return !scope._hasSlot("default");
 	          },
 
-	          'redundantAttribute': 'expr8',
-	          'selector': '[expr8]',
+	          'redundantAttribute': 'expr18',
+	          'selector': '[expr18]',
 
 	          'template': template(
 	            ' ',
@@ -1032,8 +1032,8 @@
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
 	          'name': 'default',
-	          'redundantAttribute': 'expr9',
-	          'selector': '[expr9]'
+	          'redundantAttribute': 'expr19',
+	          'selector': '[expr19]'
 	        }
 	      ]
 	    );
