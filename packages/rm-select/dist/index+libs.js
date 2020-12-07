@@ -185,21 +185,6 @@
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-  function getAugmentedNamespace(n) {
-  	if (n.__esModule) return n;
-  	var a = Object.defineProperty({}, '__esModule', {value: true});
-  	Object.keys(n).forEach(function (k) {
-  		var d = Object.getOwnPropertyDescriptor(n, k);
-  		Object.defineProperty(a, k, d.get ? d : {
-  			enumerable: true,
-  			get: function () {
-  				return n[k];
-  			}
-  		});
-  	});
-  	return a;
-  }
-
   function createCommonjsModule(fn) {
     var module = { exports: {} };
   	return fn(module, module.exports), module.exports;
@@ -798,18 +783,16 @@
               return;
           }
           var rect = this._div.getBoundingClientRect();
-          if (rect.width === 0 && rect.height === 0) {
-              element.removeChild(this._div);
-              return;
-          }
-          if (this._computedStyle.transform === scaleUpStyle) {
-              if (this._computedStyle.opacity === "0") {
-                  element.removeChild(this._div);
-                  return;
-              }
-              else {
-                  if (this._ended) {
-                      this._div.style.opacity = "0";
+          if (rect.width !== 0 || rect.height !== 0) {
+              if (this._computedStyle.transform === scaleUpStyle) {
+                  if (this._computedStyle.opacity === "0") {
+                      element.removeChild(this._div);
+                      return;
+                  }
+                  else {
+                      if (this._ended) {
+                          this._div.style.opacity = "0";
+                      }
                   }
               }
           }
@@ -1056,13 +1039,6 @@
   function isRipple(element) {
       return element[RIPPLE] != null;
   }
-
-  var index_es = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    get TYPE () { return TYPE; },
-    isRipple: isRipple,
-    ripple: ripple
-  });
 
   function styleInject(css, ref) {
     if ( ref === void 0 ) ref = {};
@@ -1709,18 +1685,6 @@
   var on_1 = on;
   var release_1 = release;
 
-  var dist$3 = /*#__PURE__*/Object.defineProperty({
-  	hold: hold_1,
-  	on: on_1,
-  	release: release_1
-  }, '__esModule', {value: true});
-
-  var ripple$1 = /*@__PURE__*/getAugmentedNamespace(index_es);
-
-  function _interopDefaultLegacy$1 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-  var elevation__default = /*#__PURE__*/_interopDefaultLegacy$1(dist$2);
-
   function getMenuStyleAt(time, anchor) {
       time = parseFloat(time);
       if (isNaN(time)) {
@@ -1737,7 +1701,7 @@
   function getRippleElement(element, container) {
       var rippleElement = null;
       while (element && element !== container) {
-          if (ripple$1.isRipple(element)) {
+          if (isRipple(element)) {
               rippleElement = element;
               break;
           }
@@ -1757,7 +1721,6 @@
       _canHighlight: new Map(),
       _currentHighlighted: null,
       _lastHighlighted: null,
-      _selected: [],
       onBeforeMount: function () {
           this._closeThis = this.close.bind(this);
       },
@@ -1863,7 +1826,7 @@
               return;
           }
           if (programmatical) {
-              ripple$1.ripple(this._lastHighlighted).start().end();
+              ripple(this._lastHighlighted).start().end();
           }
           var option = this._canHighlight.get(this._lastHighlighted);
           option.dispatchEvent(new CustomEvent("selected", {
@@ -1917,30 +1880,22 @@
           this._lastHighlighted = this._lastHighlightedBeforeUpdate = null;
           this._clearHighlight();
           this._canHighlight.forEach(function (_, element) {
-              ripple$1.ripple(element, { highlight: true });
+              ripple(element, { highlight: true });
           });
           this._canHighlight.clear();
-          this._selected.forEach(function (selected) {
-              selected.end();
-          });
-          this._selected = [];
       },
       _setup: function () {
           var _this = this;
-          var selected = this.props.selected || [];
           this._getOptions().forEach(function (option) {
               var rippleElement = getRippleElement(option, _this.root.firstElementChild.firstElementChild);
-              if (ripple$1.ripple(rippleElement).getOption("highlight") && !_this._canHighlight.has(rippleElement)) {
+              if (ripple(rippleElement).getOption("highlight") && !_this._canHighlight.has(rippleElement)) {
                   _this._canHighlight.set(rippleElement, option);
-                  var rippleObject = ripple$1.ripple(rippleElement, { highlight: false });
-                  var isSelected = selected.some(function (value) { return ("value" in option) && (option.value === value); });
+                  var rippleObject = ripple(rippleElement, { highlight: false });
+                  var isSelected = "selected" in option && option.selected;
                   if ((isSelected && !_this._lastHighlighted && !_this._lastHighlightedBeforeUpdate) ||
                       _this._lastHighlightedBeforeUpdate === rippleElement) {
                       _this._lastHighlighted = rippleElement;
                       _this._currentHighlighted = rippleObject.highlight();
-                  }
-                  if (isSelected) {
-                      _this._selected.push(rippleObject.highlight());
                   }
               }
           });
@@ -1963,7 +1918,7 @@
                       return false;
                   }
                   _this._clearHighlight();
-                  _this._currentHighlighted = ripple$1.ripple(_this._lastHighlighted = rippleElement).highlight();
+                  _this._currentHighlighted = ripple(_this._lastHighlighted = rippleElement).highlight();
                   return true;
               });
           }
@@ -1988,11 +1943,11 @@
               }
           })) {
               if (this._canHighlight.size > 0) {
-                  this._currentHighlighted = ripple$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
+                  this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
               }
           }
           else {
-              this._currentHighlighted = ripple$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]).highlight();
+              this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]).highlight();
           }
           this._scrollToHighlighted();
       },
@@ -2010,12 +1965,12 @@
               }
           })) {
               if (this._canHighlight.size > 0) {
-                  this._currentHighlighted = ripple$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
+                  this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
               }
               return;
           }
           else {
-              this._currentHighlighted = ripple$1.ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index - 1 + this._canHighlight.size) % this._canHighlight.size]).highlight();
+              this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index - 1 + this._canHighlight.size) % this._canHighlight.size]).highlight();
           }
           this._scrollToHighlighted();
       },
@@ -2029,7 +1984,7 @@
           if (this._time > 0 && this._direction !== -1) {
               return;
           }
-          elevation__default['default'](this.root.firstElementChild, 4);
+          dist$2(this.root.firstElementChild, 4);
           this._direction = 1;
           this.root.dispatchEvent(new Event("opening"));
       },
@@ -2037,9 +1992,9 @@
           if (this._time < 1 && this._direction !== 1) {
               return;
           }
-          dist$3.release();
+          release_1();
           this._clean();
-          elevation__default['default'](this.root.firstElementChild, 0);
+          dist$2(this.root.firstElementChild, 0);
           this._direction = -1;
           this.root.dispatchEvent(new Event("closing"));
       },
@@ -2126,7 +2081,7 @@
               }
               if (_this._time >= 1) {
                   if (!_this.getPreventFocus()) {
-                      dist$3.hold({
+                      hold_1({
                           element: child,
                           onFocusInside: function () {
                           },
@@ -2151,7 +2106,7 @@
                               _this.highlightPrevious();
                           }
                       });
-                      dist$3.on("keydown", _this._onkeydown);
+                      on_1("keydown", _this._onkeydown);
                   }
                   _this._direction = 0;
                   _this._setup();
@@ -2238,77 +2193,105 @@
     'css': `rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; z-index: 100; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }`,
     'exports': Component,
 
-    'template': function(template, expressionTypes, bindingTypes, getComponent) {
+    'template': function(
+      template,
+      expressionTypes,
+      bindingTypes,
+      getComponent
+    ) {
       return template(
         '<div expr0="expr0" tabindex="0" style="outline: none;"><div expr1="expr1" style="overflow-y: auto; position: relative;"><slot expr2="expr2"></slot><div style="position: absolute;" ref="item-highlight"></div></div></div>',
-        [{
-          'redundantAttribute': 'expr0',
-          'selector': '[expr0]',
+        [
+          {
+            'redundantAttribute': 'expr0',
+            'selector': '[expr0]',
 
-          'expressions': [{
-            'type': expressionTypes.EVENT,
-            'name': 'onmousedown',
+            'expressions': [
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onmousedown',
 
-            'evaluate': function(scope) {
-              return scope._onmousedown;
-            }
-          }]
-        }, {
-          'redundantAttribute': 'expr1',
-          'selector': '[expr1]',
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._onmousedown;
+                }
+              }
+            ]
+          },
+          {
+            'redundantAttribute': 'expr1',
+            'selector': '[expr1]',
 
-          'expressions': [{
-            'type': expressionTypes.EVENT,
-            'name': 'onmouseenter',
+            'expressions': [
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onmouseenter',
 
-            'evaluate': function(scope) {
-              return scope._setHighlighted;
-            }
-          }, {
-            'type': expressionTypes.EVENT,
-            'name': 'onmousemove',
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._setHighlighted;
+                }
+              },
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onmousemove',
 
-            'evaluate': function(scope) {
-              return scope._setHighlighted;
-            }
-          }, {
-            'type': expressionTypes.EVENT,
-            'name': 'onmouseleave',
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._setHighlighted;
+                }
+              },
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onmouseleave',
 
-            'evaluate': function(scope) {
-              return scope._handleHighlightOnLeave;
-            }
-          }, {
-            'type': expressionTypes.EVENT,
-            'name': 'onclick',
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._handleHighlightOnLeave;
+                }
+              },
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onclick',
 
-            'evaluate': function(scope) {
-              return scope._handleClick;
-            }
-          }]
-        }, {
-          'type': bindingTypes.SLOT,
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._handleClick;
+                }
+              }
+            ]
+          },
+          {
+            'type': bindingTypes.SLOT,
 
-          'attributes': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'close-menu',
+            'attributes': [
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'close-menu',
 
-            'evaluate': function(scope) {
-              return scope._closeThis;
-            }
-          }],
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._closeThis;
+                }
+              }
+            ],
 
-          'name': 'default',
-          'redundantAttribute': 'expr2',
-          'selector': '[expr2]'
-        }]
+            'name': 'default',
+            'redundantAttribute': 'expr2',
+            'selector': '[expr2]'
+          }
+        ]
       );
     },
 
     'name': 'rm-menu'
   };
-
-  var dist$4 = index$3;
 
   const blockedInputs = [];
   window.addEventListener("change", event => {
@@ -2321,10 +2304,6 @@
     'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; opacity: 0; cursor: default; width: 100%; color: currentColor; } rm-select[filterable]:not([filterable=false]) .rm-select--input,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--input{ opacity: 1; cursor: text; } rm-select .rm-select--label,[is="rm-select"] .rm-select--label{ position: absolute; top: 0; left: 0; font-size: inherit; line-height: inherit; } rm-select[filterable]:not([filterable=false]) .rm-select--label,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--label{ display: none; }`,
 
     'exports': {
-      state: {
-          selected: [],
-      },
-
       _mounted: false,
       _menu: null,
       _input: null,
@@ -2335,37 +2314,71 @@
       },
 
       onBeforeMount() {
-          const valueProperty = {
-              get: () => {
-                  const selected = this.state.selected;
-                  return this.isMultiple() ? selected : selected[0] || "";
+          Object.defineProperties(this.root, {
+              value: {
+                  get: () => {
+                      const selected = this.getSelected().map(option => option.value);
+                      return this.isMultiple() ? selected : selected[0] || "";
+                  },
+                  set: value => {
+                      let option = null;
+                      if (this.getOptions().some(opt => {
+                          if (opt.value == value) {
+                              option = opt;
+                              return true;
+                          }
+                          return false;
+                      })) {
+                          this.select(option);
+                      }
+                  }
               },
-              set: value => {
-                  this.select(value);
+              label: {
+                  get: () => {
+                      return this._input ? this._input.label : "";
+                  }
               }
-          };
-          Object.defineProperty(this.root, "value", valueProperty);
-          Object.defineProperty(this.root, "label", { get: () => {
-              return this._input ? this._input.label : "";
-          } });
+          });
       },
 
       _onclickFirstChild: null,
       _onclickArrow: null,
 
       onMounted() {
+          let _lastSelectedOption = null;
+          Object.defineProperty(this, "_lastSelectedOption", {
+              set(option) {
+                  const newOptionComponent = option[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                  if (newOptionComponent != null) {
+                      newOptionComponent.update({ selected: true });
+                  }
+                  if (_lastSelectedOption != null && !this.isMultiple()) {
+                      const lastOptionComponent = _lastSelectedOption[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                      if (lastOptionComponent != null) {
+                          lastOptionComponent.update({ selected: false });
+                      }
+                  }
+                  _lastSelectedOption = option;
+              },
+              get() {
+                  return _lastSelectedOption;
+              }
+          });
 
           const input = this._input = this.root.querySelector("input");
           
-          Object.defineProperty(input, "value", {
-              get: () => this.root.value,
-              set: value => { this.root.value = value; }
+          Object.defineProperties(input, {
+              value: {
+                  get: () => this.root.value,
+                  set: value => { this.root.value = value; }
+              },
+              label: {
+                  get: HTMLInputElement.prototype.__lookupGetter__("value").bind(input)
+              }
           });
 
-          Object.defineProperty(input, "label", { get: HTMLInputElement.prototype.__lookupGetter__("value").bind(input) });
-
           this.root.children[1].addEventListener("keydown", event => {
-              if (!this.state.menuopened && [ "Space" ].some(key => event.key === key)) {
+              if (!this.state.menuopened && [ " " ].some(key => event.key === key)) {
                   this.update({ menuopened: true });
                   event.stopImmediatePropagation();
               } else if (this.state.menuopened && [ "Escape" ].some(key => event.key === key)) {
@@ -2377,28 +2390,19 @@
                           if (this.isMultiple() || this.isFilterable()) {
                               this.update({ menuopened: true });
                           } else {
-                              const options = this._menu.options;
+                              const options = this.getOptions();
                               if (options.length !== 0) {
-                                  if (this.state.selected.length === 0) {
-                                      options.some(option => {
-                                          if (option.value === this.root.value) {
-                                              return false;
-                                          }
-                                          this.root.value = option.value;
+                                  let index = -1;
+                                  if (options.some((option, i) => {
+                                      if (option === this._lastSelectedOption) {
+                                          index = i;
                                           return true;
-                                      });
-                                  } else {
-                                      const value = this.state.selected[0];
-                                      let index = 0;
-                                      for (let i = 0; i < options.length; i++) {
-                                          const opt = options[i];
-                                          if (opt.value === value) {
-                                              index = i;
-                                              break;
-                                          }
                                       }
-                                      if (index + 1 < options.length) {
-                                          this.root.value = options[index + 1].value;
+                                      return false;
+                                  })) {
+                                      if (++index < options.length) {
+                                          this._lastSelectedOption = options[index];
+                                          this.update();
                                       }
                                   }
                               }
@@ -2411,22 +2415,19 @@
                           if (this.isMultiple() || this.isFilterable()) {
                               this.update({ menuopened: true });
                           } else {
-                              const options = this._menu.options;
+                              const options = this.getOptions();
                               if (options.length !== 0) {
-                                  if (this.state.selected.length === 0) {
-                                      this.root.value = options[0].value;
-                                  } else {
-                                      const value = this.state.selected[0];
-                                      let index = 0;
-                                      for (let i = options.length - 1; i >= 0; i--) {
-                                          const opt = options[i];
-                                          if (opt.value === value) {
-                                              index = i;
-                                              break;
-                                          }
+                                  let index = -1;
+                                  if (options.some((option, i) => {
+                                      if (option === this._lastSelectedOption) {
+                                          index = i;
+                                          return true;
                                       }
-                                      if (index - 1 >= 0) {
-                                          this.root.value = options[index - 1].value;
+                                      return false;
+                                  })) {
+                                      if (--index >= 0) {
+                                          this._lastSelectedOption = options[index];
+                                          this.update();
                                       }
                                   }
                               }
@@ -2468,17 +2469,24 @@
 
           this._mounted = true;
 
-          this._lastSelected = this.state.selected.sort();
-          {
-              const selected = this.getOptions().filter(option => option.getAttribute("selected") != null).pop();
-              if (selected) {
-                  this.select(selected.getAttribute("value"));
+          const options = this.getOptions();
+          if (options.length) {
+              options.forEach(option => {
+                  if (option.selected) {
+                      this._lastSelectedOption = option;
+                  }
+              });
+
+              if (this._lastSelectedOption == null) {
+                  this._lastSelectedOption = options[0];
               }
 
+              this._lastSelected = this.getSelected();
+              HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
+              this.update();
+          } else {
+              this._lastSelected = [];
           }
-
-          // this.state.selectedOption = option;
-          // HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
 
           this._manipulate();
       },
@@ -2529,10 +2537,8 @@
 
       onUpdated() {
           this._manipulate();
-          const selected = this.state.selected.sort();
-          if (selected.length !== this._lastSelected.length || selected.some((item, i) => {
-              return item !== this._lastSelected[i];
-          })) {
+          const selected = this.getSelected();
+          if (selected.some((option, i) => option !== this._lastSelected[i])) {
               this._lastSelected = selected;
               this.root.dispatchEvent(new Event("change"));
           }
@@ -2569,34 +2575,19 @@
       },
 
       clear() {
-          this.update({ selected: [], menuopened: true, refreshLabel: true });
+          this.update({ menuopened: true, refreshLabel: true });
       },
 
       getSelected() {
-          if (this.state.selected.length === 0) {
-              return [];
-          }
-          return (this._menu || this.root).querySelectorAll(this.state.selected.reduce((arr, value) => {
-              arr.push(`[value='${value}']:not([disabled])`);
-              return arr;
-          }, []).join(","));
-          // return (this._menu || this.root).querySelectorAll(this.state.selected.map(value => {
-          //     return ["option", "rm-menu-item"].map(tag => {
-          //         const selectors = [ `[value='${value}']:not([disabled]):not([passive])` ];
-          //         if (!value) {
-          //             selectors.push(":not([value]):not([disabled]):not([passive])");
-          //         }
-          //         return selectors.map(selector => tag + selector).join(",");
-          //     }).join(",")
-          // }).join(","));
+          return this.getOptions().filter(option => option.selected && !option.disabled);
       },
 
       getOptions() {
-          return this._menu.options;
+          return this._menu != null ? this._menu.options : [];
       },
 
       getLabel() {
-          return Array.prototype.map.call(this.getSelected(), option => option.label).join(", ");
+          return this.getSelected().map(option => option.label).join(", ");
       },
 
       isFilterable() {
@@ -2611,284 +2602,385 @@
           return this.props.clearable != null && this.props.clearable !== false;
       },
 
-      select(value) {
-          if (!this.hasSelected(value)) {
-              if (this.isMultiple()) {
-                  this.state.selected.push(value);
-              } else {
-                  this.state.selected = [value];
-              }
+      select(option) {
+          if (option.selected) {
+              return;
+          }
+          if (!this.isMultiple()) {
+              this.getSelected().selected = false;
           }
           if (this._mounted) {
-              this.update({ menuopened: this.isMultiple() ? state.menuopened : false, refreshLabel: true });
+              this.update({ menuopened: this.isMultiple() ? this.state.menuopened : false, refreshLabel: true });
           }
           HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
-      },
-
-      hasSelected(value) {
-          return this.state.selected.some(s => s === value);
       },
 
       components: {
           "rm-textfield-container": dist,
           "rm-button": index$2,
-          "rm-menu": dist$4
+          "rm-menu": index$3
       }
     },
 
-    'template': function(template, expressionTypes, bindingTypes, getComponent) {
+    'template': function(
+      template,
+      expressionTypes,
+      bindingTypes,
+      getComponent
+    ) {
       return template(
-        '<rm-menu expr351="expr351" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr353="expr353"></rm-textfield-container>',
-        [{
-          'type': bindingTypes.TAG,
-          'getComponent': getComponent,
+        '<rm-menu expr9="expr9" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr11="expr11"></rm-textfield-container>',
+        [
+          {
+            'type': bindingTypes.TAG,
+            'getComponent': getComponent,
 
-          'evaluate': function(scope) {
-            return 'rm-menu';
-          },
+            'evaluate': function(
+              scope
+            ) {
+              return 'rm-menu';
+            },
 
-          'slots': [{
-            'id': 'default',
-            'html': '<div ref="rm-select-menu"><slot expr352="expr352"></slot></div>',
-
-            'bindings': [{
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'default',
-              'redundantAttribute': 'expr352',
-              'selector': '[expr352]'
-            }]
-          }],
-
-          'attributes': [{
-            'type': expressionTypes.EVENT,
-            'name': 'onselected',
-
-            'evaluate': function(scope) {
-              return scope._onmenuselected;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'opened',
-
-            'evaluate': function(scope) {
-              return scope.state.menuopened;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'variant',
-
-            'evaluate': function(scope) {
-              return scope.props.variant || "flat";
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'selected',
-
-            'evaluate': function(scope) {
-              return scope.state.selected;
-            }
-          }],
-
-          'redundantAttribute': 'expr351',
-          'selector': '[expr351]'
-        }, {
-          'type': bindingTypes.TAG,
-          'getComponent': getComponent,
-
-          'evaluate': function(scope) {
-            return 'rm-textfield-container';
-          },
-
-          'slots': [{
-            'id': 'input',
-            'html': '<span slot="input"><input expr354="expr354" class="rm-select--input"/><div expr355="expr355" class="rm-select--label"> </div></span>',
-
-            'bindings': [{
-              'redundantAttribute': 'expr354',
-              'selector': '[expr354]',
-
-              'expressions': [{
-                'type': expressionTypes.EVENT,
-                'name': 'onfocus',
-
-                'evaluate': function(scope) {
-                  return scope._oninputfocus;
-                }
-              }, {
-                'type': expressionTypes.EVENT,
-                'name': 'onblur',
-
-                'evaluate': function(scope) {
-                  return scope._oninputblur;
-                }
-              }, {
-                'type': expressionTypes.EVENT,
-                'name': 'oninput',
-
-                'evaluate': function(scope) {
-                  return scope._oninputinput;
-                }
-              }, {
-                'type': expressionTypes.ATTRIBUTE,
-                'name': 'readonly',
-
-                'evaluate': function(scope) {
-                  return !scope.isFilterable();
-                }
-              }, {
-                'type': expressionTypes.ATTRIBUTE,
-                'name': 'disabled',
-
-                'evaluate': function(scope) {
-                  return scope.props.disabled;
-                }
-              }]
-            }, {
-              'redundantAttribute': 'expr355',
-              'selector': '[expr355]',
-
-              'expressions': [{
-                'type': expressionTypes.TEXT,
-                'childNodeIndex': 0,
-
-                'evaluate': function(scope) {
-                  return scope.getLabel();
-                }
-              }]
-            }]
-          }, {
-            'id': 'leading',
-            'html': '<slot expr356="expr356" name="leading" slot="leading"></slot>',
-
-            'bindings': [{
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'leading',
-              'redundantAttribute': 'expr356',
-              'selector': '[expr356]'
-            }]
-          }, {
-            'id': 'trailing',
-            'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr357="expr357" variant="icon" class="rm-select--clear" dense></rm-button><slot expr358="expr358" name="trailing"></slot><rm-button expr359="expr359" variant="icon" tabindex="-1" dense></rm-button></span>',
-
-            'bindings': [{
-              'type': bindingTypes.IF,
-
-              'evaluate': function(scope) {
-                return scope.isClearable() && scope.root.value;
-              },
-
-              'redundantAttribute': 'expr357',
-              'selector': '[expr357]',
-
-              'template': template(null, [{
-                'type': bindingTypes.TAG,
-                'getComponent': getComponent,
-
-                'evaluate': function(scope) {
-                  return 'rm-button';
-                },
-
-                'slots': [{
-                  'id': 'default',
-                  'html': 'clear',
-                  'bindings': []
-                }],
-
-                'attributes': [{
-                  'type': expressionTypes.EVENT,
-                  'name': 'onclick',
-
-                  'evaluate': function(scope) {
-                    return scope.clear;
-                  }
-                }, {
-                  'type': expressionTypes.ATTRIBUTE,
-                  'name': 'tabindex',
-
-                  'evaluate': function(scope) {
-                    return scope.props.disabled ? "-1" : null;
-                  }
-                }]
-              }])
-            }, {
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'trailing',
-              'redundantAttribute': 'expr358',
-              'selector': '[expr358]'
-            }, {
-              'type': bindingTypes.TAG,
-              'getComponent': getComponent,
-
-              'evaluate': function(scope) {
-                return 'rm-button';
-              },
-
-              'slots': [{
+            'slots': [
+              {
                 'id': 'default',
-                'html': 'arrow_drop_down',
-                'bindings': []
-              }],
+                'html': '<div ref="rm-select-menu"><slot expr10="expr10"></slot></div>',
 
-              'attributes': [{
+                'bindings': [
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'default',
+                    'redundantAttribute': 'expr10',
+                    'selector': '[expr10]'
+                  }
+                ]
+              }
+            ],
+
+            'attributes': [
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onselected',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._onmenuselected;
+                }
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'opened',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.state.menuopened;
+                }
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'variant',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.variant || "flat";
+                }
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'selected',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.state.selected;
+                }
+              }
+            ],
+
+            'redundantAttribute': 'expr9',
+            'selector': '[expr9]'
+          },
+          {
+            'type': bindingTypes.TAG,
+            'getComponent': getComponent,
+
+            'evaluate': function(
+              scope
+            ) {
+              return 'rm-textfield-container';
+            },
+
+            'slots': [
+              {
+                'id': 'input',
+                'html': '<span slot="input"><input expr12="expr12" class="rm-select--input"/><div expr13="expr13" class="rm-select--label"> </div></span>',
+
+                'bindings': [
+                  {
+                    'redundantAttribute': 'expr12',
+                    'selector': '[expr12]',
+
+                    'expressions': [
+                      {
+                        'type': expressionTypes.EVENT,
+                        'name': 'onfocus',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope._oninputfocus;
+                        }
+                      },
+                      {
+                        'type': expressionTypes.EVENT,
+                        'name': 'onblur',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope._oninputblur;
+                        }
+                      },
+                      {
+                        'type': expressionTypes.EVENT,
+                        'name': 'oninput',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope._oninputinput;
+                        }
+                      },
+                      {
+                        'type': expressionTypes.ATTRIBUTE,
+                        'name': 'readonly',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return !scope.isFilterable();
+                        }
+                      },
+                      {
+                        'type': expressionTypes.ATTRIBUTE,
+                        'name': 'disabled',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope.props.disabled;
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    'redundantAttribute': 'expr13',
+                    'selector': '[expr13]',
+
+                    'expressions': [
+                      {
+                        'type': expressionTypes.TEXT,
+                        'childNodeIndex': 0,
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope.getLabel();
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                'id': 'leading',
+                'html': '<slot expr14="expr14" name="leading" slot="leading"></slot>',
+
+                'bindings': [
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'leading',
+                    'redundantAttribute': 'expr14',
+                    'selector': '[expr14]'
+                  }
+                ]
+              },
+              {
+                'id': 'trailing',
+                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr15="expr15" variant="icon" class="rm-select--clear" dense></rm-button><slot expr16="expr16" name="trailing"></slot><rm-button expr17="expr17" variant="icon" tabindex="-1" dense></rm-button></span>',
+
+                'bindings': [
+                  {
+                    'type': bindingTypes.IF,
+
+                    'evaluate': function(
+                      scope
+                    ) {
+                      return scope.isClearable() && scope.root.value;
+                    },
+
+                    'redundantAttribute': 'expr15',
+                    'selector': '[expr15]',
+
+                    'template': template(
+                      null,
+                      [
+                        {
+                          'type': bindingTypes.TAG,
+                          'getComponent': getComponent,
+
+                          'evaluate': function(
+                            scope
+                          ) {
+                            return 'rm-button';
+                          },
+
+                          'slots': [
+                            {
+                              'id': 'default',
+                              'html': 'clear',
+                              'bindings': []
+                            }
+                          ],
+
+                          'attributes': [
+                            {
+                              'type': expressionTypes.EVENT,
+                              'name': 'onclick',
+
+                              'evaluate': function(
+                                scope
+                              ) {
+                                return scope.clear;
+                              }
+                            },
+                            {
+                              'type': expressionTypes.ATTRIBUTE,
+                              'name': 'tabindex',
+
+                              'evaluate': function(
+                                scope
+                              ) {
+                                return scope.props.disabled ? "-1" : null;
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    )
+                  },
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'trailing',
+                    'redundantAttribute': 'expr16',
+                    'selector': '[expr16]'
+                  },
+                  {
+                    'type': bindingTypes.TAG,
+                    'getComponent': getComponent,
+
+                    'evaluate': function(
+                      scope
+                    ) {
+                      return 'rm-button';
+                    },
+
+                    'slots': [
+                      {
+                        'id': 'default',
+                        'html': 'arrow_drop_down',
+                        'bindings': []
+                      }
+                    ],
+
+                    'attributes': [
+                      {
+                        'type': expressionTypes.ATTRIBUTE,
+                        'name': 'class',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return [
+                            'rm-select--arrow',
+                            scope.state.menuopened ? ' rm-select--arrow-rotated' : ''
+                          ].join(
+                            ''
+                          );
+                        }
+                      }
+                    ],
+
+                    'redundantAttribute': 'expr17',
+                    'selector': '[expr17]'
+                  }
+                ]
+              }
+            ],
+
+            'attributes': [
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'variant',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.variant;
+                }
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'label',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.label;
+                }
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'full-width',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.fullWidth;
+                }
+              },
+              {
                 'type': expressionTypes.ATTRIBUTE,
                 'name': 'class',
 
-                'evaluate': function(scope) {
-                  return [
-                    'rm-select--arrow',
-                    scope.state.menuopened ? ' rm-select--arrow-rotated' : ''
-                  ].join('');
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._getClassNames();
                 }
-              }],
+              },
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'disabled',
 
-              'redundantAttribute': 'expr359',
-              'selector': '[expr359]'
-            }]
-          }],
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.disabled;
+                }
+              }
+            ],
 
-          'attributes': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'variant',
-
-            'evaluate': function(scope) {
-              return scope.props.variant;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'label',
-
-            'evaluate': function(scope) {
-              return scope.props.label;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'full-width',
-
-            'evaluate': function(scope) {
-              return scope.props.fullWidth;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'class',
-
-            'evaluate': function(scope) {
-              return scope._getClassNames();
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'disabled',
-
-            'evaluate': function(scope) {
-              return scope.props.disabled;
-            }
-          }],
-
-          'redundantAttribute': 'expr353',
-          'selector': '[expr353]'
-        }]
+            'redundantAttribute': 'expr11',
+            'selector': '[expr11]'
+          }
+        ]
       );
     },
 
