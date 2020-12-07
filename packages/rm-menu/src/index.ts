@@ -36,7 +36,6 @@ interface IComponent {
     _currentHighlighted: any;
     _lastHighlighted: HTMLElement | null;
     _lastHighlightedBeforeUpdate: HTMLElement | null;
-    _selected: any[];
     _bindedElement: HTMLElement | null;
     _bindTo(this: ComponentEnhanced, element: HTMLElement | null): void;
     _onmousedown(this: ComponentEnhanced, event: Event): void;
@@ -72,7 +71,6 @@ type ComponentEnhanced = RiotComponent<{
     preventFocus: any,
     preventAutoClose: any,
     keepHighlight: any,
-    selected: any[],
     opened: boolean
 }> & IComponent;
 
@@ -100,7 +98,6 @@ const Component: IComponent = {
     _canHighlight: new Map<HTMLElement, HTMLElement>(),
     _currentHighlighted: null,
     _lastHighlighted: null,
-    _selected: [],
     onBeforeMount(): void {
         this._closeThis = this.close.bind(this);
     },
@@ -263,13 +260,8 @@ const Component: IComponent = {
             ripple(element, { highlight: true });
         });
         this._canHighlight.clear();
-        this._selected.forEach(selected => {
-            selected.end();
-        });
-        this._selected = [];
     },
     _setup(): void {
-        const selected: any[] = this.props.selected || [];
         this._getOptions().forEach(option => {
             const rippleElement: HTMLElement = getRippleElement(
                 option, this.root.firstElementChild!.firstElementChild as HTMLElement
@@ -277,16 +269,13 @@ const Component: IComponent = {
             if (ripple(rippleElement).getOption("highlight") && !this._canHighlight.has(rippleElement)) {
                 this._canHighlight.set(rippleElement, option);
                 const rippleObject: any = ripple(rippleElement, { highlight: false });
-                const isSelected: boolean = selected.some(value => ("value" in option) && ((option as any).value === value));
+                const isSelected: boolean = "selected" in option && (option as any).selected;
                 if (
                     (isSelected && !this._lastHighlighted && !this._lastHighlightedBeforeUpdate) ||
                     this._lastHighlightedBeforeUpdate === rippleElement
                 ) {
                     this._lastHighlighted = rippleElement;
                     this._currentHighlighted = rippleObject.highlight();
-                }
-                if (isSelected) {
-                    this._selected.push(rippleObject.highlight());
                 }
             }
         });

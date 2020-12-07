@@ -38,7 +38,6 @@ var Component = {
     _canHighlight: new Map(),
     _currentHighlighted: null,
     _lastHighlighted: null,
-    _selected: [],
     onBeforeMount: function () {
         this._closeThis = this.close.bind(this);
     },
@@ -201,27 +200,19 @@ var Component = {
             ripple(element, { highlight: true });
         });
         this._canHighlight.clear();
-        this._selected.forEach(function (selected) {
-            selected.end();
-        });
-        this._selected = [];
     },
     _setup: function () {
         var _this = this;
-        var selected = this.props.selected || [];
         this._getOptions().forEach(function (option) {
             var rippleElement = getRippleElement(option, _this.root.firstElementChild.firstElementChild);
             if (ripple(rippleElement).getOption("highlight") && !_this._canHighlight.has(rippleElement)) {
                 _this._canHighlight.set(rippleElement, option);
                 var rippleObject = ripple(rippleElement, { highlight: false });
-                var isSelected = selected.some(function (value) { return ("value" in option) && (option.value === value); });
+                var isSelected = "selected" in option && option.selected;
                 if ((isSelected && !_this._lastHighlighted && !_this._lastHighlightedBeforeUpdate) ||
                     _this._lastHighlightedBeforeUpdate === rippleElement) {
                     _this._lastHighlighted = rippleElement;
                     _this._currentHighlighted = rippleObject.highlight();
-                }
-                if (isSelected) {
-                    _this._selected.push(rippleObject.highlight());
                 }
             }
         });
@@ -519,70 +510,100 @@ var index = {
   'css': `rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; z-index: 100; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }`,
   'exports': Component,
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
     return template(
       '<div expr0="expr0" tabindex="0" style="outline: none;"><div expr1="expr1" style="overflow-y: auto; position: relative;"><slot expr2="expr2"></slot><div style="position: absolute;" ref="item-highlight"></div></div></div>',
-      [{
-        'redundantAttribute': 'expr0',
-        'selector': '[expr0]',
+      [
+        {
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
 
-        'expressions': [{
-          'type': expressionTypes.EVENT,
-          'name': 'onmousedown',
+          'expressions': [
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmousedown',
 
-          'evaluate': function(scope) {
-            return scope._onmousedown;
-          }
-        }]
-      }, {
-        'redundantAttribute': 'expr1',
-        'selector': '[expr1]',
+              'evaluate': function(
+                scope
+              ) {
+                return scope._onmousedown;
+              }
+            }
+          ]
+        },
+        {
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]',
 
-        'expressions': [{
-          'type': expressionTypes.EVENT,
-          'name': 'onmouseenter',
+          'expressions': [
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmouseenter',
 
-          'evaluate': function(scope) {
-            return scope._setHighlighted;
-          }
-        }, {
-          'type': expressionTypes.EVENT,
-          'name': 'onmousemove',
+              'evaluate': function(
+                scope
+              ) {
+                return scope._setHighlighted;
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmousemove',
 
-          'evaluate': function(scope) {
-            return scope._setHighlighted;
-          }
-        }, {
-          'type': expressionTypes.EVENT,
-          'name': 'onmouseleave',
+              'evaluate': function(
+                scope
+              ) {
+                return scope._setHighlighted;
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmouseleave',
 
-          'evaluate': function(scope) {
-            return scope._handleHighlightOnLeave;
-          }
-        }, {
-          'type': expressionTypes.EVENT,
-          'name': 'onclick',
+              'evaluate': function(
+                scope
+              ) {
+                return scope._handleHighlightOnLeave;
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onclick',
 
-          'evaluate': function(scope) {
-            return scope._handleClick;
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
+              'evaluate': function(
+                scope
+              ) {
+                return scope._handleClick;
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
 
-        'attributes': [{
-          'type': expressionTypes.ATTRIBUTE,
-          'name': 'close-menu',
+          'attributes': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'close-menu',
 
-          'evaluate': function(scope) {
-            return scope._closeThis;
-          }
-        }],
+              'evaluate': function(
+                scope
+              ) {
+                return scope._closeThis;
+              }
+            }
+          ],
 
-        'name': 'default',
-        'redundantAttribute': 'expr2',
-        'selector': '[expr2]'
-      }]
+          'name': 'default',
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]'
+        }
+      ]
     );
   },
 
