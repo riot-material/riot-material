@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.16] - 2020-12-08
+- give label a minimum width, including trailing slot
+
 ## [1.0.15] - 2020-12-07
 - add highlight when selected
 - passive rm-list-item can't be selected
