@@ -1,4 +1,6 @@
-<rm-list-item tabindex="0">
+<rm-list-item tabindex="0" style={
+    isSelected() && props.selectedColor != null ? "color:" + props.selectedColor + ";" : ""
+} class={ isSelected() ? "selected": "" }>
     <div style="display: table; width: 100%;">
         <div style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;" if={ _hasSlot("leading") }>
             <slot name="leading"></slot>
@@ -29,6 +31,11 @@
         rm-button {
             margin: -8px;
             vertical-align: top;
+        }
+
+        :host[selected] {
+            color: rgb(139, 0, 139);
+            color: rgb(var(--color-primary, 139, 0, 139));
         }
     </style>
 
@@ -71,8 +78,19 @@
                 }
                 this._updateRipple();
             },
+            shouldUpdate(newProps, currentProps) {
+                if (newProps.selected !== currentProps.selected) {
+                    delete this.state.selected;
+                }
+            },
             onUpdated() {
                 this._updateRipple();
+            },
+            isSelected() {
+                return this.state.selected != null ?
+                    this.state.selected !== false :
+                    (this.props.selected != null && this.props.selected !== false)
+                ;
             }
         }
     </script>

@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.10] - 2020-12-07
+- add `selected` prop
+- update README
+
 ## [1.0.9] - 2020-12-06
 - fix returning label
 
