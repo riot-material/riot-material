@@ -1,4 +1,4 @@
-<rm-list-item tabindex="0" style={
+<rm-list-item tabindex={ isPassive() ? "" : "0" } style={
     isSelected() && props.selectedColor != null ? "color:" + props.selectedColor + ";" : ""
 }>
     <div style="display: table; width: 100%;">
@@ -37,6 +37,10 @@
             color: rgb(139, 0, 139);
             color: rgb(var(--color-primary, 139, 0, 139));
         }
+
+        :host[passive] {
+            cursor: default;
+        }
     </style>
 
     <script>
@@ -47,7 +51,8 @@
                 return this.slots.some(slot => slot.id === name);
             },
             _updateRipple() {
-                ripple(this.root, { highlight: true, instantHighlight: true, disabled: this.isPassive() });
+                const passive = this.isPassive();
+                ripple(this.root, { highlight: !passive, instantHighlight: true, disabled: passive });
             },
             _updateSelected() {
                 if (this.isSelected()) {

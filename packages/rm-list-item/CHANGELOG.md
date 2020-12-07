@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.14] - 2020-12-07
+- remove highlight and focusability from passive rm-list-item
+
 ## [1.0.13] - 2020-12-07
 - add `selected` property to `root`
 
