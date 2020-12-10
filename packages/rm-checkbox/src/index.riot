@@ -1,6 +1,6 @@
 <rm-checkbox>
     <label>
-        <input type="checkbox" checked={ isChecked() } name={ props.name } tabindex="0" disabled={ isDisabled() }>
+        <input type="checkbox" checked={ isChecked() } name={ props.name } tabindex="0" disabled={ isDisabled() || isReadonly() }>
         <div ref="box">
             <div ref="border"></div>
             <div ref="check-box">
@@ -26,6 +26,9 @@
             /* https://stackoverflow.com/a/21003770/9228492 */
             -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
+        }
+        :host[disabled], :host[readonly] {
+            cursor: default;
         }
         :host[disabled] {
             opacity: 0.6;
@@ -229,12 +232,17 @@
 
     <script>
         import { ripple } from "@riot-material/ripple";
+        import { ask as whatInput } from "what-input";
 
         export default {
+            _updateRipple() {
+                const box = this.root.querySelector("[ref=box]");
+                ripple(box, { disabled: this.isDisabled() || this.isReadonly() });
+            },
             onMounted() {
-                let box = this.root.querySelector("[ref=box]");
-                let input = this.root.querySelector("input");
-                let boxRipple = ripple(
+                const input = this.root.querySelector("input");
+                const box = this.root.querySelector("[ref=box]");
+                const boxRipple = ripple(
                     box,
                     {
                         centered: true,
@@ -242,8 +250,7 @@
                         radius: 16,
                         unboundedFocus: true,
                         focusTarget: input,
-                        color: "currentColor",
-                        disabled: this.isDisabled()
+                        color: "currentColor"
                     }
                 );
                 let refresh = (event) => {
@@ -253,7 +260,12 @@
                         this.root.classList.remove("rm-checked");
                     }
                 };
-                input.addEventListener("change", refresh);
+                input.addEventListener("change", () => {
+                    if (whatInput() === "keyboard") {
+                        boxRipple.start().end();
+                    }
+                    refresh();
+                });
                 Object.defineProperty(this.root, "checked", {
                     get() {
                         return input.checked;
@@ -264,18 +276,19 @@
                     }
                 });
                 refresh();
+                this._updateRipple();
             },
             onUpdated() {
-                let box = this.root.querySelector("[ref=box]");
-                let boxRipple = ripple(box, {
-                    disabled: this.isDisabled()
-                });
+                this._updateRipple();
             },
             isChecked() {
                 return this.props.checked != null && this.props.checked !== false;
             },
             isDisabled() {
                 return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
             }
         }
     </script>
