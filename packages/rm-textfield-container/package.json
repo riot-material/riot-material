@@ -1,17 +1,23 @@
 {
   "name": "@riot-material/rm-textfield-container",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riotjs/compiler": "^5.0.0",
-    "riot": "^5.0.0",
-    "rollup": "^2.33.3",
+    "@riotjs/compiler": "^5.1.3",
+    "riot": "^5.1.1",
+    "rollup": "^2.34.2",
     "rollup-plugin-riot": "^5.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }

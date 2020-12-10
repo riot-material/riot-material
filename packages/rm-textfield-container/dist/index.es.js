@@ -82,93 +82,130 @@ var index = {
     }
   },
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
     return template(
-      '<label expr9="expr9" class="rm-textfield-container--main"><div class="rm-textfield-container--border"></div><div class="rm-textfield-container--leading"><slot expr10="expr10" name="leading"></slot></div><div expr11="expr11" class="rm-textfield-container--border-notch"> </div><div class="rm-textfield-container--container"><div class="rm-textfield-container--content"><div expr12="expr12" class="rm-textfield-container--label"> </div><div style="position: relative; user-select: auto;"><template expr13="expr13"></template><slot expr15="expr15" name="input"></slot></div></div></div><div class="rm-textfield-container--trailing"><slot expr16="expr16" name="trailing"></slot></div><div class="rm-textfield-container--basic-underline"></div><div class="rm-textfield-container--underline"></div><div class="rm-textfield-container--disabled-block"></div></label><div style="height: 1em; line-height: 1em; margin-bottom: -1em; pointer-events: none;"><div expr17="expr17" style="font-size: .75em;"> </div></div>',
-      [{
-        'redundantAttribute': 'expr9',
-        'selector': '[expr9]',
+      '<label expr0="expr0" class="rm-textfield-container--main"><div class="rm-textfield-container--border"></div><div class="rm-textfield-container--leading"><slot expr1="expr1" name="leading"></slot></div><div expr2="expr2" class="rm-textfield-container--border-notch"> </div><div class="rm-textfield-container--container"><div class="rm-textfield-container--content"><div expr3="expr3" class="rm-textfield-container--label"> </div><div style="position: relative; user-select: auto;"><template expr4="expr4"></template><slot expr6="expr6" name="input"></slot></div></div></div><div class="rm-textfield-container--trailing"><slot expr7="expr7" name="trailing"></slot></div><div class="rm-textfield-container--basic-underline"></div><div class="rm-textfield-container--underline"></div><div class="rm-textfield-container--disabled-block"></div></label><div style="height: 1em; line-height: 1em; margin-bottom: -1em; pointer-events: none;"><div expr8="expr8" style="font-size: .75em;"> </div></div>',
+      [
+        {
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
 
-        'expressions': [{
-          'type': expressionTypes.EVENT,
-          'name': 'onmousedown',
+          'expressions': [
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmousedown',
 
-          'evaluate': function(scope) {
-            return scope._onlabelpointerdown;
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'leading',
-        'redundantAttribute': 'expr10',
-        'selector': '[expr10]'
-      }, {
-        'redundantAttribute': 'expr11',
-        'selector': '[expr11]',
-
-        'expressions': [{
-          'type': expressionTypes.TEXT,
-          'childNodeIndex': 0,
-
-          'evaluate': function(scope) {
-            return scope.props.label;
-          }
-        }]
-      }, {
-        'redundantAttribute': 'expr12',
-        'selector': '[expr12]',
-
-        'expressions': [{
-          'type': expressionTypes.TEXT,
-          'childNodeIndex': 0,
-
-          'evaluate': function(scope) {
-            return scope.props.label;
-          }
-        }]
-      }, {
-        'type': bindingTypes.IF,
-
-        'evaluate': function(scope) {
-          return !scope._hasInputSlot();
+              'evaluate': function(
+                scope
+              ) {
+                return scope._onlabelpointerdown;
+              }
+            }
+          ]
         },
-
-        'redundantAttribute': 'expr13',
-        'selector': '[expr13]',
-
-        'template': template('<slot expr14="expr14"></slot>', [{
+        {
           'type': bindingTypes.SLOT,
           'attributes': [],
-          'name': 'default',
-          'redundantAttribute': 'expr14',
-          'selector': '[expr14]'
-        }])
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'input',
-        'redundantAttribute': 'expr15',
-        'selector': '[expr15]'
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'trailing',
-        'redundantAttribute': 'expr16',
-        'selector': '[expr16]'
-      }, {
-        'redundantAttribute': 'expr17',
-        'selector': '[expr17]',
+          'name': 'leading',
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]'
+        },
+        {
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]',
 
-        'expressions': [{
-          'type': expressionTypes.TEXT,
-          'childNodeIndex': 0,
+          'expressions': [
+            {
+              'type': expressionTypes.TEXT,
+              'childNodeIndex': 0,
 
-          'evaluate': function(scope) {
-            return scope.props.helperText;
-          }
-        }]
-      }]
+              'evaluate': function(
+                scope
+              ) {
+                return scope.props.label;
+              }
+            }
+          ]
+        },
+        {
+          'redundantAttribute': 'expr3',
+          'selector': '[expr3]',
+
+          'expressions': [
+            {
+              'type': expressionTypes.TEXT,
+              'childNodeIndex': 0,
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope.props.label;
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.IF,
+
+          'evaluate': function(
+            scope
+          ) {
+            return !scope._hasInputSlot();
+          },
+
+          'redundantAttribute': 'expr4',
+          'selector': '[expr4]',
+
+          'template': template(
+            '<slot expr5="expr5"></slot>',
+            [
+              {
+                'type': bindingTypes.SLOT,
+                'attributes': [],
+                'name': 'default',
+                'redundantAttribute': 'expr5',
+                'selector': '[expr5]'
+              }
+            ]
+          )
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'input',
+          'redundantAttribute': 'expr6',
+          'selector': '[expr6]'
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'trailing',
+          'redundantAttribute': 'expr7',
+          'selector': '[expr7]'
+        },
+        {
+          'redundantAttribute': 'expr8',
+          'selector': '[expr8]',
+
+          'expressions': [
+            {
+              'type': expressionTypes.TEXT,
+              'childNodeIndex': 0,
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope.props.helperText;
+              }
+            }
+          ]
+        }
+      ]
     );
   },
 
