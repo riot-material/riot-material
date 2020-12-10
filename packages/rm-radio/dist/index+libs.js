@@ -1,77 +1,27 @@
-define(function () { 'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.radio = factory()));
+}(this, (function () { 'use strict';
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-	function createCommonjsModule(fn, basedir, module) {
-		return module = {
-			path: basedir,
-			exports: {},
-			require: function (path, base) {
-				return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-			}
-		}, fn(module, module.exports), module.exports;
+	function createCommonjsModule(fn) {
+	  var module = { exports: {} };
+		return fn(module, module.exports), module.exports;
 	}
 
-	function commonjsRequire () {
-		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-	}
-
-	var dist = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, '__esModule', { value: true });
-
-	/*! *****************************************************************************
-	Copyright (c) Microsoft Corporation.
-
-	Permission to use, copy, modify, and/or distribute this software for any
-	purpose with or without fee is hereby granted.
-
-	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-	REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-	AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-	INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-	LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-	OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-	PERFORMANCE OF THIS SOFTWARE.
-	***************************************************************************** */
-
-	var __assign = function() {
-	    __assign = Object.assign || function __assign(t) {
-	        for (var s, i = 1, n = arguments.length; i < n; i++) {
-	            s = arguments[i];
-	            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-	        }
-	        return t;
-	    };
-	    return __assign.apply(this, arguments);
-	};
-
-	var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : typeof self !== 'undefined' ? self : {};
-
-	function createCommonjsModule(fn, basedir, module) {
-		return module = {
-			path: basedir,
-			exports: {},
-			require: function (path, base) {
-				return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-			}
-		}, fn(module, module.exports), module.exports;
-	}
-
-	function commonjsRequire () {
-		throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-	}
-
-	var whatInput = createCommonjsModule(function (module, exports) {
 	/**
 	 * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
 	 * @version v5.2.10
 	 * @link https://github.com/ten1seven/what-input
 	 * @license MIT
 	 */
+
+	var whatInput = createCommonjsModule(function (module, exports) {
 	(function webpackUniversalModuleDefinition(root, factory) {
 		module.exports = factory();
-	})(commonjsGlobal$1, function() {
+	})(commonjsGlobal, function() {
 	return /******/ (function(modules) { // webpackBootstrap
 	/******/ 	// The module cache
 	/******/ 	var installedModules = {};
@@ -572,14 +522,41 @@ define(function () { 'use strict';
 	});
 	});
 
+	/*! *****************************************************************************
+	Copyright (c) Microsoft Corporation.
+
+	Permission to use, copy, modify, and/or distribute this software for any
+	purpose with or without fee is hereby granted.
+
+	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+	REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+	AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+	INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+	LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+	OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+	PERFORMANCE OF THIS SOFTWARE.
+	***************************************************************************** */
+
+	var __assign = function() {
+	    __assign = Object.assign || function __assign(t) {
+	        for (var s, i = 1, n = arguments.length; i < n; i++) {
+	            s = arguments[i];
+	            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	        return t;
+	    };
+	    return __assign.apply(this, arguments);
+	};
+
 	var RIPPLE = Symbol("ripple");
 	var RIPPLE_COUNT = Symbol("ripple-count");
 	var RIPPLE_OPTIONS = Symbol("ripple_options");
+	var TYPE;
 	(function (TYPE) {
 	    TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
 	    TYPE[TYPE["QUICK"] = 1] = "QUICK";
 	    TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
-	})(exports.TYPE || (exports.TYPE = {}));
+	})(TYPE || (TYPE = {}));
 	document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
 	var scaleUpStyle;
 	{
@@ -591,7 +568,7 @@ define(function () { 'use strict';
 	}
 	var Ripple = (function () {
 	    function Ripple(x, y, r, type) {
-	        if (type === void 0) { type = exports.TYPE.NORMAL; }
+	        if (type === void 0) { type = TYPE.NORMAL; }
 	        this._ended = false;
 	        this._onEnd = null;
 	        var div = this._div = document.createElement("div");
@@ -610,11 +587,11 @@ define(function () { 'use strict';
 	                "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
 	        }
 	        switch (type) {
-	            case exports.TYPE.QUICK: {
+	            case TYPE.QUICK: {
 	                div.style.transitionDuration = "175ms";
 	                break;
 	            }
-	            case exports.TYPE.INSTANT: {
+	            case TYPE.INSTANT: {
 	                div.style.transitionDuration = "0ms";
 	            }
 	        }
@@ -627,18 +604,16 @@ define(function () { 'use strict';
 	            return;
 	        }
 	        var rect = this._div.getBoundingClientRect();
-	        if (rect.width === 0 && rect.height === 0) {
-	            element.removeChild(this._div);
-	            return;
-	        }
-	        if (this._computedStyle.transform === scaleUpStyle) {
-	            if (this._computedStyle.opacity === "0") {
-	                element.removeChild(this._div);
-	                return;
-	            }
-	            else {
-	                if (this._ended) {
-	                    this._div.style.opacity = "0";
+	        if (rect.width !== 0 || rect.height !== 0) {
+	            if (this._computedStyle.transform === scaleUpStyle) {
+	                if (this._computedStyle.opacity === "0") {
+	                    element.removeChild(this._div);
+	                    return;
+	                }
+	                else {
+	                    if (this._ended) {
+	                        this._div.style.opacity = "0";
+	                    }
 	                }
 	            }
 	        }
@@ -685,7 +660,7 @@ define(function () { 'use strict';
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
-	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
 	    }
@@ -714,7 +689,7 @@ define(function () { 'use strict';
 	    ripple = (_a = {
 	            highlight: function () {
 	                var _this = this;
-	                var currentRipple = new Ripple(0, 0, null, exports.TYPE.INSTANT).attachTo(element, function () {
+	                var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
 	                    _this[RIPPLE_COUNT]--;
 	                });
 	                this[RIPPLE_COUNT]++;
@@ -722,15 +697,15 @@ define(function () { 'use strict';
 	            },
 	            start: function (x, y, event, type) {
 	                var _this = this;
-	                if (type === void 0) { type = exports.TYPE.NORMAL; }
+	                if (type === void 0) { type = TYPE.NORMAL; }
 	                var isFocus = !!(event && event.type === "focus");
 	                var isMouseEnter = !!(event && event.type === "mouseenter");
 	                var options = this[RIPPLE_OPTIONS];
 	                if (isFocus) {
-	                    type = options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+	                    type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
 	                }
 	                else if (isMouseEnter) {
-	                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+	                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
 	                }
 	                var r = null;
 	                var rect = null;
@@ -882,22 +857,21 @@ define(function () { 'use strict';
 	    ripple.set(options);
 	    return ripple;
 	}
-	function isRipple(element) {
-	    return element[RIPPLE] != null;
-	}
-
-	exports.isRipple = isRipple;
-	exports.ripple = ripple;
-	});
 
 	var index = {
 	  'css': `rm-radio,[is="rm-radio"]{ position: relative; font: message-box; font-size: 16px; cursor: pointer; -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; display: inline-block; margin-right: 8px; outline: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; } rm-radio label,[is="rm-radio"] label{ cursor: inherit; display: inline-block; } rm-radio [ref="circle"],[is="rm-radio"] [ref="circle"]{ height: 1.25em; width: 1.25em; position: relative; display: inline-block; vertical-align: middle; box-sizing: border-box; border-radius: 50%; background: transparent; margin: 0.25em .5em 0.25em 0; outline: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; color: rgb(0, 0, 255); color: rgb(var(--color-accent, 0, 0, 255)); } .rm-black-surface rm-radio [ref="circle"],.rm-black-surface [is="rm-radio"] [ref="circle"]{ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-black, 30, 144, 255)); } .rm-dark-surface rm-radio [ref="circle"],.rm-dark-surface [is="rm-radio"] [ref="circle"]{ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-dark, 30, 144, 255)); } .rm-light-surface rm-radio [ref="circle"],.rm-light-surface [is="rm-radio"] [ref="circle"]{ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-light, 0, 0, 255)); } .rm-white-surface rm-radio [ref="circle"],.rm-white-surface [is="rm-radio"] [ref="circle"]{ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-white, 0, 0, 255)); } rm-radio [ref="border"],[is="rm-radio"] [ref="border"]{ transition: border-color linear 100ms; border: 0.125em solid rgba(0, 0, 0, .42); border: 0.125em solid rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); height: 100%; width: 100%; box-sizing: border-box; border-radius: inherit; } .rm-black-surface rm-radio [ref="border"],.rm-black-surface [is="rm-radio"] [ref="border"]{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-radio [ref="border"],.rm-dark-surface [is="rm-radio"] [ref="border"]{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-radio [ref="border"],.rm-light-surface [is="rm-radio"] [ref="border"]{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-radio [ref="border"],.rm-white-surface [is="rm-radio"] [ref="border"]{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-radio [ref="radio-circle"],[is="rm-radio"] [ref="radio-circle"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent, 0, 0, 255)); position: absolute; top: 0.3125em; bottom: 0.3125em; right: 0.3125em; left: 0.3125em; text-align: center; transition: transform linear 100ms; transform: scale(0); border-radius: inherit; } .rm-black-surface rm-radio [ref="radio-circle"],.rm-black-surface [is="rm-radio"] [ref="radio-circle"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-black, 30, 144, 255)); } .rm-dark-surface rm-radio [ref="radio-circle"],.rm-dark-surface [is="rm-radio"] [ref="radio-circle"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-dark, 30, 144, 255)); } .rm-light-surface rm-radio [ref="radio-circle"],.rm-light-surface [is="rm-radio"] [ref="radio-circle"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-light, 0, 0, 255)); } .rm-white-surface rm-radio [ref="radio-circle"],.rm-white-surface [is="rm-radio"] [ref="radio-circle"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-white, 0, 0, 255)); } rm-radio.rm-checked [ref="radio-circle"],[is="rm-radio"].rm-checked [ref="radio-circle"]{ transform: scale(1); } rm-radio.rm-checked [ref="border"],[is="rm-radio"].rm-checked [ref="border"]{ border-color: rgb(0, 0, 255); border-color: rgb(var(--color-accent, 0, 0, 255)); } .rm-black-surface rm-radio.rm-checked [ref="border"],.rm-black-surface [is="rm-radio"].rm-checked [ref="border"]{ border-color: rgb(30, 144, 255); border-color: rgb(var(--color-accent-on-black, 30, 144, 255)); } .rm-dark-surface rm-radio.rm-checked [ref="border"],.rm-dark-surface [is="rm-radio"].rm-checked [ref="border"]{ border-color: rgb(30, 144, 255); border-color: rgb(var(--color-accent-on-dark, 30, 144, 255)); } .rm-light-surface rm-radio.rm-checked [ref="border"],.rm-light-surface [is="rm-radio"].rm-checked [ref="border"]{ border-color: rgb(0, 0, 255); border-color: rgb(var(--color-accent-on-light, 0, 0, 255)); } .rm-white-surface rm-radio.rm-checked [ref="border"],.rm-white-surface [is="rm-radio"].rm-checked [ref="border"]{ border-color: rgb(0, 0, 255); border-color: rgb(var(--color-accent-on-white, 0, 0, 255)); } rm-radio input,[is="rm-radio"] input{ border: 0; position: absolute; overflow: hidden; clip: rect(0 0 0 0); height: 1px; width: 1px; margin: -1px; padding: 0; outline: 0; -webkit-appearance: none; -moz-appearance: none; }`,
 
 	  'exports': {
+	    _updateRipple() {
+	        ripple(this.root.querySelector("[ref=circle]"), {
+	            disabled: this.isDisabled() || this.isReadonly()
+	        });
+	    },
+
 	    onMounted() {
 	        const circle = this.root.querySelector("[ref=circle]");
 	        const input = this.root.querySelector("input");
-	        const circleRipple = dist.ripple(
+	        const circleRipple = ripple(
 	            circle,
 	            {
 	                centered: true,
@@ -947,12 +921,11 @@ define(function () { 'use strict';
 	        input.addEventListener("change", refresh);
 	        input.addEventListener("unchecked", refreshUI);
 	        refresh();
+	        this._updateRipple();
 	    },
 
 	    onUpdated() {
-	        dist.ripple(this.root.querySelector("[ref=circle]"), {
-	            disabled: this.isDisabled()
-	        });
+	        this._updateRipple();
 	    },
 
 	    getName() {
@@ -966,57 +939,86 @@ define(function () { 'use strict';
 
 	    isDisabled() {
 	        return this.props.disabled != null && this.props.disabled !== false;
+	    },
+
+	    isReadonly() {
+	        return this.props.readonly != null && this.props.readonly !== false;
 	    }
 	  },
 
-	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+	  'template': function(
+	    template,
+	    expressionTypes,
+	    bindingTypes,
+	    getComponent
+	  ) {
 	    return template(
-	      '<label><input expr6="expr6" type="radio" tabindex="0"/><div ref="circle"><div ref="border"></div><div ref="radio-circle"></div></div><div expr7="expr7" style="vertical-align: middle; display: inline-block;"> </div></label>',
-	      [{
-	        'redundantAttribute': 'expr6',
-	        'selector': '[expr6]',
+	      '<label><input expr2="expr2" type="radio"/><div ref="circle"><div ref="border"></div><div ref="radio-circle"></div></div><div expr3="expr3" style="vertical-align: middle; display: inline-block;"> </div></label>',
+	      [
+	        {
+	          'redundantAttribute': 'expr2',
+	          'selector': '[expr2]',
 
-	        'expressions': [{
-	          'type': expressionTypes.VALUE,
+	          'expressions': [
+	            {
+	              'type': expressionTypes.VALUE,
 
-	          'evaluate': function(scope) {
-	            return scope.props.value;
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'name',
+	              'evaluate': function(
+	                scope
+	              ) {
+	                return scope.props.value;
+	              }
+	            },
+	            {
+	              'type': expressionTypes.ATTRIBUTE,
+	              'name': 'name',
 
-	          'evaluate': function(scope) {
-	            return scope.props.name;
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'checked',
+	              'evaluate': function(
+	                scope
+	              ) {
+	                return scope.props.name;
+	              }
+	            },
+	            {
+	              'type': expressionTypes.ATTRIBUTE,
+	              'name': 'checked',
 
-	          'evaluate': function(scope) {
-	            return scope.isChecked();
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'disabled',
+	              'evaluate': function(
+	                scope
+	              ) {
+	                return scope.isChecked();
+	              }
+	            },
+	            {
+	              'type': expressionTypes.ATTRIBUTE,
+	              'name': 'disabled',
 
-	          'evaluate': function(scope) {
-	            return scope.isDisabled();
-	          }
-	        }]
-	      }, {
-	        'redundantAttribute': 'expr7',
-	        'selector': '[expr7]',
+	              'evaluate': function(
+	                scope
+	              ) {
+	                return scope.isDisabled() || scope.isReadonly();
+	              }
+	            }
+	          ]
+	        },
+	        {
+	          'redundantAttribute': 'expr3',
+	          'selector': '[expr3]',
 
-	        'expressions': [{
-	          'type': expressionTypes.TEXT,
-	          'childNodeIndex': 0,
+	          'expressions': [
+	            {
+	              'type': expressionTypes.TEXT,
+	              'childNodeIndex': 0,
 
-	          'evaluate': function(scope) {
-	            return scope.props.label;
-	          }
-	        }]
-	      }]
+	              'evaluate': function(
+	                scope
+	              ) {
+	                return scope.props.label;
+	              }
+	            }
+	          ]
+	        }
+	      ]
 	    );
 	  },
 
@@ -1025,4 +1027,4 @@ define(function () { 'use strict';
 
 	return index;
 
-});
+})));

@@ -1,6 +1,6 @@
 <rm-radio>
     <label>
-        <input type="radio" value={ props.value } name={ props.name } tabindex="0" checked={ isChecked() } disabled={ isDisabled() }>
+        <input type="radio" value={ props.value } name={ props.name } checked={ isChecked() } disabled={ isDisabled() || isReadonly() }>
         <div ref="circle">
             <div ref="border"></div>
             <div ref="radio-circle"></div>
@@ -156,6 +156,11 @@
         import { ripple } from "@riot-material/ripple";
 
         export default {
+            _updateRipple() {
+                ripple(this.root.querySelector("[ref=circle]"), {
+                    disabled: this.isDisabled() || this.isReadonly()
+                });
+            },
             onMounted() {
                 const circle = this.root.querySelector("[ref=circle]");
                 const input = this.root.querySelector("input");
@@ -209,11 +214,10 @@
                 input.addEventListener("change", refresh);
                 input.addEventListener("unchecked", refreshUI);
                 refresh();
+                this._updateRipple();
             },
             onUpdated() {
-                ripple(this.root.querySelector("[ref=circle]"), {
-                    disabled: this.isDisabled()
-                });
+                this._updateRipple();
             },
             getName() {
                 const name = this.props.name;
@@ -224,6 +228,9 @@
             },
             isDisabled() {
                 return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
             }
         }
     </script>
