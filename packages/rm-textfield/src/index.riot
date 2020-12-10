@@ -3,7 +3,7 @@
         label={ props.label } full-width={ isFullWidth() } disabled={ isDisabled() }
         class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
     >
-        <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
+        <input oninput={ _oninputinput }
             type={ getType() } value={ props.value } name={ props.name }
             disabled={ isDisabled() } slot="input"
         >
@@ -51,8 +51,30 @@
                     }
                 });
             },
+            _onfocus: null,
+            _onblur: null,
             onMounted() {
                 this._input = this.root.querySelector("input");
+                window.addEventListener("focus", this._onfocus = event => {
+                    if (event.target !== this._input) {
+                        return;
+                    }
+                    event.stopImmediatePropagation();
+                    this.update({ focused: true });
+                    this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
+                }, true);
+                window.addEventListener("blur", this._onblur = event => {
+                    if (event.target !== this._input) {
+                        return;
+                    }
+                    event.stopImmediatePropagation();
+                    this.update({ focused: false });
+                    this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
+                }, true);
+            },
+            onBeforeUnmount() {
+                window.removeEventListener("focus", this._onfocus, true);
+                window.removeEventListener("blur", this._onblur, true);
             },
             _oncontainermousedown(event) {
                 if (this.props.disabled) {
@@ -63,12 +85,6 @@
                     event.preventDefault();
                     input.focus();
                 }
-            },
-            _oninputfocus() {
-                this.update({ focused: true });
-            },
-            _oninputblur() {
-                this.update({ focused: false });
             },
             _oninputinput() {
                 this.update();

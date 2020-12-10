@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RM-TEXTFIELD test</title>
+    </head>
+    <body>
+        <test></test>
+        
+        <script src="../node_modules/riot/riot+compiler.min.js"></script>
+        <script src="../dist/index+libs.js"></script>
+
+        <script data-src="test.riot" type="riot"></script>
+
+        <script>
+            riot.compile().then(() => {
+                riot.register("rm-textfield", riotMaterial.components.textfield);
+                riot.mount("test");
+            })
+        </script>
+    </body>
+</html>

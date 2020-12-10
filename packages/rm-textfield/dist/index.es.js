@@ -17,8 +17,32 @@ var index = {
         });
     },
 
+    _onfocus: null,
+    _onblur: null,
+
     onMounted() {
         this._input = this.root.querySelector("input");
+        window.addEventListener("focus", this._onfocus = event => {
+            if (event.target !== this._input) {
+                return;
+            }
+            event.stopImmediatePropagation();
+            this.update({ focused: true });
+            this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
+        }, true);
+        window.addEventListener("blur", this._onblur = event => {
+            if (event.target !== this._input) {
+                return;
+            }
+            event.stopImmediatePropagation();
+            this.update({ focused: false });
+            this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
+        }, true);
+    },
+
+    onBeforeUnmount() {
+        window.removeEventListener("focus", this._onfocus, true);
+        window.removeEventListener("blur", this._onblur, true);
     },
 
     _oncontainermousedown(event) {
@@ -30,14 +54,6 @@ var index = {
             event.preventDefault();
             input.focus();
         }
-    },
-
-    _oninputfocus() {
-        this.update({ focused: true });
-    },
-
-    _oninputblur() {
-        this.update({ focused: false });
     },
 
     _oninputinput() {
@@ -103,184 +119,246 @@ var index = {
     }
   },
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<rm-textfield-container expr5="expr5"></rm-textfield-container>', [{
-      'type': bindingTypes.TAG,
-      'getComponent': getComponent,
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      '<rm-textfield-container expr0="expr0"></rm-textfield-container>',
+      [
+        {
+          'type': bindingTypes.TAG,
+          'getComponent': getComponent,
 
-      'evaluate': function(scope) {
-        return 'rm-textfield-container';
-      },
-
-      'slots': [{
-        'id': 'input',
-        'html': '<input expr6="expr6" slot="input"/>',
-
-        'bindings': [{
-          'redundantAttribute': 'expr6',
-          'selector': '[expr6]',
-
-          'expressions': [{
-            'type': expressionTypes.EVENT,
-            'name': 'onfocus',
-
-            'evaluate': function(scope) {
-              return scope._oninputfocus;
-            }
-          }, {
-            'type': expressionTypes.EVENT,
-            'name': 'onblur',
-
-            'evaluate': function(scope) {
-              return scope._oninputblur;
-            }
-          }, {
-            'type': expressionTypes.EVENT,
-            'name': 'oninput',
-
-            'evaluate': function(scope) {
-              return scope._oninputinput;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'type',
-
-            'evaluate': function(scope) {
-              return scope.getType();
-            }
-          }, {
-            'type': expressionTypes.VALUE,
-
-            'evaluate': function(scope) {
-              return scope.props.value;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'name',
-
-            'evaluate': function(scope) {
-              return scope.props.name;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'disabled',
-
-            'evaluate': function(scope) {
-              return scope.isDisabled();
-            }
-          }]
-        }]
-      }, {
-        'id': 'leading',
-        'html': '<slot expr7="expr7" name="leading" slot="leading"></slot>',
-
-        'bindings': [{
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'leading',
-          'redundantAttribute': 'expr7',
-          'selector': '[expr7]'
-        }]
-      }, {
-        'id': 'trailing',
-        'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr8="expr8" variant="icon" dense></rm-button><slot expr9="expr9" name="trailing"></slot></span>',
-
-        'bindings': [{
-          'type': bindingTypes.IF,
-
-          'evaluate': function(scope) {
-            return scope.isClearable() && scope.root.value;
+          'evaluate': function(
+            scope
+          ) {
+            return 'rm-textfield-container';
           },
 
-          'redundantAttribute': 'expr8',
-          'selector': '[expr8]',
+          'slots': [
+            {
+              'id': 'input',
+              'html': '<input expr1="expr1" slot="input"/>',
 
-          'template': template(null, [{
-            'type': bindingTypes.TAG,
-            'getComponent': getComponent,
+              'bindings': [
+                {
+                  'redundantAttribute': 'expr1',
+                  'selector': '[expr1]',
 
-            'evaluate': function(scope) {
-              return 'rm-button';
+                  'expressions': [
+                    {
+                      'type': expressionTypes.EVENT,
+                      'name': 'oninput',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope._oninputinput;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'type',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.getType();
+                      }
+                    },
+                    {
+                      'type': expressionTypes.VALUE,
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.value;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'name',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.name;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'disabled',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.isDisabled();
+                      }
+                    }
+                  ]
+                }
+              ]
             },
+            {
+              'id': 'leading',
+              'html': '<slot expr2="expr2" name="leading" slot="leading"></slot>',
 
-            'slots': [{
-              'id': 'default',
-              'html': 'clear',
-              'bindings': []
-            }],
+              'bindings': [
+                {
+                  'type': bindingTypes.SLOT,
+                  'attributes': [],
+                  'name': 'leading',
+                  'redundantAttribute': 'expr2',
+                  'selector': '[expr2]'
+                }
+              ]
+            },
+            {
+              'id': 'trailing',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr3="expr3" variant="icon" dense></rm-button><slot expr4="expr4" name="trailing"></slot></span>',
 
-            'attributes': [{
-              'type': expressionTypes.EVENT,
-              'name': 'onclick',
+              'bindings': [
+                {
+                  'type': bindingTypes.IF,
 
-              'evaluate': function(scope) {
-                return scope.clear;
-              }
-            }, {
+                  'evaluate': function(
+                    scope
+                  ) {
+                    return scope.isClearable() && scope.root.value;
+                  },
+
+                  'redundantAttribute': 'expr3',
+                  'selector': '[expr3]',
+
+                  'template': template(
+                    null,
+                    [
+                      {
+                        'type': bindingTypes.TAG,
+                        'getComponent': getComponent,
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return 'rm-button';
+                        },
+
+                        'slots': [
+                          {
+                            'id': 'default',
+                            'html': 'clear',
+                            'bindings': []
+                          }
+                        ],
+
+                        'attributes': [
+                          {
+                            'type': expressionTypes.EVENT,
+                            'name': 'onclick',
+
+                            'evaluate': function(
+                              scope
+                            ) {
+                              return scope.clear;
+                            }
+                          },
+                          {
+                            'type': expressionTypes.ATTRIBUTE,
+                            'name': 'tabindex',
+
+                            'evaluate': function(
+                              scope
+                            ) {
+                              return scope.isDisabled() ? "-1" : null;
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  )
+                },
+                {
+                  'type': bindingTypes.SLOT,
+                  'attributes': [],
+                  'name': 'trailing',
+                  'redundantAttribute': 'expr4',
+                  'selector': '[expr4]'
+                }
+              ]
+            }
+          ],
+
+          'attributes': [
+            {
               'type': expressionTypes.ATTRIBUTE,
-              'name': 'tabindex',
+              'name': 'variant',
 
-              'evaluate': function(scope) {
-                return scope.isDisabled() ? "-1" : null;
+              'evaluate': function(
+                scope
+              ) {
+                return scope.props.variant;
               }
-            }]
-          }])
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'trailing',
-          'redundantAttribute': 'expr9',
-          'selector': '[expr9]'
-        }]
-      }],
+            },
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'label',
 
-      'attributes': [{
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'variant',
+              'evaluate': function(
+                scope
+              ) {
+                return scope.props.label;
+              }
+            },
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'full-width',
 
-        'evaluate': function(scope) {
-          return scope.props.variant;
+              'evaluate': function(
+                scope
+              ) {
+                return scope.isFullWidth();
+              }
+            },
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'disabled',
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope.isDisabled();
+              }
+            },
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'class',
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope._getTextfieldContainerClass();
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onmousedown',
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope._oncontainermousedown;
+              }
+            }
+          ],
+
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]'
         }
-      }, {
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'label',
-
-        'evaluate': function(scope) {
-          return scope.props.label;
-        }
-      }, {
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'full-width',
-
-        'evaluate': function(scope) {
-          return scope.isFullWidth();
-        }
-      }, {
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'disabled',
-
-        'evaluate': function(scope) {
-          return scope.isDisabled();
-        }
-      }, {
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'class',
-
-        'evaluate': function(scope) {
-          return scope._getTextfieldContainerClass();
-        }
-      }, {
-        'type': expressionTypes.EVENT,
-        'name': 'onmousedown',
-
-        'evaluate': function(scope) {
-          return scope._oncontainermousedown;
-        }
-      }],
-
-      'redundantAttribute': 'expr5',
-      'selector': '[expr5]'
-    }]);
+      ]
+    );
   },
 
   'name': 'rm-textfield'
