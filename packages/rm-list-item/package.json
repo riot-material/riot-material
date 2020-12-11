@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-list-item",
-  "version": "1.0.16",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -23,7 +23,7 @@
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.0.4"
+    "@riot-material/ripple": "^1.0.5"
   },
   "files": [
     "dist",

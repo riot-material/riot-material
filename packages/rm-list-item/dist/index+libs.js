@@ -604,18 +604,16 @@
 	            return;
 	        }
 	        var rect = this._div.getBoundingClientRect();
-	        if (rect.width === 0 && rect.height === 0) {
-	            element.removeChild(this._div);
-	            return;
-	        }
-	        if (this._computedStyle.transform === scaleUpStyle) {
-	            if (this._computedStyle.opacity === "0") {
-	                element.removeChild(this._div);
-	                return;
-	            }
-	            else {
-	                if (this._ended) {
-	                    this._div.style.opacity = "0";
+	        if (rect.width !== 0 || rect.height !== 0) {
+	            if (this._computedStyle.transform === scaleUpStyle) {
+	                if (this._computedStyle.opacity === "0") {
+	                    element.removeChild(this._div);
+	                    return;
+	                }
+	                else {
+	                    if (this._ended) {
+	                        this._div.style.opacity = "0";
+	                    }
 	                }
 	            }
 	        }
@@ -921,6 +919,9 @@
 	                set: value => {
 	                    this.update({ selected: value != null && value !== false });
 	                }
+	            },
+	            passive: {
+	                get: () => this.isPassive()
 	            }
 	        });
 	        if (this.props.value != null && this.props.menuOption == null) {

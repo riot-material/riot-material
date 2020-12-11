@@ -65,6 +65,9 @@
                     set: value => {
                         this.update({ selected: value != null && value !== false });
                     }
+                },
+                passive: {
+                    get: () => this.isPassive()
                 }
             });
             if (this.props.value != null && this.props.menuOption == null) {

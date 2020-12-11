@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.0] - 2020-12-11
+- add `passive` property to root element
+
 ## [1.0.16] - 2020-12-08
 - give label a minimum width, including trailing slot
 
