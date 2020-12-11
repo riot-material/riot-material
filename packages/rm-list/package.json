@@ -1,0 +1,33 @@
+{
+  "name": "@riot-material/rm-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kal Aster",
+  "license": "MIT",
+  "devDependencies": {
+    "@riot-material/rm-button": "^1.0.4",
+    "@riot-material/rm-floating-surface": "^1.0.0",
+    "@riot-material/rm-list-item": "^1.1.0",
+    "@riot-material/rm-textfield": "^1.0.4",
+    "@riotjs/compiler": "^5.1.3",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "riot": "^5.1.1",
+    "rollup": "^2.34.2",
+    "rollup-plugin-riot": "^5.0.0"
+  },
+  "dependencies": {
+    "@riot-material/ripple": "^1.0.4",
+    "tabbable": "^5.1.4"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

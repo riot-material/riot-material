@@ -1,0 +1,104 @@
+<test>
+    <rm-textfield variant="outlined"
+        onkeydown={ _oninputkeydown } onfocus={ _oninputfocus }
+        onblur={ _oninputblur } oninput={ _oninputinput }
+    ></rm-textfield>
+    <rm-floating-surface anchor={ getAnchorEl() } if={ state.focused } inherit-width variant="outlined">
+        <rm-list prevent-focus prevent-highlight single-highlight>
+            <rm-list-item each={ suggestion in getSuggestions() }>{ suggestion }</rm-list-item>
+        </rm-list>
+    </rm-floating-surface>
+    <rm-list>
+        <rm-list-item>Test 1<rm-button variant="icon" slot="trailing">more_vert</rm-button></rm-list-item>
+        <rm-list-item>Test 2<rm-button variant="icon" slot="trailing">more_vert</rm-button></rm-list-item>
+        <rm-list-item>Test 3<rm-button variant="icon" slot="trailing">more_vert</rm-button></rm-list-item>
+        <rm-list-item>Test 4<rm-button variant="icon" slot="trailing">more_vert</rm-button></rm-list-item>
+    </rm-list>
+
+    <script>
+        const suggestions = [
+            "situazione",
+            "angina",
+            "massa",
+            "componente",
+            "principale",
+            "popolazione",
+            "relatività",
+            "ripercussione",
+            "corteccia",
+            "ramo",
+            "nodo",
+            "vela",
+            "mare",
+            "pesce",
+            "scoglio",
+            "cozza",
+            "vongola",
+            "seppia",
+            "porto",
+            "abbigliamento",
+            "sabbia",
+            "sassi",
+            "pontile",
+            "gente",
+            "skate"
+        ];
+
+        export default {
+            _oninputfocus(event) {
+                this.update({ focused: true });
+                const list = this.root.querySelector("rm-list[prevent-focus]");
+                list.setIndex(0);
+            },
+            _oninputblur(event) {
+                this.update({ focused: false });
+            },
+            _oninputkeydown(event) {
+                switch (event.key) {
+                    case "ArrowDown": {
+                        const list = this.root.querySelector("rm-list[prevent-focus]");
+                        if (list.isHighlighted()) {
+                            list.highlightNext();
+                        } else {
+                            list.highlightCurrent();
+                        }
+                        break;
+                    }
+                    case "ArrowUp": {
+                        const list = this.root.querySelector("rm-list[prevent-focus]");
+                        list.highlightPrevious();
+                        break;
+                    }
+                    case "Enter": {
+                        const list = this.root.querySelector("rm-list[prevent-focus]");
+                        const input = this.root.querySelector("rm-textfield");
+                        if (list.isHighlighted()) {
+                            input.value = list.getCurrent().label;
+                        }
+                        list.lessen();
+                        console.log(input.value);
+                        this.update();
+                        break;
+                    }
+                    default: {
+                        return;
+                    }
+                }
+                event.preventDefault();
+            },
+            _oninputinput() {
+                this.update();
+            },
+            getSuggestions() {
+                const value = this.root.querySelector("rm-textfield").value.toLowerCase();
+                if (!value) {
+                    return suggestions;
+                }
+                return suggestions.filter(suggestion => suggestion.toLowerCase().startsWith(value));
+            },
+            getAnchorEl() {
+                return this.root.querySelector("rm-textfield").firstElementChild;
+            }
+        }
+    </script>
+</test>

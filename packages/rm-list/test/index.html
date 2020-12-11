@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RM-LIST test</title>
+    </head>
+    <body>
+        <test></test>
+
+        <script src="../node_modules/riot/riot+compiler.js"></script>
+        <script src="../node_modules/@riot-material/before-focus-listener/dist/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/ripple/dist/index+libs.js"></script>
+        <script src="../node_modules/@riot-material/rm-icon/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-button/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-list-item/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-textfield-container/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-textfield/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/elevation/dist/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/surfaces/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/rm-floating-surface/dist/index.js"></script>
+        <script src="../node_modules/tabbable/dist/index.umd.js"></script>
+        <script src="../dist/index.js"></script>
+
+        <script data-src="test.riot" type="riot"></script>
+
+        <script>
+            riot.compile().then(() => {
+                riot.register("rm-floating-surface", riotMaterial.components.floatingSurface);
+                riot.register("rm-textfield", riotMaterial.components.textfield);
+                riot.register("rm-textfield-container", riotMaterial.components.textfieldContainer);
+                riot.register("rm-list", riotMaterial.components.list);
+                riot.register("rm-list-item", riotMaterial.components.listItem);
+                riot.register("rm-icon", riotMaterial.components.icon);
+                riot.register("rm-button", riotMaterial.components.button);
+                riot.mount("test");
+            });
+        </script>
+    </body>
+</html>
