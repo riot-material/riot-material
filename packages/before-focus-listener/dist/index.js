@@ -6,7 +6,15 @@
 
     var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
     function addListener(element, handler, context) {
-        if (handler === void 0 || typeof handler !== "function") {
+        if (handler === void 0) {
+            throw new Error("invalid handler");
+        }
+        if (typeof handler === "function") {
+            handler = {
+                handleEvent: handler
+            };
+        }
+        else if (typeof handler !== "object" || !("handleEvent" in handler)) {
             throw new Error("invalid handler");
         }
         var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
@@ -43,7 +51,7 @@
             }
             instance.listeners.some(function (_a) {
                 var handler = _a.handler, context = _a.context;
-                handler.call(context, event);
+                handler.handleEvent(event);
                 if (stopImmediate) {
                     restore();
                     event.stopImmediatePropagation();
@@ -113,8 +121,11 @@
             return;
         }
         var index = -1;
+        if (typeof handler === "function") {
+            handler = { handleEvent: handler };
+        }
         if (instance.listeners.some(function (listener, i) {
-            if (listener.handler === handler) {
+            if (listener.handler === handler || listener.handler.handleEvent === handler.handleEvent) {
                 index = i;
                 return true;
             }

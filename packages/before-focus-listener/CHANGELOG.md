@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.1] - 2020-12-24
+- make addListener accepts eventListenerObject
+
 ## [1.1.0] - 2020-12-24
 - redirect HTMLElement add and remove "beforefocus" listener functions to beforefocus add and remove functions
 - update dependencies

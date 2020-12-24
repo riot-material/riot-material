@@ -8,19 +8,34 @@ interface IBeforeFocusController {
     ontouchcancel: (event: TouchEvent) => void;
     onmousedown: (event: MouseEvent) => void;
     listeners: {
-        handler(event: TouchEvent | MouseEvent): void,
+        handler: {
+            handleEvent(event: TouchEvent | MouseEvent): void
+        },
         context: any
     }[];
 }
 
-export function addListener<T>(element: HTMLElement, handler: (this: T, event: TouchEvent | MouseEvent) => void, context?: T): void {
-    if (handler === void 0 || typeof handler !== "function") {
+export function addListener<T>(
+    element: HTMLElement,
+    handler: (this: T, event: TouchEvent | MouseEvent) => void | {
+        handleEvent(this: T, event: TouchEvent | MouseEvent): void
+    },
+    context?: T
+): void {
+    if (handler === void 0) {
+        throw new Error("invalid handler");
+    }
+    if (typeof handler === "function") {
+        handler = {
+            handleEvent: handler as (this: T, event: TouchEvent | MouseEvent) => void
+        } as any;
+    } else if (typeof handler !== "object" || !("handleEvent" in handler)){
         throw new Error("invalid handler");
     }
     let instance: IBeforeFocusController = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
     if (instance) {
         instance.listeners.push({
-            handler, context
+            handler: (handler as any), context
         });
         if (instance.listeners.length === 1) {
             window.addEventListener("touchstart", instance._window_ontouchstart);
@@ -53,7 +68,7 @@ export function addListener<T>(element: HTMLElement, handler: (this: T, event: T
             delete event.stopImmediatePropagation;
         }
         instance.listeners.some(({ handler, context }) => {
-            handler.call(context, event);
+            handler.handleEvent(event);
             if (stopImmediate) {
                 restore();
                 event.stopImmediatePropagation();
@@ -110,7 +125,7 @@ export function addListener<T>(element: HTMLElement, handler: (this: T, event: T
             }
             callListeners(event);
         },
-        listeners: [ { handler, context } ]
+        listeners: [ { handler: handler as any, context } ]
     };
     element.addEventListener("touchstart", instance.ontouchstart);
     element.addEventListener("touchmove", instance.ontouchmove);
@@ -124,8 +139,11 @@ export function removeListener(element: HTMLElement, handler: (event: TouchEvent
         return;
     }
     let index: number = -1;
+    if (typeof handler === "function") {
+        handler = { handleEvent: handler } as any;
+    }
     if (instance.listeners.some((listener, i) => {
-        if (listener.handler === handler) {
+        if (listener.handler === handler as any || listener.handler.handleEvent === (handler as any).handleEvent) {
             index = i;
             return true;
         }
