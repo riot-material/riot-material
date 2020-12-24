@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.2] - 2020-12-24
+- make custom "beforefocus" event pass preventDefault to native event
+
 ## [1.2.1] - 2020-12-24
 - emit custom "beforefocus" event
 
