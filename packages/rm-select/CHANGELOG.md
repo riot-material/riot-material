@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.12] - 2020-12-24
+- update dependencies
+
 ## [1.0.11] - 2020-12-07
 - fix _lastSelectedOption bug
 

@@ -80,7 +80,7 @@
         import MenuComponent from "@riot-material/rm-menu";
         import { ripple } from "@riot-material/ripple";
 
-        import beforeFocusListener from "@riot-material/before-focus-listener";
+        import "@riot-material/before-focus-listener";
         import { __ as __r } from "riot";
 
         const blockedInputs = [];
@@ -230,7 +230,7 @@
 
                 blockedInputs.push(input);
 
-                beforeFocusListener.addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
+                this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
                     if (this.props.disabled) {
                         return;
                     }
@@ -244,7 +244,7 @@
                         this.update({ menuopened: !this.state.menuopened });
                     }
                 });
-                beforeFocusListener.addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
+                this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
                     if (this.props.disabled) {
                         return;
                     }
@@ -285,8 +285,8 @@
                 })) {
                     blockedInputs.splice(i, 1);
                 }
-                beforeFocusListener.removeListener(this.root.firstElementChild, this._onclickFirstChild);
-                beforeFocusListener.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
+                this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
+                this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
             },
             _manipulated: [],
             _manipulate() {

@@ -88,100 +88,135 @@
       }
     },
 
-    'template': function(template, expressionTypes, bindingTypes, getComponent) {
+    'template': function(
+      template,
+      expressionTypes,
+      bindingTypes,
+      getComponent
+    ) {
       return template(
         '<label expr0="expr0" class="rm-textfield-container--main"><div class="rm-textfield-container--border"></div><div class="rm-textfield-container--leading"><slot expr1="expr1" name="leading"></slot></div><div expr2="expr2" class="rm-textfield-container--border-notch"> </div><div class="rm-textfield-container--container"><div class="rm-textfield-container--content"><div expr3="expr3" class="rm-textfield-container--label"> </div><div style="position: relative; user-select: auto;"><template expr4="expr4"></template><slot expr6="expr6" name="input"></slot></div></div></div><div class="rm-textfield-container--trailing"><slot expr7="expr7" name="trailing"></slot></div><div class="rm-textfield-container--basic-underline"></div><div class="rm-textfield-container--underline"></div><div class="rm-textfield-container--disabled-block"></div></label><div style="height: 1em; line-height: 1em; margin-bottom: -1em; pointer-events: none;"><div expr8="expr8" style="font-size: .75em;"> </div></div>',
-        [{
-          'redundantAttribute': 'expr0',
-          'selector': '[expr0]',
+        [
+          {
+            'redundantAttribute': 'expr0',
+            'selector': '[expr0]',
 
-          'expressions': [{
-            'type': expressionTypes.EVENT,
-            'name': 'onmousedown',
+            'expressions': [
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onmousedown',
 
-            'evaluate': function(scope) {
-              return scope._onlabelpointerdown;
-            }
-          }]
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'leading',
-          'redundantAttribute': 'expr1',
-          'selector': '[expr1]'
-        }, {
-          'redundantAttribute': 'expr2',
-          'selector': '[expr2]',
-
-          'expressions': [{
-            'type': expressionTypes.TEXT,
-            'childNodeIndex': 0,
-
-            'evaluate': function(scope) {
-              return scope.props.label;
-            }
-          }]
-        }, {
-          'redundantAttribute': 'expr3',
-          'selector': '[expr3]',
-
-          'expressions': [{
-            'type': expressionTypes.TEXT,
-            'childNodeIndex': 0,
-
-            'evaluate': function(scope) {
-              return scope.props.label;
-            }
-          }]
-        }, {
-          'type': bindingTypes.IF,
-
-          'evaluate': function(scope) {
-            return !scope._hasInputSlot();
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope._onlabelpointerdown;
+                }
+              }
+            ]
           },
-
-          'redundantAttribute': 'expr4',
-          'selector': '[expr4]',
-
-          'template': template('<slot expr5="expr5"></slot>', [{
+          {
             'type': bindingTypes.SLOT,
             'attributes': [],
-            'name': 'default',
-            'redundantAttribute': 'expr5',
-            'selector': '[expr5]'
-          }])
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'input',
-          'redundantAttribute': 'expr6',
-          'selector': '[expr6]'
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'trailing',
-          'redundantAttribute': 'expr7',
-          'selector': '[expr7]'
-        }, {
-          'redundantAttribute': 'expr8',
-          'selector': '[expr8]',
+            'name': 'leading',
+            'redundantAttribute': 'expr1',
+            'selector': '[expr1]'
+          },
+          {
+            'redundantAttribute': 'expr2',
+            'selector': '[expr2]',
 
-          'expressions': [{
-            'type': expressionTypes.TEXT,
-            'childNodeIndex': 0,
+            'expressions': [
+              {
+                'type': expressionTypes.TEXT,
+                'childNodeIndex': 0,
 
-            'evaluate': function(scope) {
-              return scope.props.helperText;
-            }
-          }]
-        }]
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.label;
+                }
+              }
+            ]
+          },
+          {
+            'redundantAttribute': 'expr3',
+            'selector': '[expr3]',
+
+            'expressions': [
+              {
+                'type': expressionTypes.TEXT,
+                'childNodeIndex': 0,
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.label;
+                }
+              }
+            ]
+          },
+          {
+            'type': bindingTypes.IF,
+
+            'evaluate': function(
+              scope
+            ) {
+              return !scope._hasInputSlot();
+            },
+
+            'redundantAttribute': 'expr4',
+            'selector': '[expr4]',
+
+            'template': template(
+              '<slot expr5="expr5"></slot>',
+              [
+                {
+                  'type': bindingTypes.SLOT,
+                  'attributes': [],
+                  'name': 'default',
+                  'redundantAttribute': 'expr5',
+                  'selector': '[expr5]'
+                }
+              ]
+            )
+          },
+          {
+            'type': bindingTypes.SLOT,
+            'attributes': [],
+            'name': 'input',
+            'redundantAttribute': 'expr6',
+            'selector': '[expr6]'
+          },
+          {
+            'type': bindingTypes.SLOT,
+            'attributes': [],
+            'name': 'trailing',
+            'redundantAttribute': 'expr7',
+            'selector': '[expr7]'
+          },
+          {
+            'redundantAttribute': 'expr8',
+            'selector': '[expr8]',
+
+            'expressions': [
+              {
+                'type': expressionTypes.TEXT,
+                'childNodeIndex': 0,
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.props.helperText;
+                }
+              }
+            ]
+          }
+        ]
       );
     },
 
     'name': 'rm-textfield-container'
   };
-
-  var dist = index;
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -1093,15 +1128,24 @@
   };
 
   var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
-  function addListener(element, handler, context) {
-      if (handler === void 0 || typeof handler !== "function") {
+  var WAS_FUNCTION = Symbol("was-function");
+  function addListener(element, handler) {
+      var _a;
+      if (handler === void 0) {
+          throw new Error("invalid handler");
+      }
+      if (typeof handler === "function") {
+          handler = (_a = {},
+              _a[WAS_FUNCTION] = true,
+              _a.handleEvent = handler,
+              _a);
+      }
+      else if (typeof handler !== "object" || !("handleEvent" in handler)) {
           throw new Error("invalid handler");
       }
       var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
       if (instance) {
-          instance.listeners.push({
-              handler: handler, context: context
-          });
+          instance.listeners.push(handler);
           if (instance.listeners.length === 1) {
               window.addEventListener("touchstart", instance._window_ontouchstart);
           }
@@ -1119,26 +1163,45 @@
       function callListeners(event) {
           var stop = false;
           var stopImmediate = false;
-          event.stopPropagation = function () {
-              stop = true;
+          var beforeFocusEvent = {
+              type: "beforefocus",
+              detail: { nativeEvent: event },
+              initEvent: function () { return; },
+              initCustomEvent: function () { return; },
+              get cancelable() { return false; },
+              get bubbles() { return false; },
+              get composed() { return false; },
+              get defaultPrevented() { return event.defaultPrevented; },
+              get currentTarget() { return event.currentTarget; },
+              get eventPhase() { return Event.AT_TARGET; },
+              get cancelBubble() { return false; },
+              get returnValue() { return event.returnValue; },
+              set returnValue(value) { event.returnValue = value; },
+              get isTrusted() { return true; },
+              get srcElement() { return this.currentTarget; },
+              get target() { return this.currentTarget; },
+              get timeStamp() { return event.timeStamp; },
+              composedPath: function () { return []; },
+              preventDefault: function () { event.preventDefault(); },
+              NONE: Event.NONE,
+              BUBBLING_PHASE: Event.BUBBLING_PHASE,
+              CAPTURING_PHASE: Event.CAPTURING_PHASE,
+              AT_TARGET: Event.AT_TARGET,
+              stopPropagation: function () { stop = true; },
+              stopImmediatePropagation: function () { stopImmediate = true; }
           };
-          event.stopImmediatePropagation = function () {
-              stopImmediate = true;
-          };
-          function restore() {
-              delete event.stopPropagation;
-              delete event.stopImmediatePropagation;
-          }
-          instance.listeners.some(function (_a) {
-              var handler = _a.handler, context = _a.context;
-              handler.call(context, event);
+          instance.listeners.some(function (handler) {
+              if (handler[WAS_FUNCTION]) {
+                  handler.handleEvent.call(null, beforeFocusEvent);
+              }
+              else {
+                  handler.handleEvent(beforeFocusEvent);
+              }
               if (stopImmediate) {
-                  restore();
                   event.stopImmediatePropagation();
                   return true;
               }
               if (stop) {
-                  restore();
                   event.stopPropagation();
                   return true;
               }
@@ -1187,7 +1250,7 @@
               }
               callListeners(event);
           },
-          listeners: [{ handler: handler, context: context }]
+          listeners: [handler]
       };
       element.addEventListener("touchstart", instance.ontouchstart);
       element.addEventListener("touchmove", instance.ontouchmove);
@@ -1202,7 +1265,7 @@
       }
       var index = -1;
       if (instance.listeners.some(function (listener, i) {
-          if (listener.handler === handler) {
+          if (typeof handler === "function" ? listener.handleEvent === handler : listener === handler) {
               index = i;
               return true;
           }
@@ -1214,14 +1277,24 @@
           }
       }
   }
-
-  var addListener_1 = addListener;
-  var removeListener_1 = removeListener;
-
-  var dist$1 = /*#__PURE__*/Object.defineProperty({
-  	addListener: addListener_1,
-  	removeListener: removeListener_1
-  }, '__esModule', {value: true});
+  var nativeAddEventListener = HTMLElement.prototype.addEventListener;
+  HTMLElement.prototype.addEventListener = function (type, listener, options) {
+      if (type === "beforefocus") {
+          addListener(this, listener);
+      }
+      else {
+          nativeAddEventListener.call(this, type, listener, options);
+      }
+  };
+  var nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
+  HTMLElement.prototype.removeEventListener = function (type, listener, options) {
+      if (type === "beforefocus") {
+          removeListener(this, listener);
+      }
+      else {
+          nativeRemoveEventListener.call(this, type, listener, options);
+      }
+  };
 
   var index$2 = {
     'css': `rm-button,[is="rm-button"]{ font-size: 14px; display: inline-block; margin-right: 8px; vertical-align: middle; border-radius: 4px; background: transparent; height: 2.571em; } rm-button button,[is="rm-button"] button{ font-size: inherit; font-weight: inherit; cursor: pointer; border: none; padding: 0 16px; border-radius: inherit; background: inherit; box-sizing: border-box; vertical-align: inherit; width: 100%; height: 100%; color: inherit; outline: none; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; position: relative; } rm-button[dense-padding]:not([dense-padding="false"]) button,[is="rm-button"][dense-padding]:not([dense-padding="false"]) button{ padding: 0 8px; } rm-button button::-moz-focus-inner,[is="rm-button"] button::-moz-focus-inner{ border: none; } rm-button[variant=icon],[is="rm-button"][variant=icon]{ border-radius: 50%; } rm-button[variant=icon] button,[is="rm-button"][variant=icon] button{ padding: 0.5714285714285714em; height: 2.857142857142857em; width: 2.857142857142857em; } rm-button[variant=icon] button rm-icon,[is="rm-button"][variant=icon] button rm-icon{ font-size: 1.7142857142857142em; } rm-button[variant=icon],[is="rm-button"][variant=icon]{ height: unset; } rm-button[variant="unelevated"],[is="rm-button"][variant="unelevated"],rm-button[variant="raised"],[is="rm-button"][variant="raised"]{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } .rm-black-surface rm-button[variant="unelevated"],.rm-black-surface [is="rm-button"][variant="unelevated"],.rm-black-surface rm-button[variant="raised"],.rm-black-surface [is="rm-button"][variant="raised"]{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } .rm-dark-surface rm-button[variant="unelevated"],.rm-dark-surface [is="rm-button"][variant="unelevated"],.rm-dark-surface rm-button[variant="raised"],.rm-dark-surface [is="rm-button"][variant="raised"]{ background: rgb(250, 250, 250); background: rgb(var(--color-light-surface, 250, 250, 250)); color: rgb(0, 0, 0); color: rgb(var(--color-on-light, 0, 0, 0)); } .rm-light-surface rm-button[variant="unelevated"],.rm-light-surface [is="rm-button"][variant="unelevated"],.rm-light-surface rm-button[variant="raised"],.rm-light-surface [is="rm-button"][variant="raised"]{ background: rgb(10, 10, 10); background: rgb(var(--color-dark-surface, 10, 10, 10)); color: rgb(255, 255, 255); color: rgb(var(--color-on-dark, 255, 255, 255)); } .rm-white-surface rm-button[variant="unelevated"],.rm-white-surface [is="rm-button"][variant="unelevated"],.rm-white-surface rm-button[variant="raised"],.rm-white-surface [is="rm-button"][variant="raised"]{ background: rgb(0, 0, 0); background: rgb(var(--color-black-surface, 0, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-black, 255, 255, 255)); } rm-button[variant="outlined"] button::before,[is="rm-button"][variant="outlined"] button::before{ content: ""; position: absolute; top: 0; bottom: 0; right: 0; left: 0; border: 1px solid rgba(0, 0, 0, .12); border: 1px solid rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); border-radius: inherit; } .rm-black-surface rm-button[variant="outlined"] button::before,.rm-black-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(255, 255, 255, .12); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-dark-surface rm-button[variant="outlined"] button::before,.rm-dark-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(255, 255, 255, .12); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-light-surface rm-button[variant="outlined"] button::before,.rm-light-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(0, 0, 0, .12); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-white-surface rm-button[variant="outlined"] button::before,.rm-white-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(0, 0, 0, .12); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); } rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } .rm-black-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-button[color="primary"][variant="raised"],[is="rm-button"][color="primary"][variant="raised"],rm-button[color="primary"][variant="unelevated"],[is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary, 255, 255, 255)); } .rm-black-surface rm-button[color="primary"][variant="raised"],.rm-black-surface [is="rm-button"][color="primary"][variant="raised"],.rm-black-surface rm-button[color="primary"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-black, 238, 130, 238)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="primary"][variant="raised"],.rm-dark-surface [is="rm-button"][color="primary"][variant="raised"],.rm-dark-surface rm-button[color="primary"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-dark, 238, 130, 238)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="primary"][variant="raised"],.rm-light-surface [is="rm-button"][color="primary"][variant="raised"],.rm-light-surface rm-button[color="primary"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-light, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="primary"][variant="raised"],.rm-white-surface [is="rm-button"][color="primary"][variant="raised"],.rm-white-surface rm-button[color="primary"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-white, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-white, 255, 255, 255)); } rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent, 0, 0, 255)); } .rm-black-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-black, 30, 144, 255)); } .rm-dark-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-dark, 30, 144, 255)); } .rm-light-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-light, 0, 0, 255)); } .rm-white-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-white, 0, 0, 255)); } rm-button[color="accent"][variant="raised"],[is="rm-button"][color="accent"][variant="raised"],rm-button[color="accent"][variant="unelevated"],[is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent, 255, 255, 255)); } .rm-black-surface rm-button[color="accent"][variant="raised"],.rm-black-surface [is="rm-button"][color="accent"][variant="raised"],.rm-black-surface rm-button[color="accent"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-black, 30, 144, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="accent"][variant="raised"],.rm-dark-surface [is="rm-button"][color="accent"][variant="raised"],.rm-dark-surface rm-button[color="accent"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-dark, 30, 144, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="accent"][variant="raised"],.rm-light-surface [is="rm-button"][color="accent"][variant="raised"],.rm-light-surface rm-button[color="accent"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-light, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="accent"][variant="raised"],.rm-white-surface [is="rm-button"][color="accent"][variant="raised"],.rm-white-surface rm-button[color="accent"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-white, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-white, 255, 255, 255)); } rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn, 255, 0, 0)); } .rm-black-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 69, 0); color: rgb(var(--color-warn-on-black, 255, 69, 0)); } .rm-dark-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 69, 0); color: rgb(var(--color-warn-on-dark, 255, 69, 0)); } .rm-light-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn-on-light, 255, 0, 0)); } .rm-white-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn-on-white, 255, 0, 0)); } rm-button[color="warn"][variant="raised"],[is="rm-button"][color="warn"][variant="raised"],rm-button[color="warn"][variant="unelevated"],[is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn, 255, 255, 255)); } .rm-black-surface rm-button[color="warn"][variant="raised"],.rm-black-surface [is="rm-button"][color="warn"][variant="raised"],.rm-black-surface rm-button[color="warn"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 69, 0); background: rgb(var(--color-warn-on-black, 255, 69, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="warn"][variant="raised"],.rm-dark-surface [is="rm-button"][color="warn"][variant="raised"],.rm-dark-surface rm-button[color="warn"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 69, 0); background: rgb(var(--color-warn-on-dark, 255, 69, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="warn"][variant="raised"],.rm-light-surface [is="rm-button"][color="warn"][variant="raised"],.rm-light-surface rm-button[color="warn"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn-on-light, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="warn"][variant="raised"],.rm-white-surface [is="rm-button"][color="warn"][variant="raised"],.rm-white-surface rm-button[color="warn"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn-on-white, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-white, 255, 255, 255)); } rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-black-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-button[disabled][variant="raised"]:not([disabled="false"]),[is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),rm-button[disabled][variant="unelevated"]:not([disabled="false"]),[is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-black-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-black-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-black-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-black-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-dark-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-dark-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-dark-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-light-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-light-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-light-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-white-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-white-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-white-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-button[disabled]:not([disabled="false"]) button,[is="rm-button"][disabled]:not([disabled="false"]) button{ background: transparent; box-shadow: none; cursor: initial; } rm-button[variant=icon][dense],[is="rm-button"][variant=icon][dense]{ margin-right: 0.2857142857142857em; } rm-button[variant=icon][dense] button,[is="rm-button"][variant=icon][dense] button{ height: unset; width: unset; padding: 0; } rm-button[variant]:last-child,[is="rm-button"][variant]:last-child,rm-button:last-child,[is="rm-button"]:last-child{ margin-right: 0; }`,
@@ -1305,7 +1378,7 @@
           });
           let openOverlay = this.props.openOverlay;
           if (openOverlay) {
-              dist$1.addListener(button, this._onclick = () => {
+              button.addEventListener("beforefocus", this._onclick = () => {
                   let overlay = document.querySelector("#" + openOverlay);
                   if (!overlay) {
                       return;
@@ -1323,7 +1396,7 @@
 
       onBeforeUnmount() {
           if (this._onclick) {
-              dist$1.removeListener(this.root.querySelector("button"), this._onclick);
+              this.root.querySelector("button").removeEventListener("beforefocus", this._onclick);
           }
       },
 
@@ -1376,121 +1449,181 @@
       }
     },
 
-    'template': function(template, expressionTypes, bindingTypes, getComponent) {
-      return template('<button expr0="expr0"></button><button expr2="expr2"></button>', [{
-        'type': bindingTypes.IF,
+    'template': function(
+      template,
+      expressionTypes,
+      bindingTypes,
+      getComponent
+    ) {
+      return template(
+        '<button expr0="expr0"></button><button expr2="expr2"></button>',
+        [
+          {
+            'type': bindingTypes.IF,
 
-        'evaluate': function(scope) {
-          return !scope.isIcon();
-        },
+            'evaluate': function(
+              scope
+            ) {
+              return !scope.isIcon();
+            },
 
-        'redundantAttribute': 'expr0',
-        'selector': '[expr0]',
+            'redundantAttribute': 'expr0',
+            'selector': '[expr0]',
 
-        'template': template('<slot expr1="expr1"></slot>', [{
-          'expressions': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'style',
+            'template': template(
+              '<slot expr1="expr1"></slot>',
+              [
+                {
+                  'expressions': [
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'style',
 
-            'evaluate': function(scope) {
-              return scope.props.buttonStyle;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'disabled',
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.buttonStyle;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'disabled',
 
-            'evaluate': function(scope) {
-              return scope.isDisabled();
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'type',
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.isDisabled();
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'type',
 
-            'evaluate': function(scope) {
-              return scope.props.type;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'tabindex',
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.type;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'tabindex',
 
-            'evaluate': function(scope) {
-              return scope.props.tabindex;
-            }
-          }]
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'default',
-          'redundantAttribute': 'expr1',
-          'selector': '[expr1]'
-        }])
-      }, {
-        'type': bindingTypes.IF,
-
-        'evaluate': function(scope) {
-          return scope.isIcon();
-        },
-
-        'redundantAttribute': 'expr2',
-        'selector': '[expr2]',
-
-        'template': template('<rm-icon expr3="expr3"></rm-icon>', [{
-          'expressions': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'disabled',
-
-            'evaluate': function(scope) {
-              return scope.isDisabled();
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'type',
-
-            'evaluate': function(scope) {
-              return scope.props.type;
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'tabindex',
-
-            'evaluate': function(scope) {
-              return scope.props.tabindex;
-            }
-          }]
-        }, {
-          'type': bindingTypes.TAG,
-          'getComponent': getComponent,
-
-          'evaluate': function(scope) {
-            return 'rm-icon';
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.tabindex;
+                      }
+                    }
+                  ]
+                },
+                {
+                  'type': bindingTypes.SLOT,
+                  'attributes': [],
+                  'name': 'default',
+                  'redundantAttribute': 'expr1',
+                  'selector': '[expr1]'
+                }
+              ]
+            )
           },
+          {
+            'type': bindingTypes.IF,
 
-          'slots': [{
-            'id': 'default',
-            'html': '<slot expr4="expr4"></slot>',
+            'evaluate': function(
+              scope
+            ) {
+              return scope.isIcon();
+            },
 
-            'bindings': [{
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'default',
-              'redundantAttribute': 'expr4',
-              'selector': '[expr4]'
-            }]
-          }],
+            'redundantAttribute': 'expr2',
+            'selector': '[expr2]',
 
-          'attributes': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'style',
+            'template': template(
+              '<rm-icon expr3="expr3"></rm-icon>',
+              [
+                {
+                  'expressions': [
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'disabled',
 
-            'evaluate': function(scope) {
-              return "vertical-align: middle;" + (scope.props.iconStyle || "");
-            }
-          }],
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.isDisabled();
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'type',
 
-          'redundantAttribute': 'expr3',
-          'selector': '[expr3]'
-        }])
-      }]);
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.type;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'tabindex',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.tabindex;
+                      }
+                    }
+                  ]
+                },
+                {
+                  'type': bindingTypes.TAG,
+                  'getComponent': getComponent,
+
+                  'evaluate': function(
+                    scope
+                  ) {
+                    return 'rm-icon';
+                  },
+
+                  'slots': [
+                    {
+                      'id': 'default',
+                      'html': '<slot expr4="expr4"></slot>',
+
+                      'bindings': [
+                        {
+                          'type': bindingTypes.SLOT,
+                          'attributes': [],
+                          'name': 'default',
+                          'redundantAttribute': 'expr4',
+                          'selector': '[expr4]'
+                        }
+                      ]
+                    }
+                  ],
+
+                  'attributes': [
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'style',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return "vertical-align: middle;" + (scope.props.iconStyle || "");
+                      }
+                    }
+                  ],
+
+                  'redundantAttribute': 'expr3',
+                  'selector': '[expr3]'
+                }
+              ]
+            )
+          }
+        ]
+      );
     },
 
     'name': 'rm-button'
@@ -1545,7 +1678,7 @@
       }
   }
 
-  var dist$2 = elevation;
+  var dist = elevation;
 
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation.
@@ -1984,7 +2117,7 @@
           if (this._time > 0 && this._direction !== -1) {
               return;
           }
-          dist$2(this.root.firstElementChild, 4);
+          dist(this.root.firstElementChild, 4);
           this._direction = 1;
           this.root.dispatchEvent(new Event("opening"));
       },
@@ -1994,7 +2127,7 @@
           }
           release_1();
           this._clean();
-          dist$2(this.root.firstElementChild, 0);
+          dist(this.root.firstElementChild, 0);
           this._direction = -1;
           this.root.dispatchEvent(new Event("closing"));
       },
@@ -2447,7 +2580,7 @@
 
           blockedInputs.push(input);
 
-          dist$1.addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
+          this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
               if (this.props.disabled) {
                   return;
               }
@@ -2461,7 +2594,7 @@
                   this.update({ menuopened: !this.state.menuopened });
               }
           });
-          dist$1.addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
+          this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
               if (this.props.disabled) {
                   return;
               }
@@ -2501,8 +2634,8 @@
           })) {
               blockedInputs.splice(i, 1);
           }
-          dist$1.removeListener(this.root.firstElementChild, this._onclickFirstChild);
-          dist$1.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
+          this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
+          this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
       },
 
       _manipulated: [],
@@ -2619,7 +2752,7 @@
       },
 
       components: {
-          "rm-textfield-container": dist,
+          "rm-textfield-container": index,
           "rm-button": index$2,
           "rm-menu": index$3
       }
@@ -2632,7 +2765,7 @@
       getComponent
     ) {
       return template(
-        '<rm-menu expr9="expr9" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr11="expr11"></rm-textfield-container>',
+        '<rm-menu expr171="expr171" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr173="expr173"></rm-textfield-container>',
         [
           {
             'type': bindingTypes.TAG,
@@ -2647,15 +2780,15 @@
             'slots': [
               {
                 'id': 'default',
-                'html': '<div ref="rm-select-menu"><slot expr10="expr10"></slot></div>',
+                'html': '<div ref="rm-select-menu"><slot expr172="expr172"></slot></div>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'default',
-                    'redundantAttribute': 'expr10',
-                    'selector': '[expr10]'
+                    'redundantAttribute': 'expr172',
+                    'selector': '[expr172]'
                   }
                 ]
               }
@@ -2704,8 +2837,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr9',
-            'selector': '[expr9]'
+            'redundantAttribute': 'expr171',
+            'selector': '[expr171]'
           },
           {
             'type': bindingTypes.TAG,
@@ -2720,12 +2853,12 @@
             'slots': [
               {
                 'id': 'input',
-                'html': '<span slot="input"><input expr12="expr12" class="rm-select--input"/><div expr13="expr13" class="rm-select--label"> </div></span>',
+                'html': '<span slot="input"><input expr174="expr174" class="rm-select--input"/><div expr175="expr175" class="rm-select--label"> </div></span>',
 
                 'bindings': [
                   {
-                    'redundantAttribute': 'expr12',
-                    'selector': '[expr12]',
+                    'redundantAttribute': 'expr174',
+                    'selector': '[expr174]',
 
                     'expressions': [
                       {
@@ -2781,8 +2914,8 @@
                     ]
                   },
                   {
-                    'redundantAttribute': 'expr13',
-                    'selector': '[expr13]',
+                    'redundantAttribute': 'expr175',
+                    'selector': '[expr175]',
 
                     'expressions': [
                       {
@@ -2801,21 +2934,21 @@
               },
               {
                 'id': 'leading',
-                'html': '<slot expr14="expr14" name="leading" slot="leading"></slot>',
+                'html': '<slot expr176="expr176" name="leading" slot="leading"></slot>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'leading',
-                    'redundantAttribute': 'expr14',
-                    'selector': '[expr14]'
+                    'redundantAttribute': 'expr176',
+                    'selector': '[expr176]'
                   }
                 ]
               },
               {
                 'id': 'trailing',
-                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr15="expr15" variant="icon" class="rm-select--clear" dense></rm-button><slot expr16="expr16" name="trailing"></slot><rm-button expr17="expr17" variant="icon" tabindex="-1" dense></rm-button></span>',
+                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr177="expr177" variant="icon" class="rm-select--clear" dense></rm-button><slot expr178="expr178" name="trailing"></slot><rm-button expr179="expr179" variant="icon" tabindex="-1" dense></rm-button></span>',
 
                 'bindings': [
                   {
@@ -2827,8 +2960,8 @@
                       return scope.isClearable() && scope.root.value;
                     },
 
-                    'redundantAttribute': 'expr15',
-                    'selector': '[expr15]',
+                    'redundantAttribute': 'expr177',
+                    'selector': '[expr177]',
 
                     'template': template(
                       null,
@@ -2881,8 +3014,8 @@
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'trailing',
-                    'redundantAttribute': 'expr16',
-                    'selector': '[expr16]'
+                    'redundantAttribute': 'expr178',
+                    'selector': '[expr178]'
                   },
                   {
                     'type': bindingTypes.TAG,
@@ -2920,8 +3053,8 @@
                       }
                     ],
 
-                    'redundantAttribute': 'expr17',
-                    'selector': '[expr17]'
+                    'redundantAttribute': 'expr179',
+                    'selector': '[expr179]'
                   }
                 ]
               }
@@ -2980,8 +3113,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr11',
-            'selector': '[expr11]'
+            'redundantAttribute': 'expr173',
+            'selector': '[expr173]'
           }
         ]
       );

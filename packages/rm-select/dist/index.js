@@ -9,7 +9,6 @@
     var TextfieldContainerComponent__default = /*#__PURE__*/_interopDefaultLegacy(TextfieldContainerComponent);
     var ButtonComponent__default = /*#__PURE__*/_interopDefaultLegacy(ButtonComponent);
     var MenuComponent__default = /*#__PURE__*/_interopDefaultLegacy(MenuComponent);
-    var beforeFocusListener__default = /*#__PURE__*/_interopDefaultLegacy(beforeFocusListener);
 
     const blockedInputs = [];
     window.addEventListener("change", event => {
@@ -165,7 +164,7 @@
 
             blockedInputs.push(input);
 
-            beforeFocusListener__default['default'].addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
+            this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
                 if (this.props.disabled) {
                     return;
                 }
@@ -179,7 +178,7 @@
                     this.update({ menuopened: !this.state.menuopened });
                 }
             });
-            beforeFocusListener__default['default'].addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
+            this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
                 if (this.props.disabled) {
                     return;
                 }
@@ -219,8 +218,8 @@
             })) {
                 blockedInputs.splice(i, 1);
             }
-            beforeFocusListener__default['default'].removeListener(this.root.firstElementChild, this._onclickFirstChild);
-            beforeFocusListener__default['default'].removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
+            this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
+            this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
         },
 
         _manipulated: [],
@@ -350,7 +349,7 @@
         getComponent
       ) {
         return template(
-          '<rm-menu expr0="expr0" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr2="expr2"></rm-textfield-container>',
+          '<rm-menu expr162="expr162" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr164="expr164"></rm-textfield-container>',
           [
             {
               'type': bindingTypes.TAG,
@@ -365,15 +364,15 @@
               'slots': [
                 {
                   'id': 'default',
-                  'html': '<div ref="rm-select-menu"><slot expr1="expr1"></slot></div>',
+                  'html': '<div ref="rm-select-menu"><slot expr163="expr163"></slot></div>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'default',
-                      'redundantAttribute': 'expr1',
-                      'selector': '[expr1]'
+                      'redundantAttribute': 'expr163',
+                      'selector': '[expr163]'
                     }
                   ]
                 }
@@ -422,8 +421,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr0',
-              'selector': '[expr0]'
+              'redundantAttribute': 'expr162',
+              'selector': '[expr162]'
             },
             {
               'type': bindingTypes.TAG,
@@ -438,12 +437,12 @@
               'slots': [
                 {
                   'id': 'input',
-                  'html': '<span slot="input"><input expr3="expr3" class="rm-select--input"/><div expr4="expr4" class="rm-select--label"> </div></span>',
+                  'html': '<span slot="input"><input expr165="expr165" class="rm-select--input"/><div expr166="expr166" class="rm-select--label"> </div></span>',
 
                   'bindings': [
                     {
-                      'redundantAttribute': 'expr3',
-                      'selector': '[expr3]',
+                      'redundantAttribute': 'expr165',
+                      'selector': '[expr165]',
 
                       'expressions': [
                         {
@@ -499,8 +498,8 @@
                       ]
                     },
                     {
-                      'redundantAttribute': 'expr4',
-                      'selector': '[expr4]',
+                      'redundantAttribute': 'expr166',
+                      'selector': '[expr166]',
 
                       'expressions': [
                         {
@@ -519,21 +518,21 @@
                 },
                 {
                   'id': 'leading',
-                  'html': '<slot expr5="expr5" name="leading" slot="leading"></slot>',
+                  'html': '<slot expr167="expr167" name="leading" slot="leading"></slot>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'leading',
-                      'redundantAttribute': 'expr5',
-                      'selector': '[expr5]'
+                      'redundantAttribute': 'expr167',
+                      'selector': '[expr167]'
                     }
                   ]
                 },
                 {
                   'id': 'trailing',
-                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr6="expr6" variant="icon" class="rm-select--clear" dense></rm-button><slot expr7="expr7" name="trailing"></slot><rm-button expr8="expr8" variant="icon" tabindex="-1" dense></rm-button></span>',
+                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr168="expr168" variant="icon" class="rm-select--clear" dense></rm-button><slot expr169="expr169" name="trailing"></slot><rm-button expr170="expr170" variant="icon" tabindex="-1" dense></rm-button></span>',
 
                   'bindings': [
                     {
@@ -545,8 +544,8 @@
                         return scope.isClearable() && scope.root.value;
                       },
 
-                      'redundantAttribute': 'expr6',
-                      'selector': '[expr6]',
+                      'redundantAttribute': 'expr168',
+                      'selector': '[expr168]',
 
                       'template': template(
                         null,
@@ -599,8 +598,8 @@
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'trailing',
-                      'redundantAttribute': 'expr7',
-                      'selector': '[expr7]'
+                      'redundantAttribute': 'expr169',
+                      'selector': '[expr169]'
                     },
                     {
                       'type': bindingTypes.TAG,
@@ -638,8 +637,8 @@
                         }
                       ],
 
-                      'redundantAttribute': 'expr8',
-                      'selector': '[expr8]'
+                      'redundantAttribute': 'expr170',
+                      'selector': '[expr170]'
                     }
                   ]
                 }
@@ -698,8 +697,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr2',
-              'selector': '[expr2]'
+              'redundantAttribute': 'expr164',
+              'selector': '[expr164]'
             }
           ]
         );
