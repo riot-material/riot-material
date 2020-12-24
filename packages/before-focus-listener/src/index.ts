@@ -55,16 +55,32 @@ export function addListener(
     function callListeners(event: MouseEvent | TouchEvent): void {
         let stop: boolean = false;
         let stopImmediate: boolean = false;
-        let beforeFocusEvent: BeforeFocusEvent = new CustomEvent("beforefocus", {
-            detail: {
-                nativeEvent: event
-            }
-        });
-        beforeFocusEvent.stopPropagation = function (): void {
-            stop = true;
-        };
-        beforeFocusEvent.stopImmediatePropagation = function (): void {
-            stopImmediate = true;
+        const beforeFocusEvent: BeforeFocusEvent = {
+            type: "beforefocus",
+            detail: { nativeEvent: event },
+            initEvent(): void { return; },
+            initCustomEvent(): void { return; },
+            get cancelable(): boolean { return false; },
+            get bubbles(): boolean { return false; },
+            get composed(): boolean { return false; },
+            get defaultPrevented(): boolean { return false; },
+            get currentTarget(): EventTarget | null { return event.currentTarget; },
+            get eventPhase(): number { return Event.AT_TARGET; },
+            get cancelBubble(): boolean { return false; },
+            get returnValue(): boolean { return event.returnValue; },
+            set returnValue(value: boolean) { event.returnValue = value; },
+            get isTrusted(): boolean { return true; },
+            get srcElement(): EventTarget | null { return this.currentTarget; },
+            get target(): EventTarget | null { return this.currentTarget; },
+            get timeStamp(): number { return event.timeStamp; },
+            composedPath(): EventTarget[] { return []; },
+            preventDefault(): void { return; },
+            NONE: Event.NONE,
+            BUBBLING_PHASE: Event.BUBBLING_PHASE,
+            CAPTURING_PHASE: Event.CAPTURING_PHASE,
+            AT_TARGET: Event.AT_TARGET,
+            stopPropagation(): void { stop = true; },
+            stopImmediatePropagation(): void { stopImmediate = true; }
         };
         instance.listeners.some(handler => {
             if (handler[WAS_FUNCTION]) {

@@ -34,16 +34,32 @@ function addListener(element, handler) {
     function callListeners(event) {
         var stop = false;
         var stopImmediate = false;
-        var beforeFocusEvent = new CustomEvent("beforefocus", {
-            detail: {
-                nativeEvent: event
-            }
-        });
-        beforeFocusEvent.stopPropagation = function () {
-            stop = true;
-        };
-        beforeFocusEvent.stopImmediatePropagation = function () {
-            stopImmediate = true;
+        var beforeFocusEvent = {
+            type: "beforefocus",
+            detail: { nativeEvent: event },
+            initEvent: function () { return; },
+            initCustomEvent: function () { return; },
+            get cancelable() { return false; },
+            get bubbles() { return false; },
+            get composed() { return false; },
+            get defaultPrevented() { return false; },
+            get currentTarget() { return event.currentTarget; },
+            get eventPhase() { return Event.AT_TARGET; },
+            get cancelBubble() { return false; },
+            get returnValue() { return event.returnValue; },
+            set returnValue(value) { event.returnValue = value; },
+            get isTrusted() { return true; },
+            get srcElement() { return this.currentTarget; },
+            get target() { return this.currentTarget; },
+            get timeStamp() { return event.timeStamp; },
+            composedPath: function () { return []; },
+            preventDefault: function () { return; },
+            NONE: Event.NONE,
+            BUBBLING_PHASE: Event.BUBBLING_PHASE,
+            CAPTURING_PHASE: Event.CAPTURING_PHASE,
+            AT_TARGET: Event.AT_TARGET,
+            stopPropagation: function () { stop = true; },
+            stopImmediatePropagation: function () { stopImmediate = true; }
         };
         instance.listeners.some(function (handler) {
             if (handler[WAS_FUNCTION]) {
