@@ -6,31 +6,16 @@ export default [
         plugins: [
             typescript()
         ],
-        output: {
-            file: "dist/index.amd.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "src/index.ts",
-        plugins: [
-            typescript()
-        ],
-        output: {
-            file: "dist/index.js",
-            exports: "auto",
-            format: "cjs"
-        }
-    },
-    {
-        input: "src/index.ts",
-        plugins: [
-            typescript()
-        ],
-        output: {
-            name: "riotMaterial.beforeFocusListener",
-            file: "dist/index.umd.js",
-            format: "umd"
-        }
+        output: [
+            {
+                name: "riotMaterial.beforeFocusListener",
+                file: "dist/index.js",
+                format: "umd"
+            },
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            }
+        ]
     }
 ]

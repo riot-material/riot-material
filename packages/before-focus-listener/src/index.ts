@@ -137,3 +137,35 @@ export function removeListener(element: HTMLElement, handler: (event: TouchEvent
         }
     }
 }
+
+declare global {
+    // tslint:disable-next-line: interface-name
+    interface HTMLElementEventMap {
+        "beforefocus": TouchEvent | MouseEvent;
+    }
+}
+
+const nativeAddEventListener: typeof HTMLElement.prototype.addEventListener = HTMLElement.prototype.addEventListener;
+HTMLElement.prototype.addEventListener = function <K extends keyof HTMLElementEventMap> (
+    type: K,
+    listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions
+): void {
+    if (type === "beforefocus") {
+        addListener(this, listener as any);
+    } else {
+        nativeAddEventListener.call(this, type, listener as any, options);
+    }
+};
+const nativeRemoveEventListener: typeof HTMLElement.prototype.removeEventListener = HTMLElement.prototype.removeEventListener;
+HTMLElement.prototype.removeEventListener = function <K extends keyof HTMLElementEventMap> (
+    type: K,
+    listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions
+): void {
+    if (type === "beforefocus") {
+        removeListener(this, listener as any);
+    } else {
+        nativeRemoveEventListener.call(this, type, listener as any, options);
+    }
+};
