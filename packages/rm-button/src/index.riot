@@ -435,7 +435,7 @@
         import * as riot from "riot";
         import IconComponent from "@riot-material/rm-icon";
 
-        import beforeFocusListener from "@riot-material/before-focus-listener";
+        import "@riot-material/before-focus-listener";
 
         export default {
             _onclick: null,
@@ -514,7 +514,7 @@
                 });
                 let openOverlay = this.props.openOverlay;
                 if (openOverlay) {
-                    beforeFocusListener.addListener(button, this._onclick = () => {
+                    button.addEventListener("beforefocus", this._onclick = () => {
                         let overlay = document.querySelector("#" + openOverlay);
                         if (!overlay) {
                             return;
@@ -531,7 +531,7 @@
             },
             onBeforeUnmount() {
                 if (this._onclick) {
-                    beforeFocusListener.removeListener(this.root.querySelector("button"), this._onclick);
+                    this.root.querySelector("button").removeEventListener("beforefocus", this._onclick);
                 }
             },
             onUpdated() {

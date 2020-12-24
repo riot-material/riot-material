@@ -604,18 +604,16 @@
 	            return;
 	        }
 	        var rect = this._div.getBoundingClientRect();
-	        if (rect.width === 0 && rect.height === 0) {
-	            element.removeChild(this._div);
-	            return;
-	        }
-	        if (this._computedStyle.transform === scaleUpStyle) {
-	            if (this._computedStyle.opacity === "0") {
-	                element.removeChild(this._div);
-	                return;
-	            }
-	            else {
-	                if (this._ended) {
-	                    this._div.style.opacity = "0";
+	        if (rect.width !== 0 || rect.height !== 0) {
+	            if (this._computedStyle.transform === scaleUpStyle) {
+	                if (this._computedStyle.opacity === "0") {
+	                    element.removeChild(this._div);
+	                    return;
+	                }
+	                else {
+	                    if (this._ended) {
+	                        this._div.style.opacity = "0";
+	                    }
 	                }
 	            }
 	        }
@@ -860,7 +858,7 @@
 	    return ripple;
 	}
 
-	/* Riot v5.1.0, @license MIT */
+	/* Riot v5.1.2, @license MIT */
 	/**
 	 * Convert a string from camel case to dash-case
 	 * @param   {string} string - probably a component tag name
@@ -946,6 +944,58 @@
 	 */
 
 	const replaceChild = (newNode, replaced) => replaced && replaced.parentNode && replaced.parentNode.replaceChild(newNode, replaced);
+
+	// Riot.js constants that can be used accross more modules
+	const COMPONENTS_IMPLEMENTATION_MAP = new Map(),
+	      DOM_COMPONENT_INSTANCE_PROPERTY = Symbol('riot-component'),
+	      PLUGINS_SET = new Set(),
+	      IS_DIRECTIVE = 'is',
+	      VALUE_ATTRIBUTE = 'value',
+	      MOUNT_METHOD_KEY = 'mount',
+	      UPDATE_METHOD_KEY = 'update',
+	      UNMOUNT_METHOD_KEY = 'unmount',
+	      SHOULD_UPDATE_KEY = 'shouldUpdate',
+	      ON_BEFORE_MOUNT_KEY = 'onBeforeMount',
+	      ON_MOUNTED_KEY = 'onMounted',
+	      ON_BEFORE_UPDATE_KEY = 'onBeforeUpdate',
+	      ON_UPDATED_KEY = 'onUpdated',
+	      ON_BEFORE_UNMOUNT_KEY = 'onBeforeUnmount',
+	      ON_UNMOUNTED_KEY = 'onUnmounted',
+	      PROPS_KEY = 'props',
+	      STATE_KEY = 'state',
+	      SLOTS_KEY = 'slots',
+	      ROOT_KEY = 'root',
+	      IS_PURE_SYMBOL = Symbol.for('pure'),
+	      PARENT_KEY_SYMBOL = Symbol('parent'),
+	      ATTRIBUTES_KEY_SYMBOL = Symbol('attributes'),
+	      TEMPLATE_KEY_SYMBOL = Symbol('template');
+
+	var globals = /*#__PURE__*/Object.freeze({
+	  __proto__: null,
+	  COMPONENTS_IMPLEMENTATION_MAP: COMPONENTS_IMPLEMENTATION_MAP,
+	  DOM_COMPONENT_INSTANCE_PROPERTY: DOM_COMPONENT_INSTANCE_PROPERTY,
+	  PLUGINS_SET: PLUGINS_SET,
+	  IS_DIRECTIVE: IS_DIRECTIVE,
+	  VALUE_ATTRIBUTE: VALUE_ATTRIBUTE,
+	  MOUNT_METHOD_KEY: MOUNT_METHOD_KEY,
+	  UPDATE_METHOD_KEY: UPDATE_METHOD_KEY,
+	  UNMOUNT_METHOD_KEY: UNMOUNT_METHOD_KEY,
+	  SHOULD_UPDATE_KEY: SHOULD_UPDATE_KEY,
+	  ON_BEFORE_MOUNT_KEY: ON_BEFORE_MOUNT_KEY,
+	  ON_MOUNTED_KEY: ON_MOUNTED_KEY,
+	  ON_BEFORE_UPDATE_KEY: ON_BEFORE_UPDATE_KEY,
+	  ON_UPDATED_KEY: ON_UPDATED_KEY,
+	  ON_BEFORE_UNMOUNT_KEY: ON_BEFORE_UNMOUNT_KEY,
+	  ON_UNMOUNTED_KEY: ON_UNMOUNTED_KEY,
+	  PROPS_KEY: PROPS_KEY,
+	  STATE_KEY: STATE_KEY,
+	  SLOTS_KEY: SLOTS_KEY,
+	  ROOT_KEY: ROOT_KEY,
+	  IS_PURE_SYMBOL: IS_PURE_SYMBOL,
+	  PARENT_KEY_SYMBOL: PARENT_KEY_SYMBOL,
+	  ATTRIBUTES_KEY_SYMBOL: ATTRIBUTES_KEY_SYMBOL,
+	  TEMPLATE_KEY_SYMBOL: TEMPLATE_KEY_SYMBOL
+	});
 
 	const EACH = 0;
 	const IF = 1;
@@ -1828,58 +1878,6 @@
 	  return Object.assign({}, flattenCollectionMethods(expressions.map(expression => create$2(node, expression)), ['mount', 'update', 'unmount']));
 	}
 
-	// Riot.js constants that can be used accross more modules
-	const COMPONENTS_IMPLEMENTATION_MAP = new Map(),
-	      DOM_COMPONENT_INSTANCE_PROPERTY = Symbol('riot-component'),
-	      PLUGINS_SET = new Set(),
-	      IS_DIRECTIVE = 'is',
-	      VALUE_ATTRIBUTE = 'value',
-	      MOUNT_METHOD_KEY = 'mount',
-	      UPDATE_METHOD_KEY = 'update',
-	      UNMOUNT_METHOD_KEY = 'unmount',
-	      SHOULD_UPDATE_KEY = 'shouldUpdate',
-	      ON_BEFORE_MOUNT_KEY = 'onBeforeMount',
-	      ON_MOUNTED_KEY = 'onMounted',
-	      ON_BEFORE_UPDATE_KEY = 'onBeforeUpdate',
-	      ON_UPDATED_KEY = 'onUpdated',
-	      ON_BEFORE_UNMOUNT_KEY = 'onBeforeUnmount',
-	      ON_UNMOUNTED_KEY = 'onUnmounted',
-	      PROPS_KEY = 'props',
-	      STATE_KEY = 'state',
-	      SLOTS_KEY = 'slots',
-	      ROOT_KEY = 'root',
-	      IS_PURE_SYMBOL = Symbol.for('pure'),
-	      PARENT_KEY_SYMBOL = Symbol('parent'),
-	      ATTRIBUTES_KEY_SYMBOL = Symbol('attributes'),
-	      TEMPLATE_KEY_SYMBOL = Symbol('template');
-
-	var globals = /*#__PURE__*/Object.freeze({
-	  __proto__: null,
-	  COMPONENTS_IMPLEMENTATION_MAP: COMPONENTS_IMPLEMENTATION_MAP,
-	  DOM_COMPONENT_INSTANCE_PROPERTY: DOM_COMPONENT_INSTANCE_PROPERTY,
-	  PLUGINS_SET: PLUGINS_SET,
-	  IS_DIRECTIVE: IS_DIRECTIVE,
-	  VALUE_ATTRIBUTE: VALUE_ATTRIBUTE,
-	  MOUNT_METHOD_KEY: MOUNT_METHOD_KEY,
-	  UPDATE_METHOD_KEY: UPDATE_METHOD_KEY,
-	  UNMOUNT_METHOD_KEY: UNMOUNT_METHOD_KEY,
-	  SHOULD_UPDATE_KEY: SHOULD_UPDATE_KEY,
-	  ON_BEFORE_MOUNT_KEY: ON_BEFORE_MOUNT_KEY,
-	  ON_MOUNTED_KEY: ON_MOUNTED_KEY,
-	  ON_BEFORE_UPDATE_KEY: ON_BEFORE_UPDATE_KEY,
-	  ON_UPDATED_KEY: ON_UPDATED_KEY,
-	  ON_BEFORE_UNMOUNT_KEY: ON_BEFORE_UNMOUNT_KEY,
-	  ON_UNMOUNTED_KEY: ON_UNMOUNTED_KEY,
-	  PROPS_KEY: PROPS_KEY,
-	  STATE_KEY: STATE_KEY,
-	  SLOTS_KEY: SLOTS_KEY,
-	  ROOT_KEY: ROOT_KEY,
-	  IS_PURE_SYMBOL: IS_PURE_SYMBOL,
-	  PARENT_KEY_SYMBOL: PARENT_KEY_SYMBOL,
-	  ATTRIBUTES_KEY_SYMBOL: ATTRIBUTES_KEY_SYMBOL,
-	  TEMPLATE_KEY_SYMBOL: TEMPLATE_KEY_SYMBOL
-	});
-
 	function extendParentScope(attributes, scope, parentScope) {
 	  if (!attributes || !attributes.length) return parentScope;
 	  const expressions = attributes.map(attr => Object.assign({}, attr, {
@@ -2308,9 +2306,13 @@
 	      this.bindings.forEach(b => b.unmount(scope, parentScope, mustRemoveRoot));
 
 	      switch (true) {
+	        // pure components should handle the DOM unmount updates by themselves
+	        case this.el[IS_PURE_SYMBOL]:
+	          break;
 	        // <template> tags should be treated a bit differently
 	        // we need to clear their children only if it's explicitly required by the caller
 	        // via mustRemoveRoot !== null
+
 	        case this.children && mustRemoveRoot !== null:
 	          clearChildren(this.children);
 	          break;
@@ -2834,7 +2836,9 @@
 	    // intercept the mount calls to bind the DOM node to the pure object created
 	    // see also https://github.com/riot/riot/issues/2806
 	    if (method === MOUNT_METHOD_KEY) {
-	      const [el] = args;
+	      const [el] = args; // mark this node as pure element
+
+	      el[IS_PURE_SYMBOL] = true;
 	      bindDOMNodeToComponentObject(el, component);
 	    }
 
@@ -3143,15 +3147,24 @@
 	};
 
 	var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
-	function addListener(element, handler, context) {
-	    if (handler === void 0 || typeof handler !== "function") {
+	var WAS_FUNCTION = Symbol("was-function");
+	function addListener(element, handler) {
+	    var _a;
+	    if (handler === void 0) {
+	        throw new Error("invalid handler");
+	    }
+	    if (typeof handler === "function") {
+	        handler = (_a = {},
+	            _a[WAS_FUNCTION] = true,
+	            _a.handleEvent = handler,
+	            _a);
+	    }
+	    else if (typeof handler !== "object" || !("handleEvent" in handler)) {
 	        throw new Error("invalid handler");
 	    }
 	    var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
 	    if (instance) {
-	        instance.listeners.push({
-	            handler: handler, context: context
-	        });
+	        instance.listeners.push(handler);
 	        if (instance.listeners.length === 1) {
 	            window.addEventListener("touchstart", instance._window_ontouchstart);
 	        }
@@ -3169,26 +3182,45 @@
 	    function callListeners(event) {
 	        var stop = false;
 	        var stopImmediate = false;
-	        event.stopPropagation = function () {
-	            stop = true;
+	        var beforeFocusEvent = {
+	            type: "beforefocus",
+	            detail: { nativeEvent: event },
+	            initEvent: function () { return; },
+	            initCustomEvent: function () { return; },
+	            get cancelable() { return false; },
+	            get bubbles() { return false; },
+	            get composed() { return false; },
+	            get defaultPrevented() { return false; },
+	            get currentTarget() { return event.currentTarget; },
+	            get eventPhase() { return Event.AT_TARGET; },
+	            get cancelBubble() { return false; },
+	            get returnValue() { return event.returnValue; },
+	            set returnValue(value) { event.returnValue = value; },
+	            get isTrusted() { return true; },
+	            get srcElement() { return this.currentTarget; },
+	            get target() { return this.currentTarget; },
+	            get timeStamp() { return event.timeStamp; },
+	            composedPath: function () { return []; },
+	            preventDefault: function () { return; },
+	            NONE: Event.NONE,
+	            BUBBLING_PHASE: Event.BUBBLING_PHASE,
+	            CAPTURING_PHASE: Event.CAPTURING_PHASE,
+	            AT_TARGET: Event.AT_TARGET,
+	            stopPropagation: function () { stop = true; },
+	            stopImmediatePropagation: function () { stopImmediate = true; }
 	        };
-	        event.stopImmediatePropagation = function () {
-	            stopImmediate = true;
-	        };
-	        function restore() {
-	            delete event.stopPropagation;
-	            delete event.stopImmediatePropagation;
-	        }
-	        instance.listeners.some(function (_a) {
-	            var handler = _a.handler, context = _a.context;
-	            handler.call(context, event);
+	        instance.listeners.some(function (handler) {
+	            if (handler[WAS_FUNCTION]) {
+	                handler.handleEvent.call(null, beforeFocusEvent);
+	            }
+	            else {
+	                handler.handleEvent(beforeFocusEvent);
+	            }
 	            if (stopImmediate) {
-	                restore();
 	                event.stopImmediatePropagation();
 	                return true;
 	            }
 	            if (stop) {
-	                restore();
 	                event.stopPropagation();
 	                return true;
 	            }
@@ -3237,7 +3269,7 @@
 	            }
 	            callListeners(event);
 	        },
-	        listeners: [{ handler: handler, context: context }]
+	        listeners: [handler]
 	    };
 	    element.addEventListener("touchstart", instance.ontouchstart);
 	    element.addEventListener("touchmove", instance.ontouchmove);
@@ -3252,7 +3284,7 @@
 	    }
 	    var index = -1;
 	    if (instance.listeners.some(function (listener, i) {
-	        if (listener.handler === handler) {
+	        if (typeof handler === "function" ? listener.handleEvent === handler : listener === handler) {
 	            index = i;
 	            return true;
 	        }
@@ -3264,14 +3296,24 @@
 	        }
 	    }
 	}
-
-	var addListener_1 = addListener;
-	var removeListener_1 = removeListener;
-
-	var dist = /*#__PURE__*/Object.defineProperty({
-		addListener: addListener_1,
-		removeListener: removeListener_1
-	}, '__esModule', {value: true});
+	var nativeAddEventListener = HTMLElement.prototype.addEventListener;
+	HTMLElement.prototype.addEventListener = function (type, listener, options) {
+	    if (type === "beforefocus") {
+	        addListener(this, listener);
+	    }
+	    else {
+	        nativeAddEventListener.call(this, type, listener, options);
+	    }
+	};
+	var nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
+	HTMLElement.prototype.removeEventListener = function (type, listener, options) {
+	    if (type === "beforefocus") {
+	        removeListener(this, listener);
+	    }
+	    else {
+	        nativeRemoveEventListener.call(this, type, listener, options);
+	    }
+	};
 
 	var index$1 = {
 	  'css': `rm-button,[is="rm-button"]{ font-size: 14px; display: inline-block; margin-right: 8px; vertical-align: middle; border-radius: 4px; background: transparent; height: 2.571em; } rm-button button,[is="rm-button"] button{ font-size: inherit; font-weight: inherit; cursor: pointer; border: none; padding: 0 16px; border-radius: inherit; background: inherit; box-sizing: border-box; vertical-align: inherit; width: 100%; height: 100%; color: inherit; outline: none; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; position: relative; } rm-button[dense-padding]:not([dense-padding="false"]) button,[is="rm-button"][dense-padding]:not([dense-padding="false"]) button{ padding: 0 8px; } rm-button button::-moz-focus-inner,[is="rm-button"] button::-moz-focus-inner{ border: none; } rm-button[variant=icon],[is="rm-button"][variant=icon]{ border-radius: 50%; } rm-button[variant=icon] button,[is="rm-button"][variant=icon] button{ padding: 0.5714285714285714em; height: 2.857142857142857em; width: 2.857142857142857em; } rm-button[variant=icon] button rm-icon,[is="rm-button"][variant=icon] button rm-icon{ font-size: 1.7142857142857142em; } rm-button[variant=icon],[is="rm-button"][variant=icon]{ height: unset; } rm-button[variant="unelevated"],[is="rm-button"][variant="unelevated"],rm-button[variant="raised"],[is="rm-button"][variant="raised"]{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } .rm-black-surface rm-button[variant="unelevated"],.rm-black-surface [is="rm-button"][variant="unelevated"],.rm-black-surface rm-button[variant="raised"],.rm-black-surface [is="rm-button"][variant="raised"]{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } .rm-dark-surface rm-button[variant="unelevated"],.rm-dark-surface [is="rm-button"][variant="unelevated"],.rm-dark-surface rm-button[variant="raised"],.rm-dark-surface [is="rm-button"][variant="raised"]{ background: rgb(250, 250, 250); background: rgb(var(--color-light-surface, 250, 250, 250)); color: rgb(0, 0, 0); color: rgb(var(--color-on-light, 0, 0, 0)); } .rm-light-surface rm-button[variant="unelevated"],.rm-light-surface [is="rm-button"][variant="unelevated"],.rm-light-surface rm-button[variant="raised"],.rm-light-surface [is="rm-button"][variant="raised"]{ background: rgb(10, 10, 10); background: rgb(var(--color-dark-surface, 10, 10, 10)); color: rgb(255, 255, 255); color: rgb(var(--color-on-dark, 255, 255, 255)); } .rm-white-surface rm-button[variant="unelevated"],.rm-white-surface [is="rm-button"][variant="unelevated"],.rm-white-surface rm-button[variant="raised"],.rm-white-surface [is="rm-button"][variant="raised"]{ background: rgb(0, 0, 0); background: rgb(var(--color-black-surface, 0, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-black, 255, 255, 255)); } rm-button[variant="outlined"] button::before,[is="rm-button"][variant="outlined"] button::before{ content: ""; position: absolute; top: 0; bottom: 0; right: 0; left: 0; border: 1px solid rgba(0, 0, 0, .12); border: 1px solid rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); border-radius: inherit; } .rm-black-surface rm-button[variant="outlined"] button::before,.rm-black-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(255, 255, 255, .12); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-dark-surface rm-button[variant="outlined"] button::before,.rm-dark-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(255, 255, 255, .12); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-light-surface rm-button[variant="outlined"] button::before,.rm-light-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(0, 0, 0, .12); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-white-surface rm-button[variant="outlined"] button::before,.rm-white-surface [is="rm-button"][variant="outlined"] button::before{ border-color: rgba(0, 0, 0, .12); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); } rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } .rm-black-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-button[color="primary"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="primary"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-button[color="primary"][variant="raised"],[is="rm-button"][color="primary"][variant="raised"],rm-button[color="primary"][variant="unelevated"],[is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary, 255, 255, 255)); } .rm-black-surface rm-button[color="primary"][variant="raised"],.rm-black-surface [is="rm-button"][color="primary"][variant="raised"],.rm-black-surface rm-button[color="primary"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-black, 238, 130, 238)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="primary"][variant="raised"],.rm-dark-surface [is="rm-button"][color="primary"][variant="raised"],.rm-dark-surface rm-button[color="primary"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-dark, 238, 130, 238)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="primary"][variant="raised"],.rm-light-surface [is="rm-button"][color="primary"][variant="raised"],.rm-light-surface rm-button[color="primary"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-light, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="primary"][variant="raised"],.rm-white-surface [is="rm-button"][color="primary"][variant="raised"],.rm-white-surface rm-button[color="primary"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="primary"][variant="unelevated"]{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-white, 139, 0, 139)); color: rgb(255, 255, 255); color: rgb(var(--color-on-primary-on-white, 255, 255, 255)); } rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent, 0, 0, 255)); } .rm-black-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-black, 30, 144, 255)); } .rm-dark-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(30, 144, 255); color: rgb(var(--color-accent-on-dark, 30, 144, 255)); } .rm-light-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-light, 0, 0, 255)); } .rm-white-surface rm-button[color="accent"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="accent"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(0, 0, 255); color: rgb(var(--color-accent-on-white, 0, 0, 255)); } rm-button[color="accent"][variant="raised"],[is="rm-button"][color="accent"][variant="raised"],rm-button[color="accent"][variant="unelevated"],[is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent, 255, 255, 255)); } .rm-black-surface rm-button[color="accent"][variant="raised"],.rm-black-surface [is="rm-button"][color="accent"][variant="raised"],.rm-black-surface rm-button[color="accent"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-black, 30, 144, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="accent"][variant="raised"],.rm-dark-surface [is="rm-button"][color="accent"][variant="raised"],.rm-dark-surface rm-button[color="accent"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(30, 144, 255); background: rgb(var(--color-accent-on-dark, 30, 144, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="accent"][variant="raised"],.rm-light-surface [is="rm-button"][color="accent"][variant="raised"],.rm-light-surface rm-button[color="accent"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-light, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="accent"][variant="raised"],.rm-white-surface [is="rm-button"][color="accent"][variant="raised"],.rm-white-surface rm-button[color="accent"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="accent"][variant="unelevated"]{ background: rgb(0, 0, 255); background: rgb(var(--color-accent-on-white, 0, 0, 255)); color: rgb(255, 255, 255); color: rgb(var(--color-on-accent-on-white, 255, 255, 255)); } rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn, 255, 0, 0)); } .rm-black-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 69, 0); color: rgb(var(--color-warn-on-black, 255, 69, 0)); } .rm-dark-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 69, 0); color: rgb(var(--color-warn-on-dark, 255, 69, 0)); } .rm-light-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn-on-light, 255, 0, 0)); } .rm-white-surface rm-button[color="warn"]:not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][color="warn"]:not([variant="raised"]):not([variant="unelevated"]){ color: rgb(255, 0, 0); color: rgb(var(--color-warn-on-white, 255, 0, 0)); } rm-button[color="warn"][variant="raised"],[is="rm-button"][color="warn"][variant="raised"],rm-button[color="warn"][variant="unelevated"],[is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn, 255, 255, 255)); } .rm-black-surface rm-button[color="warn"][variant="raised"],.rm-black-surface [is="rm-button"][color="warn"][variant="raised"],.rm-black-surface rm-button[color="warn"][variant="unelevated"],.rm-black-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 69, 0); background: rgb(var(--color-warn-on-black, 255, 69, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-black, 255, 255, 255)); } .rm-dark-surface rm-button[color="warn"][variant="raised"],.rm-dark-surface [is="rm-button"][color="warn"][variant="raised"],.rm-dark-surface rm-button[color="warn"][variant="unelevated"],.rm-dark-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 69, 0); background: rgb(var(--color-warn-on-dark, 255, 69, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-dark, 255, 255, 255)); } .rm-light-surface rm-button[color="warn"][variant="raised"],.rm-light-surface [is="rm-button"][color="warn"][variant="raised"],.rm-light-surface rm-button[color="warn"][variant="unelevated"],.rm-light-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn-on-light, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-light, 255, 255, 255)); } .rm-white-surface rm-button[color="warn"][variant="raised"],.rm-white-surface [is="rm-button"][color="warn"][variant="raised"],.rm-white-surface rm-button[color="warn"][variant="unelevated"],.rm-white-surface [is="rm-button"][color="warn"][variant="unelevated"]{ background: rgb(255, 0, 0); background: rgb(var(--color-warn-on-white, 255, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-warn-on-white, 255, 255, 255)); } rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),[is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-black-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-black-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-dark-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-light-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-button[disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]),.rm-white-surface [is="rm-button"][disabled]:not([disabled="false"]):not([variant="raised"]):not([variant="unelevated"]){ color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-button[disabled][variant="raised"]:not([disabled="false"]),[is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),rm-button[disabled][variant="unelevated"]:not([disabled="false"]),[is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-black-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-black-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-black-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-black-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-dark-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-dark-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-dark-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); color: rgba(255, 255, 255, .42); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-light-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-light-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-light-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-button[disabled][variant="raised"]:not([disabled="false"]),.rm-white-surface [is="rm-button"][disabled][variant="raised"]:not([disabled="false"]),.rm-white-surface rm-button[disabled][variant="unelevated"]:not([disabled="false"]),.rm-white-surface [is="rm-button"][disabled][variant="unelevated"]:not([disabled="false"]){ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); color: rgba(0, 0, 0, .42); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-button[disabled]:not([disabled="false"]) button,[is="rm-button"][disabled]:not([disabled="false"]) button{ background: transparent; box-shadow: none; cursor: initial; } rm-button[variant=icon][dense],[is="rm-button"][variant=icon][dense]{ margin-right: 0.2857142857142857em; } rm-button[variant=icon][dense] button,[is="rm-button"][variant=icon][dense] button{ height: unset; width: unset; padding: 0; } rm-button[variant]:last-child,[is="rm-button"][variant]:last-child,rm-button:last-child,[is="rm-button"]:last-child{ margin-right: 0; }`,
@@ -3355,7 +3397,7 @@
 	        });
 	        let openOverlay = this.props.openOverlay;
 	        if (openOverlay) {
-	            dist.addListener(button, this._onclick = () => {
+	            button.addEventListener("beforefocus", this._onclick = () => {
 	                let overlay = document.querySelector("#" + openOverlay);
 	                if (!overlay) {
 	                    return;
@@ -3373,7 +3415,7 @@
 
 	    onBeforeUnmount() {
 	        if (this._onclick) {
-	            dist.removeListener(this.root.querySelector("button"), this._onclick);
+	            this.root.querySelector("button").removeEventListener("beforefocus", this._onclick);
 	        }
 	    },
 
@@ -3426,121 +3468,181 @@
 	    }
 	  },
 
-	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
-	    return template('<button expr5="expr5"></button><button expr7="expr7"></button>', [{
-	      'type': bindingTypes.IF,
+	  'template': function(
+	    template,
+	    expressionTypes,
+	    bindingTypes,
+	    getComponent
+	  ) {
+	    return template(
+	      '<button expr5="expr5"></button><button expr7="expr7"></button>',
+	      [
+	        {
+	          'type': bindingTypes.IF,
 
-	      'evaluate': function(scope) {
-	        return !scope.isIcon();
-	      },
+	          'evaluate': function(
+	            scope
+	          ) {
+	            return !scope.isIcon();
+	          },
 
-	      'redundantAttribute': 'expr5',
-	      'selector': '[expr5]',
+	          'redundantAttribute': 'expr5',
+	          'selector': '[expr5]',
 
-	      'template': template('<slot expr6="expr6"></slot>', [{
-	        'expressions': [{
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'style',
+	          'template': template(
+	            '<slot expr6="expr6"></slot>',
+	            [
+	              {
+	                'expressions': [
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'style',
 
-	          'evaluate': function(scope) {
-	            return scope.props.buttonStyle;
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'disabled',
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.props.buttonStyle;
+	                    }
+	                  },
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'disabled',
 
-	          'evaluate': function(scope) {
-	            return scope.isDisabled();
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'type',
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.isDisabled();
+	                    }
+	                  },
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'type',
 
-	          'evaluate': function(scope) {
-	            return scope.props.type;
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'tabindex',
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.props.type;
+	                    }
+	                  },
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'tabindex',
 
-	          'evaluate': function(scope) {
-	            return scope.props.tabindex;
-	          }
-	        }]
-	      }, {
-	        'type': bindingTypes.SLOT,
-	        'attributes': [],
-	        'name': 'default',
-	        'redundantAttribute': 'expr6',
-	        'selector': '[expr6]'
-	      }])
-	    }, {
-	      'type': bindingTypes.IF,
-
-	      'evaluate': function(scope) {
-	        return scope.isIcon();
-	      },
-
-	      'redundantAttribute': 'expr7',
-	      'selector': '[expr7]',
-
-	      'template': template('<rm-icon expr8="expr8"></rm-icon>', [{
-	        'expressions': [{
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'disabled',
-
-	          'evaluate': function(scope) {
-	            return scope.isDisabled();
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'type',
-
-	          'evaluate': function(scope) {
-	            return scope.props.type;
-	          }
-	        }, {
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'tabindex',
-
-	          'evaluate': function(scope) {
-	            return scope.props.tabindex;
-	          }
-	        }]
-	      }, {
-	        'type': bindingTypes.TAG,
-	        'getComponent': getComponent,
-
-	        'evaluate': function(scope) {
-	          return 'rm-icon';
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.props.tabindex;
+	                    }
+	                  }
+	                ]
+	              },
+	              {
+	                'type': bindingTypes.SLOT,
+	                'attributes': [],
+	                'name': 'default',
+	                'redundantAttribute': 'expr6',
+	                'selector': '[expr6]'
+	              }
+	            ]
+	          )
 	        },
+	        {
+	          'type': bindingTypes.IF,
 
-	        'slots': [{
-	          'id': 'default',
-	          'html': '<slot expr9="expr9"></slot>',
+	          'evaluate': function(
+	            scope
+	          ) {
+	            return scope.isIcon();
+	          },
 
-	          'bindings': [{
-	            'type': bindingTypes.SLOT,
-	            'attributes': [],
-	            'name': 'default',
-	            'redundantAttribute': 'expr9',
-	            'selector': '[expr9]'
-	          }]
-	        }],
+	          'redundantAttribute': 'expr7',
+	          'selector': '[expr7]',
 
-	        'attributes': [{
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'style',
+	          'template': template(
+	            '<rm-icon expr8="expr8"></rm-icon>',
+	            [
+	              {
+	                'expressions': [
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'disabled',
 
-	          'evaluate': function(scope) {
-	            return "vertical-align: middle;" + (scope.props.iconStyle || "");
-	          }
-	        }],
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.isDisabled();
+	                    }
+	                  },
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'type',
 
-	        'redundantAttribute': 'expr8',
-	        'selector': '[expr8]'
-	      }])
-	    }]);
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.props.type;
+	                    }
+	                  },
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'tabindex',
+
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return scope.props.tabindex;
+	                    }
+	                  }
+	                ]
+	              },
+	              {
+	                'type': bindingTypes.TAG,
+	                'getComponent': getComponent,
+
+	                'evaluate': function(
+	                  scope
+	                ) {
+	                  return 'rm-icon';
+	                },
+
+	                'slots': [
+	                  {
+	                    'id': 'default',
+	                    'html': '<slot expr9="expr9"></slot>',
+
+	                    'bindings': [
+	                      {
+	                        'type': bindingTypes.SLOT,
+	                        'attributes': [],
+	                        'name': 'default',
+	                        'redundantAttribute': 'expr9',
+	                        'selector': '[expr9]'
+	                      }
+	                    ]
+	                  }
+	                ],
+
+	                'attributes': [
+	                  {
+	                    'type': expressionTypes.ATTRIBUTE,
+	                    'name': 'style',
+
+	                    'evaluate': function(
+	                      scope
+	                    ) {
+	                      return "vertical-align: middle;" + (scope.props.iconStyle || "");
+	                    }
+	                  }
+	                ],
+
+	                'redundantAttribute': 'expr8',
+	                'selector': '[expr8]'
+	              }
+	            ]
+	          )
+	        }
+	      ]
+	    );
 	  },
 
 	  'name': 'rm-button'
