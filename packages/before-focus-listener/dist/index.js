@@ -5,23 +5,24 @@
 }(this, (function (exports) { 'use strict';
 
     var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
-    function addListener(element, handler, context) {
+    var WAS_FUNCTION = Symbol("was-function");
+    function addListener(element, handler) {
+        var _a;
         if (handler === void 0) {
             throw new Error("invalid handler");
         }
         if (typeof handler === "function") {
-            handler = {
-                handleEvent: handler
-            };
+            handler = (_a = {},
+                _a[WAS_FUNCTION] = true,
+                _a.handleEvent = handler,
+                _a);
         }
         else if (typeof handler !== "object" || !("handleEvent" in handler)) {
             throw new Error("invalid handler");
         }
         var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
         if (instance) {
-            instance.listeners.push({
-                handler: handler, context: context
-            });
+            instance.listeners.push(handler);
             if (instance.listeners.length === 1) {
                 window.addEventListener("touchstart", instance._window_ontouchstart);
             }
@@ -39,26 +40,29 @@
         function callListeners(event) {
             var stop = false;
             var stopImmediate = false;
-            event.stopPropagation = function () {
+            var beforeFocusEvent = new CustomEvent("beforefocus", {
+                detail: {
+                    nativeEvent: event
+                }
+            });
+            beforeFocusEvent.stopPropagation = function () {
                 stop = true;
             };
-            event.stopImmediatePropagation = function () {
+            beforeFocusEvent.stopImmediatePropagation = function () {
                 stopImmediate = true;
             };
-            function restore() {
-                delete event.stopPropagation;
-                delete event.stopImmediatePropagation;
-            }
-            instance.listeners.some(function (_a) {
-                var handler = _a.handler, context = _a.context;
-                handler.handleEvent(event);
+            instance.listeners.some(function (handler) {
+                if (handler[WAS_FUNCTION]) {
+                    handler.handleEvent.call(null, beforeFocusEvent);
+                }
+                else {
+                    handler.handleEvent(beforeFocusEvent);
+                }
                 if (stopImmediate) {
-                    restore();
                     event.stopImmediatePropagation();
                     return true;
                 }
                 if (stop) {
-                    restore();
                     event.stopPropagation();
                     return true;
                 }
@@ -107,7 +111,7 @@
                 }
                 callListeners(event);
             },
-            listeners: [{ handler: handler, context: context }]
+            listeners: [handler]
         };
         element.addEventListener("touchstart", instance.ontouchstart);
         element.addEventListener("touchmove", instance.ontouchmove);
@@ -121,11 +125,8 @@
             return;
         }
         var index = -1;
-        if (typeof handler === "function") {
-            handler = { handleEvent: handler };
-        }
         if (instance.listeners.some(function (listener, i) {
-            if (listener.handler === handler || listener.handler.handleEvent === handler.handleEvent) {
+            if (typeof handler === "function" ? listener.handleEvent === handler : listener === handler) {
                 index = i;
                 return true;
             }
