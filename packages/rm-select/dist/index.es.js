@@ -305,6 +305,14 @@ var index = {
         return this.getSelected().map(option => option.label).join(", ");
     },
 
+    getVariant() {
+        switch (this.props.variant) {
+            case "outlined": return "outlined";
+            case "filled": return "filled";
+            default: return "flat";
+        }
+    },
+
     isFilterable() {
         return this.props.filterable != null && this.props.filterable !== "false" && this.props.filterable !== false;
     },
@@ -315,6 +323,14 @@ var index = {
 
     isClearable() {
         return this.props.clearable != null && this.props.clearable !== false;
+    },
+
+    isDisabled() {
+        return this.props.disabled != null && this.props.disabled !== false;
+    },
+
+    isFullWidth() {
+        return this.props.fullWidth != null && this.props.fullWidth !== false;
     },
 
     select(option) {
@@ -344,7 +360,7 @@ var index = {
     getComponent
   ) {
     return template(
-      '<rm-menu expr162="expr162" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr164="expr164"></rm-textfield-container>',
+      '<rm-menu expr0="expr0" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr2="expr2"></rm-textfield-container>',
       [
         {
           'type': bindingTypes.TAG,
@@ -359,15 +375,15 @@ var index = {
           'slots': [
             {
               'id': 'default',
-              'html': '<div ref="rm-select-menu"><slot expr163="expr163"></slot></div>',
+              'html': '<div ref="rm-select-menu"><slot expr1="expr1"></slot></div>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'default',
-                  'redundantAttribute': 'expr163',
-                  'selector': '[expr163]'
+                  'redundantAttribute': 'expr1',
+                  'selector': '[expr1]'
                 }
               ]
             }
@@ -401,7 +417,7 @@ var index = {
               'evaluate': function(
                 scope
               ) {
-                return scope.props.variant || "flat";
+                return scope.getVariant();
               }
             },
             {
@@ -416,8 +432,8 @@ var index = {
             }
           ],
 
-          'redundantAttribute': 'expr162',
-          'selector': '[expr162]'
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]'
         },
         {
           'type': bindingTypes.TAG,
@@ -432,12 +448,12 @@ var index = {
           'slots': [
             {
               'id': 'input',
-              'html': '<span slot="input"><input expr165="expr165" class="rm-select--input"/><div expr166="expr166" class="rm-select--label"> </div></span>',
+              'html': '<span slot="input"><input expr3="expr3" class="rm-select--input"/><div expr4="expr4" class="rm-select--label"> </div></span>',
 
               'bindings': [
                 {
-                  'redundantAttribute': 'expr165',
-                  'selector': '[expr165]',
+                  'redundantAttribute': 'expr3',
+                  'selector': '[expr3]',
 
                   'expressions': [
                     {
@@ -487,14 +503,14 @@ var index = {
                       'evaluate': function(
                         scope
                       ) {
-                        return scope.props.disabled;
+                        return scope.isDisabled();
                       }
                     }
                   ]
                 },
                 {
-                  'redundantAttribute': 'expr166',
-                  'selector': '[expr166]',
+                  'redundantAttribute': 'expr4',
+                  'selector': '[expr4]',
 
                   'expressions': [
                     {
@@ -513,21 +529,21 @@ var index = {
             },
             {
               'id': 'leading',
-              'html': '<slot expr167="expr167" name="leading" slot="leading"></slot>',
+              'html': '<slot expr5="expr5" name="leading" slot="leading"></slot>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'leading',
-                  'redundantAttribute': 'expr167',
-                  'selector': '[expr167]'
+                  'redundantAttribute': 'expr5',
+                  'selector': '[expr5]'
                 }
               ]
             },
             {
               'id': 'trailing',
-              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr168="expr168" variant="icon" class="rm-select--clear" dense></rm-button><slot expr169="expr169" name="trailing"></slot><rm-button expr170="expr170" variant="icon" tabindex="-1" dense></rm-button></span>',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr6="expr6" variant="icon" class="rm-select--clear" dense></rm-button><slot expr7="expr7" name="trailing"></slot><rm-button expr8="expr8" variant="icon" tabindex="-1" dense></rm-button></span>',
 
               'bindings': [
                 {
@@ -539,8 +555,8 @@ var index = {
                     return scope.isClearable() && scope.root.value;
                   },
 
-                  'redundantAttribute': 'expr168',
-                  'selector': '[expr168]',
+                  'redundantAttribute': 'expr6',
+                  'selector': '[expr6]',
 
                   'template': template(
                     null,
@@ -581,7 +597,7 @@ var index = {
                             'evaluate': function(
                               scope
                             ) {
-                              return scope.props.disabled ? "-1" : null;
+                              return scope.isDisabled() ? "-1" : null;
                             }
                           }
                         ]
@@ -593,8 +609,8 @@ var index = {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'trailing',
-                  'redundantAttribute': 'expr169',
-                  'selector': '[expr169]'
+                  'redundantAttribute': 'expr7',
+                  'selector': '[expr7]'
                 },
                 {
                   'type': bindingTypes.TAG,
@@ -632,8 +648,8 @@ var index = {
                     }
                   ],
 
-                  'redundantAttribute': 'expr170',
-                  'selector': '[expr170]'
+                  'redundantAttribute': 'expr8',
+                  'selector': '[expr8]'
                 }
               ]
             }
@@ -647,7 +663,7 @@ var index = {
               'evaluate': function(
                 scope
               ) {
-                return scope.props.variant;
+                return scope.getVariant();
               }
             },
             {
@@ -667,7 +683,7 @@ var index = {
               'evaluate': function(
                 scope
               ) {
-                return scope.props.fullWidth;
+                return scope.isFullWidth();
               }
             },
             {
@@ -687,13 +703,13 @@ var index = {
               'evaluate': function(
                 scope
               ) {
-                return scope.props.disabled;
+                return scope.isDisabled();
               }
             }
           ],
 
-          'redundantAttribute': 'expr164',
-          'selector': '[expr164]'
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]'
         }
       ]
     );

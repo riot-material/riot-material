@@ -1,21 +1,21 @@
 <rm-select>
     <rm-menu onselected={ _onmenuselected } opened={ state.menuopened } inherit-width prevent-close-on-click-out
-        prevent-focus variant={ props.variant || "flat" } selected={ state.selected } keep-highlight
+        prevent-focus variant={ getVariant() } selected={ state.selected } keep-highlight
     ><div ref="rm-select-menu"><slot></slot></div></rm-menu>
-    <rm-textfield-container variant={ props.variant }
-        label={ props.label } full-width={ props.fullWidth }
-        class={ _getClassNames() } disabled={ props.disabled }
+    <rm-textfield-container variant={ getVariant() }
+        label={ props.label } full-width={ isFullWidth() }
+        class={ _getClassNames() } disabled={ isDisabled() }
     >
         <span slot="input">
             <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
-                readonly={ !isFilterable() } class="rm-select--input" disabled={ props.disabled }
+                readonly={ !isFilterable() } class="rm-select--input" disabled={ isDisabled() }
             >
             <div class="rm-select--label">{ getLabel() }</div>
         </span>
         <slot name="leading" slot="leading" />
         <span style="white-space: nowrap;" slot="trailing">
             <rm-button variant="icon" class="rm-select--clear" dense
-                onclick={ clear } if={ isClearable() && root.value } tabindex={ props.disabled ? "-1" : null }
+                onclick={ clear } if={ isClearable() && root.value } tabindex={ isDisabled() ? "-1" : null }
             >clear</rm-button>
             <slot name="trailing" />
             <rm-button variant="icon" class="rm-select--arrow{
@@ -362,6 +362,13 @@
             getLabel() {
                 return this.getSelected().map(option => option.label).join(", ");
             },
+            getVariant() {
+                switch (this.props.variant) {
+                    case "outlined": return "outlined";
+                    case "filled": return "filled";
+                    default: return "flat";
+                }
+            },
             isFilterable() {
                 return this.props.filterable != null && this.props.filterable !== "false" && this.props.filterable !== false;
             },
@@ -370,6 +377,12 @@
             },
             isClearable() {
                 return this.props.clearable != null && this.props.clearable !== false;
+            },
+            isDisabled() {
+                return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isFullWidth() {
+                return this.props.fullWidth != null && this.props.fullWidth !== false;
             },
             select(option) {
                 if (option.selected) {
