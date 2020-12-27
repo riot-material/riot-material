@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.14] - 2020-12-27
+- fix onUnmounted
+
 ## [1.0.13] - 2020-12-27
 - fix full-width and disabled props
 - filter invalid variant prop
