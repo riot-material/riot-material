@@ -1,0 +1,24 @@
+<filterable-with-dynamic-option>
+    <rm-select filterable oninput={ updateOption } onchange={ removeOption } variant={ props.variant }>
+        <slot />
+        <rm-list-item if={ state.dynamicOption } value="dynamic" label={ state.dynamicOption }>Aggiungi "{
+            state.dynamicOption
+        }"</rm-list-item>
+    </rm-select>
+
+    <script>
+        export default {
+            state: {
+                dynamicOption: null
+            },
+            updateOption(event) {
+                this.update({ dynamicOption: event.target.filter });
+            },
+            removeOption(event) {
+                if (event.target.value !== "dynamic") {
+                    this.update({ dynamicOption: null });
+                }
+            }
+        }
+    </script>
+</filterable-with-dynamic-option>

@@ -27,7 +27,7 @@
 
         _onmenuselected(event) {
             this._lastSelectedOption = event.target;
-            this.update({ selected: [ event.detail.value || "" ], menuopened: false });
+            this.update({ refreshLabel: true, menuopened: false });
         },
 
         onBeforeMount() {
@@ -93,7 +93,10 @@
                     set: value => { this.root.value = value; }
                 },
                 label: {
-                    get: HTMLInputElement.prototype.__lookupGetter__("value").bind(input)
+                    get: () => this.getLabel()
+                },
+                filter: {
+                    get: () => this.getFilter()
                 }
             });
 
@@ -251,14 +254,15 @@
 
         onBeforeUpdate() {
             this._restoreManipulated();
-            if (this.state.refreshLabel) {
-                HTMLInputElement.prototype.__lookupSetter__("value").call(this.root.querySelector("input"), this.getLabel());
-                delete this.state.refreshLabel;
-            }
         },
 
         onUpdated() {
             this._manipulate();
+            if (this.state.refreshLabel) {
+                HTMLInputElement.prototype.__lookupSetter__("value").call(this.root.querySelector("input"), this.getLabel());
+                delete this.state.refreshLabel;
+                delete this.state.filtering;
+            }
             const selected = this.getSelected();
             if (selected.some((option, i) => option !== this._lastSelected[i])) {
                 this._lastSelected = selected;
@@ -276,6 +280,7 @@
         },
 
         _oninputinput() {
+            this.state.filtering = true;
             if (this.isFilterable() && !this.state.menuopened) {
                 this.update({ menuopened: true });
             }
@@ -351,6 +356,13 @@
                 this.update({ menuopened: this.isMultiple() ? this.state.menuopened : false, refreshLabel: true });
             }
             HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
+        },
+
+        getFilter() {
+            return this.state.filtering ?
+                HTMLInputElement.prototype.__lookupGetter__("value").call(this._input, this.getLabel())
+                : null
+            ;
         },
 
         components: {

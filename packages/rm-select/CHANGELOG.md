@@ -1,6 +1,11 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.0] - 2021-01-03
+- update text on change when filtering
+- add "filter" property
+- add tests for \[filterable] `rm-select`
+
 ## [1.0.14] - 2020-12-27
 - fix onUnmounted
 
