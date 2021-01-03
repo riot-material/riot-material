@@ -1,0 +1,26 @@
+<test>
+    <button onclick={ open }>OPEN</button>
+    <rm-dialog surface="white" onclose={ console.log } onopen={ console.log }>
+        <div slot="title" style="padding: 20px 24px; font-size: 20px; font-weight: bold;">Dialog window</div>
+        <div slot="content" style="padding: 0 24px;">
+            This is the content of the dialog
+        </div>
+        <div slot="actions" style="padding: 8px; text-align: right;">
+            <button onclick={ ok }>OK</button>
+        </div>
+    </rm-dialog>
+
+    <script>
+        export default {
+            onMounted() {
+                this._dialog = this.root.querySelector("rm-dialog");
+            },
+            ok() {
+                this._dialog.close("ok");
+            },
+            open() {
+                this._dialog.open();
+            }
+        }
+    </script>
+</test>

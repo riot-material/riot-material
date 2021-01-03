@@ -1,4 +1,8 @@
-define(function () { 'use strict';
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/surfaces')) :
+    typeof define === 'function' && define.amd ? define(['@riot-material/surfaces'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.dialog = factory()));
+}(this, (function () { 'use strict';
 
     var index = {
       'css': `rm-dialog,[is="rm-dialog"]{ position: fixed; display: block; top: 0; bottom: 0; right: 0; left: 0; padding: 40px; background: rgba(0, 0, 0, .42); background: rgba(0, 0, 0, var(--color-opacity-secondary, .42)); box-sizing: border-box; z-index: 100; font-size: 0; text-align: center; } rm-dialog > [ref=aligner],[is="rm-dialog"] > [ref=aligner]{ width: 0; height: 100%; vertical-align: middle; display: inline-block; } rm-dialog > [ref=container],[is="rm-dialog"] > [ref=container]{ width: 100%; font-size: 16px; vertical-align: middle; display: inline-block; max-width: 560px; text-align: initial; } rm-dialog > [ref=container] > [ref=title],[is="rm-dialog"] > [ref=container] > [ref=title]{ min-height: 8px; border-radius: 4px 4px 0 0; } rm-dialog > [ref=container] > [ref=content],[is="rm-dialog"] > [ref=container] > [ref=content]{ overflow: auto; } rm-dialog > [ref=container] > [ref=actions],[is="rm-dialog"] > [ref=container] > [ref=actions]{ min-height: 8px; border-radius: 0 0 4px 4px; }`,
@@ -15,21 +19,21 @@ define(function () { 'use strict';
                 if (this.state.clickedContainer) {
                     return;
                 }
-                this.dismiss(0);
+                this.close(null);
             });
             window.addEventListener("resize", this._onresize = () => {
                 this.update();
             });
             this.root.style.display = "none";
-            this.root.dismiss = (result) => {
-                this.dismiss(result);
+            this.root.close = (result) => {
+                this.close(result);
             };
             this.root.open = (...detail) => {
                 this.open(...detail);
             };
             this.root._wrapTo = (wrapper) => {
                 wrapper.open = this.root.open;
-                wrapper.dismiss = this.root.dismiss;
+                wrapper.close = this.root.close;
                 try {
                     Object.defineProperties(wrapper, {
                         opened: {
@@ -84,13 +88,13 @@ define(function () { 'use strict';
 
         _result: 0,
 
-        dismiss(result) {
+        close(result) {
             if (this.root.style.display === "none") {
                 return;
             }
-            this._result = result || 0;
+            this._result = result || null;
             this.root.style.display = "none";
-            this.root.dispatchEvent(new CustomEvent("dismiss", { bubbles: true, detail: { result: this.root.result } }));
+            this.root.dispatchEvent(new CustomEvent("close", { bubbles: true, detail: { result: this.root.result } }));
         },
 
         open(...detail) {
@@ -124,10 +128,10 @@ define(function () { 'use strict';
 
       'template': function(template, expressionTypes, bindingTypes, getComponent) {
         return template(
-          '<div ref="aligner"></div><div expr14="expr14" class="mdc-elevation--z24" ref="container"><div expr15="expr15" ref="title"><slot expr16="expr16" name="title"></slot></div><div expr17="expr17" ref="content"><slot expr18="expr18" name="content"></slot></div><div expr19="expr19" ref="actions"><slot expr20="expr20" name="actions"></slot></div></div>',
+          '<div ref="aligner"></div><div expr7="expr7" class="mdc-elevation--z24" ref="container"><div expr8="expr8" ref="title"><slot expr9="expr9" name="title"></slot></div><div expr10="expr10" ref="content"><slot expr11="expr11" name="content"></slot></div><div expr12="expr12" ref="actions"><slot expr13="expr13" name="actions"></slot></div></div>',
           [{
-            'redundantAttribute': 'expr14',
-            'selector': '[expr14]',
+            'redundantAttribute': 'expr7',
+            'selector': '[expr7]',
 
             'expressions': [{
               'type': expressionTypes.EVENT,
@@ -138,8 +142,8 @@ define(function () { 'use strict';
               }
             }]
           }, {
-            'redundantAttribute': 'expr15',
-            'selector': '[expr15]',
+            'redundantAttribute': 'expr8',
+            'selector': '[expr8]',
 
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -153,11 +157,11 @@ define(function () { 'use strict';
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'title',
-            'redundantAttribute': 'expr16',
-            'selector': '[expr16]'
+            'redundantAttribute': 'expr9',
+            'selector': '[expr9]'
           }, {
-            'redundantAttribute': 'expr17',
-            'selector': '[expr17]',
+            'redundantAttribute': 'expr10',
+            'selector': '[expr10]',
 
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -171,11 +175,11 @@ define(function () { 'use strict';
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'content',
-            'redundantAttribute': 'expr18',
-            'selector': '[expr18]'
+            'redundantAttribute': 'expr11',
+            'selector': '[expr11]'
           }, {
-            'redundantAttribute': 'expr19',
-            'selector': '[expr19]',
+            'redundantAttribute': 'expr12',
+            'selector': '[expr12]',
 
             'expressions': [{
               'type': expressionTypes.ATTRIBUTE,
@@ -189,8 +193,8 @@ define(function () { 'use strict';
             'type': bindingTypes.SLOT,
             'attributes': [],
             'name': 'actions',
-            'redundantAttribute': 'expr20',
-            'selector': '[expr20]'
+            'redundantAttribute': 'expr13',
+            'selector': '[expr13]'
           }]
         );
       },
@@ -200,4 +204,4 @@ define(function () { 'use strict';
 
     return index;
 
-});
+})));

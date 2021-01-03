@@ -1,46 +1,44 @@
 const riot = require("rollup-plugin-riot");
+const nodeResolve = require("@rollup/plugin-node-resolve").default;
+
+const globals = {
+    "@riot-material/surfaces": "riotMaterial.surfaces"
+};
+const external = Object.keys(globals);
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.riot",
+        external,
         plugins: [
+            nodeResolve(),
             riot()
         ],
-        output: {
-            file: "index.js",
-            format: "cjs",
-            exports: "auto"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            file: "index.es.js",
-            format: "es"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            file: "index.amd.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.dialog",
-            file: "index.umd.js",
-            format: "umd"
-        }
+        output: [
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            },
+            {
+                name: "riotMaterial.components.dialog",
+                file: "dist/index.js",
+                format: "umd",
+                globals
+            }
+        ]
+    // },
+    // {
+    //     input: "src/index.riot",
+    //     plugins: [
+    //         nodeResolve(),
+    //         riot()
+    //     ],
+    //     output: [
+    //         {
+    //             name: "riotMaterial.components.dialog",
+    //             file: "dist/index+libs.js",
+    //             format: "umd"
+    //         }
+    //     ]
     }
 ];

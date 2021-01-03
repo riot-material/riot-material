@@ -1,3 +1,5 @@
+import '@riot-material/surfaces';
+
 var index = {
   'css': `rm-dialog,[is="rm-dialog"]{ position: fixed; display: block; top: 0; bottom: 0; right: 0; left: 0; padding: 40px; background: rgba(0, 0, 0, .42); background: rgba(0, 0, 0, var(--color-opacity-secondary, .42)); box-sizing: border-box; z-index: 100; font-size: 0; text-align: center; } rm-dialog > [ref=aligner],[is="rm-dialog"] > [ref=aligner]{ width: 0; height: 100%; vertical-align: middle; display: inline-block; } rm-dialog > [ref=container],[is="rm-dialog"] > [ref=container]{ width: 100%; font-size: 16px; vertical-align: middle; display: inline-block; max-width: 560px; text-align: initial; } rm-dialog > [ref=container] > [ref=title],[is="rm-dialog"] > [ref=container] > [ref=title]{ min-height: 8px; border-radius: 4px 4px 0 0; } rm-dialog > [ref=container] > [ref=content],[is="rm-dialog"] > [ref=container] > [ref=content]{ overflow: auto; } rm-dialog > [ref=container] > [ref=actions],[is="rm-dialog"] > [ref=container] > [ref=actions]{ min-height: 8px; border-radius: 0 0 4px 4px; }`,
 
@@ -13,21 +15,21 @@ var index = {
             if (this.state.clickedContainer) {
                 return;
             }
-            this.dismiss(0);
+            this.close(null);
         });
         window.addEventListener("resize", this._onresize = () => {
             this.update();
         });
         this.root.style.display = "none";
-        this.root.dismiss = (result) => {
-            this.dismiss(result);
+        this.root.close = (result) => {
+            this.close(result);
         };
         this.root.open = (...detail) => {
             this.open(...detail);
         };
         this.root._wrapTo = (wrapper) => {
             wrapper.open = this.root.open;
-            wrapper.dismiss = this.root.dismiss;
+            wrapper.close = this.root.close;
             try {
                 Object.defineProperties(wrapper, {
                     opened: {
@@ -82,13 +84,13 @@ var index = {
 
     _result: 0,
 
-    dismiss(result) {
+    close(result) {
         if (this.root.style.display === "none") {
             return;
         }
-        this._result = result || 0;
+        this._result = result || null;
         this.root.style.display = "none";
-        this.root.dispatchEvent(new CustomEvent("dismiss", { bubbles: true, detail: { result: this.root.result } }));
+        this.root.dispatchEvent(new CustomEvent("close", { bubbles: true, detail: { result: this.root.result } }));
     },
 
     open(...detail) {

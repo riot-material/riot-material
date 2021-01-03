@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RM-DIALOG test</title>
+    </head>
+    <body>
+        <test></test>
+
+        <script src="../node_modules/riot/riot+compiler.min.js"></script>
+        <script src="../node_modules/@riot-material/surfaces/index.umd.js"></script>
+        <script src="../dist/index.js"></script>
+        <script src="test.riot" type="riot"></script>
+
+        <script>
+            riot.compile().then(() => {
+                riot.register("rm-dialog", window.riotMaterial.components.dialog);
+                riot.mount("test");
+            });
+        </script>
+    </body>
+</html>
