@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.5] - 2021-01-03
+- fix `rm-menu` select option twice
+
 ## [1.0.4] - 2021-01-03
 - fix `rm-menu` having shared `_canHighlight` map
 - update dependencies

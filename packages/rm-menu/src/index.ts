@@ -208,13 +208,14 @@ const Component: IComponent = {
         if (programmatical) {
             ripple(this._lastHighlighted).start().end();
             option.click();
+        } else {
+            option.dispatchEvent(new CustomEvent("selected", {
+                detail: {
+                    value: option.getAttribute("value")
+                },
+                bubbles: true, cancelable: false
+            }));
         }
-        option.dispatchEvent(new CustomEvent("selected", {
-            detail: {
-                value: option.getAttribute("value")
-            },
-            bubbles: true, cancelable: false
-        }));
     },
     _handleClick(event: MouseEvent): void {
         if (
