@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.3.0] - 2021-01-03
+- add "menuselected" event
+
 ## [1.2.0] - 2021-01-03
 - add "menuopen" and "menuclose" events
 

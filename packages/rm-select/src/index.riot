@@ -1,7 +1,7 @@
 <rm-select>
     <rm-menu onselected={ _onmenuselected } opened={ state.menuopened } inherit-width prevent-close-on-click-out
         prevent-focus variant={ getVariant() } selected={ state.selected } keep-highlight
-        onopen={ dispatchMenuOpenEvent } onclose={ dispatchMenuCloseEvent }
+        onopen={ dispatchMenuEvent } onclose={ dispatchMenuEvent }
     ><div ref="rm-select-menu"><slot></slot></div></rm-menu>
     <rm-textfield-container variant={ getVariant() }
         label={ props.label } full-width={ isFullWidth() }
@@ -98,6 +98,7 @@
             _onmenuselected(event) {
                 this._lastSelectedOption = event.target;
                 this.update({ refreshLabel: true, menuopened: false });
+                this.dispatchMenuEvent(event);
             },
             onBeforeMount() {
                 Object.defineProperties(this.root, {
@@ -408,11 +409,10 @@
                     : null
                 ;
             },
-            dispatchMenuCloseEvent() {
-                this.root.dispatchEvent(new Event("menuclose"));
-            },
-            dispatchMenuOpenEvent() {
-                this.root.dispatchEvent(new Event("menuopen"));
+            dispatchMenuEvent(event) {
+                this.root.dispatchEvent(new CustomEvent("menu" + event.type, {
+                    detail: { originatingEvent: event }
+                }));
             },
             components: {
                 "rm-textfield-container": TextfieldContainerComponent,
