@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.4] - 2021-01-03
+- fix `rm-menu` having shared `_canHighlight` map
+- update dependencies
+
 ## [1.0.3] - 2020-12-07
 - remove handling of item highlight when selected
 - change dist structure

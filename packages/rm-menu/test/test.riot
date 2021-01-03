@@ -15,6 +15,18 @@
         onclick={ toggleMenu } onblur={ menuclose }
         id="opener" style="width: 200px; background: white;"
     >Open</button>
+    <rm-menu
+        inherit-width keep-highlight variant="flat"
+        prevent-focus opened
+    >
+        <rm-list-item onclick={ () => {
+            window.console.log("a-ah!");
+            closeMenu();
+        } } menu-option>Elemento 1</rm-list-item>
+        <rm-list-item menu-option>Elemento 2</rm-list-item>
+        <rm-list-item passive>Elemento 3</rm-list-item>
+        <rm-list-item menu-option selected={ state.selected } onclick={ onclick }>Elemento 4</rm-list-item>
+    </rm-menu>
 
     <script>
         export default {

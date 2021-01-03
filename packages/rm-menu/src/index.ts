@@ -95,11 +95,13 @@ const Component: IComponent = {
     _mounted: false,
     _time: 0,
     _realParent: null,
-    _canHighlight: new Map<HTMLElement, HTMLElement>(),
+    // @ts-ignore
+    _canHighlight: null,
     _currentHighlighted: null,
     _lastHighlighted: null,
     onBeforeMount(): void {
         this._closeThis = this.close.bind(this);
+        this._canHighlight = new Map<HTMLElement, HTMLElement>();
     },
     onMounted(): void {
         this._mounted = true;
@@ -164,8 +166,9 @@ const Component: IComponent = {
     },
     _lastHighlightedBeforeUpdate: null,
     onBeforeUpdate(): void {
-        this._lastHighlightedBeforeUpdate = this._lastHighlighted;
+        const lastHighlighted: HTMLElement | null = this._lastHighlighted;
         this._clean();
+        this._lastHighlightedBeforeUpdate = lastHighlighted;
     },
     onUpdated(): void {
         this._setup();
@@ -201,10 +204,11 @@ const Component: IComponent = {
         if (!this._lastHighlighted) {
             return;
         }
+        const option: HTMLElement = this._canHighlight.get(this._lastHighlighted)!;
         if (programmatical) {
             ripple(this._lastHighlighted).start().end();
+            option.click();
         }
-        const option: HTMLElement = this._canHighlight.get(this._lastHighlighted)!;
         option.dispatchEvent(new CustomEvent("selected", {
             detail: {
                 value: option.getAttribute("value")
@@ -312,7 +316,7 @@ const Component: IComponent = {
         this._clearHighlight();
     },
     highlightNext(): void {
-        if (!this.isOpened()) {
+        if (!this.isOpened() || this._canHighlight.size === 0) {
             return;
         }
         this._clearHighlight();
@@ -323,11 +327,9 @@ const Component: IComponent = {
                 return true;
             }
         })) {
-            if (this._canHighlight.size > 0) {
-                this._currentHighlighted = ripple(
-                    this._lastHighlighted = Array.from(this._canHighlight.keys())[0]
-                ).highlight();
-            }
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[0]
+            ).highlight();
         } else {
             this._currentHighlighted = ripple(
                 this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]
@@ -336,7 +338,7 @@ const Component: IComponent = {
         this._scrollToHighlighted();
     },
     highlightPrevious(): void {
-        if (!this.isOpened()) {
+        if (!this.isOpened() || this._canHighlight.size === 0) {
             return;
         }
         this._clearHighlight();
@@ -347,12 +349,9 @@ const Component: IComponent = {
                 return true;
             }
         })) {
-            if (this._canHighlight.size > 0) {
-                this._currentHighlighted = ripple(
-                    this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]
-                    ).highlight();
-                }
-            return;
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]
+            ).highlight();
         } else {
             this._currentHighlighted = ripple(
                 this._lastHighlighted = Array.from(this._canHighlight.keys())[
@@ -461,7 +460,7 @@ function menuAnimationFrame(this: ComponentEnhanced): void {
                 }
             }
             if (this._time >= 1) {
-                if (!this.getPreventFocus()) {
+                if (!this.getPreventFocus() || !this._anchorElement) {
                     focusManager.hold({
                         element: child,
                         onFocusInside: () => {
@@ -492,7 +491,7 @@ function menuAnimationFrame(this: ComponentEnhanced): void {
                     focusManager.on("keydown", this._onkeydown!);
                 }
                 this._direction = 0;
-                this._setup();
+                // this._setup();
                 this.root.dispatchEvent(new Event("open"));
             } else if (this._time <= 0) {
                 this._direction = 0;

@@ -1,7 +1,7 @@
 <rm-menu>
     <div onmousedown={ _onmousedown } tabindex="0" style="outline: none;"><div
         style="overflow-y: auto; position: relative;" onmouseenter={ _setHighlighted } onmousemove={ _setHighlighted }
-        onmouseleave={ _handleHighlightOnLeave } onclick={ _handleClick }
+        onmouseleave={ _handleHighlightOnLeave } onclick={ _handleClick } onfocus={ open }
     >
         <slot close-menu={ _closeThis } ></slot>
         <div style="position: absolute;" ref="item-highlight"></div>

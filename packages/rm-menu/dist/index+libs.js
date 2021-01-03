@@ -655,18 +655,16 @@
               return;
           }
           var rect = this._div.getBoundingClientRect();
-          if (rect.width === 0 && rect.height === 0) {
-              element.removeChild(this._div);
-              return;
-          }
-          if (this._computedStyle.transform === scaleUpStyle) {
-              if (this._computedStyle.opacity === "0") {
-                  element.removeChild(this._div);
-                  return;
-              }
-              else {
-                  if (this._ended) {
-                      this._div.style.opacity = "0";
+          if (rect.width !== 0 || rect.height !== 0) {
+              if (this._computedStyle.transform === scaleUpStyle) {
+                  if (this._computedStyle.opacity === "0") {
+                      element.removeChild(this._div);
+                      return;
+                  }
+                  else {
+                      if (this._ended) {
+                          this._div.style.opacity = "0";
+                      }
                   }
               }
           }
@@ -1085,11 +1083,12 @@
       _mounted: false,
       _time: 0,
       _realParent: null,
-      _canHighlight: new Map(),
+      _canHighlight: null,
       _currentHighlighted: null,
       _lastHighlighted: null,
       onBeforeMount: function () {
           this._closeThis = this.close.bind(this);
+          this._canHighlight = new Map();
       },
       onMounted: function () {
           var _this = this;
@@ -1153,8 +1152,9 @@
       },
       _lastHighlightedBeforeUpdate: null,
       onBeforeUpdate: function () {
-          this._lastHighlightedBeforeUpdate = this._lastHighlighted;
+          var lastHighlighted = this._lastHighlighted;
           this._clean();
+          this._lastHighlightedBeforeUpdate = lastHighlighted;
       },
       onUpdated: function () {
           this._setup();
@@ -1192,10 +1192,11 @@
           if (!this._lastHighlighted) {
               return;
           }
+          var option = this._canHighlight.get(this._lastHighlighted);
           if (programmatical) {
               ripple(this._lastHighlighted).start().end();
+              option.click();
           }
-          var option = this._canHighlight.get(this._lastHighlighted);
           option.dispatchEvent(new CustomEvent("selected", {
               detail: {
                   value: option.getAttribute("value")
@@ -1298,7 +1299,7 @@
       },
       highlightNext: function () {
           var _this = this;
-          if (!this.isOpened()) {
+          if (!this.isOpened() || this._canHighlight.size === 0) {
               return;
           }
           this._clearHighlight();
@@ -1309,9 +1310,7 @@
                   return true;
               }
           })) {
-              if (this._canHighlight.size > 0) {
-                  this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
-              }
+              this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
           }
           else {
               this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]).highlight();
@@ -1320,7 +1319,7 @@
       },
       highlightPrevious: function () {
           var _this = this;
-          if (!this.isOpened()) {
+          if (!this.isOpened() || this._canHighlight.size === 0) {
               return;
           }
           this._clearHighlight();
@@ -1331,10 +1330,7 @@
                   return true;
               }
           })) {
-              if (this._canHighlight.size > 0) {
-                  this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
-              }
-              return;
+              this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
           }
           else {
               this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index - 1 + this._canHighlight.size) % this._canHighlight.size]).highlight();
@@ -1447,7 +1443,7 @@
                   }
               }
               if (_this._time >= 1) {
-                  if (!_this.getPreventFocus()) {
+                  if (!_this.getPreventFocus() || !_this._anchorElement) {
                       hold_1({
                           element: child,
                           onFocusInside: function () {
@@ -1476,7 +1472,6 @@
                       on_1("keydown", _this._onkeydown);
                   }
                   _this._direction = 0;
-                  _this._setup();
                   _this.root.dispatchEvent(new Event("open"));
               }
               else if (_this._time <= 0) {
@@ -1629,6 +1624,16 @@
                   scope
                 ) {
                   return scope._handleClick;
+                }
+              },
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onfocus',
+
+                'evaluate': function(
+                  scope
+                ) {
+                  return scope.open;
                 }
               }
             ]
