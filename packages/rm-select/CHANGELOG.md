@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.3.1] - 2021-01-03
+- fix refresh label when updating from parent
+- remove "\<option>" manipulation
+
 ## [1.3.0] - 2021-01-03
 - add "menuselected" event
 
