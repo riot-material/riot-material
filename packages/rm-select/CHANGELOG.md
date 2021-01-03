@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.0] - 2021-01-03
+- add "menuopen" and "menuclose" events
+
 ## [1.1.0] - 2021-01-03
 - update text on change when filtering
 - add "filter" property

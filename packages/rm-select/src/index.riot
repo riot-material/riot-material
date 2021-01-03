@@ -1,6 +1,7 @@
 <rm-select>
     <rm-menu onselected={ _onmenuselected } opened={ state.menuopened } inherit-width prevent-close-on-click-out
         prevent-focus variant={ getVariant() } selected={ state.selected } keep-highlight
+        onopen={ dispatchMenuOpenEvent } onclose={ dispatchMenuCloseEvent }
     ><div ref="rm-select-menu"><slot></slot></div></rm-menu>
     <rm-textfield-container variant={ getVariant() }
         label={ props.label } full-width={ isFullWidth() }
@@ -406,6 +407,12 @@
                     HTMLInputElement.prototype.__lookupGetter__("value").call(this._input, this.getLabel())
                     : null
                 ;
+            },
+            dispatchMenuCloseEvent() {
+                this.root.dispatchEvent(new Event("menuclose"));
+            },
+            dispatchMenuOpenEvent() {
+                this.root.dispatchEvent(new Event("menuopen"));
             },
             components: {
                 "rm-textfield-container": TextfieldContainerComponent,

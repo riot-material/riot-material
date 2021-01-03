@@ -360,6 +360,14 @@ var index = {
         ;
     },
 
+    dispatchMenuCloseEvent() {
+        this.root.dispatchEvent(new Event("menuclose"));
+    },
+
+    dispatchMenuOpenEvent() {
+        this.root.dispatchEvent(new Event("menuopen"));
+    },
+
     components: {
         "rm-textfield-container": TextfieldContainerComponent,
         "rm-button": ButtonComponent,
@@ -374,7 +382,7 @@ var index = {
     getComponent
   ) {
     return template(
-      '<rm-menu expr0="expr0" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr2="expr2"></rm-textfield-container>',
+      '<rm-menu expr54="expr54" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr56="expr56"></rm-textfield-container>',
       [
         {
           'type': bindingTypes.TAG,
@@ -389,15 +397,15 @@ var index = {
           'slots': [
             {
               'id': 'default',
-              'html': '<div ref="rm-select-menu"><slot expr1="expr1"></slot></div>',
+              'html': '<div ref="rm-select-menu"><slot expr55="expr55"></slot></div>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'default',
-                  'redundantAttribute': 'expr1',
-                  'selector': '[expr1]'
+                  'redundantAttribute': 'expr55',
+                  'selector': '[expr55]'
                 }
               ]
             }
@@ -443,11 +451,31 @@ var index = {
               ) {
                 return scope.state.selected;
               }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onopen',
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope.dispatchMenuOpenEvent;
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onclose',
+
+              'evaluate': function(
+                scope
+              ) {
+                return scope.dispatchMenuCloseEvent;
+              }
             }
           ],
 
-          'redundantAttribute': 'expr0',
-          'selector': '[expr0]'
+          'redundantAttribute': 'expr54',
+          'selector': '[expr54]'
         },
         {
           'type': bindingTypes.TAG,
@@ -462,12 +490,12 @@ var index = {
           'slots': [
             {
               'id': 'input',
-              'html': '<span slot="input"><input expr3="expr3" class="rm-select--input"/><div expr4="expr4" class="rm-select--label"> </div></span>',
+              'html': '<span slot="input"><input expr57="expr57" class="rm-select--input"/><div expr58="expr58" class="rm-select--label"> </div></span>',
 
               'bindings': [
                 {
-                  'redundantAttribute': 'expr3',
-                  'selector': '[expr3]',
+                  'redundantAttribute': 'expr57',
+                  'selector': '[expr57]',
 
                   'expressions': [
                     {
@@ -523,8 +551,8 @@ var index = {
                   ]
                 },
                 {
-                  'redundantAttribute': 'expr4',
-                  'selector': '[expr4]',
+                  'redundantAttribute': 'expr58',
+                  'selector': '[expr58]',
 
                   'expressions': [
                     {
@@ -543,21 +571,21 @@ var index = {
             },
             {
               'id': 'leading',
-              'html': '<slot expr5="expr5" name="leading" slot="leading"></slot>',
+              'html': '<slot expr59="expr59" name="leading" slot="leading"></slot>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'leading',
-                  'redundantAttribute': 'expr5',
-                  'selector': '[expr5]'
+                  'redundantAttribute': 'expr59',
+                  'selector': '[expr59]'
                 }
               ]
             },
             {
               'id': 'trailing',
-              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr6="expr6" variant="icon" class="rm-select--clear" dense></rm-button><slot expr7="expr7" name="trailing"></slot><rm-button expr8="expr8" variant="icon" tabindex="-1" dense></rm-button></span>',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr60="expr60" variant="icon" class="rm-select--clear" dense></rm-button><slot expr61="expr61" name="trailing"></slot><rm-button expr62="expr62" variant="icon" tabindex="-1" dense></rm-button></span>',
 
               'bindings': [
                 {
@@ -569,8 +597,8 @@ var index = {
                     return scope.isClearable() && scope.root.value;
                   },
 
-                  'redundantAttribute': 'expr6',
-                  'selector': '[expr6]',
+                  'redundantAttribute': 'expr60',
+                  'selector': '[expr60]',
 
                   'template': template(
                     null,
@@ -623,8 +651,8 @@ var index = {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'trailing',
-                  'redundantAttribute': 'expr7',
-                  'selector': '[expr7]'
+                  'redundantAttribute': 'expr61',
+                  'selector': '[expr61]'
                 },
                 {
                   'type': bindingTypes.TAG,
@@ -662,8 +690,8 @@ var index = {
                     }
                   ],
 
-                  'redundantAttribute': 'expr8',
-                  'selector': '[expr8]'
+                  'redundantAttribute': 'expr62',
+                  'selector': '[expr62]'
                 }
               ]
             }
@@ -722,8 +750,8 @@ var index = {
             }
           ],
 
-          'redundantAttribute': 'expr2',
-          'selector': '[expr2]'
+          'redundantAttribute': 'expr56',
+          'selector': '[expr56]'
         }
       ]
     );
