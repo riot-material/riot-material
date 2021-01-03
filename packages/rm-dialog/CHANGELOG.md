@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.1] - 2021-12-03
+- update package.json entry points
+
 ## [1.1.0] - 2021-12-03
 - change `dismiss` to `close`
 - click outside the dialog closes it with `null` as result

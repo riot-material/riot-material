@@ -1,10 +1,10 @@
 {
   "name": "@riot-material/rm-dialog",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
-  "main": "index.js",
-  "module": "index.es.js",
-  "jsnext:main": "index.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
