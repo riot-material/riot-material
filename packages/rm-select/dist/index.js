@@ -351,7 +351,10 @@
                 return;
             }
             if (!this.isMultiple()) {
-                this.getSelected()[0].selected = false;
+                const selected = this.getSelected()[0];
+                if (selected) {
+                    selected.selected = false;
+                }
             }
             option.selected = true;
             this._lastSelectedOption = option;

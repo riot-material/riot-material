@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.3.3] - 2021-01-04
+- fix .select(option) bug
+
 ## [1.3.2] - 2021-01-04
 - fix set value programmatically
 
