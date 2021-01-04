@@ -63,4 +63,20 @@
         <rm-list-item value=""></rm-list-item>
         <rm-list-item value="0">Just a test</rm-list-item>
     </filterable-with-dynamic-option>
+
+    <rm-select variant="outlined" ref="main">
+        <rm-list-item value=""></rm-list-item>
+        <rm-list-item value="1">Option 1</rm-list-item>
+        <rm-list-item value="2">Option 2</rm-list-item>
+        <rm-list-item value="3">Option 3</rm-list-item>
+    </rm-select>
+    <button onclick={ setValue }>SET VALUE</button>
+
+    <script>
+        export default {
+            setValue() {
+                this.root.querySelector("[ref='main']").value = "2";
+            }
+        }
+    </script>
 </test>

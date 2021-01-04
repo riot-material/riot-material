@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.3.2] - 2021-01-04
+- fix set value programmatically
+
 ## [1.3.1] - 2021-01-03
 - fix refresh label when updating from parent
 - remove "\<option>" manipulation
