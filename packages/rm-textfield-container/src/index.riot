@@ -63,32 +63,7 @@
             padding: 0.625em 0 0.625em 0;
             line-height: 1.25em;
             transition: padding linear 150ms;
-            color: rgb(0, 0, 0);
-            color: rgb(var(--color-on-background, 0, 0, 0));
-        }
-        .rm-black-surface :host .rm-textfield-container--container {
-            background: rgb(0, 0, 0);
-            background: rgb(var(--color-black-surface, 0, 0, 0));
-            color: rgb(255, 255, 255);
-            color: rgb(var(--color-on-black, 255, 255, 255));
-        }
-        .rm-dark-surface :host .rm-textfield-container--container {
-            background: rgb(10, 10, 10);
-            background: rgb(var(--color-dark-surface, 10, 10, 10));
-            color: rgb(255, 255, 255);
-            color: rgb(var(--color-on-dark, 255, 255, 255));
-        }
-        .rm-light-surface :host .rm-textfield-container--container {
-            background: rgb(250, 250, 250);
-            background: rgb(var(--color-light-surface, 250, 250, 250));
-            color: rgb(0, 0, 0);
-            color: rgb(var(--color-on-light, 0, 0, 0));
-        }
-        .rm-white-surface :host .rm-textfield-container--container {
-            background: rgb(255, 255, 255);
-            background: rgb(var(--color-white-surface, 255, 255, 255));
-            color: rgb(0, 0, 0);
-            color: rgb(var(--color-on-white, 0, 0, 0));
+            color: inherit;
         }
         /* FILLED */
         :host[variant=filled] .rm-textfield-container--container {
@@ -103,22 +78,6 @@
         :host[variant=filled].rm-label-should-float .rm-textfield-container--container {
             padding-top: 1.25em;
             padding-bottom: 0.5em;
-        }
-        .rm-black-surface :host[variant=filled] .rm-textfield-container--container {
-            background: rgba(0, 0, 0, .12);
-            background: rgba(var(--color-on-black, 0, 0, 0), var(--color-opacity-tertiary, .12));
-        }
-        .rm-dark-surface :host[variant=filled] .rm-textfield-container--container {
-            background: rgba(255, 255, 255, .12);
-            background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12));
-        }
-        .rm-light-surface :host[variant=filled] .rm-textfield-container--container {
-            background: rgba(0, 0, 0, .12);
-            background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12));
-        }
-        .rm-white-surface :host[variant=filled] .rm-textfield-container--container {
-            background: rgba(0, 0, 0, .12);
-            background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12));
         }
         /* OUTLINED */
         :host[variant=outlined] .rm-textfield-container--container {
@@ -137,22 +96,6 @@
             border-color: rgb(139, 0, 139);
             border-color: rgb(var(--color-primary, 139, 0, 139));
         }
-        .rm-black-surface :host[variant=outlined].rm-focused .rm-textfield-container--container {
-            border-color: rgb(238, 130, 238);
-            border-color: rgb(var(--color-primary-on-black, 238, 130, 238));
-        }
-        .rm-dark-surface :host[variant=outlined].rm-focused .rm-textfield-container--container {
-            border-color: rgb(238, 130, 238);
-            border-color: rgb(var(--color-primary-on-dark, 238, 130, 238));
-        }
-        .rm-light-surface :host[variant=outlined].rm-focused .rm-textfield-container--container {
-            border-color: rgb(139, 0, 139);
-            border-color: rgb(var(--color-primary-on-light, 139, 0, 139));
-        }
-        .rm-white-surface :host[variant=outlined].rm-focused .rm-textfield-container--container {
-            border-color: rgb(139, 0, 139);
-            border-color: rgb(var(--color-primary-on-white, 139, 0, 139));
-        }
 
         /* BORDER */
         :host[variant=outlined] .rm-textfield-container--border {
@@ -165,8 +108,8 @@
             bottom: 0; left: 0;
         }
         .rm-black-surface :host[variant=outlined] .rm-textfield-container--border {
-            border-color: rgba(0, 0, 0, .42);
-            border-color: rgba(var(--color-on-black, 0, 0, 0), var(--color-opacity-secondary, .42));
+            border-color: rgba(255, 255, 255, .42);
+            border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42));
         }
         .rm-dark-surface :host[variant=outlined] .rm-textfield-container--border {
             border-color: rgba(255, 255, 255, .42);
@@ -350,6 +293,7 @@
             transform: scale(1) !important;
             opacity: 1 !important;
         }
+        /* [OUTLINED] */
         :host[variant=outlined] .rm-textfield-container--underline,
         :host[variant=outlined] .rm-textfield-container--basic-underline {
             display: none;
@@ -366,15 +310,76 @@
             position: relative;
             background: rgb(245, 245, 245);
             background: rgb(var(--color-background, 245, 245, 245));
+            color: rgb(0, 0, 0);
+            color: rgb(var(--color-on-background, 0, 0, 0));
             font-size: inherit;
             cursor: inherit;
             border-radius: inherit;
             width: 100%;
             vertical-align: middle;
         }
+        /* [FLAT] */
+        .rm-black-surface :host .rm-textfield-container--main {
+            background: rgb(0, 0, 0);
+            background: rgb(var(--color-black-surface, 0, 0, 0));
+            color: rgb(255, 255, 255);
+            color: rgb(var(--color-on-black, 255, 255, 255));
+        }
+        .rm-dark-surface :host .rm-textfield-container--main {
+            background: rgb(10, 10, 10);
+            background: rgb(var(--color-dark-surface, 10, 10, 10));
+            color: rgb(255, 255, 255);
+            color: rgb(var(--color-on-dark, 255, 255, 255));
+        }
+        .rm-light-surface :host .rm-textfield-container--main {
+            background: rgb(250, 250, 250);
+            background: rgb(var(--color-light-surface, 250, 250, 250));
+            color: rgb(0, 0, 0);
+            color: rgb(var(--color-on-light, 0, 0, 0));
+        }
+        .rm-white-surface :host .rm-textfield-container--main {
+            background: rgb(255, 255, 255);
+            background: rgb(var(--color-white-surface, 255, 255, 255));
+            color: rgb(0, 0, 0);
+            color: rgb(var(--color-on-white, 0, 0, 0));
+        }
+        /* [FILLED] */
         :host[variant=filled] .rm-textfield-container--main {
             background: rgba(0, 0, 0, .12);
             background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12));
+        }
+        .rm-black-surface :host[variant=filled] .rm-textfield-container--main {
+            background: rgba(255, 255, 255, .12);
+            background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12));
+        }
+        .rm-dark-surface :host[variant=filled] .rm-textfield-container--main {
+            background: rgba(255, 255, 255, .12);
+            background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12));
+        }
+        .rm-light-surface :host[variant=filled] .rm-textfield-container--main {
+            background: rgba(0, 0, 0, .12);
+            background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12));
+        }
+        .rm-white-surface :host[variant=filled] .rm-textfield-container--main {
+            background: rgba(0, 0, 0, .12);
+            background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12));
+        }
+        /* [OUTLINED] */
+        .rm-black-surface :host[variant=outlined].rm-focused .rm-textfield-container--main {
+            border-color: rgb(238, 130, 238);
+            border-color: rgb(var(--color-primary-on-black, 238, 130, 238));
+        }
+        .rm-dark-surface :host[variant=outlined].rm-focused .rm-textfield-container--main {
+            border-color: rgb(238, 130, 238);
+            border-color: rgb(var(--color-primary-on-dark, 238, 130, 238));
+        }
+        .rm-light-surface :host[variant=outlined].rm-focused .rm-textfield-container--main {
+            border-color: rgb(139, 0, 139);
+            border-color: rgb(var(--color-primary-on-light, 139, 0, 139));
+        }
+        .rm-white-surface :host[variant=outlined].rm-focused .rm-textfield-container--main {
+            border-color: rgb(139, 0, 139);
+            border-color: rgb(var(--color-primary-on-white, 139, 0, 139));
         }
 
         /* LEADING */

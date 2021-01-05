@@ -1,7 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
-## [1.0.3] - 2020-11-23
+## [1.0.4] - 2021-01-05
+- fix background on surfaces
+
+## [1.0.3] - 2020-12-10
 - change dist structure
 - update "package.json" entry points
 - add "files" in "package.json"
