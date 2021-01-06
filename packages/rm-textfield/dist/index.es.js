@@ -13,6 +13,7 @@ var index = {
             },
             set: value => {
                 this._input.value = value;
+                this.update();
             }
         });
     },
