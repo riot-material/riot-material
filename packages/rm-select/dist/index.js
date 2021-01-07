@@ -55,6 +55,15 @@
                     get: () => {
                         return this._input ? this._input.label : "";
                     }
+                },
+                selectedIndex: {
+                    get: () => this.getSelectedIndex()
+                },
+                options: {
+                    get: () => this.getOptions()
+                },
+                selectedOptions: {
+                    get: () => this.getSelected()
                 }
             });
         },
@@ -98,6 +107,15 @@
                 },
                 filter: {
                     get: () => this.getFilter()
+                },
+                selectedIndex: {
+                    get: () => this.getSelectedIndex()
+                },
+                options: {
+                    get: () => this.getOptions()
+                },
+                selectedOptions: {
+                    get: () => this.getSelected()
                 }
             });
 
@@ -310,6 +328,18 @@
             return this.getOptions().filter(option => option.selected && !option.disabled);
         },
 
+        getSelectedIndex() {
+            let index = -1;
+            this.getOptions().some((option, i) => {
+                if (option.selected) {
+                    index = i;
+                    return true;
+                }
+                return false;
+            });
+            return index;
+        },
+
         getOptions() {
             return this._menu != null ? this._menu.options : [];
         },
@@ -391,7 +421,7 @@
         getComponent
       ) {
         return template(
-          '<rm-menu expr0="expr0" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr2="expr2"></rm-textfield-container>',
+          '<rm-menu expr18="expr18" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr20="expr20"></rm-textfield-container>',
           [
             {
               'type': bindingTypes.TAG,
@@ -406,15 +436,15 @@
               'slots': [
                 {
                   'id': 'default',
-                  'html': '<div ref="rm-select-menu"><slot expr1="expr1"></slot></div>',
+                  'html': '<div ref="rm-select-menu"><slot expr19="expr19"></slot></div>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'default',
-                      'redundantAttribute': 'expr1',
-                      'selector': '[expr1]'
+                      'redundantAttribute': 'expr19',
+                      'selector': '[expr19]'
                     }
                   ]
                 }
@@ -483,8 +513,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr0',
-              'selector': '[expr0]'
+              'redundantAttribute': 'expr18',
+              'selector': '[expr18]'
             },
             {
               'type': bindingTypes.TAG,
@@ -499,12 +529,12 @@
               'slots': [
                 {
                   'id': 'input',
-                  'html': '<span slot="input"><input expr3="expr3" class="rm-select--input"/><div expr4="expr4" class="rm-select--label"> </div></span>',
+                  'html': '<span slot="input"><input expr21="expr21" class="rm-select--input"/><div expr22="expr22" class="rm-select--label"> </div></span>',
 
                   'bindings': [
                     {
-                      'redundantAttribute': 'expr3',
-                      'selector': '[expr3]',
+                      'redundantAttribute': 'expr21',
+                      'selector': '[expr21]',
 
                       'expressions': [
                         {
@@ -560,8 +590,8 @@
                       ]
                     },
                     {
-                      'redundantAttribute': 'expr4',
-                      'selector': '[expr4]',
+                      'redundantAttribute': 'expr22',
+                      'selector': '[expr22]',
 
                       'expressions': [
                         {
@@ -580,21 +610,21 @@
                 },
                 {
                   'id': 'leading',
-                  'html': '<slot expr5="expr5" name="leading" slot="leading"></slot>',
+                  'html': '<slot expr23="expr23" name="leading" slot="leading"></slot>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'leading',
-                      'redundantAttribute': 'expr5',
-                      'selector': '[expr5]'
+                      'redundantAttribute': 'expr23',
+                      'selector': '[expr23]'
                     }
                   ]
                 },
                 {
                   'id': 'trailing',
-                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr6="expr6" variant="icon" class="rm-select--clear" dense></rm-button><slot expr7="expr7" name="trailing"></slot><rm-button expr8="expr8" variant="icon" tabindex="-1" dense></rm-button></span>',
+                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr24="expr24" variant="icon" class="rm-select--clear" dense></rm-button><slot expr25="expr25" name="trailing"></slot><rm-button expr26="expr26" variant="icon" tabindex="-1" dense></rm-button></span>',
 
                   'bindings': [
                     {
@@ -606,8 +636,8 @@
                         return scope.isClearable() && scope.root.value;
                       },
 
-                      'redundantAttribute': 'expr6',
-                      'selector': '[expr6]',
+                      'redundantAttribute': 'expr24',
+                      'selector': '[expr24]',
 
                       'template': template(
                         null,
@@ -660,8 +690,8 @@
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'trailing',
-                      'redundantAttribute': 'expr7',
-                      'selector': '[expr7]'
+                      'redundantAttribute': 'expr25',
+                      'selector': '[expr25]'
                     },
                     {
                       'type': bindingTypes.TAG,
@@ -699,8 +729,8 @@
                         }
                       ],
 
-                      'redundantAttribute': 'expr8',
-                      'selector': '[expr8]'
+                      'redundantAttribute': 'expr26',
+                      'selector': '[expr26]'
                     }
                   ]
                 }
@@ -759,8 +789,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr2',
-              'selector': '[expr2]'
+              'redundantAttribute': 'expr20',
+              'selector': '[expr20]'
             }
           ]
         );

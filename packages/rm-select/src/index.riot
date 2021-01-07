@@ -124,6 +124,15 @@
                         get: () => {
                             return this._input ? this._input.label : "";
                         }
+                    },
+                    selectedIndex: {
+                        get: () => this.getSelectedIndex()
+                    },
+                    options: {
+                        get: () => this.getOptions()
+                    },
+                    selectedOptions: {
+                        get: () => this.getSelected()
                     }
                 });
             },
@@ -165,6 +174,15 @@
                     },
                     filter: {
                         get: () => this.getFilter()
+                    },
+                    selectedIndex: {
+                        get: () => this.getSelectedIndex()
+                    },
+                    options: {
+                        get: () => this.getOptions()
+                    },
+                    selectedOptions: {
+                        get: () => this.getSelected()
                     }
                 });
 
@@ -362,6 +380,17 @@
             },
             getSelected() {
                 return this.getOptions().filter(option => option.selected && !option.disabled);
+            },
+            getSelectedIndex() {
+                let index = -1;
+                this.getOptions().some((option, i) => {
+                    if (option.selected) {
+                        index = i;
+                        return true;
+                    }
+                    return false;
+                });
+                return index;
             },
             getOptions() {
                 return this._menu != null ? this._menu.options : [];
