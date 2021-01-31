@@ -50,6 +50,7 @@ Any value will be result in the disabled state
 ### `full-width` *optional*
 ### `label` *optional*
 ### `name` *optional*
+### `readonly` *optional*
 ### `type` *optional* (default: `text`)
 Valid values:
 - `email`
@@ -71,6 +72,7 @@ Valid values:
 ### `isClearable(): boolean`
 ### `isDisabled(): boolean`
 ### `isFullWidth(): boolean`
+### `isReadonly(): boolean`
 ## Slots
 ### `leading`
 Will be mounted before the input tag

@@ -3,10 +3,12 @@
         label={ props.label } full-width={ isFullWidth() } disabled={ isDisabled() }
         class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
     >
-        <input oninput={ _oninputinput }
-            type={ getType() } value={ props.value } name={ props.name }
-            disabled={ isDisabled() } slot="input"
-        >
+        <span class="rm-textfield--input-wrap" slot="input">
+            <input class="rm-textfield--input" oninput={ _oninputinput } size="1"
+                type={ getType() } value={ root.value } name={ props.name }
+            >
+            <template if={ isDisabled() || isReadonly() }>{ root.value }</template>
+        </span>
         <slot name="leading" slot="leading" />
         <span style="white-space: nowrap;" slot="trailing">
             <rm-button variant="icon" onclick={ clear }
@@ -20,11 +22,14 @@
         :host {
             cursor: text;
         }
-        :host[disabled] {
+        :host[disabled], :host[readonly],
+        :host[disabled] input, :host[readonly] input {
             cursor: default;
         }
 
-        input {
+        .rm-textfield--input {
+            display: inline-block;
+            font: inherit;
             padding: 0;
             font-size: inherit;
             line-height: inherit;
@@ -34,30 +39,68 @@
             width: 100%;
             color: currentColor;
         }
+        .rm-textfield--input-wrap {
+            height: 1.25em;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
+        }
+        :host[full-width] .rm-textfield--input-wrap {
+            width: 100%;
+        }
     </style>
 
     <script>
         import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
 
+        const VALUE = Symbol("value");
+        const IS_MOUNTED = Symbol("is-mounted");
+
         export default {
-            _input: null,
+            [IS_MOUNTED]: false,
+            [VALUE]: null,
             onBeforeMount() {
                 Object.defineProperty(this.root, "value", {
                     get: () => {
-                        return this._input ? this._input.value : this.props.value || "";
+                        if (!this[IS_MOUNTED]) {
+                            return this.props.value || "";
+                        }
+                        const tmpValue = this[VALUE];
+                        if (tmpValue != null) {
+                            return tmpValue;
+                        }
+                        const input = this._input;
+                        const value = input ? input.value : this.props.value || "";
+                        // console.log("root.value:", input, value);
+                        return value;
                     },
                     set: value => {
-                        this._input.value = value;
+                        const input = this._input;
+                        if (input == null) {
+                            return;
+                        }
+                        input.value = value;
                         this.update();
                     }
                 });
+                let input = null;
+                Object.defineProperty(this, "_input", {
+                    get: () => {
+                        if (input == null || !input.isConnected) {
+                            console.log("wasn't connected:", input != null);
+                            input = this.root.querySelector("input.rm-textfield--input");
+                        }
+                        return input;
+                    }
+                })
             },
             _onfocus: null,
             _onblur: null,
             onMounted() {
-                this._input = this.root.querySelector("input");
+                const input = this._input;
                 window.addEventListener("focus", this._onfocus = event => {
-                    if (event.target !== this._input) {
+                    if (event.target !== input) {
                         return;
                     }
                     event.stopImmediatePropagation();
@@ -65,17 +108,29 @@
                     this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
                 }, true);
                 window.addEventListener("blur", this._onblur = event => {
-                    if (event.target !== this._input) {
+                    if (event.target !== input) {
                         return;
                     }
                     event.stopImmediatePropagation();
                     this.update({ focused: false });
                     this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
                 }, true);
+
+                this.root.focus = () => input.focus();
+                this.root.blur = () => input.blur();
+
+                this[IS_MOUNTED] = true;
             },
             onBeforeUnmount() {
                 window.removeEventListener("focus", this._onfocus, true);
                 window.removeEventListener("blur", this._onblur, true);
+            },
+            onBeforeUpdate() {
+                this[VALUE] = this.root.value;
+            },
+            onUpdated() {
+                this._input.value = this[VALUE];
+                this[VALUE] = null;
             },
             _oncontainermousedown(event) {
                 if (this.props.disabled) {
@@ -101,6 +156,9 @@
                 return Object.keys(names).join(" ");
             },
             getType() {
+                if (this.isReadonly() || this.isDisabled()) {
+                    return "hidden";
+                }
                 switch (this.props.type) {
                     case "email": {
                         return "email";
@@ -133,6 +191,9 @@
             },
             isFullWidth() {
                 return this.props.fullWidth != null && this.props.fullWidth !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
             },
             clear() {
                 this.root.value = "";

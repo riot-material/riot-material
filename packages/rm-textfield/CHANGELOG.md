@@ -1,6 +1,14 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.0] - 2021-01-31
+- implement `readonly` state
+- redirect `focus` and `blur` functions of root to input element
+- use class instead of tag for styling
+- update tests
+- update README
+- update dependencies
+
 ## [1.0.5] - 2021-01-06
 - fix programmatic "value" set
 - update dependencies

@@ -1,19 +1,47 @@
 import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 
+const VALUE = Symbol("value");
+const IS_MOUNTED = Symbol("is-mounted");
+
 var index = {
-  'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled]{ cursor: default; } rm-textfield input,[is="rm-textfield"] input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; }`,
+  'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
 
   'exports': {
-    _input: null,
+    [IS_MOUNTED]: false,
+    [VALUE]: null,
 
     onBeforeMount() {
         Object.defineProperty(this.root, "value", {
             get: () => {
-                return this._input ? this._input.value : this.props.value || "";
+                if (!this[IS_MOUNTED]) {
+                    return this.props.value || "";
+                }
+                const tmpValue = this[VALUE];
+                if (tmpValue != null) {
+                    return tmpValue;
+                }
+                const input = this._input;
+                const value = input ? input.value : this.props.value || "";
+                // console.log("root.value:", input, value);
+                return value;
             },
             set: value => {
-                this._input.value = value;
+                const input = this._input;
+                if (input == null) {
+                    return;
+                }
+                input.value = value;
                 this.update();
+            }
+        });
+        let input = null;
+        Object.defineProperty(this, "_input", {
+            get: () => {
+                if (input == null || !input.isConnected) {
+                    console.log("wasn't connected:", input != null);
+                    input = this.root.querySelector("input.rm-textfield--input");
+                }
+                return input;
             }
         });
     },
@@ -22,9 +50,9 @@ var index = {
     _onblur: null,
 
     onMounted() {
-        this._input = this.root.querySelector("input");
+        const input = this._input;
         window.addEventListener("focus", this._onfocus = event => {
-            if (event.target !== this._input) {
+            if (event.target !== input) {
                 return;
             }
             event.stopImmediatePropagation();
@@ -32,18 +60,32 @@ var index = {
             this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
         }, true);
         window.addEventListener("blur", this._onblur = event => {
-            if (event.target !== this._input) {
+            if (event.target !== input) {
                 return;
             }
             event.stopImmediatePropagation();
             this.update({ focused: false });
             this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
         }, true);
+
+        this.root.focus = () => input.focus();
+        this.root.blur = () => input.blur();
+
+        this[IS_MOUNTED] = true;
     },
 
     onBeforeUnmount() {
         window.removeEventListener("focus", this._onfocus, true);
         window.removeEventListener("blur", this._onblur, true);
+    },
+
+    onBeforeUpdate() {
+        this[VALUE] = this.root.value;
+    },
+
+    onUpdated() {
+        this._input.value = this[VALUE];
+        this[VALUE] = null;
     },
 
     _oncontainermousedown(event) {
@@ -73,6 +115,9 @@ var index = {
     },
 
     getType() {
+        if (this.isReadonly() || this.isDisabled()) {
+            return "hidden";
+        }
         switch (this.props.type) {
             case "email": {
                 return "email";
@@ -110,6 +155,10 @@ var index = {
         return this.props.fullWidth != null && this.props.fullWidth !== false;
     },
 
+    isReadonly() {
+        return this.props.readonly != null && this.props.readonly !== false;
+    },
+
     clear() {
         this.root.value = "";
         this.update();
@@ -142,7 +191,7 @@ var index = {
           'slots': [
             {
               'id': 'input',
-              'html': '<input expr1="expr1" slot="input"/>',
+              'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr1="expr1" class="rm-textfield--input" size="1"/><template expr2="expr2"></template></span>',
 
               'bindings': [
                 {
@@ -176,7 +225,7 @@ var index = {
                       'evaluate': function(
                         scope
                       ) {
-                        return scope.props.value;
+                        return scope.root.value;
                       }
                     },
                     {
@@ -188,38 +237,60 @@ var index = {
                       ) {
                         return scope.props.name;
                       }
-                    },
-                    {
-                      'type': expressionTypes.ATTRIBUTE,
-                      'name': 'disabled',
-
-                      'evaluate': function(
-                        scope
-                      ) {
-                        return scope.isDisabled();
-                      }
                     }
                   ]
+                },
+                {
+                  'type': bindingTypes.IF,
+
+                  'evaluate': function(
+                    scope
+                  ) {
+                    return scope.isDisabled() || scope.isReadonly();
+                  },
+
+                  'redundantAttribute': 'expr2',
+                  'selector': '[expr2]',
+
+                  'template': template(
+                    ' ',
+                    [
+                      {
+                        'expressions': [
+                          {
+                            'type': expressionTypes.TEXT,
+                            'childNodeIndex': 0,
+
+                            'evaluate': function(
+                              scope
+                            ) {
+                              return scope.root.value;
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  )
                 }
               ]
             },
             {
               'id': 'leading',
-              'html': '<slot expr2="expr2" name="leading" slot="leading"></slot>',
+              'html': '<slot expr3="expr3" name="leading" slot="leading"></slot>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'leading',
-                  'redundantAttribute': 'expr2',
-                  'selector': '[expr2]'
+                  'redundantAttribute': 'expr3',
+                  'selector': '[expr3]'
                 }
               ]
             },
             {
               'id': 'trailing',
-              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr3="expr3" variant="icon" dense></rm-button><slot expr4="expr4" name="trailing"></slot></span>',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr4="expr4" variant="icon" dense></rm-button><slot expr5="expr5" name="trailing"></slot></span>',
 
               'bindings': [
                 {
@@ -231,8 +302,8 @@ var index = {
                     return scope.isClearable() && scope.root.value;
                   },
 
-                  'redundantAttribute': 'expr3',
-                  'selector': '[expr3]',
+                  'redundantAttribute': 'expr4',
+                  'selector': '[expr4]',
 
                   'template': template(
                     null,
@@ -285,8 +356,8 @@ var index = {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'trailing',
-                  'redundantAttribute': 'expr4',
-                  'selector': '[expr4]'
+                  'redundantAttribute': 'expr5',
+                  'selector': '[expr5]'
                 }
               ]
             }

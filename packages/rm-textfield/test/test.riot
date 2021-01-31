@@ -1,8 +1,34 @@
 <test>
-    <rm-textfield
+    <!--  <rm-textfield
         onfocus={ console.log }
         onblur={ console.log }
         oninput={ console.log }
-        label="Label"
+        label="Label" ref="focusable"
+    ></rm-textfield>  -->
+        <!--  onfocus={ console.log }
+        onblur={ console.log }
+        oninput={ console.log }  -->
+    <rm-textfield
+        label="Label" variant="outlined"
+        readonly={ state.readonly } ondblclick={ state.readonly && readonlyDblClick }
     ></rm-textfield>
+
+    <button onclick={ () => root.querySelector("[ref='focusable']").focus() }>FOCUS</button>
+    <button onclick={ () => update({ readonly: true }) }>RESET READONLY</button>
+
+    <script>
+        export default {
+            state: {
+                readonly: true
+            },
+            readonlyDblClick(event) {
+                console.log(event);
+                const readonly = !this.state.readonly;
+                this.update({ readonly });
+                if (!readonly) {
+                    event.currentTarget.focus();
+                }
+            }
+        }
+    </script>
 </test>
