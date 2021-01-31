@@ -2432,6 +2432,8 @@
     'name': 'rm-menu'
   };
 
+  // import { __ as __r } from "riot";
+
   const blockedInputs = [];
   window.addEventListener("change", event => {
       if (blockedInputs.some(input => event.target === input)) {
@@ -2440,7 +2442,7 @@
   }, true);
 
   var index$4 = {
-    'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; opacity: 0; cursor: default; width: 100%; color: currentColor; } rm-select[filterable]:not([filterable=false]) .rm-select--input,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--input{ opacity: 1; cursor: text; } rm-select .rm-select--label,[is="rm-select"] .rm-select--label{ position: absolute; top: 0; left: 0; font-size: inherit; line-height: inherit; } rm-select[filterable]:not([filterable=false]) .rm-select--label,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--label{ display: none; }`,
+    'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled],rm-select[readonly],[is="rm-select"][readonly]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 0px; height: 0px; color: currentColor; opacity: 0; cursor: default; position: absolute; left: -1px; top: -1px; } rm-select[filterable] .rm-select--input,[is="rm-select"][filterable] .rm-select--input{ position: static; width: 100%; height: auto; opacity: 1; cursor: text; } rm-select .rm-select--input-wrap,[is="rm-select"] .rm-select--input-wrap{ position: relative; height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-select[full-width] .rm-select--input-wrap,[is="rm-select"][full-width] .rm-select--input-wrap{ width: 100%; }`,
 
     'exports': {
       _mounted: false,
@@ -2500,15 +2502,17 @@
                   if (option === this._lastSelectedOption) {
                       return;
                   }
-                  const newOptionComponent = option[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                  if (newOptionComponent != null) {
-                      newOptionComponent.update({ selected: true });
-                  }
+                  option.selected = true;
+                  // const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                  // if (newOptionComponent != null) {
+                  //     newOptionComponent.update({ selected: true });
+                  // }
                   if (_lastSelectedOption != null && !this.isMultiple()) {
-                      const lastOptionComponent = _lastSelectedOption[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                      if (lastOptionComponent != null) {
-                          lastOptionComponent.update({ selected: false });
-                      }
+                      _lastSelectedOption.selected = false;
+                      // const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                      // if (lastOptionComponent != null) {
+                      //     lastOptionComponent.update({ selected: false });
+                      // }
                   }
                   _lastSelectedOption = option;
               },
@@ -2609,7 +2613,7 @@
           blockedInputs.push(input);
 
           this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
-              if (this.props.disabled) {
+              if (this.isDisabled() || this.isReadonly()) {
                   return;
               }
               if (document.activeElement !== input) {
@@ -2623,13 +2627,16 @@
               }
           });
           this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
-              if (this.props.disabled) {
+              if (this.isDisabled() || this.isReadonly()) {
                   return;
               }
               if (this.isFilterable()) {
                   this.update({ menuopened: !this.state.menuopened });
               }
           });
+
+          this.root.focus = () => input.focus();
+          this.root.blur = () => input.blur();
 
           this._mounted = true;
 
@@ -2794,6 +2801,10 @@
           return this.props.disabled != null && this.props.disabled !== false;
       },
 
+      isReadonly() {
+          return this.props.readonly != null && this.props.readonly !== false;
+      },
+
       isFullWidth() {
           return this.props.fullWidth != null && this.props.fullWidth !== false;
       },
@@ -2843,7 +2854,7 @@
       getComponent
     ) {
       return template(
-        '<rm-menu expr27="expr27" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr29="expr29"></rm-textfield-container>',
+        '<rm-menu expr603="expr603" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr605="expr605"></rm-textfield-container>',
         [
           {
             'type': bindingTypes.TAG,
@@ -2858,15 +2869,15 @@
             'slots': [
               {
                 'id': 'default',
-                'html': '<div ref="rm-select-menu"><slot expr28="expr28"></slot></div>',
+                'html': '<div ref="rm-select-menu"><slot expr604="expr604"></slot></div>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'default',
-                    'redundantAttribute': 'expr28',
-                    'selector': '[expr28]'
+                    'redundantAttribute': 'expr604',
+                    'selector': '[expr604]'
                   }
                 ]
               }
@@ -2935,8 +2946,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr27',
-            'selector': '[expr27]'
+            'redundantAttribute': 'expr603',
+            'selector': '[expr603]'
           },
           {
             'type': bindingTypes.TAG,
@@ -2951,12 +2962,44 @@
             'slots': [
               {
                 'id': 'input',
-                'html': '<span slot="input"><input expr30="expr30" class="rm-select--input"/><div expr31="expr31" class="rm-select--label"> </div></span>',
+                'html': '<span class="rm-select--input-wrap" slot="input"><template expr606="expr606"></template><input expr607="expr607" class="rm-select--input" size="1"/></span>',
 
                 'bindings': [
                   {
-                    'redundantAttribute': 'expr30',
-                    'selector': '[expr30]',
+                    'type': bindingTypes.IF,
+
+                    'evaluate': function(
+                      scope
+                    ) {
+                      return !scope.isFilterable();
+                    },
+
+                    'redundantAttribute': 'expr606',
+                    'selector': '[expr606]',
+
+                    'template': template(
+                      ' ',
+                      [
+                        {
+                          'expressions': [
+                            {
+                              'type': expressionTypes.TEXT,
+                              'childNodeIndex': 0,
+
+                              'evaluate': function(
+                                scope
+                              ) {
+                                return scope.getLabel();
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    )
+                  },
+                  {
+                    'redundantAttribute': 'expr607',
+                    'selector': '[expr607]',
 
                     'expressions': [
                       {
@@ -3008,22 +3051,15 @@
                         ) {
                           return scope.isDisabled();
                         }
-                      }
-                    ]
-                  },
-                  {
-                    'redundantAttribute': 'expr31',
-                    'selector': '[expr31]',
-
-                    'expressions': [
+                      },
                       {
-                        'type': expressionTypes.TEXT,
-                        'childNodeIndex': 0,
+                        'type': expressionTypes.ATTRIBUTE,
+                        'name': 'type',
 
                         'evaluate': function(
                           scope
                         ) {
-                          return scope.getLabel();
+                          return scope.isReadonly() ? "hidden" : "text";
                         }
                       }
                     ]
@@ -3032,21 +3068,21 @@
               },
               {
                 'id': 'leading',
-                'html': '<slot expr32="expr32" name="leading" slot="leading"></slot>',
+                'html': '<slot expr608="expr608" name="leading" slot="leading"></slot>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'leading',
-                    'redundantAttribute': 'expr32',
-                    'selector': '[expr32]'
+                    'redundantAttribute': 'expr608',
+                    'selector': '[expr608]'
                   }
                 ]
               },
               {
                 'id': 'trailing',
-                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr33="expr33" variant="icon" class="rm-select--clear" dense></rm-button><slot expr34="expr34" name="trailing"></slot><rm-button expr35="expr35" variant="icon" tabindex="-1" dense></rm-button></span>',
+                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr609="expr609" variant="icon" class="rm-select--clear" dense></rm-button><slot expr610="expr610" name="trailing"></slot><rm-button expr611="expr611" variant="icon" tabindex="-1" dense></rm-button></span>',
 
                 'bindings': [
                   {
@@ -3058,8 +3094,8 @@
                       return scope.isClearable() && scope.root.value;
                     },
 
-                    'redundantAttribute': 'expr33',
-                    'selector': '[expr33]',
+                    'redundantAttribute': 'expr609',
+                    'selector': '[expr609]',
 
                     'template': template(
                       null,
@@ -3112,8 +3148,8 @@
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'trailing',
-                    'redundantAttribute': 'expr34',
-                    'selector': '[expr34]'
+                    'redundantAttribute': 'expr610',
+                    'selector': '[expr610]'
                   },
                   {
                     'type': bindingTypes.TAG,
@@ -3148,11 +3184,21 @@
                             ''
                           );
                         }
+                      },
+                      {
+                        'type': expressionTypes.ATTRIBUTE,
+                        'name': 'disabled',
+
+                        'evaluate': function(
+                          scope
+                        ) {
+                          return scope.isDisabled() || scope.isReadonly();
+                        }
                       }
                     ],
 
-                    'redundantAttribute': 'expr35',
-                    'selector': '[expr35]'
+                    'redundantAttribute': 'expr611',
+                    'selector': '[expr611]'
                   }
                 ]
               }
@@ -3211,8 +3257,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr29',
-            'selector': '[expr29]'
+            'redundantAttribute': 'expr605',
+            'selector': '[expr605]'
           }
         ]
       );

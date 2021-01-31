@@ -7,11 +7,12 @@
         label={ props.label } full-width={ isFullWidth() }
         class={ _getClassNames() } disabled={ isDisabled() }
     >
-        <span slot="input">
+        <span class="rm-select--input-wrap" slot="input">
+            <template if={ !isFilterable() }>{ getLabel() }</template>
             <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
                 readonly={ !isFilterable() } class="rm-select--input" disabled={ isDisabled() }
+                type={ isReadonly() ? "hidden" : "text" } size="1"
             >
-            <div class="rm-select--label">{ getLabel() }</div>
         </span>
         <slot name="leading" slot="leading" />
         <span style="white-space: nowrap;" slot="trailing">
@@ -21,7 +22,7 @@
             <slot name="trailing" />
             <rm-button variant="icon" class="rm-select--arrow{
                 state.menuopened ? ' rm-select--arrow-rotated' : ''
-            }" tabindex="-1" dense>arrow_drop_down</rm-button>
+            }" tabindex="-1" dense disabled={ isDisabled() || isReadonly() }>arrow_drop_down</rm-button>
         </span>
     </rm-textfield-container>
 
@@ -32,7 +33,7 @@
         :host[filterable] {
             cursor: text;
         }
-        :host[disabled] {
+        :host[disabled], :host[readonly] {
             cursor: default;
         }
 
@@ -46,32 +47,41 @@
         }
 
         /* INPUT */
-        :host .rm-select--input {
+        .rm-select--input {
+            display: inline-block;
+            font: inherit;
             padding: 0;
             font-size: inherit;
             line-height: inherit;
             border: 0;
             background: none;
             outline: none;
+            width: 0px; height: 0px;
+            color: currentColor;
             opacity: 0;
             cursor: default;
-            width: 100%;
-            color: currentColor;
+            position: absolute;
+            left: -1px; top: -1px;
         }
-        :host[filterable]:not([filterable=false]) .rm-select--input {
+        :host[filterable] .rm-select--input {
+            position: static;
+            width: 100%;
+            height: auto;
             opacity: 1;
             cursor: text;
         }
 
-        /* LABEL */
-        :host .rm-select--label {
-            position: absolute;
-            top: 0; left: 0;
-            font-size: inherit;
-            line-height: inherit;
+        /* INPUT-WRAP */
+        .rm-select--input-wrap {
+            position: relative;
+            height: 1.25em;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
         }
-        :host[filterable]:not([filterable=false]) .rm-select--label {
-            display: none;
+        :host[full-width] .rm-select--input-wrap {
+            width: 100%;
         }
     </style>
 
@@ -82,7 +92,7 @@
         import { ripple } from "@riot-material/ripple";
 
         import "@riot-material/before-focus-listener";
-        import { __ as __r } from "riot";
+        // import { __ as __r } from "riot";
 
         const blockedInputs = [];
         window.addEventListener("change", event => {
@@ -145,15 +155,17 @@
                         if (option === this._lastSelectedOption) {
                             return;
                         }
-                        const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                        if (newOptionComponent != null) {
-                            newOptionComponent.update({ selected: true });
-                        }
+                        option.selected = true;
+                        // const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                        // if (newOptionComponent != null) {
+                        //     newOptionComponent.update({ selected: true });
+                        // }
                         if (_lastSelectedOption != null && !this.isMultiple()) {
-                            const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                            if (lastOptionComponent != null) {
-                                lastOptionComponent.update({ selected: false });
-                            }
+                            _lastSelectedOption.selected = false;
+                            // const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                            // if (lastOptionComponent != null) {
+                            //     lastOptionComponent.update({ selected: false });
+                            // }
                         }
                         _lastSelectedOption = option;
                     },
@@ -254,7 +266,7 @@
                 blockedInputs.push(input);
 
                 this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
-                    if (this.props.disabled) {
+                    if (this.isDisabled() || this.isReadonly()) {
                         return;
                     }
                     if (document.activeElement !== input) {
@@ -268,13 +280,16 @@
                     }
                 });
                 this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
-                    if (this.props.disabled) {
+                    if (this.isDisabled() || this.isReadonly()) {
                         return;
                     }
                     if (this.isFilterable()) {
                         this.update({ menuopened: !this.state.menuopened });
                     }
                 });
+
+                this.root.focus = () => input.focus();
+                this.root.blur = () => input.blur();
 
                 this._mounted = true;
 
@@ -416,6 +431,9 @@
             },
             isDisabled() {
                 return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
             },
             isFullWidth() {
                 return this.props.fullWidth != null && this.props.fullWidth !== false;

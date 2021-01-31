@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.5.0] - 2021-01-31
+- implement `readonly` property
+- update dependencies
+
 ## [1.4.0] - 2021-01-07
 - expose "selectedIndex", "options" and "selectedOptions"
 - update dependencies

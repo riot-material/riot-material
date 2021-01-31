@@ -1,6 +1,8 @@
 <test>
-    <rm-list-item selected>Et voilà</rm-list-item>
-    <rm-select variant="outlined" label="Test" onchange={ console.log }>
+    <!--  <rm-list-item selected>Et voilà</rm-list-item>  -->
+    <rm-select variant="outlined" label="Test" onchange={ console.log }
+        readonly={ state.readonly } ondblclick={ state.readonly && onSelectDblClick }
+    >
         <rm-list-item value=""></rm-list-item>
         <rm-list-item value="0">Prova 0</rm-list-item>
         <rm-list-item value="1">Prova 1</rm-list-item>
@@ -17,7 +19,7 @@
             <rm-list-item value="11">Prova 11</rm-list-item>
             <rm-list-item value="12">Prova 12</rm-list-item>
             <rm-list-item value="13">Prova 13</rm-list-item>
-            <rm-list-item value="14">Prova 14</rm-list-item>
+            <rm-list-item value="14" selected>Prova 14</rm-list-item>
             <rm-list-item value="15">Prova 15</rm-list-item>
             <rm-list-item value="16">Prova 16</rm-list-item>
             <rm-list-item value="17">Prova 17</rm-list-item>
@@ -55,7 +57,8 @@
         <rm-list-item value="48">Prova 48</rm-list-item>
         <rm-list-item value="49">Prova 49</rm-list-item>
     </rm-select>
-    <rm-select variant="outlined" label="Full width" full-width onmenuopen={ console.log } onmenuselected={ console.log }>
+    <button onclick={ () => update({ readonly: true }) }>RESET READONLY</button>
+    <!--  <rm-select variant="outlined" label="Full width" full-width onmenuopen={ console.log } onmenuselected={ console.log }>
         <rm-list-item value=""></rm-list-item>
         <rm-list-item value="0">Just a test</rm-list-item>
     </rm-select>
@@ -64,18 +67,29 @@
         <rm-list-item value="0">Just a test</rm-list-item>
     </filterable-with-dynamic-option>
 
-    <rm-select variant="outlined" ref="main">
+    <rm-select variant="outlined" label="Select" ref="main">
         <rm-list-item value=""></rm-list-item>
         <rm-list-item value="1">Option 1</rm-list-item>
         <rm-list-item value="2">Option 2</rm-list-item>
         <rm-list-item value="3">Option 3</rm-list-item>
     </rm-select>
-    <button onclick={ setValue }>SET VALUE</button>
+    <button onclick={ setValue }>SET VALUE</button>  -->
 
     <script>
         export default {
+            state: {
+                readonly: true
+            },
             setValue() {
                 this.root.querySelector("[ref='main']").value = "2";
+            },
+            onSelectDblClick(event) {
+                const readonly = !this.state.readonly;
+                this.update({ readonly });
+                console.log(readonly, event.currentTarget);
+                if (!readonly) {
+                    event.currentTarget.focus();
+                }
             }
         }
     </script>

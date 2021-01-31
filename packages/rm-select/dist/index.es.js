@@ -3,7 +3,8 @@ import ButtonComponent from '@riot-material/rm-button';
 import MenuComponent from '@riot-material/rm-menu';
 import { ripple } from '@riot-material/ripple';
 import '@riot-material/before-focus-listener';
-import { __ } from 'riot';
+
+// import { __ as __r } from "riot";
 
 const blockedInputs = [];
 window.addEventListener("change", event => {
@@ -13,7 +14,7 @@ window.addEventListener("change", event => {
 }, true);
 
 var index = {
-  'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; opacity: 0; cursor: default; width: 100%; color: currentColor; } rm-select[filterable]:not([filterable=false]) .rm-select--input,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--input{ opacity: 1; cursor: text; } rm-select .rm-select--label,[is="rm-select"] .rm-select--label{ position: absolute; top: 0; left: 0; font-size: inherit; line-height: inherit; } rm-select[filterable]:not([filterable=false]) .rm-select--label,[is="rm-select"][filterable]:not([filterable=false]) .rm-select--label{ display: none; }`,
+  'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled],rm-select[readonly],[is="rm-select"][readonly]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 0px; height: 0px; color: currentColor; opacity: 0; cursor: default; position: absolute; left: -1px; top: -1px; } rm-select[filterable] .rm-select--input,[is="rm-select"][filterable] .rm-select--input{ position: static; width: 100%; height: auto; opacity: 1; cursor: text; } rm-select .rm-select--input-wrap,[is="rm-select"] .rm-select--input-wrap{ position: relative; height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-select[full-width] .rm-select--input-wrap,[is="rm-select"][full-width] .rm-select--input-wrap{ width: 100%; }`,
 
   'exports': {
     _mounted: false,
@@ -73,15 +74,17 @@ var index = {
                 if (option === this._lastSelectedOption) {
                     return;
                 }
-                const newOptionComponent = option[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                if (newOptionComponent != null) {
-                    newOptionComponent.update({ selected: true });
-                }
+                option.selected = true;
+                // const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                // if (newOptionComponent != null) {
+                //     newOptionComponent.update({ selected: true });
+                // }
                 if (_lastSelectedOption != null && !this.isMultiple()) {
-                    const lastOptionComponent = _lastSelectedOption[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                    if (lastOptionComponent != null) {
-                        lastOptionComponent.update({ selected: false });
-                    }
+                    _lastSelectedOption.selected = false;
+                    // const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                    // if (lastOptionComponent != null) {
+                    //     lastOptionComponent.update({ selected: false });
+                    // }
                 }
                 _lastSelectedOption = option;
             },
@@ -182,7 +185,7 @@ var index = {
         blockedInputs.push(input);
 
         this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
-            if (this.props.disabled) {
+            if (this.isDisabled() || this.isReadonly()) {
                 return;
             }
             if (document.activeElement !== input) {
@@ -196,13 +199,16 @@ var index = {
             }
         });
         this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
-            if (this.props.disabled) {
+            if (this.isDisabled() || this.isReadonly()) {
                 return;
             }
             if (this.isFilterable()) {
                 this.update({ menuopened: !this.state.menuopened });
             }
         });
+
+        this.root.focus = () => input.focus();
+        this.root.blur = () => input.blur();
 
         this._mounted = true;
 
@@ -367,6 +373,10 @@ var index = {
         return this.props.disabled != null && this.props.disabled !== false;
     },
 
+    isReadonly() {
+        return this.props.readonly != null && this.props.readonly !== false;
+    },
+
     isFullWidth() {
         return this.props.fullWidth != null && this.props.fullWidth !== false;
     },
@@ -416,7 +426,7 @@ var index = {
     getComponent
   ) {
     return template(
-      '<rm-menu expr18="expr18" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr20="expr20"></rm-textfield-container>',
+      '<rm-menu expr594="expr594" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr596="expr596"></rm-textfield-container>',
       [
         {
           'type': bindingTypes.TAG,
@@ -431,15 +441,15 @@ var index = {
           'slots': [
             {
               'id': 'default',
-              'html': '<div ref="rm-select-menu"><slot expr19="expr19"></slot></div>',
+              'html': '<div ref="rm-select-menu"><slot expr595="expr595"></slot></div>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'default',
-                  'redundantAttribute': 'expr19',
-                  'selector': '[expr19]'
+                  'redundantAttribute': 'expr595',
+                  'selector': '[expr595]'
                 }
               ]
             }
@@ -508,8 +518,8 @@ var index = {
             }
           ],
 
-          'redundantAttribute': 'expr18',
-          'selector': '[expr18]'
+          'redundantAttribute': 'expr594',
+          'selector': '[expr594]'
         },
         {
           'type': bindingTypes.TAG,
@@ -524,12 +534,44 @@ var index = {
           'slots': [
             {
               'id': 'input',
-              'html': '<span slot="input"><input expr21="expr21" class="rm-select--input"/><div expr22="expr22" class="rm-select--label"> </div></span>',
+              'html': '<span class="rm-select--input-wrap" slot="input"><template expr597="expr597"></template><input expr598="expr598" class="rm-select--input" size="1"/></span>',
 
               'bindings': [
                 {
-                  'redundantAttribute': 'expr21',
-                  'selector': '[expr21]',
+                  'type': bindingTypes.IF,
+
+                  'evaluate': function(
+                    scope
+                  ) {
+                    return !scope.isFilterable();
+                  },
+
+                  'redundantAttribute': 'expr597',
+                  'selector': '[expr597]',
+
+                  'template': template(
+                    ' ',
+                    [
+                      {
+                        'expressions': [
+                          {
+                            'type': expressionTypes.TEXT,
+                            'childNodeIndex': 0,
+
+                            'evaluate': function(
+                              scope
+                            ) {
+                              return scope.getLabel();
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  )
+                },
+                {
+                  'redundantAttribute': 'expr598',
+                  'selector': '[expr598]',
 
                   'expressions': [
                     {
@@ -581,22 +623,15 @@ var index = {
                       ) {
                         return scope.isDisabled();
                       }
-                    }
-                  ]
-                },
-                {
-                  'redundantAttribute': 'expr22',
-                  'selector': '[expr22]',
-
-                  'expressions': [
+                    },
                     {
-                      'type': expressionTypes.TEXT,
-                      'childNodeIndex': 0,
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'type',
 
                       'evaluate': function(
                         scope
                       ) {
-                        return scope.getLabel();
+                        return scope.isReadonly() ? "hidden" : "text";
                       }
                     }
                   ]
@@ -605,21 +640,21 @@ var index = {
             },
             {
               'id': 'leading',
-              'html': '<slot expr23="expr23" name="leading" slot="leading"></slot>',
+              'html': '<slot expr599="expr599" name="leading" slot="leading"></slot>',
 
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'leading',
-                  'redundantAttribute': 'expr23',
-                  'selector': '[expr23]'
+                  'redundantAttribute': 'expr599',
+                  'selector': '[expr599]'
                 }
               ]
             },
             {
               'id': 'trailing',
-              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr24="expr24" variant="icon" class="rm-select--clear" dense></rm-button><slot expr25="expr25" name="trailing"></slot><rm-button expr26="expr26" variant="icon" tabindex="-1" dense></rm-button></span>',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr600="expr600" variant="icon" class="rm-select--clear" dense></rm-button><slot expr601="expr601" name="trailing"></slot><rm-button expr602="expr602" variant="icon" tabindex="-1" dense></rm-button></span>',
 
               'bindings': [
                 {
@@ -631,8 +666,8 @@ var index = {
                     return scope.isClearable() && scope.root.value;
                   },
 
-                  'redundantAttribute': 'expr24',
-                  'selector': '[expr24]',
+                  'redundantAttribute': 'expr600',
+                  'selector': '[expr600]',
 
                   'template': template(
                     null,
@@ -685,8 +720,8 @@ var index = {
                   'type': bindingTypes.SLOT,
                   'attributes': [],
                   'name': 'trailing',
-                  'redundantAttribute': 'expr25',
-                  'selector': '[expr25]'
+                  'redundantAttribute': 'expr601',
+                  'selector': '[expr601]'
                 },
                 {
                   'type': bindingTypes.TAG,
@@ -721,11 +756,21 @@ var index = {
                           ''
                         );
                       }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'disabled',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.isDisabled() || scope.isReadonly();
+                      }
                     }
                   ],
 
-                  'redundantAttribute': 'expr26',
-                  'selector': '[expr26]'
+                  'redundantAttribute': 'expr602',
+                  'selector': '[expr602]'
                 }
               ]
             }
@@ -784,8 +829,8 @@ var index = {
             }
           ],
 
-          'redundantAttribute': 'expr20',
-          'selector': '[expr20]'
+          'redundantAttribute': 'expr596',
+          'selector': '[expr596]'
         }
       ]
     );
