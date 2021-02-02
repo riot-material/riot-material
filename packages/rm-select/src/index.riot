@@ -360,7 +360,7 @@
                 const selected = this.getSelected();
                 if (selected.some((option, i) => option !== this._lastSelected[i])) {
                     this._lastSelected = selected;
-                    this.root.dispatchEvent(new Event("change"));
+                    this.root.dispatchEvent(new Event("change", { bubbles: true }));
                 }
             },
             _oninputfocus() {

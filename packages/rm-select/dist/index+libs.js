@@ -2714,7 +2714,7 @@
           const selected = this.getSelected();
           if (selected.some((option, i) => option !== this._lastSelected[i])) {
               this._lastSelected = selected;
-              this.root.dispatchEvent(new Event("change"));
+              this.root.dispatchEvent(new Event("change", { bubbles: true }));
           }
       },
 
@@ -2854,7 +2854,7 @@
       getComponent
     ) {
       return template(
-        '<rm-menu expr603="expr603" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr605="expr605"></rm-textfield-container>',
+        '<rm-menu expr9="expr9" inherit-width prevent-close-on-click-out prevent-focus keep-highlight></rm-menu><rm-textfield-container expr11="expr11"></rm-textfield-container>',
         [
           {
             'type': bindingTypes.TAG,
@@ -2869,15 +2869,15 @@
             'slots': [
               {
                 'id': 'default',
-                'html': '<div ref="rm-select-menu"><slot expr604="expr604"></slot></div>',
+                'html': '<div ref="rm-select-menu"><slot expr10="expr10"></slot></div>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'default',
-                    'redundantAttribute': 'expr604',
-                    'selector': '[expr604]'
+                    'redundantAttribute': 'expr10',
+                    'selector': '[expr10]'
                   }
                 ]
               }
@@ -2946,8 +2946,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr603',
-            'selector': '[expr603]'
+            'redundantAttribute': 'expr9',
+            'selector': '[expr9]'
           },
           {
             'type': bindingTypes.TAG,
@@ -2962,7 +2962,7 @@
             'slots': [
               {
                 'id': 'input',
-                'html': '<span class="rm-select--input-wrap" slot="input"><template expr606="expr606"></template><input expr607="expr607" class="rm-select--input" size="1"/></span>',
+                'html': '<span class="rm-select--input-wrap" slot="input"><template expr12="expr12"></template><input expr13="expr13" class="rm-select--input" size="1"/></span>',
 
                 'bindings': [
                   {
@@ -2974,8 +2974,8 @@
                       return !scope.isFilterable();
                     },
 
-                    'redundantAttribute': 'expr606',
-                    'selector': '[expr606]',
+                    'redundantAttribute': 'expr12',
+                    'selector': '[expr12]',
 
                     'template': template(
                       ' ',
@@ -2998,8 +2998,8 @@
                     )
                   },
                   {
-                    'redundantAttribute': 'expr607',
-                    'selector': '[expr607]',
+                    'redundantAttribute': 'expr13',
+                    'selector': '[expr13]',
 
                     'expressions': [
                       {
@@ -3068,21 +3068,21 @@
               },
               {
                 'id': 'leading',
-                'html': '<slot expr608="expr608" name="leading" slot="leading"></slot>',
+                'html': '<slot expr14="expr14" name="leading" slot="leading"></slot>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'leading',
-                    'redundantAttribute': 'expr608',
-                    'selector': '[expr608]'
+                    'redundantAttribute': 'expr14',
+                    'selector': '[expr14]'
                   }
                 ]
               },
               {
                 'id': 'trailing',
-                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr609="expr609" variant="icon" class="rm-select--clear" dense></rm-button><slot expr610="expr610" name="trailing"></slot><rm-button expr611="expr611" variant="icon" tabindex="-1" dense></rm-button></span>',
+                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr15="expr15" variant="icon" class="rm-select--clear" dense></rm-button><slot expr16="expr16" name="trailing"></slot><rm-button expr17="expr17" variant="icon" tabindex="-1" dense></rm-button></span>',
 
                 'bindings': [
                   {
@@ -3094,8 +3094,8 @@
                       return scope.isClearable() && scope.root.value;
                     },
 
-                    'redundantAttribute': 'expr609',
-                    'selector': '[expr609]',
+                    'redundantAttribute': 'expr15',
+                    'selector': '[expr15]',
 
                     'template': template(
                       null,
@@ -3148,8 +3148,8 @@
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'trailing',
-                    'redundantAttribute': 'expr610',
-                    'selector': '[expr610]'
+                    'redundantAttribute': 'expr16',
+                    'selector': '[expr16]'
                   },
                   {
                     'type': bindingTypes.TAG,
@@ -3197,8 +3197,8 @@
                       }
                     ],
 
-                    'redundantAttribute': 'expr611',
-                    'selector': '[expr611]'
+                    'redundantAttribute': 'expr17',
+                    'selector': '[expr17]'
                   }
                 ]
               }
@@ -3257,8 +3257,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr605',
-            'selector': '[expr605]'
+            'redundantAttribute': 'expr11',
+            'selector': '[expr11]'
           }
         ]
       );

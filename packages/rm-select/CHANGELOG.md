@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.5.1] - 2021-02-02
+- dispatch "change" event with `bubbles: true`
+- update dependencies
+
 ## [1.5.0] - 2021-01-31
 - implement `readonly` property
 - update dependencies
