@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.5.2] - 2021-02-07
+- fix bug
+
 ## [1.5.1] - 2021-02-02
 - dispatch "change" event with `bubbles: true`
 - update dependencies

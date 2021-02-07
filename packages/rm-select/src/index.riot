@@ -8,7 +8,7 @@
         class={ _getClassNames() } disabled={ isDisabled() }
     >
         <span class="rm-select--input-wrap" slot="input">
-            <template if={ !isFilterable() }>{ getLabel() }</template>
+            <template if={ !isFilterable() || isReadonly() }>{ getLabel() }</template>
             <input onfocus={ _oninputfocus } onblur={ _oninputblur } oninput={ _oninputinput }
                 readonly={ !isFilterable() } class="rm-select--input" disabled={ isDisabled() }
                 type={ isReadonly() ? "hidden" : "text" } size="1"

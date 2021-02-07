@@ -549,7 +549,7 @@
                       'evaluate': function(
                         scope
                       ) {
-                        return !scope.isFilterable();
+                        return !scope.isFilterable() || scope.isReadonly();
                       },
 
                       'redundantAttribute': 'expr3',

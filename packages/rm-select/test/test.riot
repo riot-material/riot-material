@@ -1,7 +1,8 @@
 <test>
     <!--  <rm-list-item selected>Et voilà</rm-list-item>  -->
-    <rm-select variant="outlined" label="Test" onchange={ console.log }
+    <rm-select label="Test" onchange={ console.log }
         readonly={ state.readonly } ondblclick={ state.readonly && onSelectDblClick }
+        full-width filterable
     >
         <rm-list-item value=""></rm-list-item>
         <rm-list-item value="0">Prova 0</rm-list-item>
