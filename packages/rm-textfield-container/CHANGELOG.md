@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.5] - 2021-02-09
+- fix container width error on full-width
+
 ## [1.0.4] - 2021-01-05
 - fix background on surfaces
 

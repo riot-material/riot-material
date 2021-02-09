@@ -8,7 +8,7 @@
         <div class="rm-textfield-container--container">
             <div class="rm-textfield-container--content">
                 <div class="rm-textfield-container--label">{ props.label }</div>
-                <div style="position: relative; user-select: auto;">
+                <div style="position: relative; user-select: auto; min-height: 1.3125em;">
                     <template if={ !_hasInputSlot() }>
                         <slot />
                     </template>
@@ -64,6 +64,7 @@
             line-height: 1.25em;
             transition: padding linear 150ms;
             color: inherit;
+            width: 100%;
         }
         /* FILLED */
         :host[variant=filled] .rm-textfield-container--container {
