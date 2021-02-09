@@ -22,7 +22,6 @@ var index = {
                 }
                 const input = this._input;
                 const value = input ? input.value : this.props.value || "";
-                // console.log("root.value:", input, value);
                 return value;
             },
             set: value => {
@@ -38,7 +37,6 @@ var index = {
         Object.defineProperty(this, "_input", {
             get: () => {
                 if (input == null || !input.isConnected) {
-                    console.log("wasn't connected:", input != null);
                     input = this.root.querySelector("input.rm-textfield--input");
                 }
                 return input;

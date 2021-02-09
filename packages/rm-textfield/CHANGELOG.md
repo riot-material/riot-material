@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.1] - 2021-02-09
+- remove left behind console.log
+- update dependencies
+
 ## [1.1.0] - 2021-01-31
 - implement `readonly` state
 - redirect `focus` and `blur` functions of root to input element
