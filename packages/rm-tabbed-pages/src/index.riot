@@ -1,11 +1,11 @@
 <rm-tabbed-pages>
     <div style="transform: scaleY(1);"> <!-- SCROLLBAR HIDER -->
         <div> <!-- HEADER -->
-            <div /> <!-- TAB CONTAINER -->
+            <div></div> <!-- TAB CONTAINER -->
             <div></div> <!-- INDICATOR -->
         </div> <!-- HEADER -->
     </div> <!-- SCROLLBAR HIDER -->
-    <div /> <!-- PAGE CONTAINER -->
+    <div></div> <!-- PAGE CONTAINER -->
 
     <style>
         :host {
@@ -73,6 +73,13 @@
             transform-origin: left;
             background: rgb(139, 0, 139);
             background: rgb(var(--color-primary, 139, 0, 139));
+        }
+
+        /* PAGE CONTAINER */
+        :host > div:nth-child(2) {
+            overflow: hidden;
+            max-height: 21474836px;
+            transition: transform ease-in-out 200ms;
         }
 
         /* PAGE */
@@ -190,6 +197,7 @@
                     page.style.transition = this.state.instant || updatedSelectedIndex !== currentlySelectedIndex ? "none" : "";
                     page.style.transform = "translateX(-" + ((updatedSelectedIndex + this.getPosition()) * 100) + "%)";
                     page.style.visibility = updatedSelectedIndex === updatedIndex ? "visible" : "hidden";
+                    page.style.maxHeight = updatedSelectedIndex === updatedIndex ? "" : "0px";
 
                     if (tabButton != null) {
                         const button = tabButton.appendChild(document.createElement("button"));

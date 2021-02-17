@@ -135,76 +135,22 @@
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-    function createCommonjsModule(fn, basedir, module) {
-    	return module = {
-    		path: basedir,
-    		exports: {},
-    		require: function (path, base) {
-    			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    		}
-    	}, fn(module, module.exports), module.exports;
+    function createCommonjsModule(fn) {
+      var module = { exports: {} };
+    	return fn(module, module.exports), module.exports;
     }
 
-    function commonjsRequire () {
-    	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-    }
-
-    var dist$1 = createCommonjsModule(function (module, exports) {
-
-    Object.defineProperty(exports, '__esModule', { value: true });
-
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation.
-
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
-
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-
-    var __assign = function() {
-        __assign = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign.apply(this, arguments);
-    };
-
-    var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : typeof self !== 'undefined' ? self : {};
-
-    function createCommonjsModule(fn, basedir, module) {
-    	return module = {
-    		path: basedir,
-    		exports: {},
-    		require: function (path, base) {
-    			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    		}
-    	}, fn(module, module.exports), module.exports;
-    }
-
-    function commonjsRequire () {
-    	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-    }
-
-    var whatInput = createCommonjsModule(function (module, exports) {
     /**
      * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
      * @version v5.2.10
      * @link https://github.com/ten1seven/what-input
      * @license MIT
      */
+
+    var whatInput = createCommonjsModule(function (module, exports) {
     (function webpackUniversalModuleDefinition(root, factory) {
     	module.exports = factory();
-    })(commonjsGlobal$1, function() {
+    })(commonjsGlobal, function() {
     return /******/ (function(modules) { // webpackBootstrap
     /******/ 	// The module cache
     /******/ 	var installedModules = {};
@@ -705,14 +651,41 @@
     });
     });
 
+    /*! *****************************************************************************
+    Copyright (c) Microsoft Corporation.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
+    ***************************************************************************** */
+
+    var __assign = function() {
+        __assign = Object.assign || function __assign(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
+    };
+
     var RIPPLE = Symbol("ripple");
     var RIPPLE_COUNT = Symbol("ripple-count");
     var RIPPLE_OPTIONS = Symbol("ripple_options");
+    var TYPE;
     (function (TYPE) {
         TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
         TYPE[TYPE["QUICK"] = 1] = "QUICK";
         TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
-    })(exports.TYPE || (exports.TYPE = {}));
+    })(TYPE || (TYPE = {}));
     document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
     var scaleUpStyle;
     {
@@ -724,7 +697,7 @@
     }
     var Ripple = (function () {
         function Ripple(x, y, r, type) {
-            if (type === void 0) { type = exports.TYPE.NORMAL; }
+            if (type === void 0) { type = TYPE.NORMAL; }
             this._ended = false;
             this._onEnd = null;
             var div = this._div = document.createElement("div");
@@ -743,11 +716,11 @@
                     "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
             }
             switch (type) {
-                case exports.TYPE.QUICK: {
+                case TYPE.QUICK: {
                     div.style.transitionDuration = "175ms";
                     break;
                 }
-                case exports.TYPE.INSTANT: {
+                case TYPE.INSTANT: {
                     div.style.transitionDuration = "0ms";
                 }
             }
@@ -760,18 +733,16 @@
                 return;
             }
             var rect = this._div.getBoundingClientRect();
-            if (rect.width === 0 && rect.height === 0) {
-                element.removeChild(this._div);
-                return;
-            }
-            if (this._computedStyle.transform === scaleUpStyle) {
-                if (this._computedStyle.opacity === "0") {
-                    element.removeChild(this._div);
-                    return;
-                }
-                else {
-                    if (this._ended) {
-                        this._div.style.opacity = "0";
+            if (rect.width !== 0 || rect.height !== 0) {
+                if (this._computedStyle.transform === scaleUpStyle) {
+                    if (this._computedStyle.opacity === "0") {
+                        element.removeChild(this._div);
+                        return;
+                    }
+                    else {
+                        if (this._ended) {
+                            this._div.style.opacity = "0";
+                        }
                     }
                 }
             }
@@ -818,7 +789,7 @@
         if (options == null && ripple != null) {
             return ripple;
         }
-        options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+        options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
         if (options.detectLabel != null && !options.detectLabel) {
             options.usePointerFocus = false;
         }
@@ -828,8 +799,6 @@
         if (ripple) {
             return ripple.set(options);
         }
-        var lastX = null;
-        var lastY = null;
         var pointerElement = element;
         var lastFocusTarget = undefined;
         var onFocus = function (event) {
@@ -847,7 +816,7 @@
         ripple = (_a = {
                 highlight: function () {
                     var _this = this;
-                    var currentRipple = new Ripple(0, 0, null, exports.TYPE.INSTANT).attachTo(element, function () {
+                    var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
                         _this[RIPPLE_COUNT]--;
                     });
                     this[RIPPLE_COUNT]++;
@@ -855,15 +824,15 @@
                 },
                 start: function (x, y, event, type) {
                     var _this = this;
-                    if (type === void 0) { type = exports.TYPE.NORMAL; }
+                    if (type === void 0) { type = TYPE.NORMAL; }
                     var isFocus = !!(event && event.type === "focus");
                     var isMouseEnter = !!(event && event.type === "mouseenter");
                     var options = this[RIPPLE_OPTIONS];
                     if (isFocus) {
-                        type = options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                        type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                     }
                     else if (isMouseEnter) {
-                        type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                        type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                     }
                     var r = null;
                     var rect = null;
@@ -1002,12 +971,11 @@
                 return;
             }
             var rect = element.getBoundingClientRect();
-            ripple.start(lastX = event.clientX - rect.x, lastY = event.clientY - rect.y, event);
+            ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
             if (ripple[RIPPLE_OPTIONS].stopRippling) {
                 canEventStartRipple = false;
             }
             setTimeout(function () {
-                lastX = lastY = null;
             }, 0);
         });
         element[RIPPLE] = ripple;
@@ -1015,18 +983,11 @@
         ripple.set(options);
         return ripple;
     }
-    function isRipple(element) {
-        return element[RIPPLE] != null;
-    }
-
-    exports.isRipple = isRipple;
-    exports.ripple = ripple;
-    });
 
     const PAGE_INDEX = Symbol("page-index");
 
     var index = {
-      'css': `rm-tabbed-pages,[is="rm-tabbed-pages"]{ white-space: nowrap; overflow: hidden; width: 100%; display: block; font-size: 0; transform: scaleY(1); } rm-tabbed-pages > div:first-child,[is="rm-tabbed-pages"] > div:first-child{ overflow: hidden; display: block; width: 100%; } rm-tabbed-pages > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child{ display: block; width: 100%; overflow: auto visible; position: relative; user-select: none; text-align: center; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child{ display: inline-table; font-size: initial; text-align: center; } rm-tabbed-pages:not([centered]) > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"]:not([centered]) > div:first-child > div:first-child > div:first-child,rm-tabbed-pages[centered="false" i] > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"][centered="false" i] > div:first-child > div:first-child > div:first-child{ width: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div{ display: table-cell; overflow: hidden; position: relative; width: 1px; height: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div > button,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div > button{ background-color: transparent; border: 0; padding: 12px 16px; font-size: 16px; line-height: 20px; height: 100%; width: 100%; cursor: pointer; outline: none; color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); } rm-tabbed-pages > div:first-child > div:first-child > div:nth-child(2),[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:nth-child(2){ position: absolute; bottom: 0; left: 0; height: 2px; width: 1px; transition: transform ease-in-out 200ms; transform-origin: left; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); } rm-tabbed-pages > div:nth-child(2) > *,[is="rm-tabbed-pages"] > div:nth-child(2) > *{ display: inline-block; width: 100%; vertical-align: top; transition: transform ease-in-out 200ms; font-size: initial; white-space: initial; }`,
+      'css': `rm-tabbed-pages,[is="rm-tabbed-pages"]{ white-space: nowrap; overflow: hidden; width: 100%; display: block; font-size: 0; transform: scaleY(1); } rm-tabbed-pages > div:first-child,[is="rm-tabbed-pages"] > div:first-child{ overflow: hidden; display: block; width: 100%; } rm-tabbed-pages > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child{ display: block; width: 100%; overflow: auto visible; position: relative; user-select: none; text-align: center; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child{ display: inline-table; font-size: initial; text-align: center; } rm-tabbed-pages:not([centered]) > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"]:not([centered]) > div:first-child > div:first-child > div:first-child,rm-tabbed-pages[centered="false" i] > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"][centered="false" i] > div:first-child > div:first-child > div:first-child{ width: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div{ display: table-cell; overflow: hidden; position: relative; width: 1px; height: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div > button,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div > button{ background-color: transparent; border: 0; padding: 12px 16px; font-size: 16px; line-height: 20px; height: 100%; width: 100%; cursor: pointer; outline: none; color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); } rm-tabbed-pages > div:first-child > div:first-child > div:nth-child(2),[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:nth-child(2){ position: absolute; bottom: 0; left: 0; height: 2px; width: 1px; transition: transform ease-in-out 200ms; transform-origin: left; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); } rm-tabbed-pages > div:nth-child(2),[is="rm-tabbed-pages"] > div:nth-child(2){ overflow: hidden; max-height: 21474836px; transition: transform ease-in-out 200ms; } rm-tabbed-pages > div:nth-child(2) > *,[is="rm-tabbed-pages"] > div:nth-child(2) > *{ display: inline-block; width: 100%; vertical-align: top; transition: transform ease-in-out 200ms; font-size: initial; white-space: initial; }`,
 
       'exports': {
         onMounted() {
@@ -1114,7 +1075,7 @@
                 let tabButton = null;
                 let page;
                 const updatedIndex = this._getUpdatedIndexOf(index);
-                const pageTest = pageContainer.children[updatedIndex];
+                pageContainer.children[updatedIndex];
                 if (updatedIndex >= pageContainer.children.length) {
                     page = pageContainer.appendChild(document.createElement("div"));
                     page[PAGE_INDEX] = index;
@@ -1129,6 +1090,7 @@
                 page.style.transition = this.state.instant || updatedSelectedIndex !== currentlySelectedIndex ? "none" : "";
                 page.style.transform = "translateX(-" + ((updatedSelectedIndex + this.getPosition()) * 100) + "%)";
                 page.style.visibility = updatedSelectedIndex === updatedIndex ? "visible" : "hidden";
+                page.style.maxHeight = updatedSelectedIndex === updatedIndex ? "" : "0px";
 
                 if (tabButton != null) {
                     const button = tabButton.appendChild(document.createElement("button"));
@@ -1136,7 +1098,7 @@
                         this.setSelectedIndex(this._getUpdatedIndexOf(index));
                     });
                     button.innerText = slot.id;
-                    dist$1.ripple(button, { detectLabel: false, color: "currentColor", instantHighlight: true });
+                    ripple(button, { detectLabel: false, color: "currentColor", instantHighlight: true });
                 }
             });
             const newlySelectedIndex = this._getUpdatedIndexOf(currentlyRawSelectedIndex);
@@ -1310,7 +1272,12 @@
         }
       },
 
-      'template': function(template, expressionTypes, bindingTypes, getComponent) {
+      'template': function(
+        template,
+        expressionTypes,
+        bindingTypes,
+        getComponent
+      ) {
         return template(
           '<div style="transform: scaleY(1);"><div><div></div><div></div></div></div><div></div>',
           []

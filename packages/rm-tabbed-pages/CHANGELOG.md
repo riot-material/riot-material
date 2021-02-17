@@ -1,6 +1,12 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.5] - 2021-02-18
+- limit tab height to selected one
+- change "dist" structure
+- update "package.json" entry points
+- update dependencies
+
 ## [1.0.4] - 2020-11-27
 - treating "riot" as external
 - update README

@@ -20,22 +20,12 @@ export default [
         ],
         output: [
             {
-                file: "dist/index.js",
-                format: "cjs",
-                exports: "auto"
-            },
-            {
                 file: "dist/index.es.js",
                 format: "es"
             },
             {
-                file: "dist/index.amd.js",
-                format: "amd",
-                globals
-            },
-            {
                 name: "riotMaterial.components.tabbedPages",
-                file: "dist/index.umd.js",
+                file: "dist/index.js",
                 format: "umd",
                 globals
             }
@@ -51,23 +41,8 @@ export default [
         ],
         output: [
             {
-                file: "dist/index.amd+libs.js",
-                format: "amd",
-                globals: {
-                    "riot": "riot"
-                }
-            },
-            {
                 name: "riotMaterial.components.tabbedPages",
-                file: "dist/index.umd+libs.js",
-                format: "umd",
-                globals: {
-                    "riot": "riot"
-                }
-            },
-            {
-                name: "riotMaterial.components.tabbedPages",
-                file: "test/rm-tabbed-pages.js",
+                file: "dist/index+libs.js",
                 format: "umd",
                 globals: {
                     "riot": "riot"
