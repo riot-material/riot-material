@@ -4,7 +4,7 @@ const VALUE = Symbol("value");
 const IS_MOUNTED = Symbol("is-mounted");
 
 var index = {
-  'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
+  'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; opacity: 0; transition: opacity linear 150ms; } rm-textfield .rm-textfield--input-focused,[is="rm-textfield"] .rm-textfield--input-focused{ opacity: 1; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
 
   'exports': {
     [IS_MOUNTED]: false,
@@ -189,7 +189,7 @@ var index = {
           'slots': [
             {
               'id': 'input',
-              'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr1="expr1" class="rm-textfield--input" size="1"/><template expr2="expr2"></template></span>',
+              'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr1="expr1" size="1"/><template expr2="expr2"></template></span>',
 
               'bindings': [
                 {
@@ -197,6 +197,21 @@ var index = {
                   'selector': '[expr1]',
 
                   'expressions': [
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'class',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return [
+                          'rm-textfield--input',
+                          scope.state.focused ? ' rm-textfield--input-focused' : ''
+                        ].join(
+                          ''
+                        );
+                      }
+                    },
                     {
                       'type': expressionTypes.EVENT,
                       'name': 'oninput',
@@ -234,6 +249,16 @@ var index = {
                         scope
                       ) {
                         return scope.props.name;
+                      }
+                    },
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': 'placeholder',
+
+                      'evaluate': function(
+                        scope
+                      ) {
+                        return scope.props.placeholder;
                       }
                     }
                   ]

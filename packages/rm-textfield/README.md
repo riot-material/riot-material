@@ -50,6 +50,7 @@ Any value will be result in the disabled state
 ### `full-width` *optional*
 ### `label` *optional*
 ### `name` *optional*
+### `placeholder` *optional*
 ### `readonly` *optional*
 ### `type` *optional* (default: `text`)
 Valid values:

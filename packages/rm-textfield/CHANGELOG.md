@@ -1,6 +1,13 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.3] - 2021-02-23
+- fix npm published dist
+
+## [1.1.2] - 2021-02-23
+- add `placeholder` prop
+- update dependencies
+
 ## [1.1.1] - 2021-02-09
 - remove left behind console.log
 - update dependencies

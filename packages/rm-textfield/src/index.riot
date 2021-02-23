@@ -4,8 +4,9 @@
         class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
     >
         <span class="rm-textfield--input-wrap" slot="input">
-            <input class="rm-textfield--input" oninput={ _oninputinput } size="1"
-                type={ getType() } value={ root.value } name={ props.name }
+            <input class="rm-textfield--input{ state.focused ? ' rm-textfield--input-focused' : ''}"
+                oninput={ _oninputinput } type={ getType() } value={ root.value }
+                name={ props.name } placeholder={ props.placeholder } size="1"
             >
             <template if={ isDisabled() || isReadonly() }>{ root.value }</template>
         </span>
@@ -38,6 +39,11 @@
             outline: none;
             width: 100%;
             color: currentColor;
+            opacity: 0;
+            transition: opacity linear 150ms;
+        }
+        .rm-textfield--input-focused {
+            opacity: 1;
         }
         .rm-textfield--input-wrap {
             height: 1.25em;
