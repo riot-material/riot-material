@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.4] - 2021-02-23
+- fix bug introduced with `placeholder` prop
+
 ## [1.1.3] - 2021-02-23
 - fix npm published dist
 
