@@ -7,7 +7,7 @@
                 <div ref="check"><div></div><div></div></div>
             </div>
         </div>
-        <div style="vertical-align: middle; display: inline-block;">{ props.label }</div>
+        <div style="vertical-align: middle; display: table-cell;">{ props.label }</div>
     </label>
     
     <style>
@@ -26,6 +26,7 @@
             /* https://stackoverflow.com/a/21003770/9228492 */
             -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
+            vertical-align: top;
         }
         :host[disabled], :host[readonly] {
             cursor: default;
@@ -35,7 +36,7 @@
         }
         label {
             cursor: inherit;
-            display: inline-block;
+            display: inline-table;
         }
         [ref="box"] {
             height: 1em;
