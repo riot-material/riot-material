@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.6] - 2021-06-08
+- fix undefined parent
+- update dependencies
+
 ## [1.0.5] - 2021-02-18
 - limit tab height to selected one
 - change "dist" structure

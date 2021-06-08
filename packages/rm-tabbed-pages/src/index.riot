@@ -154,7 +154,8 @@
                 this._hiddenTabs = [];
                 this.slots.forEach((slot, index) => {
                     if (slot.bindings.some(binding => {
-                        if (binding.type !== 1 || binding.evaluate(Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]))) {
+                        const parent = this[riot.__.globals.PARENT_KEY_SYMBOL] || null;
+                        if (binding.type !== 1 || binding.evaluate(Object.create(parent))) {
                             return false;
                         }
 
@@ -165,10 +166,7 @@
                             // unmount page at hidden index
                             const instance = page[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                             if (instance != null) {
-                                instance.unmount(
-                                    Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
-                                    this[riot.__.globals.PARENT_KEY_SYMBOL]
-                                );
+                                instance.unmount(Object.create(parent), parent);
                             }
                             pageContainer.removeChild(page);
                         }

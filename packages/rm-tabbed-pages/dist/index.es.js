@@ -1,4 +1,4 @@
-import { __ } from 'riot';
+import * as riot from 'riot';
 import positionController from '@riot-material/position-controller';
 import { ripple } from '@riot-material/ripple';
 
@@ -65,7 +65,8 @@ var index = {
         this._hiddenTabs = [];
         this.slots.forEach((slot, index) => {
             if (slot.bindings.some(binding => {
-                if (binding.type !== 1 || binding.evaluate(Object.create(this[__.globals.PARENT_KEY_SYMBOL]))) {
+                const parent = this[riot.__.globals.PARENT_KEY_SYMBOL] || null;
+                if (binding.type !== 1 || binding.evaluate(Object.create(parent))) {
                     return false;
                 }
 
@@ -74,12 +75,9 @@ var index = {
                 if (page && page[PAGE_INDEX] === index) {
                     tabContainer.removeChild(tabContainer.children[updatedIndex]);
                     // unmount page at hidden index
-                    const instance = page[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                    const instance = page[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                     if (instance != null) {
-                        instance.unmount(
-                            Object.create(this[__.globals.PARENT_KEY_SYMBOL]),
-                            this[__.globals.PARENT_KEY_SYMBOL]
-                        );
+                        instance.unmount(Object.create(parent), parent);
                     }
                     pageContainer.removeChild(page);
                 }
@@ -144,17 +142,17 @@ var index = {
             const selectedIndex = this.getSelectedIndex();
             const slot = this._getSlotAt(selectedIndex);
             const el = pageContainer.children[selectedIndex];
-            let instance = el[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+            let instance = el[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
             if (instance == null) {
-                instance = el[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY] = __.DOMBindings.template(slot.html, slot.bindings);
+                instance = el[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY] = riot.__.DOMBindings.template(slot.html, slot.bindings);
                 instance.mount(
-                    el, Object.create(this[__.globals.PARENT_KEY_SYMBOL]),
-                    this[__.globals.PARENT_KEY_SYMBOL]
+                    el, Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
+                    this[riot.__.globals.PARENT_KEY_SYMBOL]
                 );
             } else if (update && !this.state.skipUpdate) {
                 instance.update(
-                    Object.create(this[__.globals.PARENT_KEY_SYMBOL]),
-                    this[__.globals.PARENT_KEY_SYMBOL]
+                    Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
+                    this[riot.__.globals.PARENT_KEY_SYMBOL]
                 );
             }
         }

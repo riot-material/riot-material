@@ -11,16 +11,23 @@
             This is great! <button onclick={ onclick }>Toggle</button>
             <div>ALTRO TESTO + LUNGO</div>
         </div>
+        <div slot="PROVA ASYNC" if={ state.loaded }>
+            OK
+        </div>
     </rm-tabbed-pages>
     <div>TESTO ESTERNO</div>
 
     <script>
         export default {
             state: {
-                hidden: false
+                hidden: false,
+                loaded: false
             },
             onclick() {
                 this.update({ hidden: !this.state.hidden });
+            },
+            onMounted() {
+                setTimeout(() => this.update({ loaded: true }), 1000);
             }
         }
     </script>

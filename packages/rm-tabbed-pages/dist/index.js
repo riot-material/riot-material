@@ -6,6 +6,27 @@
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var riot__namespace = /*#__PURE__*/_interopNamespace(riot);
     var positionController__default = /*#__PURE__*/_interopDefaultLegacy(positionController);
 
     const PAGE_INDEX = Symbol("page-index");
@@ -71,7 +92,8 @@
             this._hiddenTabs = [];
             this.slots.forEach((slot, index) => {
                 if (slot.bindings.some(binding => {
-                    if (binding.type !== 1 || binding.evaluate(Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]))) {
+                    const parent = this[riot__namespace.__.globals.PARENT_KEY_SYMBOL] || null;
+                    if (binding.type !== 1 || binding.evaluate(Object.create(parent))) {
                         return false;
                     }
 
@@ -80,12 +102,9 @@
                     if (page && page[PAGE_INDEX] === index) {
                         tabContainer.removeChild(tabContainer.children[updatedIndex]);
                         // unmount page at hidden index
-                        const instance = page[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                        const instance = page[riot__namespace.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                         if (instance != null) {
-                            instance.unmount(
-                                Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
-                                this[riot.__.globals.PARENT_KEY_SYMBOL]
-                            );
+                            instance.unmount(Object.create(parent), parent);
                         }
                         pageContainer.removeChild(page);
                     }
@@ -150,17 +169,17 @@
                 const selectedIndex = this.getSelectedIndex();
                 const slot = this._getSlotAt(selectedIndex);
                 const el = pageContainer.children[selectedIndex];
-                let instance = el[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                let instance = el[riot__namespace.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                 if (instance == null) {
-                    instance = el[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY] = riot.__.DOMBindings.template(slot.html, slot.bindings);
+                    instance = el[riot__namespace.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY] = riot__namespace.__.DOMBindings.template(slot.html, slot.bindings);
                     instance.mount(
-                        el, Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
-                        this[riot.__.globals.PARENT_KEY_SYMBOL]
+                        el, Object.create(this[riot__namespace.__.globals.PARENT_KEY_SYMBOL]),
+                        this[riot__namespace.__.globals.PARENT_KEY_SYMBOL]
                     );
                 } else if (update && !this.state.skipUpdate) {
                     instance.update(
-                        Object.create(this[riot.__.globals.PARENT_KEY_SYMBOL]),
-                        this[riot.__.globals.PARENT_KEY_SYMBOL]
+                        Object.create(this[riot__namespace.__.globals.PARENT_KEY_SYMBOL]),
+                        this[riot__namespace.__.globals.PARENT_KEY_SYMBOL]
                     );
                 }
             }
