@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.6] - 2021-07-14
+- update dependencies
+
 ## [1.0.5] - 2021-05-24
 - use table layout for correct text wrapping
 

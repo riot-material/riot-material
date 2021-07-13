@@ -6,10 +6,7 @@
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-	function createCommonjsModule(fn) {
-	  var module = { exports: {} };
-		return fn(module, module.exports), module.exports;
-	}
+	var whatInput$1 = {exports: {}};
 
 	/**
 	 * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
@@ -18,7 +15,7 @@
 	 * @license MIT
 	 */
 
-	var whatInput = createCommonjsModule(function (module, exports) {
+	(function (module, exports) {
 	(function webpackUniversalModuleDefinition(root, factory) {
 		module.exports = factory();
 	})(commonjsGlobal, function() {
@@ -520,7 +517,9 @@
 	/***/ })
 	/******/ ])
 	});
-	});
+	}(whatInput$1));
+
+	var whatInput = whatInput$1.exports;
 
 	/*! *****************************************************************************
 	Copyright (c) Microsoft Corporation.
@@ -673,7 +672,8 @@
 	    var pointerElement = element;
 	    var lastFocusTarget = undefined;
 	    var onFocus = function (event) {
-	        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+	        var _a;
+	        if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
 	            return;
 	        }
 	        ripple.start(null, null, event);
@@ -886,7 +886,7 @@
 	            }
 	        };
 	        input.addEventListener("change", () => {
-	            if (whatInput.ask() === "keyboard") {
+	            if (whatInput?.ask?.() === "keyboard") {
 	                boxRipple.start().end();
 	            }
 	            refresh();

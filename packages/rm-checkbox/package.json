@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-checkbox",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -12,14 +12,14 @@
   "license": "MIT",
   "devDependencies": {
     "@riotjs/compiler": "^5.4.2",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "riot": "^5.4.2",
-    "rollup": "^2.49.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "riot": "^5.4.5",
+    "rollup": "^2.53.1",
     "rollup-plugin-riot": "^5.0.0"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.0.5",
+    "@riot-material/ripple": "^1.0.6",
     "what-input": "^5.2.10"
   },
   "files": [

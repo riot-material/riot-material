@@ -233,7 +233,7 @@
 
     <script>
         import { ripple } from "@riot-material/ripple";
-        import { ask as whatInput } from "what-input";
+        import whatInput from "what-input";
 
         export default {
             _updateRipple() {
@@ -262,7 +262,7 @@
                     }
                 };
                 input.addEventListener("change", () => {
-                    if (whatInput() === "keyboard") {
+                    if (whatInput?.ask?.() === "keyboard") {
                         boxRipple.start().end();
                     }
                     refresh();
