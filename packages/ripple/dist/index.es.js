@@ -148,12 +148,11 @@ function ripple(element, options) {
     if (ripple) {
         return ripple.set(options);
     }
-    var lastX = null;
-    var lastY = null;
     var pointerElement = element;
     var lastFocusTarget = undefined;
     var onFocus = function (event) {
-        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+        var _a;
+        if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
             return;
         }
         ripple.start(null, null, event);
@@ -322,12 +321,11 @@ function ripple(element, options) {
             return;
         }
         var rect = element.getBoundingClientRect();
-        ripple.start(lastX = event.clientX - rect.x, lastY = event.clientY - rect.y, event);
+        ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
         if (ripple[RIPPLE_OPTIONS].stopRippling) {
             canEventStartRipple = false;
         }
         setTimeout(function () {
-            lastX = lastY = null;
         }, 0);
     });
     element[RIPPLE] = ripple;

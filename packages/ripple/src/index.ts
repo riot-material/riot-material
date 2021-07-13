@@ -197,7 +197,7 @@ export function ripple(element: HTMLElement, options?: IRippleOptions): IRipple 
 
     let lastFocusTarget: HTMLElement | undefined = undefined;
     let onFocus: (event: FocusEvent) => void = event => {
-        if (whatInput.ask() !== "keyboard" && !ripple![RIPPLE_OPTIONS].usePointerFocus) {
+        if (whatInput?.ask?.() !== "keyboard" && !ripple![RIPPLE_OPTIONS].usePointerFocus) {
             return;
         }
         ripple!.start(null, null, event);

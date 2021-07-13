@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.0.6] - 2021-07-14
+- check if `whatInput` is defined
+
 ## [1.0.5] - 2020-12-07
 - make ripple does not vanish when the element they are attached to is currently not visibile
 
