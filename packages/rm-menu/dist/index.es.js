@@ -1,6 +1,6 @@
 import elevation from '@riot-material/elevation';
 import { ripple, isRipple } from '@riot-material/ripple';
-import { release, hold, on } from '@riot-material/focus-manager';
+import * as focusManager from '@riot-material/focus-manager';
 
 function getMenuStyleAt(time, anchor) {
     time = parseFloat(time);
@@ -309,7 +309,7 @@ var Component = {
         if (this._time < 1 && this._direction !== 1) {
             return;
         }
-        release();
+        focusManager.release();
         this._clean();
         elevation(this.root.firstElementChild, 0);
         this._direction = -1;
@@ -398,7 +398,7 @@ function menuAnimationFrame() {
             }
             if (_this._time >= 1) {
                 if (!_this.getPreventFocus() || !_this._anchorElement) {
-                    hold({
+                    focusManager.hold({
                         element: child,
                         onFocusInside: function () {
                         },
@@ -423,7 +423,7 @@ function menuAnimationFrame() {
                             _this.highlightPrevious();
                         }
                     });
-                    on("keydown", _this._onkeydown);
+                    focusManager.on("keydown", _this._onkeydown);
                 }
                 _this._direction = 0;
                 _this.root.dispatchEvent(new Event("open"));
@@ -528,9 +528,9 @@ var index = {
               'name': 'onmousedown',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._onmousedown;
+                return _scope._onmousedown;
               }
             }
           ]
@@ -545,9 +545,9 @@ var index = {
               'name': 'onmouseenter',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._setHighlighted;
+                return _scope._setHighlighted;
               }
             },
             {
@@ -555,9 +555,9 @@ var index = {
               'name': 'onmousemove',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._setHighlighted;
+                return _scope._setHighlighted;
               }
             },
             {
@@ -565,9 +565,9 @@ var index = {
               'name': 'onmouseleave',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._handleHighlightOnLeave;
+                return _scope._handleHighlightOnLeave;
               }
             },
             {
@@ -575,9 +575,9 @@ var index = {
               'name': 'onclick',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._handleClick;
+                return _scope._handleClick;
               }
             },
             {
@@ -585,9 +585,9 @@ var index = {
               'name': 'onfocus',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.open;
+                return _scope.open;
               }
             }
           ]
@@ -601,9 +601,9 @@ var index = {
               'name': 'close-menu',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._closeThis;
+                return _scope._closeThis;
               }
             }
           ],

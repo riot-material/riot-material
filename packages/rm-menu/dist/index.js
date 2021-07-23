@@ -6,7 +6,28 @@
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
     var elevation__default = /*#__PURE__*/_interopDefaultLegacy(elevation);
+    var focusManager__namespace = /*#__PURE__*/_interopNamespace(focusManager);
 
     function getMenuStyleAt(time, anchor) {
         time = parseFloat(time);
@@ -315,7 +336,7 @@
             if (this._time < 1 && this._direction !== 1) {
                 return;
             }
-            focusManager.release();
+            focusManager__namespace.release();
             this._clean();
             elevation__default['default'](this.root.firstElementChild, 0);
             this._direction = -1;
@@ -404,7 +425,7 @@
                 }
                 if (_this._time >= 1) {
                     if (!_this.getPreventFocus() || !_this._anchorElement) {
-                        focusManager.hold({
+                        focusManager__namespace.hold({
                             element: child,
                             onFocusInside: function () {
                             },
@@ -429,7 +450,7 @@
                                 _this.highlightPrevious();
                             }
                         });
-                        focusManager.on("keydown", _this._onkeydown);
+                        focusManager__namespace.on("keydown", _this._onkeydown);
                     }
                     _this._direction = 0;
                     _this.root.dispatchEvent(new Event("open"));
@@ -534,9 +555,9 @@
                   'name': 'onmousedown',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._onmousedown;
+                    return _scope._onmousedown;
                   }
                 }
               ]
@@ -551,9 +572,9 @@
                   'name': 'onmouseenter',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._setHighlighted;
+                    return _scope._setHighlighted;
                   }
                 },
                 {
@@ -561,9 +582,9 @@
                   'name': 'onmousemove',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._setHighlighted;
+                    return _scope._setHighlighted;
                   }
                 },
                 {
@@ -571,9 +592,9 @@
                   'name': 'onmouseleave',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._handleHighlightOnLeave;
+                    return _scope._handleHighlightOnLeave;
                   }
                 },
                 {
@@ -581,9 +602,9 @@
                   'name': 'onclick',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._handleClick;
+                    return _scope._handleClick;
                   }
                 },
                 {
@@ -591,9 +612,9 @@
                   'name': 'onfocus',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.open;
+                    return _scope.open;
                   }
                 }
               ]
@@ -607,9 +628,9 @@
                   'name': 'close-menu',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._closeThis;
+                    return _scope._closeThis;
                   }
                 }
               ],
