@@ -1,6 +1,4 @@
-let style: HTMLStyleElement = document.createElement("style");
-
-style.innerHTML = `
+const innerHTML = `
 .rm-black-surface {
     background: rgb(0, 0, 0);
     background: rgb(var(--color-black-surface, 0, 0, 0));
@@ -27,7 +25,21 @@ style.innerHTML = `
 }
 `;
 
-document.head.appendChild(style);
+let destroyer: (() => void) | null = null;
+export function init() {
+    if (destroyer != null) {
+        return destroyer;
+    }
+
+    let style: HTMLStyleElement = document.head.appendChild(document.createElement("style"));
+
+    style.innerHTML = innerHTML;
+
+    return destroyer = () => {
+        document.head.removeChild(style);
+        destroyer = null;
+    };
+}
 
 export const black: string = "rm-black-surface";
 export const dark: string = "rm-dark-surface";
