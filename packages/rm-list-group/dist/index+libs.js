@@ -6,10 +6,7 @@
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-	function createCommonjsModule(fn) {
-	  var module = { exports: {} };
-		return fn(module, module.exports), module.exports;
-	}
+	var whatInput$1 = {exports: {}};
 
 	/**
 	 * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
@@ -18,7 +15,7 @@
 	 * @license MIT
 	 */
 
-	var whatInput = createCommonjsModule(function (module, exports) {
+	(function (module, exports) {
 	(function webpackUniversalModuleDefinition(root, factory) {
 		module.exports = factory();
 	})(commonjsGlobal, function() {
@@ -520,7 +517,9 @@
 	/***/ })
 	/******/ ])
 	});
-	});
+	}(whatInput$1));
+
+	var whatInput = whatInput$1.exports;
 
 	/*! *****************************************************************************
 	Copyright (c) Microsoft Corporation.
@@ -557,14 +556,29 @@
 	    TYPE[TYPE["QUICK"] = 1] = "QUICK";
 	    TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
 	})(TYPE || (TYPE = {}));
-	document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
+	var canEventStartRipple = true;
 	var scaleUpStyle;
-	{
-	    var div = document.createElement("div");
-	    div.style.transform = "scale(1)";
-	    document.body.appendChild(div);
-	    scaleUpStyle = window.getComputedStyle(div).transform;
-	    document.body.removeChild(div);
+	var destroyer = null;
+	function init() {
+	    if (destroyer !== null) {
+	        return destroyer;
+	    }
+	    {
+	        var div = document.createElement("div");
+	        div.style.transform = "scale(1)";
+	        document.body.appendChild(div);
+	        scaleUpStyle = window.getComputedStyle(div).transform;
+	        document.body.removeChild(div);
+	    }
+	    var style = document.head.appendChild(document.createElement("style"));
+	    style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
+	    var listener = function () { canEventStartRipple = true; };
+	    window.addEventListener("pointerdown", listener);
+	    return destroyer = function () {
+	        document.head.removeChild(style);
+	        window.removeEventListener("pointerdown", listener);
+	        destroyer = null;
+	    };
 	}
 	var Ripple = (function () {
 	    function Ripple(x, y, r, type) {
@@ -604,18 +618,16 @@
 	            return;
 	        }
 	        var rect = this._div.getBoundingClientRect();
-	        if (rect.width === 0 && rect.height === 0) {
-	            element.removeChild(this._div);
-	            return;
-	        }
-	        if (this._computedStyle.transform === scaleUpStyle) {
-	            if (this._computedStyle.opacity === "0") {
-	                element.removeChild(this._div);
-	                return;
-	            }
-	            else {
-	                if (this._ended) {
-	                    this._div.style.opacity = "0";
+	        if (rect.width !== 0 || rect.height !== 0) {
+	            if (this._computedStyle.transform === scaleUpStyle) {
+	                if (this._computedStyle.opacity === "0") {
+	                    element.removeChild(this._div);
+	                    return;
+	                }
+	                else {
+	                    if (this._ended) {
+	                        this._div.style.opacity = "0";
+	                    }
 	                }
 	            }
 	        }
@@ -654,14 +666,13 @@
 	    };
 	    return Ripple;
 	}());
-	var canEventStartRipple = true;
-	window.addEventListener("pointerdown", function () { canEventStartRipple = true; });
 	function ripple(element, options) {
 	    var _a;
 	    var ripple = element[RIPPLE];
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
+	    init();
 	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
@@ -672,12 +683,11 @@
 	    if (ripple) {
 	        return ripple.set(options);
 	    }
-	    var lastX = null;
-	    var lastY = null;
 	    var pointerElement = element;
 	    var lastFocusTarget = undefined;
 	    var onFocus = function (event) {
-	        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+	        var _a;
+	        if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
 	            return;
 	        }
 	        ripple.start(null, null, event);
@@ -846,12 +856,11 @@
 	            return;
 	        }
 	        var rect = element.getBoundingClientRect();
-	        ripple.start(lastX = event.clientX - rect.x, lastY = event.clientY - rect.y, event);
+	        ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
 	        if (ripple[RIPPLE_OPTIONS].stopRippling) {
 	            canEventStartRipple = false;
 	        }
 	        setTimeout(function () {
-	            lastX = lastY = null;
 	        }, 0);
 	    });
 	    element[RIPPLE] = ripple;
@@ -860,16 +869,34 @@
 	    return ripple;
 	}
 
-	var index = {
-	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; }`,
+	var index$1 = {
+	  'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; }`,
 
 	  'exports': {
+	    _selectedHighlight: null,
+
 	    _hasSlot(name) {
 	        return this.slots.some(slot => slot.id === name);
 	    },
 
 	    _updateRipple() {
-	        ripple(this.root, { highlight: true, instantHighlight: true, disabled: this.isPassive() });
+	        const passive = this.isPassive();
+	        ripple(this.root, { highlight: !passive, instantHighlight: true, disabled: passive });
+	    },
+
+	    _updateSelected() {
+	        if (this.isSelected()) {
+	            this.root.classList.add("selected");
+	            if (this._selectedHighlight == null) {
+	                this._selectedHighlight = ripple(this.root).highlight();
+	            }
+	        } else {
+	            this.root.classList.remove("selected");
+	            if (this._selectedHighlight != null) {
+	                this._selectedHighlight.end();
+	                this._selectedHighlight = null;
+	            }
+	        }
 	    },
 
 	    isPassive() {
@@ -878,153 +905,246 @@
 
 	    onMounted() {
 	        let value = undefined;
-	        Object.defineProperty(this.root, "value", {
-	            get: () => {
-	                if (value === undefined) {
-	                    return this.props.value == null ? null : this.props.value + "";
+	        Object.defineProperties(this.root, {
+	            value: {
+	                get: () => {
+	                    if (value === undefined) {
+	                        return this.props.value == null ? null : this.props.value + "";
+	                    }
+	                    return value;
+	                },
+	                set(v) {
+	                    value = v == null ? null : this.props.value + "";
 	                }
-	                return value;
 	            },
-	            set(v) {
-	                value = v == null ? null : this.props.value + "";
-	            }
-	        });
-	        Object.defineProperty(this.root, "label", {
-	            get: () => {
-	                return this.props.label == null ? this.root.innerText : this.props.label + "";
+	            label: {
+	                get: () => {
+	                    return this.props.label == null ?
+	                        (this._hasSlot("default") ? this.root.innerText : "") :
+	                        this.props.label + ""
+	                    ;
+	                }
+	            },
+	            selected: {
+	                get: () => this.isSelected(),
+	                set: value => {
+	                    this.update({ selected: value != null && value !== false });
+	                }
+	            },
+	            passive: {
+	                get: () => this.isPassive()
 	            }
 	        });
 	        if (this.props.value != null && this.props.menuOption == null) {
 	            this.root.setAttribute("menu-option", "");
 	        }
 	        this._updateRipple();
+	        this._updateSelected();
+	    },
+
+	    shouldUpdate(newProps, currentProps) {
+	        if ("selected" in newProps) {
+	            delete this.state.selected;
+	        }
 	    },
 
 	    onUpdated() {
 	        this._updateRipple();
+	        this._updateSelected();
+	    },
+
+	    isSelected() {
+	        return this.isPassive() ?
+	            false :
+	            (this.state.selected != null ?
+	                this.state.selected !== false :
+	                (this.props.selected != null && this.props.selected !== false)
+	            )
+	        ;
 	    }
 	  },
 
-	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+	  'template': function(
+	    template,
+	    expressionTypes,
+	    bindingTypes,
+	    getComponent
+	  ) {
 	    return template(
-	      '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 1px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
-	      [{
-	        'expressions': [{
-	          'type': expressionTypes.ATTRIBUTE,
-	          'name': 'tabindex',
+	      '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 256px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
+	      [
+	        {
+	          'expressions': [
+	            {
+	              'type': expressionTypes.ATTRIBUTE,
+	              'name': 'tabindex',
 
-	          'evaluate': function(scope) {
-	            return '0';
-	          }
-	        }]
-	      }, {
-	        'type': bindingTypes.IF,
+	              'evaluate': function(
+	                _scope
+	              ) {
+	                return _scope.isPassive() ? "" : "0";
+	              }
+	            },
+	            {
+	              'type': expressionTypes.ATTRIBUTE,
+	              'name': 'style',
 
-	        'evaluate': function(scope) {
-	          return scope._hasSlot("leading");
+	              'evaluate': function(
+	                _scope
+	              ) {
+	                return _scope.isSelected() && _scope.props.selectedColor != null ? "color:" + _scope.props.selectedColor + ";" : "";
+	              }
+	            }
+	          ]
 	        },
+	        {
+	          'type': bindingTypes.IF,
 
-	        'redundantAttribute': 'expr0',
-	        'selector': '[expr0]',
+	          'evaluate': function(
+	            _scope
+	          ) {
+	            return _scope._hasSlot("leading");
+	          },
 
-	        'template': template('<slot expr1="expr1" name="leading"></slot>', [{
+	          'redundantAttribute': 'expr0',
+	          'selector': '[expr0]',
+
+	          'template': template(
+	            '<slot expr1="expr1" name="leading"></slot>',
+	            [
+	              {
+	                'type': bindingTypes.SLOT,
+	                'attributes': [],
+	                'name': 'leading',
+	                'redundantAttribute': 'expr1',
+	                'selector': '[expr1]'
+	              }
+	            ]
+	          )
+	        },
+	        {
 	          'type': bindingTypes.SLOT,
 	          'attributes': [],
-	          'name': 'leading',
-	          'redundantAttribute': 'expr1',
-	          'selector': '[expr1]'
-	        }])
-	      }, {
-	        'type': bindingTypes.SLOT,
-	        'attributes': [],
-	        'name': 'trailing',
-	        'redundantAttribute': 'expr2',
-	        'selector': '[expr2]'
-	      }, {
-	        'type': bindingTypes.IF,
-
-	        'evaluate': function(scope) {
-	          return !scope._hasSlot("default");
+	          'name': 'trailing',
+	          'redundantAttribute': 'expr2',
+	          'selector': '[expr2]'
 	        },
+	        {
+	          'type': bindingTypes.IF,
 
-	        'redundantAttribute': 'expr3',
-	        'selector': '[expr3]',
+	          'evaluate': function(
+	            _scope
+	          ) {
+	            return !_scope._hasSlot("default");
+	          },
 
-	        'template': template(' ', [{
-	          'expressions': [{
-	            'type': expressionTypes.TEXT,
-	            'childNodeIndex': 0,
+	          'redundantAttribute': 'expr3',
+	          'selector': '[expr3]',
 
-	            'evaluate': function(scope) {
-	              return scope.props.label;
-	            }
-	          }]
-	        }])
-	      }, {
-	        'type': bindingTypes.SLOT,
-	        'attributes': [],
-	        'name': 'default',
-	        'redundantAttribute': 'expr4',
-	        'selector': '[expr4]'
-	      }]
+	          'template': template(
+	            ' ',
+	            [
+	              {
+	                'expressions': [
+	                  {
+	                    'type': expressionTypes.TEXT,
+	                    'childNodeIndex': 0,
+
+	                    'evaluate': function(
+	                      _scope
+	                    ) {
+	                      return _scope.props.label || "\xa0";
+	                    }
+	                  }
+	                ]
+	              }
+	            ]
+	          )
+	        },
+	        {
+	          'type': bindingTypes.SLOT,
+	          'attributes': [],
+	          'name': 'default',
+	          'redundantAttribute': 'expr4',
+	          'selector': '[expr4]'
+	        }
+	      ]
 	    );
 	  },
 
 	  'name': 'rm-list-item'
 	};
 
-	var index$1 = {
+	var index = {
 	  'css': `rm-list-group > rm-list-item:not(:first-child),[is="rm-list-group"] > rm-list-item:not(:first-child),rm-list-group > [is="rm-list-item"]:not(:first-child),[is="rm-list-group"] > [is="rm-list-item"]:not(:first-child){ padding-left: 2em; }`,
 
 	  'exports': {
 	    components: {
-	        "rm-list-item": index
+	        "rm-list-item": index$1
 	    }
 	  },
 
-	  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+	  'template': function(
+	    template,
+	    expressionTypes,
+	    bindingTypes,
+	    getComponent
+	  ) {
 	    return template(
 	      '<rm-list-item expr2="expr2" passive></rm-list-item><slot expr3="expr3"></slot>',
-	      [{
-	        'type': bindingTypes.TAG,
-	        'getComponent': getComponent,
+	      [
+	        {
+	          'type': bindingTypes.TAG,
+	          'getComponent': getComponent,
 
-	        'evaluate': function(scope) {
-	          return 'rm-list-item';
+	          'evaluate': function(
+	            _scope
+	          ) {
+	            return 'rm-list-item';
+	          },
+
+	          'slots': [
+	            {
+	              'id': 'default',
+	              'html': ' ',
+
+	              'bindings': [
+	                {
+	                  'expressions': [
+	                    {
+	                      'type': expressionTypes.TEXT,
+	                      'childNodeIndex': 0,
+
+	                      'evaluate': function(
+	                        _scope
+	                      ) {
+	                        return _scope.props.label;
+	                      }
+	                    }
+	                  ]
+	                }
+	              ]
+	            }
+	          ],
+
+	          'attributes': [],
+	          'redundantAttribute': 'expr2',
+	          'selector': '[expr2]'
 	        },
-
-	        'slots': [{
-	          'id': 'default',
-	          'html': ' ',
-
-	          'bindings': [{
-	            'expressions': [{
-	              'type': expressionTypes.TEXT,
-	              'childNodeIndex': 0,
-
-	              'evaluate': function(scope) {
-	                return scope.props.label;
-	              }
-	            }]
-	          }]
-	        }],
-
-	        'attributes': [],
-	        'redundantAttribute': 'expr2',
-	        'selector': '[expr2]'
-	      }, {
-	        'type': bindingTypes.SLOT,
-	        'attributes': [],
-	        'name': 'default',
-	        'redundantAttribute': 'expr3',
-	        'selector': '[expr3]'
-	      }]
+	        {
+	          'type': bindingTypes.SLOT,
+	          'attributes': [],
+	          'name': 'default',
+	          'redundantAttribute': 'expr3',
+	          'selector': '[expr3]'
+	        }
+	      ]
 	    );
 	  },
 
 	  'name': 'rm-list-group'
 	};
 
-	return index$1;
+	return index;
 
 })));
