@@ -41,21 +41,37 @@ export interface IRipple {
     [RIPPLE_COUNT]: number;
 }
 
-document.head.appendChild(document.createElement("style")).innerHTML = `
-.rm-ripple-container { overflow: hidden; position: relative; }
-.rm-ripple-container--unbounded { overflow: visible; }
-.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,
-.rm-ripple-container--highlighto:not([disabled]):hover::after {
-    content: ''; position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    background: black; background: var(--ripple-color, black); pointer-events: none;
-    border-radius: inherit; opacity: .1;
+let destroyer: (() => void) | null = null;
+export function init() {
+    if (destroyer !== null) {
+        return destroyer;
+    }
+
+    const style = document.head.appendChild(document.createElement("style"));
+    style.innerHTML = `
+    .rm-ripple-container { overflow: hidden; position: relative; }
+    .rm-ripple-container--unbounded { overflow: visible; }
+    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,
+    .rm-ripple-container--highlighto:not([disabled]):hover::after {
+        content: ''; position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        background: black; background: var(--ripple-color, black); pointer-events: none;
+        border-radius: inherit; opacity: .1;
+    }
+    .rm-ripple {
+        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;
+        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/
+        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;
+    }`;
+    const listener = () => { canEventStartRipple = true; };
+    window.addEventListener("pointerdown", listener);
+    
+    return destroyer = () => {
+        document.head.removeChild(style);
+        window.removeEventListener("pointerdown", listener);
+        destroyer = null;
+    };
 }
-.rm-ripple {
-    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;
-    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/
-    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;
-}`;
 
 let scaleUpStyle: string;
 {
@@ -166,6 +182,7 @@ export function ripple(element: HTMLElement, options?: IRippleOptions): IRipple 
     if (options == null && ripple != null) {
         return ripple;
     }
+    init();
     options = {
         radius: undefined,
         unbounded: false,
