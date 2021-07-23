@@ -181,7 +181,7 @@ var index = {
           'getComponent': getComponent,
 
           'evaluate': function(
-            scope
+            _scope
           ) {
             return 'rm-textfield-container';
           },
@@ -202,11 +202,11 @@ var index = {
                       'name': 'class',
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
                         return [
                           'rm-textfield--input',
-                          scope.state.focused || scope.root.value ? ' rm-textfield--input-visible' : ''
+                          _scope.state.focused || _scope.root.value ? ' rm-textfield--input-visible' : ''
                         ].join(
                           ''
                         );
@@ -217,9 +217,9 @@ var index = {
                       'name': 'oninput',
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope._oninputinput;
+                        return _scope._oninputinput;
                       }
                     },
                     {
@@ -227,18 +227,18 @@ var index = {
                       'name': 'type',
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope.getType();
+                        return _scope.getType();
                       }
                     },
                     {
                       'type': expressionTypes.VALUE,
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope.root.value;
+                        return _scope.root.value;
                       }
                     },
                     {
@@ -246,9 +246,9 @@ var index = {
                       'name': 'name',
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope.props.name;
+                        return _scope.props.name;
                       }
                     },
                     {
@@ -256,9 +256,9 @@ var index = {
                       'name': 'placeholder',
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope.props.placeholder;
+                        return _scope.props.placeholder;
                       }
                     }
                   ]
@@ -267,9 +267,9 @@ var index = {
                   'type': bindingTypes.IF,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isDisabled() || scope.isReadonly();
+                    return _scope.isDisabled() || _scope.isReadonly();
                   },
 
                   'redundantAttribute': 'expr2',
@@ -285,9 +285,9 @@ var index = {
                             'childNodeIndex': 0,
 
                             'evaluate': function(
-                              scope
+                              _scope
                             ) {
-                              return scope.root.value;
+                              return _scope.root.value;
                             }
                           }
                         ]
@@ -320,9 +320,9 @@ var index = {
                   'type': bindingTypes.IF,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isClearable() && scope.root.value;
+                    return _scope.isClearable() && _scope.root.value;
                   },
 
                   'redundantAttribute': 'expr4',
@@ -336,7 +336,7 @@ var index = {
                         'getComponent': getComponent,
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
                           return 'rm-button';
                         },
@@ -355,9 +355,9 @@ var index = {
                             'name': 'onclick',
 
                             'evaluate': function(
-                              scope
+                              _scope
                             ) {
-                              return scope.clear;
+                              return _scope.clear;
                             }
                           },
                           {
@@ -365,9 +365,9 @@ var index = {
                             'name': 'tabindex',
 
                             'evaluate': function(
-                              scope
+                              _scope
                             ) {
-                              return scope.isDisabled() ? "-1" : null;
+                              return _scope.isDisabled() ? "-1" : null;
                             }
                           }
                         ]
@@ -392,9 +392,9 @@ var index = {
               'name': 'variant',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.variant;
+                return _scope.props.variant;
               }
             },
             {
@@ -402,9 +402,9 @@ var index = {
               'name': 'label',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.label;
+                return _scope.props.label;
               }
             },
             {
@@ -412,9 +412,9 @@ var index = {
               'name': 'full-width',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isFullWidth();
+                return _scope.isFullWidth();
               }
             },
             {
@@ -422,9 +422,9 @@ var index = {
               'name': 'disabled',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isDisabled();
+                return _scope.isDisabled();
               }
             },
             {
@@ -432,9 +432,9 @@ var index = {
               'name': 'class',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._getTextfieldContainerClass();
+                return _scope._getTextfieldContainerClass();
               }
             },
             {
@@ -442,9 +442,9 @@ var index = {
               'name': 'onmousedown',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._oncontainermousedown;
+                return _scope._oncontainermousedown;
               }
             }
           ],
