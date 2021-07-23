@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.0] - 2021-07-23
+- update dependencies
+
 ## [1.0.6] - 2021-06-08
 - fix undefined parent
 - update dependencies
