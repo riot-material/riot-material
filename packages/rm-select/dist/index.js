@@ -439,7 +439,7 @@
               'getComponent': getComponent,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
                 return 'rm-menu';
               },
@@ -467,9 +467,9 @@
                   'name': 'onselected',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._onmenuselected;
+                    return _scope._onmenuselected;
                   }
                 },
                 {
@@ -477,9 +477,9 @@
                   'name': 'opened',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.state.menuopened;
+                    return _scope.state.menuopened;
                   }
                 },
                 {
@@ -487,9 +487,9 @@
                   'name': 'variant',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.getVariant();
+                    return _scope.getVariant();
                   }
                 },
                 {
@@ -497,9 +497,9 @@
                   'name': 'selected',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.state.selected;
+                    return _scope.state.selected;
                   }
                 },
                 {
@@ -507,9 +507,9 @@
                   'name': 'onopen',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.dispatchMenuEvent;
+                    return _scope.dispatchMenuEvent;
                   }
                 },
                 {
@@ -517,9 +517,9 @@
                   'name': 'onclose',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.dispatchMenuEvent;
+                    return _scope.dispatchMenuEvent;
                   }
                 }
               ],
@@ -532,7 +532,7 @@
               'getComponent': getComponent,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
                 return 'rm-textfield-container';
               },
@@ -547,9 +547,9 @@
                       'type': bindingTypes.IF,
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return !scope.isFilterable() || scope.isReadonly();
+                        return !_scope.isFilterable() || _scope.isReadonly();
                       },
 
                       'redundantAttribute': 'expr3',
@@ -565,9 +565,9 @@
                                 'childNodeIndex': 0,
 
                                 'evaluate': function(
-                                  scope
+                                  _scope
                                 ) {
-                                  return scope.getLabel();
+                                  return _scope.getLabel();
                                 }
                               }
                             ]
@@ -585,9 +585,9 @@
                           'name': 'onfocus',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope._oninputfocus;
+                            return _scope._oninputfocus;
                           }
                         },
                         {
@@ -595,9 +595,9 @@
                           'name': 'onblur',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope._oninputblur;
+                            return _scope._oninputblur;
                           }
                         },
                         {
@@ -605,9 +605,9 @@
                           'name': 'oninput',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope._oninputinput;
+                            return _scope._oninputinput;
                           }
                         },
                         {
@@ -615,9 +615,9 @@
                           'name': 'readonly',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return !scope.isFilterable();
+                            return !_scope.isFilterable();
                           }
                         },
                         {
@@ -625,9 +625,9 @@
                           'name': 'disabled',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope.isDisabled();
+                            return _scope.isDisabled();
                           }
                         },
                         {
@@ -635,9 +635,9 @@
                           'name': 'type',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope.isReadonly() ? "hidden" : "text";
+                            return _scope.isReadonly() ? "hidden" : "text";
                           }
                         }
                       ]
@@ -667,9 +667,9 @@
                       'type': bindingTypes.IF,
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
-                        return scope.isClearable() && scope.root.value;
+                        return _scope.isClearable() && _scope.root.value;
                       },
 
                       'redundantAttribute': 'expr6',
@@ -683,7 +683,7 @@
                             'getComponent': getComponent,
 
                             'evaluate': function(
-                              scope
+                              _scope
                             ) {
                               return 'rm-button';
                             },
@@ -702,9 +702,9 @@
                                 'name': 'onclick',
 
                                 'evaluate': function(
-                                  scope
+                                  _scope
                                 ) {
-                                  return scope.clear;
+                                  return _scope.clear;
                                 }
                               },
                               {
@@ -712,9 +712,9 @@
                                 'name': 'tabindex',
 
                                 'evaluate': function(
-                                  scope
+                                  _scope
                                 ) {
-                                  return scope.isDisabled() ? "-1" : null;
+                                  return _scope.isDisabled() ? "-1" : null;
                                 }
                               }
                             ]
@@ -734,7 +734,7 @@
                       'getComponent': getComponent,
 
                       'evaluate': function(
-                        scope
+                        _scope
                       ) {
                         return 'rm-button';
                       },
@@ -753,11 +753,11 @@
                           'name': 'class',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
                             return [
                               'rm-select--arrow',
-                              scope.state.menuopened ? ' rm-select--arrow-rotated' : ''
+                              _scope.state.menuopened ? ' rm-select--arrow-rotated' : ''
                             ].join(
                               ''
                             );
@@ -768,9 +768,9 @@
                           'name': 'disabled',
 
                           'evaluate': function(
-                            scope
+                            _scope
                           ) {
-                            return scope.isDisabled() || scope.isReadonly();
+                            return _scope.isDisabled() || _scope.isReadonly();
                           }
                         }
                       ],
@@ -788,9 +788,9 @@
                   'name': 'variant',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.getVariant();
+                    return _scope.getVariant();
                   }
                 },
                 {
@@ -798,9 +798,9 @@
                   'name': 'label',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.label;
+                    return _scope.props.label;
                   }
                 },
                 {
@@ -808,9 +808,9 @@
                   'name': 'full-width',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isFullWidth();
+                    return _scope.isFullWidth();
                   }
                 },
                 {
@@ -818,9 +818,9 @@
                   'name': 'class',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._getClassNames();
+                    return _scope._getClassNames();
                   }
                 },
                 {
@@ -828,9 +828,9 @@
                   'name': 'disabled',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isDisabled();
+                    return _scope.isDisabled();
                   }
                 }
               ],
