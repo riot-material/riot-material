@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.1] - 2021-07-23
+- change "package.json" entry points
+
 ## [1.2.0] - 2021-07-23
 - change distribution formats
 
