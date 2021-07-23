@@ -1,6 +1,10 @@
-define(function () { 'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.menuItem = factory()));
+}(this, (function () { 'use strict';
 
-  /* Riot v5.0.0, @license MIT */
+  /* Riot v6.0.1, @license MIT */
   /**
    * Convert a string from camel case to dash-case
    * @param   {string} string - probably a component tag name
@@ -87,6 +91,60 @@ define(function () { 'use strict';
 
   const replaceChild = (newNode, replaced) => replaced && replaced.parentNode && replaced.parentNode.replaceChild(newNode, replaced);
 
+  // Riot.js constants that can be used accross more modules
+  const COMPONENTS_IMPLEMENTATION_MAP$1 = new Map(),
+        DOM_COMPONENT_INSTANCE_PROPERTY$1 = Symbol('riot-component'),
+        PLUGINS_SET$1 = new Set(),
+        IS_DIRECTIVE = 'is',
+        VALUE_ATTRIBUTE = 'value',
+        MOUNT_METHOD_KEY = 'mount',
+        UPDATE_METHOD_KEY = 'update',
+        UNMOUNT_METHOD_KEY = 'unmount',
+        SHOULD_UPDATE_KEY = 'shouldUpdate',
+        ON_BEFORE_MOUNT_KEY = 'onBeforeMount',
+        ON_MOUNTED_KEY = 'onMounted',
+        ON_BEFORE_UPDATE_KEY = 'onBeforeUpdate',
+        ON_UPDATED_KEY = 'onUpdated',
+        ON_BEFORE_UNMOUNT_KEY = 'onBeforeUnmount',
+        ON_UNMOUNTED_KEY = 'onUnmounted',
+        PROPS_KEY = 'props',
+        STATE_KEY = 'state',
+        SLOTS_KEY = 'slots',
+        ROOT_KEY = 'root',
+        IS_PURE_SYMBOL = Symbol('pure'),
+        IS_COMPONENT_UPDATING = Symbol('is_updating'),
+        PARENT_KEY_SYMBOL = Symbol('parent'),
+        ATTRIBUTES_KEY_SYMBOL = Symbol('attributes'),
+        TEMPLATE_KEY_SYMBOL = Symbol('template');
+
+  var globals = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    COMPONENTS_IMPLEMENTATION_MAP: COMPONENTS_IMPLEMENTATION_MAP$1,
+    DOM_COMPONENT_INSTANCE_PROPERTY: DOM_COMPONENT_INSTANCE_PROPERTY$1,
+    PLUGINS_SET: PLUGINS_SET$1,
+    IS_DIRECTIVE: IS_DIRECTIVE,
+    VALUE_ATTRIBUTE: VALUE_ATTRIBUTE,
+    MOUNT_METHOD_KEY: MOUNT_METHOD_KEY,
+    UPDATE_METHOD_KEY: UPDATE_METHOD_KEY,
+    UNMOUNT_METHOD_KEY: UNMOUNT_METHOD_KEY,
+    SHOULD_UPDATE_KEY: SHOULD_UPDATE_KEY,
+    ON_BEFORE_MOUNT_KEY: ON_BEFORE_MOUNT_KEY,
+    ON_MOUNTED_KEY: ON_MOUNTED_KEY,
+    ON_BEFORE_UPDATE_KEY: ON_BEFORE_UPDATE_KEY,
+    ON_UPDATED_KEY: ON_UPDATED_KEY,
+    ON_BEFORE_UNMOUNT_KEY: ON_BEFORE_UNMOUNT_KEY,
+    ON_UNMOUNTED_KEY: ON_UNMOUNTED_KEY,
+    PROPS_KEY: PROPS_KEY,
+    STATE_KEY: STATE_KEY,
+    SLOTS_KEY: SLOTS_KEY,
+    ROOT_KEY: ROOT_KEY,
+    IS_PURE_SYMBOL: IS_PURE_SYMBOL,
+    IS_COMPONENT_UPDATING: IS_COMPONENT_UPDATING,
+    PARENT_KEY_SYMBOL: PARENT_KEY_SYMBOL,
+    ATTRIBUTES_KEY_SYMBOL: ATTRIBUTES_KEY_SYMBOL,
+    TEMPLATE_KEY_SYMBOL: TEMPLATE_KEY_SYMBOL
+  });
+
   const EACH = 0;
   const IF = 1;
   const SIMPLE = 2;
@@ -111,18 +169,138 @@ define(function () { 'use strict';
     VALUE
   };
 
+  const HEAD_SYMBOL = Symbol('head');
+  const TAIL_SYMBOL = Symbol('tail');
+
+  /**
+   * Create the <template> fragments text nodes
+   * @return {Object} {{head: Text, tail: Text}}
+   */
+
+  function createHeadTailPlaceholders() {
+    const head = document.createTextNode('');
+    const tail = document.createTextNode('');
+    head[HEAD_SYMBOL] = true;
+    tail[TAIL_SYMBOL] = true;
+    return {
+      head,
+      tail
+    };
+  }
+
   /**
    * Create the template meta object in case of <template> fragments
    * @param   {TemplateChunk} componentTemplate - template chunk object
    * @returns {Object} the meta property that will be passed to the mount function of the TemplateChunk
    */
+
   function createTemplateMeta(componentTemplate) {
     const fragment = componentTemplate.dom.cloneNode(true);
+    const {
+      head,
+      tail
+    } = createHeadTailPlaceholders();
     return {
       avoidDOMInjection: true,
       fragment,
-      children: Array.from(fragment.childNodes)
+      head,
+      tail,
+      children: [head, ...Array.from(fragment.childNodes), tail]
     };
+  }
+
+  /**
+   * Helper function to set an immutable property
+   * @param   {Object} source - object where the new property will be set
+   * @param   {string} key - object key where the new property will be stored
+   * @param   {*} value - value of the new property
+   * @param   {Object} options - set the propery overriding the default options
+   * @returns {Object} - the original object modified
+   */
+  function defineProperty(source, key, value, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    /* eslint-disable fp/no-mutating-methods */
+    Object.defineProperty(source, key, Object.assign({
+      value,
+      enumerable: false,
+      writable: false,
+      configurable: true
+    }, options));
+    /* eslint-enable fp/no-mutating-methods */
+
+    return source;
+  }
+  /**
+   * Define multiple properties on a target object
+   * @param   {Object} source - object where the new properties will be set
+   * @param   {Object} properties - object containing as key pair the key + value properties
+   * @param   {Object} options - set the propery overriding the default options
+   * @returns {Object} the original object modified
+   */
+
+  function defineProperties(source, properties, options) {
+    Object.entries(properties).forEach(_ref => {
+      let [key, value] = _ref;
+      defineProperty(source, key, value, options);
+    });
+    return source;
+  }
+  /**
+   * Define default properties if they don't exist on the source object
+   * @param   {Object} source - object that will receive the default properties
+   * @param   {Object} defaults - object containing additional optional keys
+   * @returns {Object} the original object received enhanced
+   */
+
+  function defineDefaults(source, defaults) {
+    Object.entries(defaults).forEach(_ref2 => {
+      let [key, value] = _ref2;
+      if (!source[key]) source[key] = value;
+    });
+    return source;
+  }
+
+  /**
+   * Get the current <template> fragment children located in between the head and tail comments
+   * @param {Comment} head - head comment node
+   * @param {Comment} tail - tail comment node
+   * @return {Array[]} children list of the nodes found in this template fragment
+   */
+
+  function getFragmentChildren(_ref) {
+    let {
+      head,
+      tail
+    } = _ref;
+    const nodes = walkNodes([head], head.nextSibling, n => n === tail, false);
+    nodes.push(tail);
+    return nodes;
+  }
+  /**
+   * Recursive function to walk all the <template> children nodes
+   * @param {Array[]} children - children nodes collection
+   * @param {ChildNode} node - current node
+   * @param {Function} check - exit function check
+   * @param {boolean} isFilterActive - filter flag to skip nodes managed by other bindings
+   * @returns {Array[]} children list of the nodes found in this template fragment
+   */
+
+  function walkNodes(children, node, check, isFilterActive) {
+    const {
+      nextSibling
+    } = node; // filter tail and head nodes together with all the nodes in between
+    // this is needed only to fix a really ugly edge case https://github.com/riot/riot/issues/2892
+
+    if (!isFilterActive && !node[HEAD_SYMBOL] && !node[TAIL_SYMBOL]) {
+      children.push(node);
+    }
+
+    if (!nextSibling || check(node)) return children;
+    return walkNodes(children, nextSibling, check, // activate the filters to skip nodes between <template> fragments that will be managed by other bindings
+    isFilterActive && !node[TAIL_SYMBOL] || nextSibling[HEAD_SYMBOL]);
   }
 
   /**
@@ -151,7 +329,7 @@ define(function () { 'use strict';
    */
 
   function isTemplate(el) {
-    return !isNil(el.content);
+    return el.tagName.toLowerCase() === 'template';
   }
   /**
    * Check that will be passed if its argument is a function
@@ -178,7 +356,7 @@ define(function () { 'use strict';
    */
 
   function isObject(value) {
-    return !isNil(value) && checkType(value, 'object');
+    return !isNil(value) && value.constructor === Object;
   }
   /**
    * Check if a value is null or undefined
@@ -213,7 +391,6 @@ define(function () { 'use strict';
   /* eslint-disable */
 
   /**
-   * @param {Node} parentNode The container where children live
    * @param {Node[]} a The list of current/live children
    * @param {Node[]} b The list of future children
    * @param {(entry: Node, action: number) => Node} get
@@ -222,7 +399,7 @@ define(function () { 'use strict';
    * @returns {Node[]} The same list of future children.
    */
 
-  var udomdiff = ((parentNode, a, b, get, before) => {
+  var udomdiff = ((a, b, get, before) => {
     const bLength = b.length;
     let aEnd = a.length;
     let bEnd = bLength;
@@ -334,7 +511,7 @@ define(function () { 'use strict';
   });
 
   const UNMOUNT_SCOPE = Symbol('unmount');
-  const EachBinding = Object.seal({
+  const EachBinding = {
     // dynamic binding properties
     // childrenMap: null,
     // node: null,
@@ -362,8 +539,7 @@ define(function () { 'use strict';
         childrenMap
       } = this;
       const collection = scope === UNMOUNT_SCOPE ? null : this.evaluate(scope);
-      const items = collection ? Array.from(collection) : [];
-      const parent = placeholder.parentNode; // prepare the diffing
+      const items = collection ? Array.from(collection) : []; // prepare the diffing
 
       const {
         newChildrenMap,
@@ -371,12 +547,14 @@ define(function () { 'use strict';
         futureNodes
       } = createPatch(items, scope, parentScope, this); // patch the DOM only if there are new nodes
 
-      udomdiff(parent, nodes, futureNodes, patch(Array.from(childrenMap.values()), parentScope), placeholder); // trigger the mounts and the updates
+      udomdiff(nodes, futureNodes, patch(Array.from(childrenMap.values()), parentScope), placeholder); // trigger the mounts and the updates
 
       batches.forEach(fn => fn()); // update the children map
 
       this.childrenMap = newChildrenMap;
-      this.nodes = futureNodes;
+      this.nodes = futureNodes; // make sure that the loop edge nodes are marked
+
+      markEdgeNodes(this.nodes);
       return this;
     },
 
@@ -385,10 +563,10 @@ define(function () { 'use strict';
       return this;
     }
 
-  });
+  };
   /**
    * Patch the DOM while diffing
-   * @param   {TemplateChunk[]} redundant - redundant tepmplate chunks
+   * @param   {any[]} redundant - list of all the children (template, nodes, context) added via each
    * @param   {*} parentScope - scope of the parent template
    * @returns {Function} patch function used by domdiff
    */
@@ -396,16 +574,25 @@ define(function () { 'use strict';
   function patch(redundant, parentScope) {
     return (item, info) => {
       if (info < 0) {
-        const element = redundant.pop();
+        // get the last element added to the childrenMap saved previously
+        const element = redundant[redundant.length - 1];
 
         if (element) {
+          // get the nodes and the template in stored in the last child of the childrenMap
           const {
             template,
+            nodes,
             context
-          } = element; // notice that we pass null as last argument because
+          } = element; // remove the last node (notice <template> tags might have more children nodes)
+
+          nodes.pop(); // notice that we pass null as last argument because
           // the root node and its children will be removed by domdiff
 
-          template.unmount(context, parentScope, null);
+          if (!nodes.length) {
+            // we have cleared all the children nodes and we can unmount this template
+            redundant.pop();
+            template.unmount(context, parentScope, null);
+          }
         }
       }
 
@@ -421,11 +608,12 @@ define(function () { 'use strict';
 
 
   function mustFilterItem(condition, context) {
-    return condition ? Boolean(condition(context)) === false : false;
+    return condition ? !condition(context) : false;
   }
   /**
    * Extend the scope of the looped template
    * @param   {Object} scope - current template scope
+   * @param   {Object} options - options
    * @param   {string} options.itemName - key to identify the looped item in the new context
    * @param   {string} options.indexName - key to identify the index of the looped item
    * @param   {number} options.index - current index
@@ -441,16 +629,29 @@ define(function () { 'use strict';
       index,
       item
     } = _ref;
-    scope[itemName] = item;
-    if (indexName) scope[indexName] = index;
+    defineProperty(scope, itemName, item);
+    if (indexName) defineProperty(scope, indexName, index);
     return scope;
+  }
+  /**
+   * Mark the first and last nodes in order to ignore them in case we need to retrieve the <template> fragment nodes
+   * @param {Array[]} nodes - each binding nodes list
+   * @returns {undefined} void function
+   */
+
+
+  function markEdgeNodes(nodes) {
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    if (first) first[HEAD_SYMBOL] = true;
+    if (last) last[TAIL_SYMBOL] = true;
   }
   /**
    * Loop the current template items
    * @param   {Array} items - expression collection value
    * @param   {*} scope - template scope
    * @param   {*} parentScope - scope of the parent template
-   * @param   {EeachBinding} binding - each binding object instance
+   * @param   {EachBinding} binding - each binding object instance
    * @returns {Object} data
    * @returns {Map} data.newChildrenMap - a Map containing the new children template structure
    * @returns {Array} data.batches - array containing the template lifecycle functions to trigger
@@ -481,15 +682,16 @@ define(function () { 'use strict';
       });
       const key = getKey ? getKey(context) : index;
       const oldItem = childrenMap.get(key);
+      const nodes = [];
 
       if (mustFilterItem(condition, context)) {
         return;
       }
 
-      const componentTemplate = oldItem ? oldItem.template : template.clone();
-      const el = oldItem ? componentTemplate.el : root.cloneNode();
       const mustMount = !oldItem;
-      const meta = isTemplateTag && mustMount ? createTemplateMeta(componentTemplate) : {};
+      const componentTemplate = oldItem ? oldItem.template : template.clone();
+      const el = componentTemplate.el || root.cloneNode();
+      const meta = isTemplateTag && mustMount ? createTemplateMeta(componentTemplate) : componentTemplate.meta;
 
       if (mustMount) {
         batches.push(() => componentTemplate.mount(el, context, parentScope, meta));
@@ -500,16 +702,17 @@ define(function () { 'use strict';
 
 
       if (isTemplateTag) {
-        const children = meta.children || componentTemplate.children;
-        futureNodes.push(...children);
+        nodes.push(...(mustMount ? meta.children : getFragmentChildren(meta)));
       } else {
-        futureNodes.push(el);
+        nodes.push(el);
       } // delete the old item from the children map
 
 
-      childrenMap.delete(key); // update the children map
+      childrenMap.delete(key);
+      futureNodes.push(...nodes); // update the children map
 
       newChildrenMap.set(key, {
+        nodes,
         template: componentTemplate,
         context,
         index
@@ -522,7 +725,7 @@ define(function () { 'use strict';
     };
   }
 
-  function create(node, _ref2) {
+  function create$6(node, _ref2) {
     let {
       evaluate,
       condition,
@@ -554,7 +757,7 @@ define(function () { 'use strict';
    * Binding responsible for the `if` directive
    */
 
-  const IfBinding = Object.seal({
+  const IfBinding = {
     // dynamic binding properties
     // node: null,
     // evaluate: null,
@@ -600,8 +803,8 @@ define(function () { 'use strict';
       return this;
     }
 
-  });
-  function create$1(node, _ref) {
+  };
+  function create$5(node, _ref) {
     let {
       evaluate,
       template
@@ -675,8 +878,6 @@ define(function () { 'use strict';
     }, {});
   }
 
-  const REMOVE_ATTRIBUTE = 'removeAttribute';
-  const SET_ATTIBUTE = 'setAttribute';
   const ElementProto = typeof Element === 'undefined' ? {} : Element.prototype;
   const isNativeHtmlProperty = memoize(name => ElementProto.hasOwnProperty(name)); // eslint-disable-line
 
@@ -688,7 +889,7 @@ define(function () { 'use strict';
    */
 
   function setAllAttributes(node, attributes) {
-    Object.entries(attributes).forEach((_ref) => {
+    Object.entries(attributes).forEach(_ref => {
       let [name, value] = _ref;
       return attributeExpression(node, {
         name
@@ -707,6 +908,26 @@ define(function () { 'use strict';
   function removeAllAttributes(node, newAttributes, oldAttributes) {
     const newKeys = newAttributes ? Object.keys(newAttributes) : [];
     Object.keys(oldAttributes).filter(name => !newKeys.includes(name)).forEach(attribute => node.removeAttribute(attribute));
+  }
+  /**
+   * Check whether the attribute value can be rendered
+   * @param {*} value - expression value
+   * @returns {boolean} true if we can render this attribute value
+   */
+
+
+  function canRenderAttribute(value) {
+    return value === true || ['string', 'number'].includes(typeof value);
+  }
+  /**
+   * Check whether the attribute should be removed
+   * @param {*} value - expression value
+   * @returns {boolean} boolean - true if the attribute can be removed}
+   */
+
+
+  function shouldRemoveAttribute(value) {
+    return !value && value !== 0;
   }
   /**
    * This methods handles the DOM attributes updates
@@ -744,16 +965,11 @@ define(function () { 'use strict';
       node[name] = value;
     }
 
-    node[getMethod(value)](name, normalizeValue(name, value));
-  }
-  /**
-   * Get the attribute modifier method
-   * @param   {*} value - if truthy we return `setAttribute` othewise `removeAttribute`
-   * @returns {string} the node attribute modifier method name
-   */
-
-  function getMethod(value) {
-    return isNil(value) || value === false || value === '' || isObject(value) || isFunction(value) ? REMOVE_ATTRIBUTE : SET_ATTIBUTE;
+    if (shouldRemoveAttribute(value)) {
+      node.removeAttribute(name);
+    } else if (canRenderAttribute(value)) {
+      node.setAttribute(name, normalizeValue(name, value));
+    }
   }
   /**
    * Get the value as string
@@ -762,11 +978,9 @@ define(function () { 'use strict';
    * @returns {string} input value as string
    */
 
-
   function normalizeValue(name, value) {
     // be sure that expressions like selected={ true } will be always rendered as selected='selected'
-    if (value === true) return name;
-    return value;
+    return value === true ? name : value;
   }
 
   const RE_EVENTS_PREFIX = /^on/;
@@ -833,7 +1047,7 @@ define(function () { 'use strict';
    * Get the the target text node to update or create one from of a comment node
    * @param   {HTMLElement} node - any html element containing childNodes
    * @param   {number} childNodeIndex - index of the text node in the childNodes list
-   * @returns {HTMLTextNode} the text node to update
+   * @returns {Text} the text node to update
    */
 
   const getTextNode = (node, childNodeIndex) => {
@@ -878,7 +1092,7 @@ define(function () { 'use strict';
     [VALUE]: valueExpression
   };
 
-  const Expression = Object.seal({
+  const Expression = {
     // Static props
     // node: null,
     // value: null,
@@ -925,7 +1139,7 @@ define(function () { 'use strict';
       return this;
     }
 
-  });
+  };
   /**
    * IO() function to handle the DOM updates
    * @param {Expression} expression - expression object
@@ -937,7 +1151,7 @@ define(function () { 'use strict';
     return expressions[expression.type](expression.node, expression, value, expression.value);
   }
 
-  function create$2(node, data) {
+  function create$4(node, data) {
     return Object.assign({}, Expression, data, {
       node: data.type === TEXT ? getTextNode(node, data.childNodeIndex) : node
     });
@@ -965,60 +1179,8 @@ define(function () { 'use strict';
     let {
       expressions
     } = _ref;
-    return Object.assign({}, flattenCollectionMethods(expressions.map(expression => create$2(node, expression)), ['mount', 'update', 'unmount']));
+    return Object.assign({}, flattenCollectionMethods(expressions.map(expression => create$4(node, expression)), ['mount', 'update', 'unmount']));
   }
-
-  // Riot.js constants that can be used accross more modules
-  const COMPONENTS_IMPLEMENTATION_MAP = new Map(),
-        DOM_COMPONENT_INSTANCE_PROPERTY = Symbol('riot-component'),
-        PLUGINS_SET = new Set(),
-        IS_DIRECTIVE = 'is',
-        VALUE_ATTRIBUTE = 'value',
-        MOUNT_METHOD_KEY = 'mount',
-        UPDATE_METHOD_KEY = 'update',
-        UNMOUNT_METHOD_KEY = 'unmount',
-        SHOULD_UPDATE_KEY = 'shouldUpdate',
-        ON_BEFORE_MOUNT_KEY = 'onBeforeMount',
-        ON_MOUNTED_KEY = 'onMounted',
-        ON_BEFORE_UPDATE_KEY = 'onBeforeUpdate',
-        ON_UPDATED_KEY = 'onUpdated',
-        ON_BEFORE_UNMOUNT_KEY = 'onBeforeUnmount',
-        ON_UNMOUNTED_KEY = 'onUnmounted',
-        PROPS_KEY = 'props',
-        STATE_KEY = 'state',
-        SLOTS_KEY = 'slots',
-        ROOT_KEY = 'root',
-        IS_PURE_SYMBOL = Symbol.for('pure'),
-        PARENT_KEY_SYMBOL = Symbol('parent'),
-        ATTRIBUTES_KEY_SYMBOL = Symbol('attributes'),
-        TEMPLATE_KEY_SYMBOL = Symbol('template');
-
-  var globals = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    COMPONENTS_IMPLEMENTATION_MAP: COMPONENTS_IMPLEMENTATION_MAP,
-    DOM_COMPONENT_INSTANCE_PROPERTY: DOM_COMPONENT_INSTANCE_PROPERTY,
-    PLUGINS_SET: PLUGINS_SET,
-    IS_DIRECTIVE: IS_DIRECTIVE,
-    VALUE_ATTRIBUTE: VALUE_ATTRIBUTE,
-    MOUNT_METHOD_KEY: MOUNT_METHOD_KEY,
-    UPDATE_METHOD_KEY: UPDATE_METHOD_KEY,
-    UNMOUNT_METHOD_KEY: UNMOUNT_METHOD_KEY,
-    SHOULD_UPDATE_KEY: SHOULD_UPDATE_KEY,
-    ON_BEFORE_MOUNT_KEY: ON_BEFORE_MOUNT_KEY,
-    ON_MOUNTED_KEY: ON_MOUNTED_KEY,
-    ON_BEFORE_UPDATE_KEY: ON_BEFORE_UPDATE_KEY,
-    ON_UPDATED_KEY: ON_UPDATED_KEY,
-    ON_BEFORE_UNMOUNT_KEY: ON_BEFORE_UNMOUNT_KEY,
-    ON_UNMOUNTED_KEY: ON_UNMOUNTED_KEY,
-    PROPS_KEY: PROPS_KEY,
-    STATE_KEY: STATE_KEY,
-    SLOTS_KEY: SLOTS_KEY,
-    ROOT_KEY: ROOT_KEY,
-    IS_PURE_SYMBOL: IS_PURE_SYMBOL,
-    PARENT_KEY_SYMBOL: PARENT_KEY_SYMBOL,
-    ATTRIBUTES_KEY_SYMBOL: ATTRIBUTES_KEY_SYMBOL,
-    TEMPLATE_KEY_SYMBOL: TEMPLATE_KEY_SYMBOL
-  });
 
   function extendParentScope(attributes, scope, parentScope) {
     if (!attributes || !attributes.length) return parentScope;
@@ -1032,7 +1194,7 @@ define(function () { 'use strict';
 
   const getRealParent = (scope, parentScope) => scope[PARENT_KEY_SYMBOL] || parentScope;
 
-  const SlotBinding = Object.seal({
+  const SlotBinding = {
     // dynamic binding properties
     // node: null,
     // name: null,
@@ -1045,7 +1207,7 @@ define(function () { 'use strict';
 
     // API methods
     mount(scope, parentScope) {
-      const templateData = scope.slots ? scope.slots.find((_ref) => {
+      const templateData = scope.slots ? scope.slots.find(_ref => {
         let {
           id
         } = _ref;
@@ -1055,13 +1217,15 @@ define(function () { 'use strict';
         parentNode
       } = this.node;
       const realParent = getRealParent(scope, parentScope);
-      this.template = templateData && create$6(templateData.html, templateData.bindings).createDOM(parentNode);
+      this.template = templateData && create(templateData.html, templateData.bindings).createDOM(parentNode);
 
       if (this.template) {
+        cleanNode(this.node);
         this.template.mount(this.node, this.getTemplateScope(scope, realParent), realParent);
-        this.template.children = moveSlotInnerContent(this.node);
+        this.template.children = Array.from(this.node.childNodes);
       }
 
+      moveSlotInnerContent(this.node);
       removeChild(this.node);
       return this;
     },
@@ -1083,32 +1247,24 @@ define(function () { 'use strict';
       return this;
     }
 
-  });
+  };
   /**
    * Move the inner content of the slots outside of them
    * @param   {HTMLElement} slot - slot node
-   * @param   {HTMLElement} children - array to fill with the child nodes detected
-   * @returns {HTMLElement[]} list of the node moved
+   * @returns {undefined} it's a void method ¯\_(ツ)_/¯
    */
 
-  function moveSlotInnerContent(slot, children) {
-    if (children === void 0) {
-      children = [];
-    }
-
-    const child = slot.firstChild;
-
-    if (child) {
-      insertBefore(child, slot);
-      return [child, ...moveSlotInnerContent(slot)];
-    }
-
-    return children;
+  function moveSlotInnerContent(slot) {
+    const child = slot && slot.firstChild;
+    if (!child) return;
+    insertBefore(child, slot);
+    moveSlotInnerContent(slot);
   }
   /**
    * Create a single slot binding
    * @param   {HTMLElement} node - slot node
-   * @param   {string} options.name - slot id
+   * @param   {string} name - slot id
+   * @param   {AttributeExpressionData[]} attributes - slot attributes
    * @returns {Object} Slot binding object
    */
 
@@ -1152,7 +1308,7 @@ define(function () { 'use strict';
     } // otherwise we return a template chunk
 
 
-    return create$6(slotsToMarkup(slots), [...slotBindings(slots), {
+    return create(slotsToMarkup(slots), [...slotBindings(slots), {
       // the attributes should be registered as binding
       // if we fallback to a normal template chunk
       expressions: attributes.map(attr => {
@@ -1190,7 +1346,7 @@ define(function () { 'use strict';
     }, '');
   }
 
-  const TagBinding = Object.seal({
+  const TagBinding = {
     // dynamic binding properties
     // node: null,
     // evaluate: null,
@@ -1206,7 +1362,7 @@ define(function () { 'use strict';
     update(scope, parentScope) {
       const name = this.evaluate(scope); // simple update
 
-      if (name === this.name) {
+      if (name && name === this.name) {
         this.tag.update(scope);
       } else {
         // unmount the old tag if it exists
@@ -1229,8 +1385,8 @@ define(function () { 'use strict';
       return this;
     }
 
-  });
-  function create$4(node, _ref2) {
+  };
+  function create$2(node, _ref2) {
     let {
       evaluate,
       getComponent,
@@ -1247,10 +1403,10 @@ define(function () { 'use strict';
   }
 
   var bindings = {
-    [IF]: create$1,
+    [IF]: create$5,
     [SIMPLE]: create$3,
-    [EACH]: create,
-    [TAG]: create$4,
+    [EACH]: create$6,
+    [TAG]: create$2,
     [SLOT]: createSlot
   };
 
@@ -1270,13 +1426,13 @@ define(function () { 'use strict';
   /**
    * Bind a new expression object to a DOM node
    * @param   {HTMLElement} root - DOM node where to bind the expression
-   * @param   {Object} binding - binding data
+   * @param   {TagBindingData} binding - binding data
    * @param   {number|null} templateTagOffset - if it's defined we need to fix the text expressions childNodeIndex offset
    * @returns {Binding} Binding object
    */
 
 
-  function create$5(root, binding, templateTagOffset) {
+  function create$1(root, binding, templateTagOffset) {
     const {
       selector,
       type,
@@ -1322,7 +1478,7 @@ define(function () { 'use strict';
   /**
    * Inject the DOM tree into a target node
    * @param   {HTMLElement} el - target element
-   * @param   {HTMLFragment|SVGElement} dom - dom tree to inject
+   * @param   {DocumentFragment|SVGElement} dom - dom tree to inject
    * @returns {undefined}
    */
 
@@ -1344,12 +1500,25 @@ define(function () { 'use strict';
   /**
    * Create the Template DOM skeleton
    * @param   {HTMLElement} el - root node where the DOM will be injected
-   * @param   {string} html - markup that will be injected into the root node
-   * @returns {HTMLFragment} fragment that will be injected into the root node
+   * @param   {string|HTMLElement} html - HTML markup or HTMLElement that will be injected into the root node
+   * @returns {?DocumentFragment} fragment that will be injected into the root node
    */
 
   function createTemplateDOM(el, html) {
     return html && (typeof html === 'string' ? createDOMTree(el, html) : html);
+  }
+  /**
+   * Get the offset of the <template> tag
+   * @param {HTMLElement} parentNode - template tag parent node
+   * @param {HTMLElement} el - the template tag we want to render
+   * @param   {Object} meta - meta properties needed to handle the <template> tags in loops
+   * @returns {number} offset of the <template> tag calculated from its siblings DOM nodes
+   */
+
+
+  function getTemplateTagOffset(parentNode, el, meta) {
+    const siblings = Array.from(parentNode.childNodes);
+    return Math.max(siblings.indexOf(el), siblings.indexOf(meta.head) + 1, 0);
   }
   /**
    * Template Chunk model
@@ -1375,7 +1544,7 @@ define(function () { 'use strict';
      */
     createDOM(el) {
       // make sure that the DOM gets created before cloning the template
-      this.dom = this.dom || createTemplateDOM(el, this.html);
+      this.dom = this.dom || createTemplateDOM(el, this.html) || document.createDocumentFragment();
       return this;
     },
 
@@ -1409,26 +1578,24 @@ define(function () { 'use strict';
         parentNode
       } = children ? children[0] : el;
       const isTemplateTag = isTemplate(el);
-      const templateTagOffset = isTemplateTag ? Math.max(Array.from(parentNode.childNodes).indexOf(el), 0) : null;
-      this.isTemplateTag = isTemplateTag; // create the DOM if it wasn't created before
+      const templateTagOffset = isTemplateTag ? getTemplateTagOffset(parentNode, el, meta) : null; // create the DOM if it wasn't created before
 
-      this.createDOM(el);
+      this.createDOM(el); // create the DOM of this template cloning the original DOM structure stored in this instance
+      // notice that if a documentFragment was passed (via meta) we will use it instead
 
-      if (this.dom) {
-        // create the new template dom fragment if it want already passed in via meta
-        this.fragment = fragment || this.dom.cloneNode(true);
-      } // store root node
+      const cloneNode = fragment || this.dom.cloneNode(true); // store root node
       // notice that for template tags the root note will be the parent tag
 
+      this.el = isTemplateTag ? parentNode : el; // create the children array only for the <template> fragments
 
-      this.el = this.isTemplateTag ? parentNode : el; // create the children array only for the <template> fragments
+      this.children = isTemplateTag ? children || Array.from(cloneNode.childNodes) : null; // inject the DOM into the el only if a fragment is available
 
-      this.children = this.isTemplateTag ? children || Array.from(this.fragment.childNodes) : null; // inject the DOM into the el only if a fragment is available
+      if (!avoidDOMInjection && cloneNode) injectDOM(el, cloneNode); // create the bindings
 
-      if (!avoidDOMInjection && this.fragment) injectDOM(el, this.fragment); // create the bindings
+      this.bindings = this.bindingsData.map(binding => create$1(this.el, binding, templateTagOffset));
+      this.bindings.forEach(b => b.mount(scope, parentScope)); // store the template meta properties
 
-      this.bindings = this.bindingsData.map(binding => create$5(this.el, binding, templateTagOffset));
-      this.bindings.forEach(b => b.mount(scope, parentScope));
+      this.meta = meta;
       return this;
     },
 
@@ -1452,31 +1619,42 @@ define(function () { 'use strict';
      * @returns {TemplateChunk} self
      */
     unmount(scope, parentScope, mustRemoveRoot) {
-      if (this.el) {
-        this.bindings.forEach(b => b.unmount(scope, parentScope, mustRemoveRoot));
-
-        switch (true) {
-          // <template> tags should be treated a bit differently
-          // we need to clear their children only if it's explicitly required by the caller
-          // via mustRemoveRoot !== null
-          case this.children && mustRemoveRoot !== null:
-            clearChildren(this.children);
-            break;
-          // remove the root node only if the mustRemoveRoot === true
-
-          case mustRemoveRoot === true:
-            removeChild(this.el);
-            break;
-          // otherwise we clean the node children
-
-          case mustRemoveRoot !== null:
-            cleanNode(this.el);
-            break;
-        }
-
-        this.el = null;
+      if (mustRemoveRoot === void 0) {
+        mustRemoveRoot = false;
       }
 
+      const el = this.el;
+
+      if (!el) {
+        return this;
+      }
+
+      this.bindings.forEach(b => b.unmount(scope, parentScope, mustRemoveRoot));
+
+      switch (true) {
+        // pure components should handle the DOM unmount updates by themselves
+        // for mustRemoveRoot === null don't touch the DOM
+        case el[IS_PURE_SYMBOL] || mustRemoveRoot === null:
+          break;
+        // if children are declared, clear them
+        // applicable for <template> and <slot/> bindings
+
+        case Array.isArray(this.children):
+          clearChildren(this.children);
+          break;
+        // clean the node children only
+
+        case !mustRemoveRoot:
+          cleanNode(el);
+          break;
+        // remove the root node only if the mustRemoveRoot is truly
+
+        case !!mustRemoveRoot:
+          removeChild(el);
+          break;
+      }
+
+      this.el = null;
       return this;
     },
 
@@ -1486,6 +1664,7 @@ define(function () { 'use strict';
      */
     clone() {
       return Object.assign({}, this, {
+        meta: {},
         el: null
       });
     }
@@ -1494,11 +1673,11 @@ define(function () { 'use strict';
   /**
    * Create a template chunk wiring also the bindings
    * @param   {string|HTMLElement} html - template string
-   * @param   {Array} bindings - bindings collection
+   * @param   {BindingData[]} bindings - bindings collection
    * @returns {TemplateChunk} a new TemplateChunk copy
    */
 
-  function create$6(html, bindings) {
+  function create(html, bindings) {
     if (bindings === void 0) {
       bindings = [];
     }
@@ -1569,9 +1748,9 @@ define(function () { 'use strict';
 
   var DOMBindings = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    template: create$6,
-    createBinding: create$5,
-    createExpression: create$2,
+    template: create,
+    createBinding: create$1,
+    createExpression: create$4,
     bindingTypes: bindingTypes,
     expressionTypes: expressionTypes
   });
@@ -1600,60 +1779,6 @@ define(function () { 'use strict';
 
   function callOrAssign(source) {
     return isFunction(source) ? source.prototype && source.prototype.constructor ? new source() : source() : source;
-  }
-
-  /**
-   * Helper function to set an immutable property
-   * @param   {Object} source - object where the new property will be set
-   * @param   {string} key - object key where the new property will be stored
-   * @param   {*} value - value of the new property
-   * @param   {Object} options - set the propery overriding the default options
-   * @returns {Object} - the original object modified
-   */
-  function defineProperty(source, key, value, options) {
-    if (options === void 0) {
-      options = {};
-    }
-
-    /* eslint-disable fp/no-mutating-methods */
-    Object.defineProperty(source, key, Object.assign({
-      value,
-      enumerable: false,
-      writable: false,
-      configurable: true
-    }, options));
-    /* eslint-enable fp/no-mutating-methods */
-
-    return source;
-  }
-  /**
-   * Define multiple properties on a target object
-   * @param   {Object} source - object where the new properties will be set
-   * @param   {Object} properties - object containing as key pair the key + value properties
-   * @param   {Object} options - set the propery overriding the default options
-   * @returns {Object} the original object modified
-   */
-
-  function defineProperties(source, properties, options) {
-    Object.entries(properties).forEach((_ref) => {
-      let [key, value] = _ref;
-      defineProperty(source, key, value, options);
-    });
-    return source;
-  }
-  /**
-   * Define default properties if they don't exist on the source object
-   * @param   {Object} source - object that will receive the default properties
-   * @param   {Object} defaults - object containing additional optional keys
-   * @returns {Object} the original object received enhanced
-   */
-
-  function defineDefaults(source, defaults) {
-    Object.entries(defaults).forEach((_ref2) => {
-      let [key, value] = _ref2;
-      if (!source[key]) source[key] = value;
-    });
-    return source;
   }
 
   /**
@@ -1899,6 +2024,13 @@ define(function () { 'use strict';
     createDOM: noop
   });
   /**
+   * Performance optimization for the recursive components
+   * @param  {RiotComponentWrapper} componentWrapper - riot compiler generated object
+   * @returns {Object} component like interface
+   */
+
+  const memoizedCreateComponent = memoize(createComponent);
+  /**
    * Evaluate the component properties either from its real attributes or from its initial user properties
    * @param   {HTMLElement} element - component root
    * @param   {Object}  initialProps - initial props
@@ -1920,7 +2052,7 @@ define(function () { 'use strict';
    */
 
 
-  const bindDOMNodeToComponentObject = (node, component) => node[DOM_COMPONENT_INSTANCE_PROPERTY] = component;
+  const bindDOMNodeToComponentObject = (node, component) => node[DOM_COMPONENT_INSTANCE_PROPERTY$1] = component;
   /**
    * Wrap the Riot.js core API methods using a mapping function
    * @param   {Function} mapFunction - lifting function
@@ -1937,14 +2069,18 @@ define(function () { 'use strict';
   /**
    * Factory function to create the component templates only once
    * @param   {Function} template - component template creation function
-   * @param   {Object} components - object containing the nested components
+   * @param   {RiotComponentWrapper} componentWrapper - riot compiler generated object
    * @returns {TemplateChunk} template chunk object
    */
 
 
-  function componentTemplateFactory(template, components) {
-    return template(create$6, expressionTypes, bindingTypes, name => {
-      return components[name] || COMPONENTS_IMPLEMENTATION_MAP.get(name);
+  function componentTemplateFactory(template, componentWrapper) {
+    const components = createSubcomponents(componentWrapper.exports ? componentWrapper.exports.components : {});
+    return template(create, expressionTypes, bindingTypes, name => {
+      // improve support for recursive components
+      if (name === componentWrapper.name) return memoizedCreateComponent(componentWrapper); // return the registered components
+
+      return components[name] || COMPONENTS_IMPLEMENTATION_MAP$1.get(name);
     });
   }
   /**
@@ -1982,7 +2118,9 @@ define(function () { 'use strict';
       // intercept the mount calls to bind the DOM node to the pure object created
       // see also https://github.com/riot/riot/issues/2806
       if (method === MOUNT_METHOD_KEY) {
-        const [el] = args;
+        const [el] = args; // mark this node as pure element
+
+        el[IS_PURE_SYMBOL] = true;
         bindDOMNodeToComponentObject(el, component);
       }
 
@@ -1992,28 +2130,29 @@ define(function () { 'use strict';
   }
   /**
    * Create the component interface needed for the @riotjs/dom-bindings tag bindings
-   * @param   {string} options.css - component css
-   * @param   {Function} options.template - functon that will return the dom-bindings template function
-   * @param   {Object} options.exports - component interface
-   * @param   {string} options.name - component name
+   * @param   {RiotComponentWrapper} componentWrapper - riot compiler generated object
+   * @param   {string} componentWrapper.css - component css
+   * @param   {Function} componentWrapper.template - function that will return the dom-bindings template function
+   * @param   {Object} componentWrapper.exports - component interface
+   * @param   {string} componentWrapper.name - component name
    * @returns {Object} component like interface
    */
 
 
-  function createComponent(_ref2) {
-    let {
+  function createComponent(componentWrapper) {
+    const {
       css,
       template,
       exports,
       name
-    } = _ref2;
-    const templateFn = template ? componentTemplateFactory(template, exports ? createSubcomponents(exports.components) : {}) : MOCKED_TEMPLATE_INTERFACE;
-    return (_ref3) => {
+    } = componentWrapper;
+    const templateFn = template ? componentTemplateFactory(template, componentWrapper) : MOCKED_TEMPLATE_INTERFACE;
+    return _ref2 => {
       let {
         slots,
         attributes,
         props
-      } = _ref3;
+      } = _ref2;
       // pure components rendering will be managed by the end user
       if (exports && exports[IS_PURE_SYMBOL]) return createPureComponent(exports, {
         slots,
@@ -2060,17 +2199,18 @@ define(function () { 'use strict';
    * @returns {Object} a new component implementation object
    */
 
-  function defineComponent(_ref4) {
+  function defineComponent(_ref3) {
     let {
       css,
       template,
       componentAPI,
       name
-    } = _ref4;
+    } = _ref3;
     // add the component css into the DOM
     if (css && name) cssManager.add(name, css);
     return curry(enhanceComponentAPI)(defineProperties( // set the component defaults without overriding the original component API
     defineDefaults(componentAPI, Object.assign({}, COMPONENT_LIFECYCLE_METHODS, {
+      [PROPS_KEY]: {},
       [STATE_KEY]: {}
     })), Object.assign({
       // defined during the component creation
@@ -2094,7 +2234,7 @@ define(function () { 'use strict';
       attributes = [];
     }
 
-    const expressions = attributes.map(a => create$2(node, a));
+    const expressions = attributes.map(a => create$4(node, a));
     const binding = {};
     return Object.assign(binding, Object.assign({
       expressions
@@ -2115,8 +2255,8 @@ define(function () { 'use strict';
       components = {};
     }
 
-    return Object.entries(callOrAssign(components)).reduce((acc, _ref5) => {
-      let [key, value] = _ref5;
+    return Object.entries(callOrAssign(components)).reduce((acc, _ref4) => {
+      let [key, value] = _ref4;
       acc[camelToDashCase(key)] = createComponent(value);
       return acc;
     }, {});
@@ -2129,7 +2269,7 @@ define(function () { 'use strict';
 
 
   function runPlugins(component) {
-    return [...PLUGINS_SET].reduce((c, fn) => fn(c) || c, component);
+    return [...PLUGINS_SET$1].reduce((c, fn) => fn(c) || c, component);
   }
   /**
    * Compute the component current state merging it with its previous state
@@ -2164,18 +2304,19 @@ define(function () { 'use strict';
    */
 
 
-  function enhanceComponentAPI(component, _ref6) {
+  function enhanceComponentAPI(component, _ref5) {
     let {
       slots,
       attributes,
       props
-    } = _ref6;
-    return autobindMethods(runPlugins(defineProperties(Object.create(component), {
+    } = _ref5;
+    return autobindMethods(runPlugins(defineProperties(isObject(component) ? Object.create(component) : component, {
       mount(element, state, parentScope) {
         if (state === void 0) {
           state = {};
         }
 
+        this[PARENT_KEY_SYMBOL] = parentScope;
         this[ATTRIBUTES_KEY_SYMBOL] = createAttributeBindings(element, attributes).mount(parentScope);
         defineProperty(this, PROPS_KEY, Object.freeze(Object.assign({}, evaluateInitialProps(element, props), evaluateAttributeExpressions(this[ATTRIBUTES_KEY_SYMBOL].expressions))));
         this[STATE_KEY] = computeState(this[STATE_KEY], state);
@@ -2189,8 +2330,7 @@ define(function () { 'use strict';
 
         defineProperty(this, SLOTS_KEY, slots); // before mount lifecycle event
 
-        this[ON_BEFORE_MOUNT_KEY](this[PROPS_KEY], this[STATE_KEY]);
-        this[PARENT_KEY_SYMBOL] = parentScope; // mount the template
+        this[ON_BEFORE_MOUNT_KEY](this[PROPS_KEY], this[STATE_KEY]); // mount the template
 
         this[TEMPLATE_KEY_SYMBOL].mount(element, this, parentScope);
         this[ON_MOUNTED_KEY](this[PROPS_KEY], this[STATE_KEY]);
@@ -2211,9 +2351,16 @@ define(function () { 'use strict';
         if (this[SHOULD_UPDATE_KEY](newProps, this[PROPS_KEY]) === false) return;
         defineProperty(this, PROPS_KEY, Object.freeze(Object.assign({}, this[PROPS_KEY], newProps)));
         this[STATE_KEY] = computeState(this[STATE_KEY], state);
-        this[ON_BEFORE_UPDATE_KEY](this[PROPS_KEY], this[STATE_KEY]);
-        this[TEMPLATE_KEY_SYMBOL].update(this, this[PARENT_KEY_SYMBOL]);
+        this[ON_BEFORE_UPDATE_KEY](this[PROPS_KEY], this[STATE_KEY]); // avoiding recursive updates
+        // see also https://github.com/riot/riot/issues/2895
+
+        if (!this[IS_COMPONENT_UPDATING]) {
+          this[IS_COMPONENT_UPDATING] = true;
+          this[TEMPLATE_KEY_SYMBOL].update(this, this[PARENT_KEY_SYMBOL]);
+        }
+
         this[ON_UPDATED_KEY](this[PROPS_KEY], this[STATE_KEY]);
+        this[IS_COMPONENT_UPDATING] = false;
         return this;
       },
 
@@ -2240,76 +2387,19 @@ define(function () { 'use strict';
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  		path: basedir,
-  		exports: {},
-  		require: function (path, base) {
-  			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-  		}
-  	}, fn(module, module.exports), module.exports;
-  }
+  var whatInput$1 = {exports: {}};
 
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var dist = createCommonjsModule(function (module, exports) {
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
-  /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation.
-
-  Permission to use, copy, modify, and/or distribute this software for any
-  purpose with or without fee is hereby granted.
-
-  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  PERFORMANCE OF THIS SOFTWARE.
-  ***************************************************************************** */
-
-  var __assign = function() {
-      __assign = Object.assign || function __assign(t) {
-          for (var s, i = 1, n = arguments.length; i < n; i++) {
-              s = arguments[i];
-              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-          }
-          return t;
-      };
-      return __assign.apply(this, arguments);
-  };
-
-  var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : typeof self !== 'undefined' ? self : {};
-
-  function createCommonjsModule(fn, basedir, module) {
-  	return module = {
-  		path: basedir,
-  		exports: {},
-  		require: function (path, base) {
-  			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-  		}
-  	}, fn(module, module.exports), module.exports;
-  }
-
-  function commonjsRequire () {
-  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-  }
-
-  var whatInput = createCommonjsModule(function (module, exports) {
   /**
    * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
    * @version v5.2.10
    * @link https://github.com/ten1seven/what-input
    * @license MIT
    */
+
+  (function (module, exports) {
   (function webpackUniversalModuleDefinition(root, factory) {
   	module.exports = factory();
-  })(commonjsGlobal$1, function() {
+  })(commonjsGlobal, function() {
   return /******/ (function(modules) { // webpackBootstrap
   /******/ 	// The module cache
   /******/ 	var installedModules = {};
@@ -2808,28 +2898,72 @@ define(function () { 'use strict';
   /***/ })
   /******/ ])
   });
-  });
+  }(whatInput$1));
+
+  var whatInput = whatInput$1.exports;
+
+  /*! *****************************************************************************
+  Copyright (c) Microsoft Corporation.
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+  ***************************************************************************** */
+
+  var __assign = function() {
+      __assign = Object.assign || function __assign(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+              s = arguments[i];
+              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+          }
+          return t;
+      };
+      return __assign.apply(this, arguments);
+  };
 
   var RIPPLE = Symbol("ripple");
   var RIPPLE_COUNT = Symbol("ripple-count");
   var RIPPLE_OPTIONS = Symbol("ripple_options");
+  var TYPE;
   (function (TYPE) {
       TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
       TYPE[TYPE["QUICK"] = 1] = "QUICK";
       TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
-  })(exports.TYPE || (exports.TYPE = {}));
-  document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
+  })(TYPE || (TYPE = {}));
+  var canEventStartRipple = true;
   var scaleUpStyle;
-  {
-      var div = document.createElement("div");
-      div.style.transform = "scale(1)";
-      document.body.appendChild(div);
-      scaleUpStyle = window.getComputedStyle(div).transform;
-      document.body.removeChild(div);
+  var destroyer = null;
+  function init() {
+      if (destroyer !== null) {
+          return destroyer;
+      }
+      {
+          var div = document.createElement("div");
+          div.style.transform = "scale(1)";
+          document.body.appendChild(div);
+          scaleUpStyle = window.getComputedStyle(div).transform;
+          document.body.removeChild(div);
+      }
+      var style = document.head.appendChild(document.createElement("style"));
+      style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
+      var listener = function () { canEventStartRipple = true; };
+      window.addEventListener("pointerdown", listener);
+      return destroyer = function () {
+          document.head.removeChild(style);
+          window.removeEventListener("pointerdown", listener);
+          destroyer = null;
+      };
   }
   var Ripple = (function () {
       function Ripple(x, y, r, type) {
-          if (type === void 0) { type = exports.TYPE.NORMAL; }
+          if (type === void 0) { type = TYPE.NORMAL; }
           this._ended = false;
           this._onEnd = null;
           var div = this._div = document.createElement("div");
@@ -2848,11 +2982,11 @@ define(function () { 'use strict';
                   "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
           }
           switch (type) {
-              case exports.TYPE.QUICK: {
+              case TYPE.QUICK: {
                   div.style.transitionDuration = "175ms";
                   break;
               }
-              case exports.TYPE.INSTANT: {
+              case TYPE.INSTANT: {
                   div.style.transitionDuration = "0ms";
               }
           }
@@ -2865,18 +2999,16 @@ define(function () { 'use strict';
               return;
           }
           var rect = this._div.getBoundingClientRect();
-          if (rect.width === 0 && rect.height === 0) {
-              element.removeChild(this._div);
-              return;
-          }
-          if (this._computedStyle.transform === scaleUpStyle) {
-              if (this._computedStyle.opacity === "0") {
-                  element.removeChild(this._div);
-                  return;
-              }
-              else {
-                  if (this._ended) {
-                      this._div.style.opacity = "0";
+          if (rect.width !== 0 || rect.height !== 0) {
+              if (this._computedStyle.transform === scaleUpStyle) {
+                  if (this._computedStyle.opacity === "0") {
+                      element.removeChild(this._div);
+                      return;
+                  }
+                  else {
+                      if (this._ended) {
+                          this._div.style.opacity = "0";
+                      }
                   }
               }
           }
@@ -2915,15 +3047,14 @@ define(function () { 'use strict';
       };
       return Ripple;
   }());
-  var canEventStartRipple = true;
-  window.addEventListener("pointerdown", function () { canEventStartRipple = true; });
   function ripple(element, options) {
       var _a;
       var ripple = element[RIPPLE];
       if (options == null && ripple != null) {
           return ripple;
       }
-      options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: false, stopRippling: false }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+      init();
+      options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
       if (options.detectLabel != null && !options.detectLabel) {
           options.usePointerFocus = false;
       }
@@ -2933,12 +3064,11 @@ define(function () { 'use strict';
       if (ripple) {
           return ripple.set(options);
       }
-      var lastX = null;
-      var lastY = null;
       var pointerElement = element;
       var lastFocusTarget = undefined;
       var onFocus = function (event) {
-          if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+          var _a;
+          if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
               return;
           }
           ripple.start(null, null, event);
@@ -2952,7 +3082,7 @@ define(function () { 'use strict';
       ripple = (_a = {
               highlight: function () {
                   var _this = this;
-                  var currentRipple = new Ripple(0, 0, null, exports.TYPE.INSTANT).attachTo(element, function () {
+                  var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
                       _this[RIPPLE_COUNT]--;
                   });
                   this[RIPPLE_COUNT]++;
@@ -2960,15 +3090,15 @@ define(function () { 'use strict';
               },
               start: function (x, y, event, type) {
                   var _this = this;
-                  if (type === void 0) { type = exports.TYPE.NORMAL; }
+                  if (type === void 0) { type = TYPE.NORMAL; }
                   var isFocus = !!(event && event.type === "focus");
                   var isMouseEnter = !!(event && event.type === "mouseenter");
                   var options = this[RIPPLE_OPTIONS];
                   if (isFocus) {
-                      type = options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                      type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                   }
                   else if (isMouseEnter) {
-                      type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? exports.TYPE.INSTANT : exports.TYPE.QUICK;
+                      type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
                   }
                   var r = null;
                   var rect = null;
@@ -3107,12 +3237,11 @@ define(function () { 'use strict';
               return;
           }
           var rect = element.getBoundingClientRect();
-          ripple.start(lastX = event.clientX - rect.x, lastY = event.clientY - rect.y, event);
+          ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
           if (ripple[RIPPLE_OPTIONS].stopRippling) {
               canEventStartRipple = false;
           }
           setTimeout(function () {
-              lastX = lastY = null;
           }, 0);
       });
       element[RIPPLE] = ripple;
@@ -3120,13 +3249,6 @@ define(function () { 'use strict';
       ripple.set(options);
       return ripple;
   }
-  function isRipple(element) {
-      return element[RIPPLE] != null;
-  }
-
-  exports.isRipple = isRipple;
-  exports.ripple = ripple;
-  });
 
   var index = {
     'css': `rm-menu-item,[is="rm-menu-item"]{ display: contents; } rm-menu-item > button,[is="rm-menu-item"] > button{ font-size: 16px; line-height: 1.5em; padding: 0.75em 1em; border: 0; background: none; width: 100%; text-align: left; cursor: pointer; outline: none; display: block; min-height: 3em; } rm-menu-item[title] > button,[is="rm-menu-item"][title] > button{ font-weight: bold; color: rgba(0, 0, 0, 0.9); } rm-menu-item[inset] > button,[is="rm-menu-item"][inset] > button{ padding-left: 4.5em; } rm-menu-item[short-inset] > button,[is="rm-menu-item"][short-inset] > button{ padding-left: 2em; } rm-menu-item[passive] > button,[is="rm-menu-item"][passive] > button{ cursor: initial; }`,
@@ -3163,7 +3285,7 @@ define(function () { 'use strict';
               this._select = parent;
           }
           if (this.props.tabindex == null || !(parseInt(this.props.tabindex) < 0)) {
-              dist.ripple(this.root.firstElementChild, {
+              ripple(this.root.firstElementChild, {
                   highlight: !this.getPassive(),
                   instantHighlight: true,
                   disabled: this.getPassive()
@@ -3173,7 +3295,7 @@ define(function () { 'use strict';
 
       onUpdated() {
           if (this.props.tabindex == null || !(parseInt(this.props.tabindex) < 0)) {
-              dist.ripple(this.root.firstElementChild, {
+              ripple(this.root.firstElementChild, {
                   highlight: !this.getPassive(),
                   instantHighlight: true,
                   disabled: this.getPassive()
@@ -3224,33 +3346,51 @@ define(function () { 'use strict';
       }
     },
 
-    'template': function(template, expressionTypes, bindingTypes, getComponent) {
-      return template('<button expr6="expr6"><slot expr7="expr7"></slot></button>', [{
-        'redundantAttribute': 'expr6',
-        'selector': '[expr6]',
+    'template': function(
+      template,
+      expressionTypes,
+      bindingTypes,
+      getComponent
+    ) {
+      return template(
+        '<button expr2="expr2"><slot expr3="expr3"></slot></button>',
+        [
+          {
+            'redundantAttribute': 'expr2',
+            'selector': '[expr2]',
 
-        'expressions': [{
-          'type': expressionTypes.ATTRIBUTE,
-          'name': 'tabindex',
+            'expressions': [
+              {
+                'type': expressionTypes.ATTRIBUTE,
+                'name': 'tabindex',
 
-          'evaluate': function(scope) {
-            return scope.props.tabindex;
+                'evaluate': function(
+                  _scope
+                ) {
+                  return _scope.props.tabindex;
+                }
+              },
+              {
+                'type': expressionTypes.EVENT,
+                'name': 'onclick',
+
+                'evaluate': function(
+                  _scope
+                ) {
+                  return _scope.setSelected.bind(_scope, true);
+                }
+              }
+            ]
+          },
+          {
+            'type': bindingTypes.SLOT,
+            'attributes': [],
+            'name': 'default',
+            'redundantAttribute': 'expr3',
+            'selector': '[expr3]'
           }
-        }, {
-          'type': expressionTypes.EVENT,
-          'name': 'onclick',
-
-          'evaluate': function(scope) {
-            return scope.setSelected.bind(scope, true);
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'default',
-        'redundantAttribute': 'expr7',
-        'selector': '[expr7]'
-      }]);
+        ]
+      );
     },
 
     'name': 'rm-menu-item'
@@ -3258,4 +3398,4 @@ define(function () { 'use strict';
 
   return index;
 
-});
+})));

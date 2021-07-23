@@ -1,4 +1,4 @@
-import { __ } from 'riot';
+import * as riot from 'riot';
 import { ripple } from '@riot-material/ripple';
 
 var index = {
@@ -22,7 +22,7 @@ var index = {
         });
         let parent = this.root.parentElement;
         while (parent) {
-            const instance = parent[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+            const instance = parent[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
             if (instance != null && instance.name === "rm-select") {
                 parent = instance;
                 break;
@@ -97,33 +97,51 @@ var index = {
     }
   },
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<button expr2="expr2"><slot expr3="expr3"></slot></button>', [{
-      'redundantAttribute': 'expr2',
-      'selector': '[expr2]',
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      '<button expr0="expr0"><slot expr1="expr1"></slot></button>',
+      [
+        {
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
 
-      'expressions': [{
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'tabindex',
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'tabindex',
 
-        'evaluate': function(scope) {
-          return scope.props.tabindex;
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope.props.tabindex;
+              }
+            },
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onclick',
+
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope.setSelected.bind(_scope, true);
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'default',
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]'
         }
-      }, {
-        'type': expressionTypes.EVENT,
-        'name': 'onclick',
-
-        'evaluate': function(scope) {
-          return scope.setSelected.bind(scope, true);
-        }
-      }]
-    }, {
-      'type': bindingTypes.SLOT,
-      'attributes': [],
-      'name': 'default',
-      'redundantAttribute': 'expr3',
-      'selector': '[expr3]'
-    }]);
+      ]
+    );
   },
 
   'name': 'rm-menu-item'
