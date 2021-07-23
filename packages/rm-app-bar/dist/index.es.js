@@ -1,4 +1,4 @@
-import utils from '@riot-material/app-bar-utils';
+import * as utils from '@riot-material/app-bar-utils';
 import { init } from '@riot-material/elevation';
 
 var index = {

@@ -97,9 +97,9 @@
         }
     }
 
-    dist.getHeight = getHeight;
-    dist.offChange = offChange;
-    dist.onChange = onChange;
+    var getHeight_1 = dist.getHeight = getHeight;
+    var offChange_1 = dist.offChange = offChange;
+    var onChange_1 = dist.onChange = onChange;
     dist.onceChange = onceChange;
     dist.setup = setup;
 
@@ -160,7 +160,7 @@
         },
 
         onMounted() {
-            dist.onChange(this.update, this);
+            onChange_1(this.update, this);
             window.addEventListener("resize", this._onresize = () => {
                 this._recalculateScrollbar();
             });
@@ -172,13 +172,13 @@
 
         onUnmounted() {
             this._mounted = false;
-            dist.offChange(this.update, this);
+            offChange_1(this.update, this);
             this.setScrollTarget(null);
             window.removeEventListener("resize", this._onresize);
         },
 
         getHeight() {
-            return dist.getHeight();
+            return getHeight_1();
         },
 
         _onresize: null,
