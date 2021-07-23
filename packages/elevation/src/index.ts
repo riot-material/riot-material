@@ -1,7 +1,22 @@
-import style from "@material/elevation/dist/mdc.elevation.css";
-if ((style as any)._______) { (style as any).justForCorrectlyInjectStyle(); }
+import css from "@material/elevation/dist/mdc.elevation.css";
 
-export default function elevation(element: HTMLElement, elevation: number | null): void {
+let destroyer: (() => void) | null = null;
+export function init() {
+    if (destroyer !== null) {
+        return destroyer;
+    }
+
+    const style = document.head.appendChild(document.createElement("style"));
+    style.innerHTML = css;
+
+    return destroyer = () => {
+        document.head.removeChild(style);
+        destroyer = null;
+    };
+}
+
+export function elevation(element: HTMLElement, elevation: number | null): void {
+    init();
     for (let i: number = 0; i <= 24; i++) {
         if (i === elevation) {
             continue;
@@ -15,3 +30,4 @@ export default function elevation(element: HTMLElement, elevation: number | null
         element.classList.remove("mdc-elevation-transition");
     }
 }
+export default elevation;

@@ -11,50 +11,22 @@ export default [
             postcss({
                 plugins: [ postcssurl({ url: "inline" })/* , autoprefixer() */],
                 sourceMap: false,
-                extract: false,
-                minimize: true
+                minimize: true,
+                inject: false
             }),
             typescript()
         ],
-        output: {
-            file: "dist/index.amd.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "src/index.ts",
-        plugins: [
-            nodeResolve(),
-            postcss({
-                plugins: [ postcssurl({ url: "inline" })/* , autoprefixer() */],
-                sourceMap: false,
-                extract: false,
-                minimize: true
-            }),
-            typescript()
-        ],
-        output: {
-            file: "dist/index.js",
-            exports: "auto",
-            format: "cjs"
-        }
-    },
-    {
-        input: "src/index.ts",
-        plugins: [
-            nodeResolve(),
-            postcss({
-                plugins: [ postcssurl({ url: "inline" })/* , autoprefixer() */],
-                sourceMap: false,
-                extract: false,
-                minimize: true
-            }),
-            typescript()
-        ],
-        output: {
-            name: "riotMaterial.elevation",
-            file: "dist/index.umd.js",
-            format: "umd"
-        }
+        output: [
+            {
+                name: "riotMaterial.elevation",
+                file: "dist/index.js",
+                format: "umd",
+                exports: "named"
+            },
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            }
+        ]
     }
 ]
