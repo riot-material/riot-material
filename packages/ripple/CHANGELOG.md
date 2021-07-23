@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.2] - 2021-07-23
+- fix duplicate setup
+
 ## [1.1.1] - 2021-07-23
 - avoid setup on module import again
 

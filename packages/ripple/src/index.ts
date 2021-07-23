@@ -41,6 +41,7 @@ export interface IRipple {
     [RIPPLE_COUNT]: number;
 }
 
+let canEventStartRipple: boolean = true;
 let scaleUpStyle: string;
 let destroyer: (() => void) | null = null;
 export function init() {
@@ -174,8 +175,6 @@ class Ripple {
     }
 }
 
-let canEventStartRipple: boolean = true;
-window.addEventListener("pointerdown", () => { canEventStartRipple = true; });
 export function ripple(element: HTMLElement, options?: IRippleOptions): IRipple {
     // get the ripple generator stored in the element
     let ripple: IRipple | undefined = element[RIPPLE];

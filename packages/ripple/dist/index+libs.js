@@ -556,6 +556,7 @@
         TYPE[TYPE["QUICK"] = 1] = "QUICK";
         TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
     })(exports.TYPE || (exports.TYPE = {}));
+    var canEventStartRipple = true;
     var scaleUpStyle;
     var destroyer = null;
     function init() {
@@ -665,8 +666,6 @@
         };
         return Ripple;
     }());
-    var canEventStartRipple = true;
-    window.addEventListener("pointerdown", function () { canEventStartRipple = true; });
     function ripple(element, options) {
         var _a;
         var ripple = element[RIPPLE];
