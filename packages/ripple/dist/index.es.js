@@ -35,10 +35,18 @@ var TYPE;
     TYPE[TYPE["QUICK"] = 1] = "QUICK";
     TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
 })(TYPE || (TYPE = {}));
+var scaleUpStyle;
 var destroyer = null;
 function init() {
     if (destroyer !== null) {
         return destroyer;
+    }
+    {
+        var div = document.createElement("div");
+        div.style.transform = "scale(1)";
+        document.body.appendChild(div);
+        scaleUpStyle = window.getComputedStyle(div).transform;
+        document.body.removeChild(div);
     }
     var style = document.head.appendChild(document.createElement("style"));
     style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
@@ -49,14 +57,6 @@ function init() {
         window.removeEventListener("pointerdown", listener);
         destroyer = null;
     };
-}
-var scaleUpStyle;
-{
-    var div = document.createElement("div");
-    div.style.transform = "scale(1)";
-    document.body.appendChild(div);
-    scaleUpStyle = window.getComputedStyle(div).transform;
-    document.body.removeChild(div);
 }
 var Ripple = (function () {
     function Ripple(x, y, r, type) {

@@ -41,10 +41,19 @@ export interface IRipple {
     [RIPPLE_COUNT]: number;
 }
 
+let scaleUpStyle: string;
 let destroyer: (() => void) | null = null;
 export function init() {
     if (destroyer !== null) {
         return destroyer;
+    }
+
+    {
+        let div: HTMLDivElement = document.createElement("div");
+        div.style.transform = "scale(1)";
+        document.body.appendChild(div);
+        scaleUpStyle = window.getComputedStyle(div).transform;
+        document.body.removeChild(div);
     }
 
     const style = document.head.appendChild(document.createElement("style"));
@@ -71,15 +80,6 @@ export function init() {
         window.removeEventListener("pointerdown", listener);
         destroyer = null;
     };
-}
-
-let scaleUpStyle: string;
-{
-    let div: HTMLDivElement = document.createElement("div");
-    div.style.transform = "scale(1)";
-    document.body.appendChild(div);
-    scaleUpStyle = window.getComputedStyle(div).transform;
-    document.body.removeChild(div);
 }
 class Ripple {
     private _div: HTMLDivElement;
