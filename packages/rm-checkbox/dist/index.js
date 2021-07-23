@@ -93,9 +93,9 @@
                   'name': 'checked',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isChecked();
+                    return _scope.isChecked();
                   }
                 },
                 {
@@ -103,9 +103,9 @@
                   'name': 'name',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.name;
+                    return _scope.props.name;
                   }
                 },
                 {
@@ -113,9 +113,9 @@
                   'name': 'disabled',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isDisabled() || scope.isReadonly();
+                    return _scope.isDisabled() || _scope.isReadonly();
                   }
                 }
               ]
@@ -130,9 +130,9 @@
                   'childNodeIndex': 0,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.label;
+                    return _scope.props.label;
                   }
                 }
               ]

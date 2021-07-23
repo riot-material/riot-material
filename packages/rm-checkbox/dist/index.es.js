@@ -86,9 +86,9 @@ var index = {
               'name': 'checked',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isChecked();
+                return _scope.isChecked();
               }
             },
             {
@@ -96,9 +96,9 @@ var index = {
               'name': 'name',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.name;
+                return _scope.props.name;
               }
             },
             {
@@ -106,9 +106,9 @@ var index = {
               'name': 'disabled',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isDisabled() || scope.isReadonly();
+                return _scope.isDisabled() || _scope.isReadonly();
               }
             }
           ]
@@ -123,9 +123,9 @@ var index = {
               'childNodeIndex': 0,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.label;
+                return _scope.props.label;
               }
             }
           ]

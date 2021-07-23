@@ -556,7 +556,21 @@
 	    TYPE[TYPE["QUICK"] = 1] = "QUICK";
 	    TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
 	})(TYPE || (TYPE = {}));
-	document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
+	var destroyer = null;
+	function init() {
+	    if (destroyer !== null) {
+	        return destroyer;
+	    }
+	    var style = document.head.appendChild(document.createElement("style"));
+	    style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
+	    var listener = function () { canEventStartRipple = true; };
+	    window.addEventListener("pointerdown", listener);
+	    return destroyer = function () {
+	        document.head.removeChild(style);
+	        window.removeEventListener("pointerdown", listener);
+	        destroyer = null;
+	    };
+	}
 	var scaleUpStyle;
 	{
 	    var div = document.createElement("div");
@@ -659,6 +673,7 @@
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
+	    init();
 	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
@@ -940,9 +955,9 @@
 	              'name': 'checked',
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.isChecked();
+	                return _scope.isChecked();
 	              }
 	            },
 	            {
@@ -950,9 +965,9 @@
 	              'name': 'name',
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.props.name;
+	                return _scope.props.name;
 	              }
 	            },
 	            {
@@ -960,9 +975,9 @@
 	              'name': 'disabled',
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.isDisabled() || scope.isReadonly();
+	                return _scope.isDisabled() || _scope.isReadonly();
 	              }
 	            }
 	          ]
@@ -977,9 +992,9 @@
 	              'childNodeIndex': 0,
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.props.label;
+	                return _scope.props.label;
 	              }
 	            }
 	          ]
