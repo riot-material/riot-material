@@ -1,4 +1,4 @@
-import '@riot-material/surfaces';
+import { init } from '@riot-material/surfaces';
 
 var index = {
   'css': `rm-dialog,[is="rm-dialog"]{ position: fixed; display: block; top: 0; bottom: 0; right: 0; left: 0; padding: 40px; background: rgba(0, 0, 0, .42); background: rgba(0, 0, 0, var(--color-opacity-secondary, .42)); box-sizing: border-box; z-index: 100; font-size: 0; text-align: center; } rm-dialog > [ref=aligner],[is="rm-dialog"] > [ref=aligner]{ width: 0; height: 100%; vertical-align: middle; display: inline-block; } rm-dialog > [ref=container],[is="rm-dialog"] > [ref=container]{ width: 100%; font-size: 16px; vertical-align: middle; display: inline-block; max-width: 560px; text-align: initial; } rm-dialog > [ref=container] > [ref=title],[is="rm-dialog"] > [ref=container] > [ref=title]{ min-height: 8px; border-radius: 4px 4px 0 0; } rm-dialog > [ref=container] > [ref=content],[is="rm-dialog"] > [ref=container] > [ref=content]{ overflow: auto; } rm-dialog > [ref=container] > [ref=actions],[is="rm-dialog"] > [ref=container] > [ref=actions]{ min-height: 8px; border-radius: 0 0 4px 4px; }`,
@@ -9,6 +9,10 @@ var index = {
     },
 
     _onresize: null,
+
+    onBeforeMount() {
+        init();
+    },
 
     onMounted() {
         this.root.addEventListener("click", () => {
@@ -122,76 +126,123 @@ var index = {
     }
   },
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
     return template(
-      '<div ref="aligner"></div><div expr7="expr7" class="mdc-elevation--z24" ref="container"><div expr8="expr8" ref="title"><slot expr9="expr9" name="title"></slot></div><div expr10="expr10" ref="content"><slot expr11="expr11" name="content"></slot></div><div expr12="expr12" ref="actions"><slot expr13="expr13" name="actions"></slot></div></div>',
-      [{
-        'redundantAttribute': 'expr7',
-        'selector': '[expr7]',
+      '<div ref="aligner"></div><div expr0="expr0" class="mdc-elevation--z24" ref="container"><div expr1="expr1" ref="title"><slot expr2="expr2" name="title"></slot></div><div expr3="expr3" ref="content"><slot expr4="expr4" name="content"></slot></div><div expr5="expr5" ref="actions"><slot expr6="expr6" name="actions"></slot></div></div>',
+      [
+        {
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]',
 
-        'expressions': [{
-          'type': expressionTypes.EVENT,
-          'name': 'onclick',
+          'expressions': [
+            {
+              'type': expressionTypes.EVENT,
+              'name': 'onclick',
 
-          'evaluate': function(scope) {
-            return scope._oncontainerclick;
-          }
-        }]
-      }, {
-        'redundantAttribute': 'expr8',
-        'selector': '[expr8]',
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope._oncontainerclick;
+              }
+            }
+          ]
+        },
+        {
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]',
 
-        'expressions': [{
-          'type': expressionTypes.ATTRIBUTE,
-          'name': 'class',
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'class',
 
-          'evaluate': function(scope) {
-            return ['rm-', scope.getSurface(), '-surface'].join('');
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'title',
-        'redundantAttribute': 'expr9',
-        'selector': '[expr9]'
-      }, {
-        'redundantAttribute': 'expr10',
-        'selector': '[expr10]',
+              'evaluate': function(
+                _scope
+              ) {
+                return [
+                  'rm-',
+                  _scope.getSurface(),
+                  '-surface'
+                ].join(
+                  ''
+                );
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'title',
+          'redundantAttribute': 'expr2',
+          'selector': '[expr2]'
+        },
+        {
+          'redundantAttribute': 'expr3',
+          'selector': '[expr3]',
 
-        'expressions': [{
-          'type': expressionTypes.ATTRIBUTE,
-          'name': 'class',
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'class',
 
-          'evaluate': function(scope) {
-            return ['rm-', scope.getSurface(), '-surface'].join('');
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'content',
-        'redundantAttribute': 'expr11',
-        'selector': '[expr11]'
-      }, {
-        'redundantAttribute': 'expr12',
-        'selector': '[expr12]',
+              'evaluate': function(
+                _scope
+              ) {
+                return [
+                  'rm-',
+                  _scope.getSurface(),
+                  '-surface'
+                ].join(
+                  ''
+                );
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'content',
+          'redundantAttribute': 'expr4',
+          'selector': '[expr4]'
+        },
+        {
+          'redundantAttribute': 'expr5',
+          'selector': '[expr5]',
 
-        'expressions': [{
-          'type': expressionTypes.ATTRIBUTE,
-          'name': 'class',
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'class',
 
-          'evaluate': function(scope) {
-            return ['rm-', scope.getSurface(), '-surface'].join('');
-          }
-        }]
-      }, {
-        'type': bindingTypes.SLOT,
-        'attributes': [],
-        'name': 'actions',
-        'redundantAttribute': 'expr13',
-        'selector': '[expr13]'
-      }]
+              'evaluate': function(
+                _scope
+              ) {
+                return [
+                  'rm-',
+                  _scope.getSurface(),
+                  '-surface'
+                ].join(
+                  ''
+                );
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'actions',
+          'redundantAttribute': 'expr6',
+          'selector': '[expr6]'
+        }
+      ]
     );
   },
 

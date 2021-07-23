@@ -2,13 +2,13 @@
     <div ref="aligner"></div>
     <div onclick={ _oncontainerclick } class="mdc-elevation--z24" ref="container">
         <div ref="title" class="rm-{ getSurface() }-surface">
-            <slot name="title" />
+            <slot name="title"></slot>
         </div>
         <div ref="content" class="rm-{ getSurface() }-surface">
-            <slot name="content" />
+            <slot name="content"></slot>
         </div>
         <div ref="actions" class="rm-{ getSurface() }-surface">
-            <slot name="actions" />
+            <slot name="actions"></slot>
         </div>
     </div>
 
@@ -57,13 +57,16 @@
     </style>
 
     <script>
-        import "@riot-material/surfaces";
+        import { init } from "@riot-material/surfaces";
 
         export default {
             state: {
                 clickedContainer: false
             },
             _onresize: null,
+            onBeforeMount() {
+                init();
+            },
             onMounted() {
                 this.root.addEventListener("click", () => {
                     if (this.state.clickedContainer) {
