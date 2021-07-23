@@ -34,8 +34,8 @@
     </style>
 
     <script>
-        import "@riot-material/elevation";
-        import "@riot-material/surfaces";
+        import { init as initElevation } from "@riot-material/elevation";
+        import { init as initSurfaces } from "@riot-material/surfaces";
 
         export default {
             _animationFrame: null,
@@ -94,6 +94,10 @@
                         this.root.classList.add("anchor-bottom");
                     }
                 }
+            },
+            onBeforeMount() {
+                initElevation();
+                initSurfaces();
             },
             onMounted() {
                 this._animationFrame = () => {

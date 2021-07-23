@@ -1,0 +1,12 @@
+<test>
+    <button ref="anchor" style="border: 0; padding: .5em 1em; background: burlywood;">ANCHOR</button>
+    <rm-floating-surface anchor={ getAnchorEl() }>CONTENT</rm-floating-surface>
+
+    <script>
+        export default {
+            getAnchorEl() {
+                return this.root.querySelector("[ref=anchor]");
+            }
+        }
+    </script>
+</test>
