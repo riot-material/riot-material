@@ -1,7 +1,8 @@
-<rm-app-bar class="height-{ getHeight() } { getSurface() } mdc-elevation--z{ state.hasShadow ? 8 : 0 }" style={
-    hasPassedBackgroundThreshold() ? "" : "background: " + props.unelevatedBackground +";"
-}>
-    <slot />
+<rm-app-bar
+    class="height-{ getHeight() } { getSurface() } mdc-elevation--z{ state.hasShadow ? 8 : 0 }"
+    style={ hasPassedBackgroundThreshold() ? "" : "background: " + props.unelevatedBackground +";" }
+>
+    <slot></slot>
 
     <style>
         :host {
@@ -75,7 +76,8 @@
 
     <script>
         import utils from "@riot-material/app-bar-utils";
-        import "@riot-material/elevation";
+
+        import { init as initElevation } from "@riot-material/elevation";
 
         export default {
             state: {
@@ -83,6 +85,7 @@
             },
             _mounted: false,
             onBeforeMount() {
+                initElevation();
                 this._onscroll = () => {
                     let hasShadow = false;
                     if (this._scrollTarget != null) {

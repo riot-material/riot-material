@@ -10,84 +10,39 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.riot",
         external,
         plugins: [
             nodeResolve(),
             commonjs(),
             riot()
         ],
-        output: {
-            file: "index.js",
-            format: "cjs",
-            exports: "auto"
-        }
+        output: [
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            },
+            {
+                name: "riotMaterial.components.appBar",
+                file: "dist/index.js",
+                format: "umd",
+                globals
+            }
+        ]
     },
     {
-        input: "index.riot",
-        external,
+        input: "src/index.riot",
         plugins: [
             nodeResolve(),
             commonjs(),
             riot()
         ],
-        output: {
-            file: "index.es.js",
-            format: "es"
-        }
-    },
-    {
-        input: "index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "index.amd.js",
-            format: "amd",
-            globals
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            file: "index.amd+libs.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "index.riot",
-        external,
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.appBar",
-            file: "index.umd.js",
-            format: "umd",
-            globals
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.appBar",
-            file: "index.umd+libs.js",
-            format: "umd"
-        }
+        output: [
+            {
+                name: "riotMaterial.components.appBar",
+                file: "dist/index+libs.js",
+                format: "umd"
+            }
+        ]
     }
 ];
