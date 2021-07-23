@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-checkbox",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -19,7 +19,7 @@
     "rollup-plugin-riot": "^6.0.0"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.1.0",
+    "@riot-material/ripple": "^1.1.1",
     "what-input": "^5.2.10"
   },
   "files": [
