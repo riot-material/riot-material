@@ -107,9 +107,9 @@
                   'name': 'onmousedown',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._onlabelpointerdown;
+                    return _scope._onlabelpointerdown;
                   }
                 }
               ]
@@ -131,9 +131,9 @@
                   'childNodeIndex': 0,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.label;
+                    return _scope.props.label;
                   }
                 }
               ]
@@ -148,9 +148,9 @@
                   'childNodeIndex': 0,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.label;
+                    return _scope.props.label;
                   }
                 }
               ]
@@ -159,9 +159,9 @@
               'type': bindingTypes.IF,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return !scope._hasInputSlot();
+                return !_scope._hasInputSlot();
               },
 
               'redundantAttribute': 'expr4',
@@ -204,9 +204,9 @@
                   'childNodeIndex': 0,
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.props.helperText;
+                    return _scope.props.helperText;
                   }
                 }
               ]
