@@ -1,5 +1,5 @@
 import { ripple } from '@riot-material/ripple';
-import { __ } from 'riot';
+import * as riot from 'riot';
 import IconComponent from '@riot-material/rm-icon';
 import '@riot-material/before-focus-listener';
 
@@ -90,7 +90,7 @@ var index = {
                 if (!overlay) {
                     return;
                 }
-                let tag = overlay[__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                let tag = overlay[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                 if (tag && tag.open) {
                     if (tag && tag.setAnchorElement) {
                         tag.setAnchorElement(button);
@@ -169,9 +169,9 @@ var index = {
           'type': bindingTypes.IF,
 
           'evaluate': function(
-            scope
+            _scope
           ) {
-            return !scope.isIcon();
+            return !_scope.isIcon();
           },
 
           'redundantAttribute': 'expr0',
@@ -187,9 +187,9 @@ var index = {
                     'name': 'style',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.props.buttonStyle;
+                      return _scope.props.buttonStyle;
                     }
                   },
                   {
@@ -197,9 +197,9 @@ var index = {
                     'name': 'disabled',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.isDisabled();
+                      return _scope.isDisabled();
                     }
                   },
                   {
@@ -207,9 +207,9 @@ var index = {
                     'name': 'type',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.props.type;
+                      return _scope.props.type;
                     }
                   },
                   {
@@ -217,9 +217,9 @@ var index = {
                     'name': 'tabindex',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.props.tabindex;
+                      return _scope.props.tabindex;
                     }
                   }
                 ]
@@ -238,9 +238,9 @@ var index = {
           'type': bindingTypes.IF,
 
           'evaluate': function(
-            scope
+            _scope
           ) {
-            return scope.isIcon();
+            return _scope.isIcon();
           },
 
           'redundantAttribute': 'expr2',
@@ -256,9 +256,9 @@ var index = {
                     'name': 'disabled',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.isDisabled();
+                      return _scope.isDisabled();
                     }
                   },
                   {
@@ -266,9 +266,9 @@ var index = {
                     'name': 'type',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.props.type;
+                      return _scope.props.type;
                     }
                   },
                   {
@@ -276,9 +276,9 @@ var index = {
                     'name': 'tabindex',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return scope.props.tabindex;
+                      return _scope.props.tabindex;
                     }
                   }
                 ]
@@ -288,7 +288,7 @@ var index = {
                 'getComponent': getComponent,
 
                 'evaluate': function(
-                  scope
+                  _scope
                 ) {
                   return 'rm-icon';
                 },
@@ -316,9 +316,9 @@ var index = {
                     'name': 'style',
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
-                      return "vertical-align: middle;" + (scope.props.iconStyle || "");
+                      return "vertical-align: middle;" + (_scope.props.iconStyle || "");
                     }
                   }
                 ],

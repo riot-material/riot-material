@@ -6,6 +6,27 @@
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var riot__namespace = /*#__PURE__*/_interopNamespace(riot);
     var IconComponent__default = /*#__PURE__*/_interopDefaultLegacy(IconComponent);
 
     var index = {
@@ -95,7 +116,7 @@
                     if (!overlay) {
                         return;
                     }
-                    let tag = overlay[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                    let tag = overlay[riot__namespace.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
                     if (tag && tag.open) {
                         if (tag && tag.setAnchorElement) {
                             tag.setAnchorElement(button);
@@ -174,9 +195,9 @@
               'type': bindingTypes.IF,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return !scope.isIcon();
+                return !_scope.isIcon();
               },
 
               'redundantAttribute': 'expr0',
@@ -192,9 +213,9 @@
                         'name': 'style',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.buttonStyle;
+                          return _scope.props.buttonStyle;
                         }
                       },
                       {
@@ -202,9 +223,9 @@
                         'name': 'disabled',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.isDisabled();
+                          return _scope.isDisabled();
                         }
                       },
                       {
@@ -212,9 +233,9 @@
                         'name': 'type',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.type;
+                          return _scope.props.type;
                         }
                       },
                       {
@@ -222,9 +243,9 @@
                         'name': 'tabindex',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.tabindex;
+                          return _scope.props.tabindex;
                         }
                       }
                     ]
@@ -243,9 +264,9 @@
               'type': bindingTypes.IF,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isIcon();
+                return _scope.isIcon();
               },
 
               'redundantAttribute': 'expr2',
@@ -261,9 +282,9 @@
                         'name': 'disabled',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.isDisabled();
+                          return _scope.isDisabled();
                         }
                       },
                       {
@@ -271,9 +292,9 @@
                         'name': 'type',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.type;
+                          return _scope.props.type;
                         }
                       },
                       {
@@ -281,9 +302,9 @@
                         'name': 'tabindex',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.tabindex;
+                          return _scope.props.tabindex;
                         }
                       }
                     ]
@@ -293,7 +314,7 @@
                     'getComponent': getComponent,
 
                     'evaluate': function(
-                      scope
+                      _scope
                     ) {
                       return 'rm-icon';
                     },
@@ -321,9 +342,9 @@
                         'name': 'style',
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return "vertical-align: middle;" + (scope.props.iconStyle || "");
+                          return "vertical-align: middle;" + (_scope.props.iconStyle || "");
                         }
                       }
                     ],

@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -11,19 +11,19 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riotjs/compiler": "^5.1.3",
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.1",
-    "node-sass": "^5.0.0",
-    "riot": "^5.1.2",
-    "rollup": "^2.35.1",
-    "rollup-plugin-riot": "^5.0.0",
-    "sass": "^1.29.0"
+    "@riotjs/compiler": "^6.0.1",
+    "@rollup/plugin-commonjs": "^19.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.2",
+    "node-sass": "^6.0.1",
+    "riot": "^6.0.1",
+    "rollup": "^2.53.3",
+    "rollup-plugin-riot": "^6.0.0",
+    "sass": "^1.35.2"
   },
   "dependencies": {
-    "@riot-material/before-focus-listener": "^1.2.1",
-    "@riot-material/ripple": "^1.0.5",
-    "@riot-material/rm-icon": "^1.0.1"
+    "@riot-material/before-focus-listener": "^1.3.0",
+    "@riot-material/ripple": "^1.1.0",
+    "@riot-material/rm-icon": "^1.1.0"
   },
   "files": [
     "dist",
