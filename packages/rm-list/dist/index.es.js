@@ -274,9 +274,9 @@ var index = {
               'name': 'onkeydown',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._onkeydown;
+                return _scope._onkeydown;
               }
             },
             {
@@ -284,9 +284,9 @@ var index = {
               'name': 'onmousedown',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._updateCurrent;
+                return _scope._updateCurrent;
               }
             },
             {
@@ -294,9 +294,9 @@ var index = {
               'name': 'onmousemove',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._updateCurrent;
+                return _scope._updateCurrent;
               }
             },
             {
@@ -304,9 +304,9 @@ var index = {
               'name': 'onmouseleave',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._onmouseleave;
+                return _scope._onmouseleave;
               }
             }
           ]

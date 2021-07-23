@@ -276,9 +276,9 @@
                   'name': 'onkeydown',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._onkeydown;
+                    return _scope._onkeydown;
                   }
                 },
                 {
@@ -286,9 +286,9 @@
                   'name': 'onmousedown',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._updateCurrent;
+                    return _scope._updateCurrent;
                   }
                 },
                 {
@@ -296,9 +296,9 @@
                   'name': 'onmousemove',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._updateCurrent;
+                    return _scope._updateCurrent;
                   }
                 },
                 {
@@ -306,9 +306,9 @@
                   'name': 'onmouseleave',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope._onmouseleave;
+                    return _scope._onmouseleave;
                   }
                 }
               ]

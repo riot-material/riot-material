@@ -37,7 +37,7 @@ export default [
     },
     {
         input: "src/index.riot",
-        basicExternal,
+        external: basicExternal,
         plugins: [
             nodeResolve(),
             commonjs(),
