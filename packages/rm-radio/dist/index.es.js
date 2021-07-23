@@ -13,7 +13,7 @@ var index = {
     onMounted() {
         const circle = this.root.querySelector("[ref=circle]");
         const input = this.root.querySelector("input");
-        const circleRipple = ripple(
+        ripple(
             circle,
             {
                 centered: true,
@@ -106,9 +106,9 @@ var index = {
               'type': expressionTypes.VALUE,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.value;
+                return _scope.props.value;
               }
             },
             {
@@ -116,9 +116,9 @@ var index = {
               'name': 'name',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.name;
+                return _scope.props.name;
               }
             },
             {
@@ -126,9 +126,9 @@ var index = {
               'name': 'checked',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isChecked();
+                return _scope.isChecked();
               }
             },
             {
@@ -136,9 +136,9 @@ var index = {
               'name': 'disabled',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.isDisabled() || scope.isReadonly();
+                return _scope.isDisabled() || _scope.isReadonly();
               }
             }
           ]
@@ -153,9 +153,9 @@ var index = {
               'childNodeIndex': 0,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope.props.label;
+                return _scope.props.label;
               }
             }
           ]
