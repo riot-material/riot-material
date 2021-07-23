@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -18,11 +18,11 @@
     "riot": "^6.0.1",
     "rollup": "^2.53.3",
     "rollup-plugin-riot": "^6.0.0",
-    "sass": "^1.35.2"
+    "sass": "^1.36.0"
   },
   "dependencies": {
     "@riot-material/before-focus-listener": "^1.3.0",
-    "@riot-material/ripple": "^1.1.0",
+    "@riot-material/ripple": "^1.1.2",
     "@riot-material/rm-icon": "^1.1.0"
   },
   "files": [
