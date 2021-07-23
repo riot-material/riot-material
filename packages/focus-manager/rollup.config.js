@@ -8,17 +8,12 @@ export default [
         ],
         output: [
             {
-                file: "dist/index.amd.js",
-                format: "amd"
-            },
-            {
-                file: "dist/index.js",
-                exports: "auto",
-                format: "cjs"
+                file: "dist/index.es.js",
+                format: "es"
             },
             {
                 name: "riotMaterial.focusManager",
-                file: "dist/index.umd.js",
+                file: "dist/index.js",
                 format: "umd"
             }
         ]

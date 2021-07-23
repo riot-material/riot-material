@@ -1,6 +1,11 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.0] - 2021-07-23
+- avoid setup on module import
+- change "package.json" entry points
+- change distribution formats
+
 ## [1.0.2] - 2020-11-29
 - add `on` method
 
