@@ -6,10 +6,7 @@
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-	function createCommonjsModule(fn) {
-	  var module = { exports: {} };
-		return fn(module, module.exports), module.exports;
-	}
+	var whatInput$1 = {exports: {}};
 
 	/**
 	 * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
@@ -18,7 +15,7 @@
 	 * @license MIT
 	 */
 
-	var whatInput = createCommonjsModule(function (module, exports) {
+	(function (module, exports) {
 	(function webpackUniversalModuleDefinition(root, factory) {
 		module.exports = factory();
 	})(commonjsGlobal, function() {
@@ -520,7 +517,9 @@
 	/***/ })
 	/******/ ])
 	});
-	});
+	}(whatInput$1));
+
+	var whatInput = whatInput$1.exports;
 
 	/*! *****************************************************************************
 	Copyright (c) Microsoft Corporation.
@@ -557,14 +556,29 @@
 	    TYPE[TYPE["QUICK"] = 1] = "QUICK";
 	    TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
 	})(TYPE || (TYPE = {}));
-	document.head.appendChild(document.createElement("style")).innerHTML = "\n.rm-ripple-container { overflow: hidden; position: relative; }\n.rm-ripple-container--unbounded { overflow: visible; }\n.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n.rm-ripple-container--highlighto:not([disabled]):hover::after {\n    content: ''; position: absolute;\n    top: 0; right: 0; bottom: 0; left: 0;\n    background: black; background: var(--ripple-color, black); pointer-events: none;\n    border-radius: inherit; opacity: .1;\n}\n.rm-ripple {\n    position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n    /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n    transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n}";
+	var canEventStartRipple = true;
 	var scaleUpStyle;
-	{
-	    var div = document.createElement("div");
-	    div.style.transform = "scale(1)";
-	    document.body.appendChild(div);
-	    scaleUpStyle = window.getComputedStyle(div).transform;
-	    document.body.removeChild(div);
+	var destroyer = null;
+	function init() {
+	    if (destroyer !== null) {
+	        return destroyer;
+	    }
+	    {
+	        var div = document.createElement("div");
+	        div.style.transform = "scale(1)";
+	        document.body.appendChild(div);
+	        scaleUpStyle = window.getComputedStyle(div).transform;
+	        document.body.removeChild(div);
+	    }
+	    var style = document.head.appendChild(document.createElement("style"));
+	    style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
+	    var listener = function () { canEventStartRipple = true; };
+	    window.addEventListener("pointerdown", listener);
+	    return destroyer = function () {
+	        document.head.removeChild(style);
+	        window.removeEventListener("pointerdown", listener);
+	        destroyer = null;
+	    };
 	}
 	var Ripple = (function () {
 	    function Ripple(x, y, r, type) {
@@ -652,14 +666,13 @@
 	    };
 	    return Ripple;
 	}());
-	var canEventStartRipple = true;
-	window.addEventListener("pointerdown", function () { canEventStartRipple = true; });
 	function ripple(element, options) {
 	    var _a;
 	    var ripple = element[RIPPLE];
 	    if (options == null && ripple != null) {
 	        return ripple;
 	    }
+	    init();
 	    options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
 	    if (options.detectLabel != null && !options.detectLabel) {
 	        options.usePointerFocus = false;
@@ -670,12 +683,11 @@
 	    if (ripple) {
 	        return ripple.set(options);
 	    }
-	    var lastX = null;
-	    var lastY = null;
 	    var pointerElement = element;
 	    var lastFocusTarget = undefined;
 	    var onFocus = function (event) {
-	        if (whatInput.ask() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+	        var _a;
+	        if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
 	            return;
 	        }
 	        ripple.start(null, null, event);
@@ -844,12 +856,11 @@
 	            return;
 	        }
 	        var rect = element.getBoundingClientRect();
-	        ripple.start(lastX = event.clientX - rect.x, lastY = event.clientY - rect.y, event);
+	        ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
 	        if (ripple[RIPPLE_OPTIONS].stopRippling) {
 	            canEventStartRipple = false;
 	        }
 	        setTimeout(function () {
-	            lastX = lastY = null;
 	        }, 0);
 	    });
 	    element[RIPPLE] = ripple;
@@ -969,9 +980,9 @@
 	              'name': 'tabindex',
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.isPassive() ? "" : "0";
+	                return _scope.isPassive() ? "" : "0";
 	              }
 	            },
 	            {
@@ -979,9 +990,9 @@
 	              'name': 'style',
 
 	              'evaluate': function(
-	                scope
+	                _scope
 	              ) {
-	                return scope.isSelected() && scope.props.selectedColor != null ? "color:" + scope.props.selectedColor + ";" : "";
+	                return _scope.isSelected() && _scope.props.selectedColor != null ? "color:" + _scope.props.selectedColor + ";" : "";
 	              }
 	            }
 	          ]
@@ -990,9 +1001,9 @@
 	          'type': bindingTypes.IF,
 
 	          'evaluate': function(
-	            scope
+	            _scope
 	          ) {
-	            return scope._hasSlot("leading");
+	            return _scope._hasSlot("leading");
 	          },
 
 	          'redundantAttribute': 'expr5',
@@ -1022,9 +1033,9 @@
 	          'type': bindingTypes.IF,
 
 	          'evaluate': function(
-	            scope
+	            _scope
 	          ) {
-	            return !scope._hasSlot("default");
+	            return !_scope._hasSlot("default");
 	          },
 
 	          'redundantAttribute': 'expr8',
@@ -1040,9 +1051,9 @@
 	                    'childNodeIndex': 0,
 
 	                    'evaluate': function(
-	                      scope
+	                      _scope
 	                    ) {
-	                      return scope.props.label || "\xa0";
+	                      return _scope.props.label || "\xa0";
 	                    }
 	                  }
 	                ]

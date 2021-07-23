@@ -115,9 +115,9 @@
                   'name': 'tabindex',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isPassive() ? "" : "0";
+                    return _scope.isPassive() ? "" : "0";
                   }
                 },
                 {
@@ -125,9 +125,9 @@
                   'name': 'style',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
-                    return scope.isSelected() && scope.props.selectedColor != null ? "color:" + scope.props.selectedColor + ";" : "";
+                    return _scope.isSelected() && _scope.props.selectedColor != null ? "color:" + _scope.props.selectedColor + ";" : "";
                   }
                 }
               ]
@@ -136,9 +136,9 @@
               'type': bindingTypes.IF,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return scope._hasSlot("leading");
+                return _scope._hasSlot("leading");
               },
 
               'redundantAttribute': 'expr0',
@@ -168,9 +168,9 @@
               'type': bindingTypes.IF,
 
               'evaluate': function(
-                scope
+                _scope
               ) {
-                return !scope._hasSlot("default");
+                return !_scope._hasSlot("default");
               },
 
               'redundantAttribute': 'expr3',
@@ -186,9 +186,9 @@
                         'childNodeIndex': 0,
 
                         'evaluate': function(
-                          scope
+                          _scope
                         ) {
-                          return scope.props.label || "\xa0";
+                          return _scope.props.label || "\xa0";
                         }
                       }
                     ]
