@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/app-bar-utils'), require('@riot-material/elevation')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/app-bar-utils', '@riot-material/elevation'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.appBar = factory(global.riotMaterial.appBarUtils)));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.appBar = factory(global.riotMaterial.appBarUtils)));
 }(this, (function (utils) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -131,37 +131,57 @@
         }
       },
 
-      'template': function(template, expressionTypes, bindingTypes, getComponent) {
-        return template('<slot expr4="expr4"></slot>', [{
-          'expressions': [{
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'class',
+      'template': function(
+        template,
+        expressionTypes,
+        bindingTypes,
+        getComponent
+      ) {
+        return template(
+          '<slot expr4="expr4"></slot>',
+          [
+            {
+              'expressions': [
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'class',
 
-            'evaluate': function(scope) {
-              return [
-                'height-',
-                scope.getHeight(),
-                ' ',
-                scope.getSurface(),
-                ' mdc-elevation--z',
-                scope.state.hasShadow ? 8 : 0
-              ].join('');
-            }
-          }, {
-            'type': expressionTypes.ATTRIBUTE,
-            'name': 'style',
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return [
+                      'height-',
+                      _scope.getHeight(),
+                      ' ',
+                      _scope.getSurface(),
+                      ' mdc-elevation--z',
+                      _scope.state.hasShadow ? 8 : 0
+                    ].join(
+                      ''
+                    );
+                  }
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'style',
 
-            'evaluate': function(scope) {
-              return scope.hasPassedBackgroundThreshold() ? "" : "background: " + scope.props.unelevatedBackground +";";
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.hasPassedBackgroundThreshold() ? "" : "background: " + _scope.props.unelevatedBackground +";";
+                  }
+                }
+              ]
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'default',
+              'redundantAttribute': 'expr4',
+              'selector': '[expr4]'
             }
-          }]
-        }, {
-          'type': bindingTypes.SLOT,
-          'attributes': [],
-          'name': 'default',
-          'redundantAttribute': 'expr4',
-          'selector': '[expr4]'
-        }]);
+          ]
+        );
       },
 
       'name': 'rm-app-bar'

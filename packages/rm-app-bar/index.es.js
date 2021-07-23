@@ -124,37 +124,57 @@ var index = {
     }
   },
 
-  'template': function(template, expressionTypes, bindingTypes, getComponent) {
-    return template('<slot expr1="expr1"></slot>', [{
-      'expressions': [{
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'class',
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      '<slot expr1="expr1"></slot>',
+      [
+        {
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'class',
 
-        'evaluate': function(scope) {
-          return [
-            'height-',
-            scope.getHeight(),
-            ' ',
-            scope.getSurface(),
-            ' mdc-elevation--z',
-            scope.state.hasShadow ? 8 : 0
-          ].join('');
-        }
-      }, {
-        'type': expressionTypes.ATTRIBUTE,
-        'name': 'style',
+              'evaluate': function(
+                _scope
+              ) {
+                return [
+                  'height-',
+                  _scope.getHeight(),
+                  ' ',
+                  _scope.getSurface(),
+                  ' mdc-elevation--z',
+                  _scope.state.hasShadow ? 8 : 0
+                ].join(
+                  ''
+                );
+              }
+            },
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'style',
 
-        'evaluate': function(scope) {
-          return scope.hasPassedBackgroundThreshold() ? "" : "background: " + scope.props.unelevatedBackground +";";
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope.hasPassedBackgroundThreshold() ? "" : "background: " + _scope.props.unelevatedBackground +";";
+              }
+            }
+          ]
+        },
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'default',
+          'redundantAttribute': 'expr1',
+          'selector': '[expr1]'
         }
-      }]
-    }, {
-      'type': bindingTypes.SLOT,
-      'attributes': [],
-      'name': 'default',
-      'redundantAttribute': 'expr1',
-      'selector': '[expr1]'
-    }]);
+      ]
+    );
   },
 
   'name': 'rm-app-bar'
