@@ -137,4 +137,4 @@ var index = {
   'name': 'rm-checkbox'
 };
 
-export default index;
+export { index as default };
