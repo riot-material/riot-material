@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.4] - 2021-09-17
+- check presence of `style.setProperty` when setting color
+
 ## [1.1.3] - 2021-09-17
 - compute `scaleUpStyle` when needed
 - avoid ripple animation when document is not visible

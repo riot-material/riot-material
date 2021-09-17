@@ -833,11 +833,13 @@
                     else {
                         element.classList.remove("rm-ripple-container--highlight");
                     }
-                    if (options.color) {
-                        element.style.setProperty("--ripple-color", options.color);
-                    }
-                    else {
-                        element.style.setProperty("--ripple-color", "black");
+                    if (element.style.setProperty) {
+                        if (options.color) {
+                            element.style.setProperty("--ripple-color", options.color);
+                        }
+                        else {
+                            element.style.setProperty("--ripple-color", "black");
+                        }
                     }
                     if (options.focusTarget !== lastFocusTarget) {
                         if (lastFocusTarget) {
