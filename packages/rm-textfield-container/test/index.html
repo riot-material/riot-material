@@ -9,12 +9,13 @@
 
         <script src="../node_modules/riot/riot+compiler.min.js"></script>
         <script src="../dist/index.js"></script>
-        <script src="../node_modules/@riot-material/surfaces/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/surfaces/dist/index.js"></script>
 
         <script src="test.riot" type="riot"></script>
 
         <script>
             riot.compile().then(() => {
+                riotMaterial.surfaces.init();
                 riot.register("rm-textfield-container", riotMaterial.components.textfieldContainer);
                 riot.mount("test");
             });

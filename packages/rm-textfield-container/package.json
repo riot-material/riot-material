@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-textfield-container",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -12,9 +12,9 @@
   "license": "MIT",
   "devDependencies": {
     "@riot-material/surfaces": "^2.1.0",
-    "@riotjs/compiler": "^6.0.1",
-    "riot": "^6.0.1",
-    "rollup": "^2.53.3",
+    "@riotjs/compiler": "^6.0.3",
+    "riot": "^6.0.3",
+    "rollup": "^2.56.3",
     "rollup-plugin-riot": "^6.0.0"
   },
   "files": [

@@ -1,8 +1,8 @@
 <rm-textfield-container>
     <label class="rm-textfield-container--main" onmousedown={ _onlabelpointerdown }>
-        <div class="rm-textfield-container--border" />
+        <div class="rm-textfield-container--border"></div>
         <div class="rm-textfield-container--leading">
-            <slot name="leading" />
+            <slot name="leading"></slot>
         </div>
         <div class="rm-textfield-container--border-notch">{ props.label }</div>
         <div class="rm-textfield-container--container">
@@ -10,18 +10,18 @@
                 <div class="rm-textfield-container--label">{ props.label }</div>
                 <div style="position: relative; user-select: auto; min-height: 1.3125em;">
                     <template if={ !_hasInputSlot() }>
-                        <slot />
+                        <slot></slot>
                     </template>
-                    <slot name="input" />
+                    <slot name="input"></slot>
                 </div>
             </div>
         </div>
         <div class="rm-textfield-container--trailing">
-            <slot name="trailing" />
+            <slot name="trailing"></slot>
         </div>
-        <div class="rm-textfield-container--basic-underline" />
-        <div class="rm-textfield-container--underline" />
-        <div class="rm-textfield-container--disabled-block" />
+        <div class="rm-textfield-container--basic-underline"></div>
+        <div class="rm-textfield-container--underline"></div>
+        <div class="rm-textfield-container--disabled-block"></div>
     </label>
     <div style="height: 1em; line-height: 1em; margin-bottom: -1em; pointer-events: none;">
         <div style="font-size: .75em;">{ props.helperText }</div>
@@ -486,13 +486,13 @@
                 const label = this.root.firstElementChild;
                 label.classList.remove("rm-textfield-container--no-leading", "rm-textfield-container--no-trailing");
                 const leading = this.root.querySelector("label > .rm-textfield-container--leading");
-                if (leading.children.length === 0 || leading.getBoundingClientRect().width <= 9) {
+                if (leading.children.length === 0 || leading.clientWidth <= 9) {
                     label.classList.add("rm-textfield-container--no-leading");
                 } else {
                     label.classList.remove("rm-textfield-container--no-leading");
                 }
                 const trailing = this.root.querySelector("label > .rm-textfield-container--trailing");
-                if (trailing.children.length === 0 || trailing.getBoundingClientRect().width <= 9) {
+                if (trailing.children.length === 0 || trailing.clientWidth <= 9) {
                     label.classList.add("rm-textfield-container--no-trailing");
                 } else {
                     label.classList.remove("rm-textfield-container--no-trailing");
