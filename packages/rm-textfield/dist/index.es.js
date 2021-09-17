@@ -459,4 +459,4 @@ var index = {
   'name': 'rm-textfield'
 };
 
-export default index;
+export { index as default };

@@ -12,12 +12,12 @@
             >
             <template if={ isDisabled() || isReadonly() }>{ root.value }</template>
         </span>
-        <slot name="leading" slot="leading" />
+        <slot name="leading" slot="leading"></slot>
         <span style="white-space: nowrap;" slot="trailing">
             <rm-button variant="icon" onclick={ clear }
                 if={ isClearable() && root.value } dense tabindex={ isDisabled() ? "-1" : null }
             >clear</rm-button>
-            <slot name="trailing" />
+            <slot name="trailing"></slot>
         </span>
     </rm-textfield-container>
 
