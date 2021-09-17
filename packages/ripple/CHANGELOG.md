@@ -1,6 +1,12 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.1.3] - 2021-09-17
+- compute `scaleUpStyle` when needed
+- avoid ripple animation when document is not visible
+- redirect requestAnimationFrame to setTimeout when unavailable
+- refactor a bit
+
 ## [1.1.2] - 2021-07-23
 - fix duplicate setup
 

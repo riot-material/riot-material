@@ -41,38 +41,49 @@ export interface IRipple {
     [RIPPLE_COUNT]: number;
 }
 
-let canEventStartRipple: boolean = true;
-let scaleUpStyle: string;
-let destroyer: (() => void) | null = null;
-export function init() {
-    if (destroyer !== null) {
-        return destroyer;
+function requestAnimationFrame(fn: () => void) {
+    if (window.requestAnimationFrame) {
+        return window.requestAnimationFrame(fn);
     }
+    return setTimeout(fn, 0);
+}
 
-    {
+let scaleUpStyle: string | null = null;
+function getScaleUpStyle() {
+    if (scaleUpStyle === null) {
         let div: HTMLDivElement = document.createElement("div");
         div.style.transform = "scale(1)";
         document.body.appendChild(div);
         scaleUpStyle = window.getComputedStyle(div).transform;
         document.body.removeChild(div);
     }
+    return scaleUpStyle;
+}
+
+let canEventStartRipple: boolean = true;
+let destroyer: (() => void) | null = null;
+export function init() {
+    if (destroyer !== null) {
+        return destroyer;
+    }
 
     const style = document.head.appendChild(document.createElement("style"));
-    style.innerHTML = `
-    .rm-ripple-container { overflow: hidden; position: relative; }
-    .rm-ripple-container--unbounded { overflow: visible; }
-    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,
-    .rm-ripple-container--highlighto:not([disabled]):hover::after {
-        content: ''; position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
-        background: black; background: var(--ripple-color, black); pointer-events: none;
-        border-radius: inherit; opacity: .1;
-    }
-    .rm-ripple {
-        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;
-        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/
-        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;
-    }`;
+    style.innerHTML = `` +
+    `.rm-ripple-container { overflow: hidden; position: relative; }` +
+    `.rm-ripple-container--unbounded { overflow: visible; }` +
+    `.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,` +
+    `.rm-ripple-container--highlighto:not([disabled]):hover::after {` +
+        `content: ''; position: absolute;` +
+        `top: 0; right: 0; bottom: 0; left: 0;` +
+        `background: black; background: var(--ripple-color, black); pointer-events: none;` +
+        `border-radius: inherit; opacity: .1;` +
+    `}` +
+    `.rm-ripple {` +
+        `position: absolute; border-radius: 50%; background: black;` +
+        `background: var(--ripple-color, black); pointer-events: none;` +
+        `/*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/` +
+        `transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;` +
+    `}`;
     const listener = () => { canEventStartRipple = true; };
     window.addEventListener("pointerdown", listener);
     
@@ -93,20 +104,22 @@ class Ripple {
         if (r == null) {
             div.setAttribute(
                 "style",
-                "left:0;top:0;bottom:0;right:0;" +
-                "border-radius:inherit;transform:scale(0);" +
-                "opacity:.12;opacity:var(--color-opacity-tertiary, .12);"
+                `left:0;top:0;bottom:0;right:0;` +
+                `border-radius:inherit;transform:scale(0);` +
+                `opacity:.12;opacity:var(--color-opacity-tertiary, .12);`
             );
         } else {
             let cx: number = x - r;
             let cy: number = y - r;
             div.setAttribute(
                 "style",
-                "left:" + cx +
-                "px;top:" + cy +
-                "px;width:" + (r * 2) +
-                "px;height:" + (r * 2) +
-                "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);"
+                `left:${cx}px;` +
+                `top:${cy}px;` +
+                `width:${r * 2}px;` +
+                `height:${r * 2}px;` +
+                `transform:scale(0);` +
+                `opacity:.12;` +
+                `opacity:var(--color-opacity-tertiary, .12);`
             );
         }
         switch (type) {
@@ -123,13 +136,16 @@ class Ripple {
     }
 
     private _frame(): void {
+        if (document.hidden || document.visibilityState !== "visible") {
+            return;
+        }
         let element: HTMLElement | null = this._div.parentElement;
         if (!element) {
             return;
         }
         let rect: DOMRect = this._div.getBoundingClientRect();
         if (rect.width !== 0 || rect.height !== 0) {
-            if (this._computedStyle.transform === scaleUpStyle) {
+            if (this._computedStyle.transform === getScaleUpStyle()) {
                 if (this._computedStyle.opacity === "0") {
                     element.removeChild(this._div);
                     return;
