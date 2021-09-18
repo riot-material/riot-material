@@ -33,7 +33,8 @@
         .rm-textfield--input {
             display: inline-block;
             font: inherit;
-            padding: 0;
+            padding: 0.625em 0;
+            margin: -0.625em 0;
             font-size: inherit;
             line-height: inherit;
             border: 0;
@@ -42,7 +43,20 @@
             width: 100%;
             color: currentColor;
             opacity: 0;
-            transition: opacity linear 150ms;
+            transition:
+                opacity linear 150ms,
+                margin linear 150ms,
+                padding linear 150ms
+            ;
+        }
+        :host[variant="filled"] .rm-textfield--input,
+        :host[variant="outlined"] .rm-textfield--input {
+            padding: 0.875em  0.75em;
+            margin: -0.875em -0.75em;
+        }
+        :host[variant="filled"] .rm-label-should-float .rm-textfield--input {
+            padding: 1.25em  0.75em  0.5em;
+            margin: -1.25em -0.75em -0.5em;
         }
         .rm-textfield--input-visible {
             opacity: 1;

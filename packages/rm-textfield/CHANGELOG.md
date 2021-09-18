@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.2] - 2021-09-18
+- expand input to whole container
+
 ## [1.2.1] - 2021-09-17
 - update dependencies
 

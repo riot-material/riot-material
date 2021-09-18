@@ -222,7 +222,7 @@
   const IS_MOUNTED = Symbol("is-mounted");
 
   var index = {
-    'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; opacity: 0; transition: opacity linear 150ms; } rm-textfield .rm-textfield--input-visible,[is="rm-textfield"] .rm-textfield--input-visible{ opacity: 1; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
+    'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0.625em 0; margin: -0.625em 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; opacity: 0; transition: opacity linear 150ms, margin linear 150ms, padding linear 150ms ; } rm-textfield[variant="filled"] .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-textfield--input,rm-textfield[variant="outlined"] .rm-textfield--input,[is="rm-textfield"][variant="outlined"] .rm-textfield--input{ padding: 0.875em 0.75em; margin: -0.875em -0.75em; } rm-textfield[variant="filled"] .rm-label-should-float .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-label-should-float .rm-textfield--input{ padding: 1.25em 0.75em 0.5em; margin: -1.25em -0.75em -0.5em; } rm-textfield .rm-textfield--input-visible,[is="rm-textfield"] .rm-textfield--input-visible{ opacity: 1; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
 
     'exports': {
       [IS_MOUNTED]: false,
@@ -392,7 +392,7 @@
       getComponent
     ) {
       return template(
-        '<rm-textfield-container expr6="expr6"></rm-textfield-container>',
+        '<rm-textfield-container expr42="expr42"></rm-textfield-container>',
         [
           {
             'type': bindingTypes.TAG,
@@ -407,12 +407,12 @@
             'slots': [
               {
                 'id': 'input',
-                'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr7="expr7" size="1"/><template expr8="expr8"></template></span>',
+                'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr43="expr43" size="1"/><template expr44="expr44"></template></span>',
 
                 'bindings': [
                   {
-                    'redundantAttribute': 'expr7',
-                    'selector': '[expr7]',
+                    'redundantAttribute': 'expr43',
+                    'selector': '[expr43]',
 
                     'expressions': [
                       {
@@ -490,8 +490,8 @@
                       return _scope.isDisabled() || _scope.isReadonly();
                     },
 
-                    'redundantAttribute': 'expr8',
-                    'selector': '[expr8]',
+                    'redundantAttribute': 'expr44',
+                    'selector': '[expr44]',
 
                     'template': template(
                       ' ',
@@ -517,21 +517,21 @@
               },
               {
                 'id': 'leading',
-                'html': '<slot expr9="expr9" name="leading" slot="leading"></slot>',
+                'html': '<slot expr45="expr45" name="leading" slot="leading"></slot>',
 
                 'bindings': [
                   {
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'leading',
-                    'redundantAttribute': 'expr9',
-                    'selector': '[expr9]'
+                    'redundantAttribute': 'expr45',
+                    'selector': '[expr45]'
                   }
                 ]
               },
               {
                 'id': 'trailing',
-                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr10="expr10" variant="icon" dense></rm-button><slot expr11="expr11" name="trailing"></slot></span>',
+                'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr46="expr46" variant="icon" dense></rm-button><slot expr47="expr47" name="trailing"></slot></span>',
 
                 'bindings': [
                   {
@@ -543,8 +543,8 @@
                       return _scope.isClearable() && _scope.root.value;
                     },
 
-                    'redundantAttribute': 'expr10',
-                    'selector': '[expr10]',
+                    'redundantAttribute': 'expr46',
+                    'selector': '[expr46]',
 
                     'template': template(
                       null,
@@ -597,8 +597,8 @@
                     'type': bindingTypes.SLOT,
                     'attributes': [],
                     'name': 'trailing',
-                    'redundantAttribute': 'expr11',
-                    'selector': '[expr11]'
+                    'redundantAttribute': 'expr47',
+                    'selector': '[expr47]'
                   }
                 ]
               }
@@ -667,8 +667,8 @@
               }
             ],
 
-            'redundantAttribute': 'expr6',
-            'selector': '[expr6]'
+            'redundantAttribute': 'expr42',
+            'selector': '[expr42]'
           }
         ]
       );

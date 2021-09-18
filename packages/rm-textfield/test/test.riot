@@ -1,25 +1,33 @@
 <test>
-    <!--  <rm-textfield
+    <rm-textfield
         onfocus={ console.log }
         onblur={ console.log }
         oninput={ console.log }
         label="Label" ref="focusable"
-    ></rm-textfield>  -->
+        variant={ state.variant }
+    ></rm-textfield>
         <!--  onfocus={ console.log }
         onblur={ console.log }
         oninput={ console.log }  -->
     <rm-textfield full-width
         label="Label" variant="flat" placeholder="Placeholder"
         readonly={ state.readonly } ondblclick={ state.readonly && readonlyDblClick }
+        variant={ state.variant }
     ></rm-textfield>
 
     <button onclick={ () => root.querySelector("[ref='focusable']").focus() }>FOCUS</button>
     <button onclick={ () => update({ readonly: true }) }>RESET READONLY</button>
 
+    <div></div>
+    <button onclick={ () => update({ variant: "flat" }) }>FLAT</button>
+    <button onclick={ () => update({ variant: "filled" }) }>FILLED</button>
+    <button onclick={ () => update({ variant: "outlined" }) }>OUTLINED</button>
+
     <script>
         export default {
             state: {
-                readonly: true
+                readonly: true,
+                variant: "flat"
             },
             readonlyDblClick(event) {
                 console.log(event);
