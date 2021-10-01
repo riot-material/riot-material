@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('riot')) :
     typeof define === 'function' && define.amd ? define(['riot'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.tabbedPages = factory(global.riot)));
-}(this, (function (riot) { 'use strict';
+})(this, (function (riot) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -13,46 +13,44 @@
                     var d = Object.getOwnPropertyDescriptor(e, k);
                     Object.defineProperty(n, k, d.get ? d : {
                         enumerable: true,
-                        get: function () {
-                            return e[k];
-                        }
+                        get: function () { return e[k]; }
                     });
                 }
             });
         }
-        n['default'] = e;
+        n["default"] = e;
         return Object.freeze(n);
     }
 
     var riot__namespace = /*#__PURE__*/_interopNamespace(riot);
 
-    var POSITION_CONTROLLER = Symbol("position-controller");
+    const POSITION_CONTROLLER = Symbol("position-controller");
     function positionController(element) {
-        var existingPositionController = element[POSITION_CONTROLLER];
+        const existingPositionController = element[POSITION_CONTROLLER];
         if (existingPositionController != null) {
             return existingPositionController;
         }
-        var self;
-        var eventTarget = new EventTarget();
-        var length = 0;
-        var getLength = function () {
+        let self;
+        let eventTarget = new EventTarget();
+        let length = 0;
+        const getLength = () => {
             return length;
         };
-        var setLength = function (l) {
+        const setLength = l => {
             length = l;
             return self;
         };
-        var index = 0;
-        var getSelectedIndex = function () {
+        let index = 0;
+        const getSelectedIndex = () => {
             return index;
         };
-        var setSelectedIndex = function (i) {
+        const setSelectedIndex = i => {
             index = Math.min(Math.max(0, i), length - 1);
             return self;
         };
-        var position = 0;
-        var getPosition = function () {
-            var m = parseFloat(position);
+        let position = 0;
+        const getPosition = () => {
+            let m = parseFloat(position);
             if (isNaN(m)) {
                 return 0;
             }
@@ -60,76 +58,75 @@
             return (index === 0 && m < 0 || index === (length - 1) && m > 0) ? 0 : m;
         };
         {
-            var _touchIdentifier_1 = null;
-            var startX_1 = 0;
-            var lastDirection_1 = null;
-            var positioningStarted_1 = true;
-            var startPositioning = function (event) {
-                if (_touchIdentifier_1 != null) {
+            let _touchIdentifier = null;
+            let startX = 0;
+            let lastDirection = null;
+            let positioningStarted = true;
+            const startPositioning = event => {
+                if (_touchIdentifier != null) {
                     return;
                 }
-                var touch = event.targetTouches[0];
-                _touchIdentifier_1 = touch.identifier;
-                startX_1 = touch.clientX;
-                lastDirection_1 = null;
-                positioningStarted_1 = true;
+                const touch = event.targetTouches[0];
+                _touchIdentifier = touch.identifier;
+                startX = touch.clientX;
+                lastDirection = null;
+                positioningStarted = true;
             };
-            var updatePosition = function (event) {
-                if (!positioningStarted_1) {
+            const updatePosition = event => {
+                if (!positioningStarted) {
                     return;
                 }
-                var index;
-                if (!Array.prototype.some.call(event.changedTouches, function (touch, i) {
+                let index;
+                if (!Array.prototype.some.call(event.changedTouches, (touch, i) => {
                     index = i;
-                    return touch.identifier === _touchIdentifier_1;
+                    return touch.identifier === _touchIdentifier;
                 })) {
                     return;
                 }
-                var lastPosition = getPosition();
-                var touch = event.changedTouches[index];
-                var endX = touch.clientX;
-                var delta = endX - startX_1;
+                const lastPosition = getPosition();
+                const touch = event.changedTouches[index];
+                const endX = touch.clientX;
+                const delta = endX - startX;
                 position = -delta / element.getBoundingClientRect().width;
-                var newPosition = getPosition();
+                const newPosition = getPosition();
                 if (newPosition !== lastPosition) {
-                    lastDirection_1 = newPosition > lastPosition ? 1 : -1;
+                    lastDirection = newPosition > lastPosition ? 1 : -1;
                 }
                 eventTarget.dispatchEvent(new CustomEvent("positionchanged", { detail: { position: newPosition } }));
             };
-            var endPositioning = function (event) {
-                if (!positioningStarted_1) {
+            const endPositioning = event => {
+                if (!positioningStarted) {
                     return;
                 }
-                if (!Array.prototype.some.call(event.changedTouches, function (touch) {
-                    return touch.identifier === _touchIdentifier_1;
+                if (!Array.prototype.some.call(event.changedTouches, touch => {
+                    return touch.identifier === _touchIdentifier;
                 })) {
                     return;
                 }
-                if (lastDirection_1 != null) {
-                    var m = getPosition();
+                if (lastDirection != null) {
+                    const m = getPosition();
                     position = 0;
-                    var newM = void 0;
+                    let newM;
                     if (m < 0) {
-                        newM = lastDirection_1 < 0 ? -1 : 0;
+                        newM = lastDirection < 0 ? -1 : 0;
                     }
                     else {
-                        newM = lastDirection_1 > 0 ? 1 : 0;
+                        newM = lastDirection > 0 ? 1 : 0;
                     }
-                    lastDirection_1 = null;
-                    var roundedPosition = Math.round(newM);
-                    var previousIndex = getSelectedIndex();
+                    lastDirection = null;
+                    const roundedPosition = Math.round(newM);
+                    const previousIndex = getSelectedIndex();
                     if (roundedPosition !== 0) {
                         setSelectedIndex(previousIndex + roundedPosition);
                     }
                     eventTarget.dispatchEvent(new CustomEvent("positionapplied", {
                         detail: {
-                            previousIndex: previousIndex,
-                            currentIndex: getSelectedIndex()
+                            previousIndex, currentIndex: getSelectedIndex()
                         }
                     }));
                 }
-                _touchIdentifier_1 = null;
-                positioningStarted_1 = false;
+                _touchIdentifier = null;
+                positioningStarted = false;
             };
             element.addEventListener("touchstart", startPositioning);
             element.addEventListener("touchmove", updatePosition);
@@ -137,16 +134,16 @@
             element.addEventListener("touchend", endPositioning);
         }
         return element[POSITION_CONTROLLER] = self = {
-            getPosition: getPosition,
-            getSelectedIndex: getSelectedIndex,
-            setSelectedIndex: setSelectedIndex,
-            getLength: getLength,
-            setLength: setLength,
-            on: function (type, callback) {
+            getPosition,
+            getSelectedIndex,
+            setSelectedIndex,
+            getLength,
+            setLength,
+            on(type, callback) {
                 eventTarget.addEventListener(type, callback);
                 return self;
             },
-            off: function (type, callback) {
+            off(type, callback) {
                 eventTarget.removeEventListener(type, callback);
                 return self;
             }
@@ -670,84 +667,85 @@
 
     var whatInput = whatInput$1.exports;
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation.
-
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
-
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-
-    var __assign = function() {
-        __assign = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign.apply(this, arguments);
-    };
-
-    var RIPPLE = Symbol("ripple");
-    var RIPPLE_COUNT = Symbol("ripple-count");
-    var RIPPLE_OPTIONS = Symbol("ripple_options");
+    const RIPPLE = Symbol("ripple");
+    const RIPPLE_COUNT = Symbol("ripple-count");
+    const RIPPLE_OPTIONS = Symbol("ripple_options");
     var TYPE;
     (function (TYPE) {
         TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
         TYPE[TYPE["QUICK"] = 1] = "QUICK";
         TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
     })(TYPE || (TYPE = {}));
-    var canEventStartRipple = true;
-    var scaleUpStyle;
-    var destroyer = null;
-    function init() {
-        if (destroyer !== null) {
-            return destroyer;
+    function requestAnimationFrame(fn) {
+        if (window.requestAnimationFrame) {
+            return window.requestAnimationFrame(fn);
         }
-        {
-            var div = document.createElement("div");
+        return setTimeout(fn, 0);
+    }
+    let scaleUpStyle = null;
+    function getScaleUpStyle() {
+        if (scaleUpStyle === null) {
+            let div = document.createElement("div");
             div.style.transform = "scale(1)";
             document.body.appendChild(div);
             scaleUpStyle = window.getComputedStyle(div).transform;
             document.body.removeChild(div);
         }
-        var style = document.head.appendChild(document.createElement("style"));
-        style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
-        var listener = function () { canEventStartRipple = true; };
+        return scaleUpStyle;
+    }
+    let canEventStartRipple = true;
+    let destroyer = null;
+    function init() {
+        if (destroyer !== null) {
+            return destroyer;
+        }
+        const style = document.head.appendChild(document.createElement("style"));
+        style.innerHTML = `` +
+            `.rm-ripple-container { overflow: hidden; position: relative; }` +
+            `.rm-ripple-container--unbounded { overflow: visible; }` +
+            `.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,` +
+            `.rm-ripple-container--highlighto:not([disabled]):hover::after {` +
+            `content: ''; position: absolute;` +
+            `top: 0; right: 0; bottom: 0; left: 0;` +
+            `background: black; background: var(--ripple-color, black); pointer-events: none;` +
+            `border-radius: inherit; opacity: .1;` +
+            `}` +
+            `.rm-ripple {` +
+            `position: absolute; border-radius: 50%; background: black;` +
+            `background: var(--ripple-color, black); pointer-events: none;` +
+            `/*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/` +
+            `transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;` +
+            `}`;
+        const listener = () => { canEventStartRipple = true; };
         window.addEventListener("pointerdown", listener);
-        return destroyer = function () {
+        return destroyer = () => {
             document.head.removeChild(style);
             window.removeEventListener("pointerdown", listener);
             destroyer = null;
         };
     }
-    var Ripple = (function () {
-        function Ripple(x, y, r, type) {
-            if (type === void 0) { type = TYPE.NORMAL; }
-            this._ended = false;
-            this._onEnd = null;
-            var div = this._div = document.createElement("div");
+    class Ripple {
+        _div;
+        _computedStyle;
+        _ended = false;
+        _onEnd = null;
+        constructor(x, y, r, type = TYPE.NORMAL) {
+            let div = this._div = document.createElement("div");
             if (r == null) {
-                div.setAttribute("style", "left:0;top:0;bottom:0;right:0;" +
-                    "border-radius:inherit;transform:scale(0);" +
-                    "opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+                div.setAttribute("style", `left:0;top:0;bottom:0;right:0;` +
+                    `border-radius:inherit;transform:scale(0);` +
+                    `opacity:.12;opacity:var(--color-opacity-tertiary, .12);`);
             }
             else {
-                var cx = x - r;
-                var cy = y - r;
-                div.setAttribute("style", "left:" + cx +
-                    "px;top:" + cy +
-                    "px;width:" + (r * 2) +
-                    "px;height:" + (r * 2) +
-                    "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+                let cx = x - r;
+                let cy = y - r;
+                div.setAttribute("style", `left:${cx}px;` +
+                    `top:${cy}px;` +
+                    `width:${r * 2}px;` +
+                    `height:${r * 2}px;` +
+                    `transform:scale(0);` +
+                    `opacity:.12;` +
+                    `opacity:var(--color-opacity-tertiary, .12);`);
             }
             switch (type) {
                 case TYPE.QUICK: {
@@ -761,14 +759,17 @@
             div.classList.add("rm-ripple");
             this._computedStyle = window.getComputedStyle(div);
         }
-        Ripple.prototype._frame = function () {
-            var element = this._div.parentElement;
+        _frame() {
+            if (document.hidden || document.visibilityState !== "visible") {
+                return;
+            }
+            let element = this._div.parentElement;
             if (!element) {
                 return;
             }
-            var rect = this._div.getBoundingClientRect();
+            let rect = this._div.getBoundingClientRect();
             if (rect.width !== 0 || rect.height !== 0) {
-                if (this._computedStyle.transform === scaleUpStyle) {
+                if (this._computedStyle.transform === getScaleUpStyle()) {
                     if (this._computedStyle.opacity === "0") {
                         element.removeChild(this._div);
                         return;
@@ -781,15 +782,14 @@
                 }
             }
             requestAnimationFrame(this._frame.bind(this));
-        };
-        Ripple.prototype._scaleUp = function () {
-            var _this = this;
-            requestAnimationFrame(function () {
-                _this._div.style.transform = "scale(1)";
-                requestAnimationFrame(_this._frame.bind(_this));
+        }
+        _scaleUp() {
+            requestAnimationFrame(() => {
+                this._div.style.transform = "scale(1)";
+                requestAnimationFrame(this._frame.bind(this));
             });
-        };
-        Ripple.prototype.attachTo = function (element, onEnd) {
+        }
+        attachTo(element, onEnd) {
             if (this._div.parentElement) {
                 throw new Error("Ripple already attached");
             }
@@ -805,211 +805,231 @@
             this._scaleUp();
             this._onEnd = onEnd || null;
             return this;
-        };
-        Ripple.prototype.end = function () {
+        }
+        end() {
             this._ended = true;
             if (this._onEnd) {
                 this._onEnd();
             }
             return this;
-        };
-        return Ripple;
-    }());
+        }
+    }
     function ripple(element, options) {
-        var _a;
-        var ripple = element[RIPPLE];
+        // get the ripple generator stored in the element
+        let ripple = element[RIPPLE];
         if (options == null && ripple != null) {
             return ripple;
         }
         init();
-        options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+        options = {
+            radius: undefined,
+            unbounded: false,
+            centered: false,
+            disabled: false,
+            highlight: false,
+            instantHighlight: false,
+            unboundedFocus: false,
+            color: "currentColor",
+            focusTarget: undefined,
+            detectLabel: true,
+            usePointerFocus: true,
+            stopRippling: true,
+            ...(ripple != null ? ripple[RIPPLE_OPTIONS] : {}),
+            ...options
+        };
         if (options.detectLabel != null && !options.detectLabel) {
             options.usePointerFocus = false;
         }
         else {
             options.detectLabel = true;
         }
+        // if already exists, set the new options
         if (ripple) {
             return ripple.set(options);
         }
-        var pointerElement = element;
-        var lastFocusTarget = undefined;
-        var onFocus = function (event) {
-            var _a;
-            if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+        let pointerElement = element;
+        let lastFocusTarget = undefined;
+        let onFocus = event => {
+            if (whatInput?.ask?.() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
                 return;
             }
             ripple.start(null, null, event);
         };
-        var onMouseEnter = function (event) {
+        let onMouseEnter = event => {
             if (!ripple[RIPPLE_OPTIONS].highlight || ripple[RIPPLE_OPTIONS].disabled) {
                 return;
             }
             ripple.start(null, null, event);
         };
-        ripple = (_a = {
-                highlight: function () {
-                    var _this = this;
-                    var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
-                        _this[RIPPLE_COUNT]--;
-                    });
-                    this[RIPPLE_COUNT]++;
-                    return currentRipple;
-                },
-                start: function (x, y, event, type) {
-                    var _this = this;
-                    if (type === void 0) { type = TYPE.NORMAL; }
-                    var isFocus = !!(event && event.type === "focus");
-                    var isMouseEnter = !!(event && event.type === "mouseenter");
-                    var options = this[RIPPLE_OPTIONS];
-                    if (isFocus) {
-                        type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                    }
-                    else if (isMouseEnter) {
-                        type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                    }
-                    var r = null;
-                    var rect = null;
-                    if (options.centered || x == null) {
-                        x = (rect || element.getBoundingClientRect()).width / 2;
-                    }
-                    if (options.centered || y == null) {
-                        y = (rect || element.getBoundingClientRect()).height / 2;
-                    }
-                    if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
-                        r = options.radius || null;
-                        if (r == null || r <= 0) {
-                            rect = rect || element.getBoundingClientRect();
-                            if (y >= rect.height / 2) {
-                                if (x >= rect.width / 2) {
-                                    r = Math.sqrt(x * x + y * y);
-                                }
-                                else {
-                                    r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
-                                }
+        ripple = {
+            highlight() {
+                const currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, () => {
+                    this[RIPPLE_COUNT]--;
+                });
+                this[RIPPLE_COUNT]++;
+                return currentRipple;
+            },
+            start(x, y, event, type = TYPE.NORMAL) {
+                let isFocus = !!(event && event.type === "focus");
+                let isMouseEnter = !!(event && event.type === "mouseenter");
+                let options = this[RIPPLE_OPTIONS];
+                if (isFocus) {
+                    type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+                }
+                else if (isMouseEnter) {
+                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+                }
+                let r = null;
+                let rect = null;
+                if (options.centered || x == null) {
+                    x = (rect || element.getBoundingClientRect()).width / 2;
+                }
+                if (options.centered || y == null) {
+                    y = (rect || element.getBoundingClientRect()).height / 2;
+                }
+                if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
+                    r = options.radius || null;
+                    if (r == null || r <= 0) {
+                        rect = rect || element.getBoundingClientRect();
+                        if (y >= rect.height / 2) {
+                            if (x >= rect.width / 2) {
+                                r = Math.sqrt(x * x + y * y);
                             }
                             else {
-                                if (x >= rect.width / 2) {
-                                    r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
-                                }
-                                else {
-                                    r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
-                                }
+                                r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
                             }
-                        }
-                    }
-                    var currentRipple = new Ripple(x, y, r, type).attachTo(element, function () {
-                        _this[RIPPLE_COUNT]--;
-                    });
-                    this[RIPPLE_COUNT]++;
-                    if (event && event.isTrusted) {
-                        var once_1 = function (up_event) {
-                            if (isFocus) {
-                                (lastFocusTarget || element).removeEventListener("blur", once_1);
-                            }
-                            else if (isMouseEnter) {
-                                pointerElement.removeEventListener("mouseleave", once_1);
-                            }
-                            else {
-                                window.removeEventListener("pointerup", once_1);
-                                window.removeEventListener("pointercancel", once_1);
-                                if (up_event.pointerId !== event.pointerId) {
-                                    return;
-                                }
-                            }
-                            currentRipple.end();
-                        };
-                        if (isFocus) {
-                            (lastFocusTarget || element).addEventListener("blur", once_1);
-                        }
-                        else if (isMouseEnter) {
-                            pointerElement.addEventListener("mouseleave", once_1);
                         }
                         else {
-                            window.addEventListener("pointerup", once_1);
-                            window.addEventListener("pointercancel", once_1);
+                            if (x >= rect.width / 2) {
+                                r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
+                            }
+                            else {
+                                r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
+                            }
                         }
                     }
-                    return currentRipple;
-                },
-                set: function (options) {
-                    var prevOptions = this[RIPPLE_OPTIONS];
-                    options = this[RIPPLE_OPTIONS] = __assign(__assign(__assign({}, prevOptions), options), { detectLabel: prevOptions.detectLabel });
-                    if (options.detectLabel != null && !options.detectLabel) {
-                        options.usePointerFocus = false;
+                }
+                let currentRipple = new Ripple(x, y, r, type).attachTo(element, () => {
+                    this[RIPPLE_COUNT]--;
+                });
+                this[RIPPLE_COUNT]++;
+                if (event && event.isTrusted) {
+                    let once = (up_event) => {
+                        if (isFocus) {
+                            (lastFocusTarget || element).removeEventListener("blur", once);
+                        }
+                        else if (isMouseEnter) {
+                            pointerElement.removeEventListener("mouseleave", once);
+                        }
+                        else {
+                            window.removeEventListener("pointerup", once);
+                            window.removeEventListener("pointercancel", once);
+                            if (up_event.pointerId !== event.pointerId) {
+                                return;
+                            }
+                        }
+                        currentRipple.end();
+                    };
+                    if (isFocus) {
+                        (lastFocusTarget || element).addEventListener("blur", once);
+                    }
+                    else if (isMouseEnter) {
+                        pointerElement.addEventListener("mouseleave", once);
                     }
                     else {
-                        options.detectLabel = true;
+                        window.addEventListener("pointerup", once);
+                        window.addEventListener("pointercancel", once);
                     }
-                    if (options.unbounded) {
-                        element.classList.add("rm-ripple-container--unbounded");
-                    }
-                    else {
-                        element.classList.remove("rm-ripple-container--unbounded");
-                    }
-                    if (options.highlight) {
-                        element.classList.add("rm-ripple-container--highlight");
-                    }
-                    else {
-                        element.classList.remove("rm-ripple-container--highlight");
-                    }
+                }
+                return currentRipple;
+            },
+            /**
+             * Cambia le impostazioni al creatore di increspature
+             * @param options
+             */
+            set(options) {
+                const prevOptions = this[RIPPLE_OPTIONS];
+                options = this[RIPPLE_OPTIONS] = {
+                    ...prevOptions,
+                    ...options,
+                    detectLabel: prevOptions.detectLabel
+                };
+                if (options.detectLabel != null && !options.detectLabel) {
+                    options.usePointerFocus = false;
+                }
+                else {
+                    options.detectLabel = true;
+                }
+                if (options.unbounded) {
+                    element.classList.add("rm-ripple-container--unbounded");
+                }
+                else {
+                    element.classList.remove("rm-ripple-container--unbounded");
+                }
+                if (options.highlight) {
+                    element.classList.add("rm-ripple-container--highlight");
+                }
+                else {
+                    element.classList.remove("rm-ripple-container--highlight");
+                }
+                if (element.style.setProperty) {
                     if (options.color) {
                         element.style.setProperty("--ripple-color", options.color);
                     }
                     else {
                         element.style.setProperty("--ripple-color", "black");
                     }
-                    if (options.focusTarget !== lastFocusTarget) {
-                        if (lastFocusTarget) {
-                            lastFocusTarget.removeEventListener("focus", onFocus);
-                            lastFocusTarget = undefined;
-                        }
-                        else {
-                            element.removeEventListener("focus", onFocus);
-                        }
-                        if (options.focusTarget) {
-                            lastFocusTarget = options.focusTarget;
-                            lastFocusTarget.addEventListener("focus", onFocus);
-                        }
-                        else {
-                            element.addEventListener("focus", onFocus);
-                        }
+                }
+                if (options.focusTarget !== lastFocusTarget) {
+                    if (lastFocusTarget) {
+                        lastFocusTarget.removeEventListener("focus", onFocus);
+                        lastFocusTarget = undefined;
                     }
                     else {
                         element.removeEventListener("focus", onFocus);
+                    }
+                    if (options.focusTarget) {
+                        lastFocusTarget = options.focusTarget;
+                        lastFocusTarget.addEventListener("focus", onFocus);
+                    }
+                    else {
                         element.addEventListener("focus", onFocus);
                     }
-                    pointerElement.removeEventListener("mouseenter", onMouseEnter);
-                    pointerElement.addEventListener("mouseenter", onMouseEnter);
-                    return this;
-                },
-                getOption: function (option) {
-                    return this[RIPPLE_OPTIONS][option];
                 }
+                else {
+                    element.removeEventListener("focus", onFocus);
+                    element.addEventListener("focus", onFocus);
+                }
+                pointerElement.removeEventListener("mouseenter", onMouseEnter);
+                pointerElement.addEventListener("mouseenter", onMouseEnter);
+                return this;
             },
-            _a[RIPPLE_OPTIONS] = options,
-            _a[RIPPLE_COUNT] = 0,
-            _a);
+            getOption(option) {
+                return this[RIPPLE_OPTIONS][option];
+            },
+            [RIPPLE_OPTIONS]: options,
+            [RIPPLE_COUNT]: 0
+        };
         if (options.detectLabel) {
-            var parent_1 = element.parentElement;
-            while (parent_1) {
-                if (parent_1.tagName === "LABEL") {
-                    pointerElement = parent_1;
+            let parent = element.parentElement;
+            while (parent) {
+                if (parent.tagName === "LABEL") {
+                    pointerElement = parent;
                     break;
                 }
-                parent_1 = parent_1.parentElement;
+                parent = parent.parentElement;
             }
         }
-        pointerElement.addEventListener("pointerdown", function (event) {
+        pointerElement.addEventListener("pointerdown", event => {
             if (!canEventStartRipple || ripple[RIPPLE_OPTIONS].disabled) {
                 return;
             }
-            var rect = element.getBoundingClientRect();
+            let rect = element.getBoundingClientRect();
             ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
             if (ripple[RIPPLE_OPTIONS].stopRippling) {
                 canEventStartRipple = false;
             }
-            setTimeout(function () {
+            setTimeout(() => {
             }, 0);
         });
         element[RIPPLE] = ripple;
@@ -1020,7 +1040,7 @@
 
     const PAGE_INDEX = Symbol("page-index");
 
-    var index = {
+    var RmTabbedPages = {
       'css': `rm-tabbed-pages,[is="rm-tabbed-pages"]{ white-space: nowrap; overflow: hidden; width: 100%; display: block; font-size: 0; transform: scaleY(1); } rm-tabbed-pages > div:first-child,[is="rm-tabbed-pages"] > div:first-child{ overflow: hidden; display: block; width: 100%; } rm-tabbed-pages > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child{ display: block; width: 100%; overflow: auto visible; position: relative; user-select: none; text-align: center; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child{ display: inline-table; font-size: initial; text-align: center; } rm-tabbed-pages:not([centered]) > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"]:not([centered]) > div:first-child > div:first-child > div:first-child,rm-tabbed-pages[centered="false" i] > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"][centered="false" i] > div:first-child > div:first-child > div:first-child{ width: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div{ display: table-cell; overflow: hidden; position: relative; width: 1px; height: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div > button,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div > button{ background-color: transparent; border: 0; padding: 12px 16px; font-size: 16px; line-height: 20px; height: 100%; width: 100%; cursor: pointer; outline: none; color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); } rm-tabbed-pages > div:first-child > div:first-child > div:nth-child(2),[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:nth-child(2){ position: absolute; bottom: 0; left: 0; height: 2px; width: 1px; transition: transform ease-in-out 200ms; transform-origin: left; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); } rm-tabbed-pages > div:nth-child(2),[is="rm-tabbed-pages"] > div:nth-child(2){ overflow: hidden; max-height: 21474836px; transition: transform ease-in-out 200ms; } rm-tabbed-pages > div:nth-child(2) > *,[is="rm-tabbed-pages"] > div:nth-child(2) > *{ display: inline-block; width: 100%; vertical-align: top; transition: transform ease-in-out 200ms; font-size: initial; white-space: initial; }`,
 
       'exports': {
@@ -1319,6 +1339,6 @@
       'name': 'rm-tabbed-pages'
     };
 
-    return index;
+    return RmTabbedPages;
 
-})));
+}));

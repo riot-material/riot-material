@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('riot'), require('@riot-material/position-controller'), require('@riot-material/ripple')) :
     typeof define === 'function' && define.amd ? define(['riot', '@riot-material/position-controller', '@riot-material/ripple'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.tabbedPages = factory(global.riot, global.riotMaterial.positionController, global.riotMaterial.ripple)));
-}(this, (function (riot, positionController, ripple) { 'use strict';
+})(this, (function (riot, positionController, ripple) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -15,14 +15,12 @@
                     var d = Object.getOwnPropertyDescriptor(e, k);
                     Object.defineProperty(n, k, d.get ? d : {
                         enumerable: true,
-                        get: function () {
-                            return e[k];
-                        }
+                        get: function () { return e[k]; }
                     });
                 }
             });
         }
-        n['default'] = e;
+        n["default"] = e;
         return Object.freeze(n);
     }
 
@@ -31,7 +29,7 @@
 
     const PAGE_INDEX = Symbol("page-index");
 
-    var index = {
+    var RmTabbedPages = {
       'css': `rm-tabbed-pages,[is="rm-tabbed-pages"]{ white-space: nowrap; overflow: hidden; width: 100%; display: block; font-size: 0; transform: scaleY(1); } rm-tabbed-pages > div:first-child,[is="rm-tabbed-pages"] > div:first-child{ overflow: hidden; display: block; width: 100%; } rm-tabbed-pages > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child{ display: block; width: 100%; overflow: auto visible; position: relative; user-select: none; text-align: center; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child{ display: inline-table; font-size: initial; text-align: center; } rm-tabbed-pages:not([centered]) > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"]:not([centered]) > div:first-child > div:first-child > div:first-child,rm-tabbed-pages[centered="false" i] > div:first-child > div:first-child > div:first-child,[is="rm-tabbed-pages"][centered="false" i] > div:first-child > div:first-child > div:first-child{ width: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div{ display: table-cell; overflow: hidden; position: relative; width: 1px; height: 100%; } rm-tabbed-pages > div:first-child > div:first-child > div:first-child > div > button,[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:first-child > div > button{ background-color: transparent; border: 0; padding: 12px 16px; font-size: 16px; line-height: 20px; height: 100%; width: 100%; cursor: pointer; outline: none; color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); } rm-tabbed-pages > div:first-child > div:first-child > div:nth-child(2),[is="rm-tabbed-pages"] > div:first-child > div:first-child > div:nth-child(2){ position: absolute; bottom: 0; left: 0; height: 2px; width: 1px; transition: transform ease-in-out 200ms; transform-origin: left; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); } rm-tabbed-pages > div:nth-child(2),[is="rm-tabbed-pages"] > div:nth-child(2){ overflow: hidden; max-height: 21474836px; transition: transform ease-in-out 200ms; } rm-tabbed-pages > div:nth-child(2) > *,[is="rm-tabbed-pages"] > div:nth-child(2) > *{ display: inline-block; width: 100%; vertical-align: top; transition: transform ease-in-out 200ms; font-size: initial; white-space: initial; }`,
 
       'exports': {
@@ -50,7 +48,7 @@
                 window.requestAnimationFrame(frame);
             };
             window.requestAnimationFrame(frame);
-            positionController__default['default'](this.root.children[1])
+            positionController__default["default"](this.root.children[1])
             .setSelectedIndex(this.getSelectedIndex())
             .on("positionchanged", event => this.update({ instant: true }))
             .on("positionapplied", event => {
@@ -147,12 +145,12 @@
             const newlySelectedIndex = this._getUpdatedIndexOf(currentlyRawSelectedIndex);
             if (currentlySelectedIndex !== newlySelectedIndex) {
                 this.state.selectedIndex = newlySelectedIndex;
-                positionController__default['default'](this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
+                positionController__default["default"](this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
                 this._updateIndicator(true);
             }
 
             // update positionController length
-            positionController__default['default'](this.root.children[1]).setLength(this.getLength());
+            positionController__default["default"](this.root.children[1]).setLength(this.getLength());
 
             // set indicator to correct position and size
             this._updateIndicator(!update || this.state.instant);
@@ -246,7 +244,7 @@
                 return;
             }
             this.update({ selectedIndex: index });
-            positionController__default['default'](this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
+            positionController__default["default"](this.root.children[1]).setSelectedIndex(this.getSelectedIndex());
         },
 
         _getIndicatorLeft() {
@@ -311,7 +309,7 @@
         },
 
         getPosition() {
-            return positionController__default['default'](this.root.children[1]).getPosition();
+            return positionController__default["default"](this.root.children[1]).getPosition();
         }
       },
 
@@ -330,6 +328,6 @@
       'name': 'rm-tabbed-pages'
     };
 
-    return index;
+    return RmTabbedPages;
 
-})));
+}));
