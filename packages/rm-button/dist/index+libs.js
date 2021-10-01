@@ -3760,7 +3760,7 @@
 	          'evaluate': function(
 	            _scope
 	          ) {
-	            return !_scope.isIcon;
+	            return !_scope.isIcon();
 	          },
 
 	          'redundantAttribute': 'expr8',

@@ -10,6 +10,8 @@
         <script src="../node_modules/riot/riot+compiler.js"></script>
         <script src="../dist/index+libs.js"></script>
 
+        <script type="riot" data-src="./test.riot"></script>
+
         <script>
             riot.compile().then(() => {
                 riot.register("rm-button", riotMaterial.components.button);
