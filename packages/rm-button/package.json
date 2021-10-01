@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -16,7 +16,8 @@
     "@rollup/plugin-node-resolve": "^13.0.5",
     "riot": "^6.0.4",
     "rollup": "^2.58.0",
-    "rollup-plugin-riot": "^6.0.0"
+    "rollup-plugin-riot": "^6.0.0",
+    "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
     "@riot-material/before-focus-listener": "^2.0.0",

@@ -1,5 +1,6 @@
-const riot = require("rollup-plugin-riot");
 const commonjs = require("@rollup/plugin-commonjs");
+const riot = require("rollup-plugin-riot");
+const typescript = require("rollup-plugin-ts");
 
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
@@ -27,11 +28,12 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "src/index.riot",
+        input: "src/index.ts",
         external,
         plugins: [
             nodeResolve(),
             commonjs(),
+            typescript(),
             riot()
         ],
         output: [
@@ -48,10 +50,11 @@ export default [
         ]
     },
     {
-        input: "src/index.riot",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             commonjs(),
+            typescript(),
             riot()
         ],
         output: [
