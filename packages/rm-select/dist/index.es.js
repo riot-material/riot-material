@@ -2,9 +2,7 @@ import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import ButtonComponent from '@riot-material/rm-button';
 import MenuComponent from '@riot-material/rm-menu';
 import { ripple } from '@riot-material/ripple';
-import '@riot-material/before-focus-listener';
-
-// import { __ as __r } from "riot";
+import { addListener, removeListener } from '@riot-material/before-focus-listener';
 
 const blockedInputs = [];
 window.addEventListener("change", event => {
@@ -13,7 +11,7 @@ window.addEventListener("change", event => {
     }
 }, true);
 
-var index = {
+var RmSelect = {
   'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled],rm-select[readonly],[is="rm-select"][readonly]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 0px; height: 0px; color: currentColor; opacity: 0; cursor: default; position: absolute; left: -1px; top: -1px; } rm-select[filterable] .rm-select--input,[is="rm-select"][filterable] .rm-select--input{ position: static; width: 100%; height: auto; opacity: 1; cursor: text; } rm-select .rm-select--input-wrap,[is="rm-select"] .rm-select--input-wrap{ position: relative; height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-select[full-width] .rm-select--input-wrap,[is="rm-select"][full-width] .rm-select--input-wrap{ width: 100%; }`,
 
   'exports': {
@@ -184,7 +182,7 @@ var index = {
 
         blockedInputs.push(input);
 
-        this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
+        addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
             if (this.isDisabled() || this.isReadonly()) {
                 return;
             }
@@ -198,7 +196,7 @@ var index = {
                 this.update({ menuopened: !this.state.menuopened });
             }
         });
-        this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
+        addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
             if (this.isDisabled() || this.isReadonly()) {
                 return;
             }
@@ -243,8 +241,8 @@ var index = {
         })) {
             blockedInputs.splice(index, 1);
         }
-        this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
-        this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
+        removeListener(this.root.firstElementChild, this._onclickFirstChild);
+        removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
     },
 
     _manipulated: [],
@@ -839,4 +837,4 @@ var index = {
   'name': 'rm-select'
 };
 
-export default index;
+export { RmSelect as default };

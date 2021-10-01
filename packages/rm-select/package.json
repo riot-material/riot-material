@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-select",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -11,21 +11,22 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riot-material/focus-manager": "^1.1.0",
-    "@riot-material/rm-list-group": "^1.1.0",
-    "@riot-material/rm-list-item": "^1.2.0",
-    "@riotjs/compiler": "^6.0.1",
-    "@rollup/plugin-commonjs": "^19.0.1",
-    "@rollup/plugin-node-resolve": "^13.0.2",
-    "riot": "^6.0.1",
-    "rollup": "^2.53.3",
-    "rollup-plugin-riot": "^6.0.0"
+    "@riot-material/focus-manager": "^1.2.0",
+    "@riot-material/rm-list-group": "^1.2.0",
+    "@riot-material/rm-list-item": "^1.3.0",
+    "@riotjs/compiler": "^6.0.4",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "riot": "^6.0.4",
+    "rollup": "^2.58.0",
+    "rollup-plugin-riot": "^6.0.0",
+    "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/before-focus-listener": "^1.3.0",
-    "@riot-material/ripple": "^1.1.2",
-    "@riot-material/rm-button": "^1.1.1",
-    "@riot-material/rm-menu": "^1.1.0",
-    "@riot-material/rm-textfield-container": "^1.1.0"
+    "@riot-material/before-focus-listener": "^2.0.0",
+    "@riot-material/ripple": "^1.2.0",
+    "@riot-material/rm-button": "^2.1.0",
+    "@riot-material/rm-menu": "^2.0.0",
+    "@riot-material/rm-textfield-container": "^1.2.0"
   }
 }

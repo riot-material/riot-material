@@ -91,8 +91,10 @@
         import MenuComponent from "@riot-material/rm-menu";
         import { ripple } from "@riot-material/ripple";
 
-        import "@riot-material/before-focus-listener";
-        // import { __ as __r } from "riot";
+        import {
+            addListener,
+            removeListener
+        } from "@riot-material/before-focus-listener";
 
         const blockedInputs = [];
         window.addEventListener("change", event => {
@@ -265,7 +267,7 @@
 
                 blockedInputs.push(input);
 
-                this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
+                addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
                     if (this.isDisabled() || this.isReadonly()) {
                         return;
                     }
@@ -279,7 +281,7 @@
                         this.update({ menuopened: !this.state.menuopened });
                     }
                 });
-                this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
+                addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
                     if (this.isDisabled() || this.isReadonly()) {
                         return;
                     }
@@ -323,8 +325,8 @@
                 })) {
                     blockedInputs.splice(index, 1);
                 }
-                this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
-                this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
+                removeListener(this.root.firstElementChild, this._onclickFirstChild);
+                removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
             },
             _manipulated: [],
             _manipulate() {

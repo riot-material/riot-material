@@ -1,16 +1,14 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/rm-textfield-container'), require('@riot-material/rm-button'), require('@riot-material/rm-menu'), require('@riot-material/ripple'), require('@riot-material/before-focus-listener')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', '@riot-material/ripple', '@riot-material/before-focus-listener'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.select = factory(global.riotMaterial.components.textfieldContainer, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riotMaterial.ripple)));
-}(this, (function (TextfieldContainerComponent, ButtonComponent, MenuComponent, ripple) { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.select = factory(global.riotMaterial.components.textfieldContainer, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riotMaterial.ripple, global.riotMaterial.beforeFocusListener)));
+})(this, (function (TextfieldContainerComponent, ButtonComponent, MenuComponent, ripple, beforeFocusListener) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
     var TextfieldContainerComponent__default = /*#__PURE__*/_interopDefaultLegacy(TextfieldContainerComponent);
     var ButtonComponent__default = /*#__PURE__*/_interopDefaultLegacy(ButtonComponent);
     var MenuComponent__default = /*#__PURE__*/_interopDefaultLegacy(MenuComponent);
-
-    // import { __ as __r } from "riot";
 
     const blockedInputs = [];
     window.addEventListener("change", event => {
@@ -19,7 +17,7 @@
         }
     }, true);
 
-    var index = {
+    var RmSelect = {
       'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled],rm-select[readonly],[is="rm-select"][readonly]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ display: inline-block; font: inherit; padding: 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 0px; height: 0px; color: currentColor; opacity: 0; cursor: default; position: absolute; left: -1px; top: -1px; } rm-select[filterable] .rm-select--input,[is="rm-select"][filterable] .rm-select--input{ position: static; width: 100%; height: auto; opacity: 1; cursor: text; } rm-select .rm-select--input-wrap,[is="rm-select"] .rm-select--input-wrap{ position: relative; height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-select[full-width] .rm-select--input-wrap,[is="rm-select"][full-width] .rm-select--input-wrap{ width: 100%; }`,
 
       'exports': {
@@ -190,7 +188,7 @@
 
             blockedInputs.push(input);
 
-            this.root.firstElementChild.addEventListener("beforefocus", this._onclickFirstChild = event => {
+            beforeFocusListener.addListener(this.root.firstElementChild, this._onclickFirstChild = event => {
                 if (this.isDisabled() || this.isReadonly()) {
                     return;
                 }
@@ -204,7 +202,7 @@
                     this.update({ menuopened: !this.state.menuopened });
                 }
             });
-            this.root.querySelector(".rm-select--arrow").addEventListener("beforefocus", this._onclickArrow = event => {
+            beforeFocusListener.addListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
                 if (this.isDisabled() || this.isReadonly()) {
                     return;
                 }
@@ -249,8 +247,8 @@
             })) {
                 blockedInputs.splice(index, 1);
             }
-            this.root.firstElementChild.removeEventListener("beforefocus", this._onclickFirstChild);
-            this.root.querySelector(".rm-select--arrow").removeEventListener("beforefocus", this._onclickArrow);
+            beforeFocusListener.removeListener(this.root.firstElementChild, this._onclickFirstChild);
+            beforeFocusListener.removeListener(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
         },
 
         _manipulated: [],
@@ -419,9 +417,9 @@
         },
 
         components: {
-            "rm-textfield-container": TextfieldContainerComponent__default['default'],
-            "rm-button": ButtonComponent__default['default'],
-            "rm-menu": MenuComponent__default['default']
+            "rm-textfield-container": TextfieldContainerComponent__default["default"],
+            "rm-button": ButtonComponent__default["default"],
+            "rm-menu": MenuComponent__default["default"]
         }
       },
 
@@ -845,6 +843,6 @@
       'name': 'rm-select'
     };
 
-    return index;
+    return RmSelect;
 
-})));
+}));
