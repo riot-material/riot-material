@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2021-10-01
+- update dependencies
+
 ## [3.0.0] - 2021-10-01
 - emit ts declarations
 - update dependencies
