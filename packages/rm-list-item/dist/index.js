@@ -2,9 +2,9 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/ripple')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/ripple'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.listItem = factory(global.riotMaterial.ripple)));
-}(this, (function (ripple) { 'use strict';
+})(this, (function (ripple) { 'use strict';
 
-    var index = {
+    var RmListItem = {
       'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; }`,
 
       'exports': {
@@ -210,6 +210,6 @@
       'name': 'rm-list-item'
     };
 
-    return index;
+    return RmListItem;
 
-})));
+}));
