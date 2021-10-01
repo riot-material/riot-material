@@ -2,25 +2,24 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.beforeFocusListener = {})));
-}(this, (function (exports) { 'use strict';
+})(this, (function (exports) { 'use strict';
 
-    var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
-    var WAS_FUNCTION = Symbol("was-function");
+    const BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
+    const WAS_FUNCTION = Symbol("was-function");
     function addListener(element, handler) {
-        var _a;
         if (handler === void 0) {
             throw new Error("invalid handler");
         }
         if (typeof handler === "function") {
-            handler = (_a = {},
-                _a[WAS_FUNCTION] = true,
-                _a.handleEvent = handler,
-                _a);
+            handler = {
+                [WAS_FUNCTION]: true,
+                handleEvent: handler
+            };
         }
         else if (typeof handler !== "object" || !("handleEvent" in handler)) {
             throw new Error("invalid handler");
         }
-        var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+        let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
         if (instance) {
             instance.listeners.push(handler);
             if (instance.listeners.length === 1) {
@@ -28,9 +27,9 @@
             }
             return;
         }
-        var touchShouldFire;
-        var lastTouch = null;
-        var ontouchstart = function (event) {
+        let touchShouldFire;
+        let lastTouch = null;
+        let ontouchstart = event => {
             if (lastTouch == null || event.changedTouches[0].identifier === lastTouch) {
                 return;
             }
@@ -38,13 +37,13 @@
         };
         window.addEventListener("touchstart", ontouchstart);
         function callListeners(event) {
-            var stop = false;
-            var stopImmediate = false;
-            var beforeFocusEvent = {
+            let stop = false;
+            let stopImmediate = false;
+            const beforeFocusEvent = {
                 type: "beforefocus",
                 detail: { nativeEvent: event },
-                initEvent: function () { return; },
-                initCustomEvent: function () { return; },
+                initEvent() { return; },
+                initCustomEvent() { return; },
                 get cancelable() { return false; },
                 get bubbles() { return false; },
                 get composed() { return false; },
@@ -58,16 +57,16 @@
                 get srcElement() { return this.currentTarget; },
                 get target() { return this.currentTarget; },
                 get timeStamp() { return event.timeStamp; },
-                composedPath: function () { return []; },
-                preventDefault: function () { event.preventDefault(); },
+                composedPath() { return []; },
+                preventDefault() { event.preventDefault(); },
                 NONE: Event.NONE,
                 BUBBLING_PHASE: Event.BUBBLING_PHASE,
                 CAPTURING_PHASE: Event.CAPTURING_PHASE,
                 AT_TARGET: Event.AT_TARGET,
-                stopPropagation: function () { stop = true; },
-                stopImmediatePropagation: function () { stopImmediate = true; }
+                stopPropagation() { stop = true; },
+                stopImmediatePropagation() { stopImmediate = true; }
             };
-            instance.listeners.some(function (handler) {
+            instance.listeners.some(handler => {
                 if (handler[WAS_FUNCTION]) {
                     handler.handleEvent.call(null, beforeFocusEvent);
                 }
@@ -85,43 +84,43 @@
                 return false;
             });
         }
-        var eventHandled = false;
+        let eventHandled = false;
         element[BEFORE_FOCUS_CONTROLLER_INSTANCE] = instance = {
             _window_ontouchstart: ontouchstart,
-            ontouchstart: function (event) {
+            ontouchstart(event) {
                 if (instance.listeners.length === 0 || lastTouch != null) {
                     return;
                 }
                 lastTouch = event.changedTouches[0].identifier;
                 touchShouldFire = true;
             },
-            ontouchmove: function (event) {
+            ontouchmove(event) {
                 if (instance.listeners.length === 0) {
                     return;
                 }
                 touchShouldFire = false;
             },
-            ontouchend: function (event) {
+            ontouchend(event) {
                 if (instance.listeners.length === 0) {
                     return;
                 }
                 lastTouch = null;
                 eventHandled = true;
-                setTimeout(function () { return eventHandled = false; }, 200);
+                setTimeout(() => eventHandled = false, 200);
                 if (!touchShouldFire) {
                     return;
                 }
                 callListeners(event);
             },
-            ontouchcancel: function (event) {
+            ontouchcancel(event) {
                 if (instance.listeners.length === 0) {
                     return;
                 }
                 lastTouch = null;
                 eventHandled = true;
-                setTimeout(function () { return eventHandled = false; }, 200);
+                setTimeout(() => eventHandled = false, 200);
             },
-            onmousedown: function (event) {
+            onmousedown(event) {
                 if (instance.listeners.length === 0 || eventHandled) {
                     return;
                 }
@@ -136,12 +135,12 @@
         element.addEventListener("mousedown", instance.onmousedown);
     }
     function removeListener(element, handler) {
-        var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+        let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
         if (!instance) {
             return;
         }
-        var index = -1;
-        if (instance.listeners.some(function (listener, i) {
+        let index = -1;
+        if (instance.listeners.some((listener, i) => {
             if (typeof handler === "function" ? listener.handleEvent === handler : listener === handler) {
                 index = i;
                 return true;
@@ -154,28 +153,46 @@
             }
         }
     }
-    var nativeAddEventListener = HTMLElement.prototype.addEventListener;
-    HTMLElement.prototype.addEventListener = function (type, listener, options) {
-        if (type === "beforefocus") {
-            addListener(this, listener);
+    let nativeAddEventListener = null;
+    let nativeRemoveEventListener = null;
+    function polyfill() {
+        if (nativeAddEventListener !== null) {
+            return;
         }
-        else {
-            nativeAddEventListener.call(this, type, listener, options);
+        nativeAddEventListener = HTMLElement.prototype.addEventListener;
+        HTMLElement.prototype.addEventListener = function (type, listener, options) {
+            if (type === "beforefocus") {
+                addListener(this, listener);
+            }
+            else {
+                nativeAddEventListener.call(this, type, listener, options);
+            }
+        };
+        nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
+        HTMLElement.prototype.removeEventListener = function (type, listener, options) {
+            if (type === "beforefocus") {
+                removeListener(this, listener);
+            }
+            else {
+                nativeRemoveEventListener.call(this, type, listener, options);
+            }
+        };
+    }
+    function restore() {
+        if (nativeAddEventListener === null) {
+            return;
         }
-    };
-    var nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
-    HTMLElement.prototype.removeEventListener = function (type, listener, options) {
-        if (type === "beforefocus") {
-            removeListener(this, listener);
-        }
-        else {
-            nativeRemoveEventListener.call(this, type, listener, options);
-        }
-    };
+        HTMLElement.prototype.addEventListener = nativeAddEventListener;
+        nativeAddEventListener = null;
+        HTMLElement.prototype.removeEventListener = nativeRemoveEventListener;
+        nativeRemoveEventListener = null;
+    }
 
     exports.addListener = addListener;
+    exports.polyfill = polyfill;
     exports.removeListener = removeListener;
+    exports.restore = restore;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

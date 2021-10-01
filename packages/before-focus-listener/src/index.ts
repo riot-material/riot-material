@@ -19,6 +19,16 @@ interface IBeforeFocusController {
     listeners: BeforeFocusEventHandler[];
 }
 
+declare global {
+    interface HTMLElementEventMap {
+        "beforefocus": TouchEvent | MouseEvent;
+    }
+
+    interface HTMLElement {
+        [BEFORE_FOCUS_CONTROLLER_INSTANCE]?: IBeforeFocusController;
+    }
+}
+
 export function addListener(
     element: HTMLElement,
     handler: BeforeFocusEventHandle | BeforeFocusEventHandler
@@ -34,7 +44,7 @@ export function addListener(
     } else if (typeof handler !== "object" || !("handleEvent" in handler)){
         throw new Error("invalid handler");
     }
-    let instance: IBeforeFocusController = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+    let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
     if (instance) {
         instance.listeners.push(handler);
         if (instance.listeners.length === 1) {
@@ -82,7 +92,7 @@ export function addListener(
             stopPropagation(): void { stop = true; },
             stopImmediatePropagation(): void { stopImmediate = true; }
         };
-        instance.listeners.some(handler => {
+        instance!.listeners.some(handler => {
             if (handler[WAS_FUNCTION]) {
                 handler.handleEvent.call(null, beforeFocusEvent);
             } else {
@@ -104,20 +114,20 @@ export function addListener(
     element[BEFORE_FOCUS_CONTROLLER_INSTANCE] = instance = {
         _window_ontouchstart: ontouchstart,
         ontouchstart(event: TouchEvent): void {
-            if (instance.listeners.length === 0 || lastTouch != null) {
+            if (instance!.listeners.length === 0 || lastTouch != null) {
                 return;
             }
             lastTouch = event.changedTouches[0].identifier;
             touchShouldFire = true;
         },
         ontouchmove(event: TouchEvent): void {
-            if (instance.listeners.length === 0) {
+            if (instance!.listeners.length === 0) {
                 return;
             }
             touchShouldFire = false;
         },
         ontouchend(event: TouchEvent): void {
-            if (instance.listeners.length === 0) {
+            if (instance!.listeners.length === 0) {
                 return;
             }
             lastTouch = null;
@@ -129,7 +139,7 @@ export function addListener(
             callListeners(event);
         },
         ontouchcancel(event: TouchEvent): void {
-            if (instance.listeners.length === 0) {
+            if (instance!.listeners.length === 0) {
                 return;
             }
             lastTouch = null;
@@ -137,7 +147,7 @@ export function addListener(
             setTimeout(() => eventHandled = false, 200);
         },
         onmousedown(event: MouseEvent): void {
-            if (instance.listeners.length === 0 || eventHandled) {
+            if (instance!.listeners.length === 0 || eventHandled) {
                 return;
             }
             callListeners(event);
@@ -154,7 +164,7 @@ export function removeListener(
     element: HTMLElement,
     handler: BeforeFocusEventHandle | BeforeFocusEventHandler
 ): void {
-    let instance: IBeforeFocusController = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+    let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
     if (!instance) {
         return;
     }
@@ -173,34 +183,43 @@ export function removeListener(
     }
 }
 
-declare global {
-    // tslint:disable-next-line: interface-name
-    interface HTMLElementEventMap {
-        "beforefocus": TouchEvent | MouseEvent;
+let nativeAddEventListener: typeof HTMLElement.prototype.addEventListener | null = null;
+let nativeRemoveEventListener: typeof HTMLElement.prototype.removeEventListener | null = null;
+export function polyfill() {
+    if (nativeAddEventListener !== null) {
+        return;
     }
+    nativeAddEventListener = HTMLElement.prototype.addEventListener;
+    HTMLElement.prototype.addEventListener = function <K extends keyof HTMLElementEventMap> (
+        type: K,
+        listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+        options?: boolean | AddEventListenerOptions
+    ): void {
+        if (type === "beforefocus") {
+            addListener(this, listener as any);
+        } else {
+            nativeAddEventListener!.call(this, type, listener as any, options);
+        }
+    };
+    nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
+    HTMLElement.prototype.removeEventListener = function <K extends keyof HTMLElementEventMap> (
+        type: K,
+        listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
+        options?: boolean | AddEventListenerOptions
+    ): void {
+        if (type === "beforefocus") {
+            removeListener(this, listener as any);
+        } else {
+            nativeRemoveEventListener!.call(this, type, listener as any, options);
+        }
+    };
 }
-
-const nativeAddEventListener: typeof HTMLElement.prototype.addEventListener = HTMLElement.prototype.addEventListener;
-HTMLElement.prototype.addEventListener = function <K extends keyof HTMLElementEventMap> (
-    type: K,
-    listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
-    options?: boolean | AddEventListenerOptions
-): void {
-    if (type === "beforefocus") {
-        addListener(this, listener as any);
-    } else {
-        nativeAddEventListener.call(this, type, listener as any, options);
+export function restore() {
+    if (nativeAddEventListener === null) {
+        return;
     }
-};
-const nativeRemoveEventListener: typeof HTMLElement.prototype.removeEventListener = HTMLElement.prototype.removeEventListener;
-HTMLElement.prototype.removeEventListener = function <K extends keyof HTMLElementEventMap> (
-    type: K,
-    listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
-    options?: boolean | AddEventListenerOptions
-): void {
-    if (type === "beforefocus") {
-        removeListener(this, listener as any);
-    } else {
-        nativeRemoveEventListener.call(this, type, listener as any, options);
-    }
-};
+    HTMLElement.prototype.addEventListener = nativeAddEventListener;
+    nativeAddEventListener = null;
+    HTMLElement.prototype.removeEventListener = nativeRemoveEventListener!;
+    nativeRemoveEventListener = null;
+}
