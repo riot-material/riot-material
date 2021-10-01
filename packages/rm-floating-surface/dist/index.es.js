@@ -1,7 +1,7 @@
-import '@riot-material/elevation';
-import '@riot-material/surfaces';
+import { init } from '@riot-material/elevation';
+import { init as init$1 } from '@riot-material/surfaces';
 
-var index = {
+var RmFloatingSurface = {
   'css': `rm-floating-surface,[is="rm-floating-surface"]{ display: block; position: fixed; z-index: 100; margin: -80px; padding: 80px; overflow: hidden; } rm-floating-surface.anchor-top,[is="rm-floating-surface"].anchor-top{ margin-top: 0; padding-top: 0; } rm-floating-surface.anchor-bottom,[is="rm-floating-surface"].anchor-bottom{ margin-bottom: 0; padding-bottom: 0; } rm-floating-surface > div,[is="rm-floating-surface"] > div{ border-radius: 8px; } rm-floating-surface:not([variant="outlined"]).anchor-top > div,[is="rm-floating-surface"]:not([variant="outlined"]).anchor-top > div{ border-top-left-radius: 0; border-top-right-radius: 0; }`,
 
   'exports': {
@@ -62,6 +62,11 @@ var index = {
                 this.root.classList.add("anchor-bottom");
             }
         }
+    },
+
+    onBeforeMount() {
+        init();
+        init$1();
     },
 
     onMounted() {
@@ -142,11 +147,11 @@ var index = {
               'name': 'class',
 
               'evaluate': function(
-                scope
+                _scope
               ) {
                 return [
                   'rm-',
-                  scope.getSurface(),
+                  _scope.getSurface(),
                   '-surface mdc-elevation--z4'
                 ].join(
                   ''
@@ -169,4 +174,4 @@ var index = {
   'name': 'rm-floating-surface'
 };
 
-export default index;
+export { RmFloatingSurface as default };

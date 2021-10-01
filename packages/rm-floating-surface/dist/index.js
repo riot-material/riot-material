@@ -1,10 +1,10 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/elevation'), require('@riot-material/surfaces')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/elevation', '@riot-material/surfaces'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.floatingSurface = factory()));
-}(this, (function () { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.floatingSurface = factory(global.riotMaterial.elevation, global.riotMaterial.surfaces)));
+})(this, (function (elevation, surfaces) { 'use strict';
 
-    var index = {
+    var RmFloatingSurface = {
       'css': `rm-floating-surface,[is="rm-floating-surface"]{ display: block; position: fixed; z-index: 100; margin: -80px; padding: 80px; overflow: hidden; } rm-floating-surface.anchor-top,[is="rm-floating-surface"].anchor-top{ margin-top: 0; padding-top: 0; } rm-floating-surface.anchor-bottom,[is="rm-floating-surface"].anchor-bottom{ margin-bottom: 0; padding-bottom: 0; } rm-floating-surface > div,[is="rm-floating-surface"] > div{ border-radius: 8px; } rm-floating-surface:not([variant="outlined"]).anchor-top > div,[is="rm-floating-surface"]:not([variant="outlined"]).anchor-top > div{ border-top-left-radius: 0; border-top-right-radius: 0; }`,
 
       'exports': {
@@ -65,6 +65,11 @@
                     this.root.classList.add("anchor-bottom");
                 }
             }
+        },
+
+        onBeforeMount() {
+            elevation.init();
+            surfaces.init();
         },
 
         onMounted() {
@@ -145,11 +150,11 @@
                   'name': 'class',
 
                   'evaluate': function(
-                    scope
+                    _scope
                   ) {
                     return [
                       'rm-',
-                      scope.getSurface(),
+                      _scope.getSurface(),
                       '-surface mdc-elevation--z4'
                     ].join(
                       ''
@@ -172,6 +177,6 @@
       'name': 'rm-floating-surface'
     };
 
-    return index;
+    return RmFloatingSurface;
 
-})));
+}));
