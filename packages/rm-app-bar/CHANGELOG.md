@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [2.0.0] - 2021-10-01
+- emit ts declarations
+- update dependencies
+
 ## [1.2.1] - 2021-07-23
 - fix utils import
 
