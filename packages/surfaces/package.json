@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/surfaces",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -11,9 +11,7 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.2.3",
-    "rollup": "^2.53.3",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "rollup": "^2.58.0",
+    "rollup-plugin-ts": "^1.4.7"
   }
 }
