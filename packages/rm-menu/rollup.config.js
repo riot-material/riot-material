@@ -1,8 +1,9 @@
-const riot = require("rollup-plugin-riot");
 const commonjs = require("@rollup/plugin-commonjs");
-const nodeResolve = require("@rollup/plugin-node-resolve").default;
-const typescript = require("@rollup/plugin-typescript");
-const terser = require("rollup-plugin-terser").terser;
+const riot = require("rollup-plugin-riot");
+const typescript = require("rollup-plugin-ts");
+
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const { terser } = require("rollup-plugin-terser");
 
 const globals = {
     "@riot-material/elevation": "riotMaterial.elevation",
@@ -13,7 +14,7 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "src/index.riot",
+        input: "src/index.ts",
         external,
         plugins: [
             nodeResolve(),
@@ -36,7 +37,7 @@ export default [
         ]
     },
     {
-        input: "src/index.riot",
+        input: "src/index.ts",
         plugins: [
             nodeResolve(),
             commonjs(),

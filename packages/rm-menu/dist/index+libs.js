@@ -2,25 +2,26 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.menu = factory()));
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
     var css_248z = ".mdc-elevation--z0{box-shadow:0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12)}.mdc-elevation--z1{box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)}.mdc-elevation--z2{box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)}.mdc-elevation--z3{box-shadow:0 3px 3px -2px rgba(0,0,0,.2),0 3px 4px 0 rgba(0,0,0,.14),0 1px 8px 0 rgba(0,0,0,.12)}.mdc-elevation--z4{box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12)}.mdc-elevation--z5{box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 5px 8px 0 rgba(0,0,0,.14),0 1px 14px 0 rgba(0,0,0,.12)}.mdc-elevation--z6{box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12)}.mdc-elevation--z7{box-shadow:0 4px 5px -2px rgba(0,0,0,.2),0 7px 10px 1px rgba(0,0,0,.14),0 2px 16px 1px rgba(0,0,0,.12)}.mdc-elevation--z8{box-shadow:0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)}.mdc-elevation--z9{box-shadow:0 5px 6px -3px rgba(0,0,0,.2),0 9px 12px 1px rgba(0,0,0,.14),0 3px 16px 2px rgba(0,0,0,.12)}.mdc-elevation--z10{box-shadow:0 6px 6px -3px rgba(0,0,0,.2),0 10px 14px 1px rgba(0,0,0,.14),0 4px 18px 3px rgba(0,0,0,.12)}.mdc-elevation--z11{box-shadow:0 6px 7px -4px rgba(0,0,0,.2),0 11px 15px 1px rgba(0,0,0,.14),0 4px 20px 3px rgba(0,0,0,.12)}.mdc-elevation--z12{box-shadow:0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12)}.mdc-elevation--z13{box-shadow:0 7px 8px -4px rgba(0,0,0,.2),0 13px 19px 2px rgba(0,0,0,.14),0 5px 24px 4px rgba(0,0,0,.12)}.mdc-elevation--z14{box-shadow:0 7px 9px -4px rgba(0,0,0,.2),0 14px 21px 2px rgba(0,0,0,.14),0 5px 26px 4px rgba(0,0,0,.12)}.mdc-elevation--z15{box-shadow:0 8px 9px -5px rgba(0,0,0,.2),0 15px 22px 2px rgba(0,0,0,.14),0 6px 28px 5px rgba(0,0,0,.12)}.mdc-elevation--z16{box-shadow:0 8px 10px -5px rgba(0,0,0,.2),0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12)}.mdc-elevation--z17{box-shadow:0 8px 11px -5px rgba(0,0,0,.2),0 17px 26px 2px rgba(0,0,0,.14),0 6px 32px 5px rgba(0,0,0,.12)}.mdc-elevation--z18{box-shadow:0 9px 11px -5px rgba(0,0,0,.2),0 18px 28px 2px rgba(0,0,0,.14),0 7px 34px 6px rgba(0,0,0,.12)}.mdc-elevation--z19{box-shadow:0 9px 12px -6px rgba(0,0,0,.2),0 19px 29px 2px rgba(0,0,0,.14),0 7px 36px 6px rgba(0,0,0,.12)}.mdc-elevation--z20{box-shadow:0 10px 13px -6px rgba(0,0,0,.2),0 20px 31px 3px rgba(0,0,0,.14),0 8px 38px 7px rgba(0,0,0,.12)}.mdc-elevation--z21{box-shadow:0 10px 13px -6px rgba(0,0,0,.2),0 21px 33px 3px rgba(0,0,0,.14),0 8px 40px 7px rgba(0,0,0,.12)}.mdc-elevation--z22{box-shadow:0 10px 14px -6px rgba(0,0,0,.2),0 22px 35px 3px rgba(0,0,0,.14),0 8px 42px 7px rgba(0,0,0,.12)}.mdc-elevation--z23{box-shadow:0 11px 14px -7px rgba(0,0,0,.2),0 23px 36px 3px rgba(0,0,0,.14),0 9px 44px 8px rgba(0,0,0,.12)}.mdc-elevation--z24{box-shadow:0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12)}.mdc-elevation-transition{transition:box-shadow .28s cubic-bezier(.4,0,.2,1);will-change:box-shadow}";
+    var css = css_248z;
 
-    var destroyer$1 = null;
+    let destroyer$1 = null;
     function init$1() {
         if (destroyer$1 !== null) {
             return destroyer$1;
         }
-        var style = document.head.appendChild(document.createElement("style"));
-        style.innerHTML = css_248z;
-        return destroyer$1 = function () {
+        const style = document.head.appendChild(document.createElement("style"));
+        style.innerHTML = css;
+        return destroyer$1 = () => {
             document.head.removeChild(style);
             destroyer$1 = null;
         };
     }
     function elevation(element, elevation) {
         init$1();
-        for (var i = 0; i <= 24; i++) {
+        for (let i = 0; i <= 24; i++) {
             if (i === elevation) {
                 continue;
             }
@@ -552,84 +553,85 @@
 
     var whatInput = whatInput$1.exports;
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation.
-
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
-
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-
-    var __assign$1 = function() {
-        __assign$1 = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign$1.apply(this, arguments);
-    };
-
-    var RIPPLE = Symbol("ripple");
-    var RIPPLE_COUNT = Symbol("ripple-count");
-    var RIPPLE_OPTIONS = Symbol("ripple_options");
+    const RIPPLE = Symbol("ripple");
+    const RIPPLE_COUNT = Symbol("ripple-count");
+    const RIPPLE_OPTIONS = Symbol("ripple_options");
     var TYPE;
     (function (TYPE) {
         TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
         TYPE[TYPE["QUICK"] = 1] = "QUICK";
         TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
     })(TYPE || (TYPE = {}));
-    var canEventStartRipple = true;
-    var scaleUpStyle;
-    var destroyer = null;
-    function init() {
-        if (destroyer !== null) {
-            return destroyer;
+    function requestAnimationFrame(fn) {
+        if (window.requestAnimationFrame) {
+            return window.requestAnimationFrame(fn);
         }
-        {
-            var div = document.createElement("div");
+        return setTimeout(fn, 0);
+    }
+    let scaleUpStyle = null;
+    function getScaleUpStyle() {
+        if (scaleUpStyle === null) {
+            let div = document.createElement("div");
             div.style.transform = "scale(1)";
             document.body.appendChild(div);
             scaleUpStyle = window.getComputedStyle(div).transform;
             document.body.removeChild(div);
         }
-        var style = document.head.appendChild(document.createElement("style"));
-        style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
-        var listener = function () { canEventStartRipple = true; };
+        return scaleUpStyle;
+    }
+    let canEventStartRipple = true;
+    let destroyer = null;
+    function init() {
+        if (destroyer !== null) {
+            return destroyer;
+        }
+        const style = document.head.appendChild(document.createElement("style"));
+        style.innerHTML = `` +
+            `.rm-ripple-container { overflow: hidden; position: relative; }` +
+            `.rm-ripple-container--unbounded { overflow: visible; }` +
+            `.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,` +
+            `.rm-ripple-container--highlighto:not([disabled]):hover::after {` +
+            `content: ''; position: absolute;` +
+            `top: 0; right: 0; bottom: 0; left: 0;` +
+            `background: black; background: var(--ripple-color, black); pointer-events: none;` +
+            `border-radius: inherit; opacity: .1;` +
+            `}` +
+            `.rm-ripple {` +
+            `position: absolute; border-radius: 50%; background: black;` +
+            `background: var(--ripple-color, black); pointer-events: none;` +
+            `/*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/` +
+            `transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;` +
+            `}`;
+        const listener = () => { canEventStartRipple = true; };
         window.addEventListener("pointerdown", listener);
-        return destroyer = function () {
+        return destroyer = () => {
             document.head.removeChild(style);
             window.removeEventListener("pointerdown", listener);
             destroyer = null;
         };
     }
-    var Ripple = (function () {
-        function Ripple(x, y, r, type) {
-            if (type === void 0) { type = TYPE.NORMAL; }
-            this._ended = false;
-            this._onEnd = null;
-            var div = this._div = document.createElement("div");
+    class Ripple {
+        _div;
+        _computedStyle;
+        _ended = false;
+        _onEnd = null;
+        constructor(x, y, r, type = TYPE.NORMAL) {
+            let div = this._div = document.createElement("div");
             if (r == null) {
-                div.setAttribute("style", "left:0;top:0;bottom:0;right:0;" +
-                    "border-radius:inherit;transform:scale(0);" +
-                    "opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+                div.setAttribute("style", `left:0;top:0;bottom:0;right:0;` +
+                    `border-radius:inherit;transform:scale(0);` +
+                    `opacity:.12;opacity:var(--color-opacity-tertiary, .12);`);
             }
             else {
-                var cx = x - r;
-                var cy = y - r;
-                div.setAttribute("style", "left:" + cx +
-                    "px;top:" + cy +
-                    "px;width:" + (r * 2) +
-                    "px;height:" + (r * 2) +
-                    "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+                let cx = x - r;
+                let cy = y - r;
+                div.setAttribute("style", `left:${cx}px;` +
+                    `top:${cy}px;` +
+                    `width:${r * 2}px;` +
+                    `height:${r * 2}px;` +
+                    `transform:scale(0);` +
+                    `opacity:.12;` +
+                    `opacity:var(--color-opacity-tertiary, .12);`);
             }
             switch (type) {
                 case TYPE.QUICK: {
@@ -643,14 +645,17 @@
             div.classList.add("rm-ripple");
             this._computedStyle = window.getComputedStyle(div);
         }
-        Ripple.prototype._frame = function () {
-            var element = this._div.parentElement;
+        _frame() {
+            if (document.hidden || document.visibilityState !== "visible") {
+                return;
+            }
+            let element = this._div.parentElement;
             if (!element) {
                 return;
             }
-            var rect = this._div.getBoundingClientRect();
+            let rect = this._div.getBoundingClientRect();
             if (rect.width !== 0 || rect.height !== 0) {
-                if (this._computedStyle.transform === scaleUpStyle) {
+                if (this._computedStyle.transform === getScaleUpStyle()) {
                     if (this._computedStyle.opacity === "0") {
                         element.removeChild(this._div);
                         return;
@@ -663,15 +668,14 @@
                 }
             }
             requestAnimationFrame(this._frame.bind(this));
-        };
-        Ripple.prototype._scaleUp = function () {
-            var _this = this;
-            requestAnimationFrame(function () {
-                _this._div.style.transform = "scale(1)";
-                requestAnimationFrame(_this._frame.bind(_this));
+        }
+        _scaleUp() {
+            requestAnimationFrame(() => {
+                this._div.style.transform = "scale(1)";
+                requestAnimationFrame(this._frame.bind(this));
             });
-        };
-        Ripple.prototype.attachTo = function (element, onEnd) {
+        }
+        attachTo(element, onEnd) {
             if (this._div.parentElement) {
                 throw new Error("Ripple already attached");
             }
@@ -687,211 +691,231 @@
             this._scaleUp();
             this._onEnd = onEnd || null;
             return this;
-        };
-        Ripple.prototype.end = function () {
+        }
+        end() {
             this._ended = true;
             if (this._onEnd) {
                 this._onEnd();
             }
             return this;
-        };
-        return Ripple;
-    }());
+        }
+    }
     function ripple(element, options) {
-        var _a;
-        var ripple = element[RIPPLE];
+        // get the ripple generator stored in the element
+        let ripple = element[RIPPLE];
         if (options == null && ripple != null) {
             return ripple;
         }
         init();
-        options = __assign$1(__assign$1({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+        options = {
+            radius: undefined,
+            unbounded: false,
+            centered: false,
+            disabled: false,
+            highlight: false,
+            instantHighlight: false,
+            unboundedFocus: false,
+            color: "currentColor",
+            focusTarget: undefined,
+            detectLabel: true,
+            usePointerFocus: true,
+            stopRippling: true,
+            ...(ripple != null ? ripple[RIPPLE_OPTIONS] : {}),
+            ...options
+        };
         if (options.detectLabel != null && !options.detectLabel) {
             options.usePointerFocus = false;
         }
         else {
             options.detectLabel = true;
         }
+        // if already exists, set the new options
         if (ripple) {
             return ripple.set(options);
         }
-        var pointerElement = element;
-        var lastFocusTarget = undefined;
-        var onFocus = function (event) {
-            var _a;
-            if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+        let pointerElement = element;
+        let lastFocusTarget = undefined;
+        let onFocus = event => {
+            if (whatInput?.ask?.() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
                 return;
             }
             ripple.start(null, null, event);
         };
-        var onMouseEnter = function (event) {
+        let onMouseEnter = event => {
             if (!ripple[RIPPLE_OPTIONS].highlight || ripple[RIPPLE_OPTIONS].disabled) {
                 return;
             }
             ripple.start(null, null, event);
         };
-        ripple = (_a = {
-                highlight: function () {
-                    var _this = this;
-                    var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
-                        _this[RIPPLE_COUNT]--;
-                    });
-                    this[RIPPLE_COUNT]++;
-                    return currentRipple;
-                },
-                start: function (x, y, event, type) {
-                    var _this = this;
-                    if (type === void 0) { type = TYPE.NORMAL; }
-                    var isFocus = !!(event && event.type === "focus");
-                    var isMouseEnter = !!(event && event.type === "mouseenter");
-                    var options = this[RIPPLE_OPTIONS];
-                    if (isFocus) {
-                        type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                    }
-                    else if (isMouseEnter) {
-                        type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                    }
-                    var r = null;
-                    var rect = null;
-                    if (options.centered || x == null) {
-                        x = (rect || element.getBoundingClientRect()).width / 2;
-                    }
-                    if (options.centered || y == null) {
-                        y = (rect || element.getBoundingClientRect()).height / 2;
-                    }
-                    if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
-                        r = options.radius || null;
-                        if (r == null || r <= 0) {
-                            rect = rect || element.getBoundingClientRect();
-                            if (y >= rect.height / 2) {
-                                if (x >= rect.width / 2) {
-                                    r = Math.sqrt(x * x + y * y);
-                                }
-                                else {
-                                    r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
-                                }
+        ripple = {
+            highlight() {
+                const currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, () => {
+                    this[RIPPLE_COUNT]--;
+                });
+                this[RIPPLE_COUNT]++;
+                return currentRipple;
+            },
+            start(x, y, event, type = TYPE.NORMAL) {
+                let isFocus = !!(event && event.type === "focus");
+                let isMouseEnter = !!(event && event.type === "mouseenter");
+                let options = this[RIPPLE_OPTIONS];
+                if (isFocus) {
+                    type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+                }
+                else if (isMouseEnter) {
+                    type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+                }
+                let r = null;
+                let rect = null;
+                if (options.centered || x == null) {
+                    x = (rect || element.getBoundingClientRect()).width / 2;
+                }
+                if (options.centered || y == null) {
+                    y = (rect || element.getBoundingClientRect()).height / 2;
+                }
+                if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
+                    r = options.radius || null;
+                    if (r == null || r <= 0) {
+                        rect = rect || element.getBoundingClientRect();
+                        if (y >= rect.height / 2) {
+                            if (x >= rect.width / 2) {
+                                r = Math.sqrt(x * x + y * y);
                             }
                             else {
-                                if (x >= rect.width / 2) {
-                                    r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
-                                }
-                                else {
-                                    r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
-                                }
+                                r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
                             }
-                        }
-                    }
-                    var currentRipple = new Ripple(x, y, r, type).attachTo(element, function () {
-                        _this[RIPPLE_COUNT]--;
-                    });
-                    this[RIPPLE_COUNT]++;
-                    if (event && event.isTrusted) {
-                        var once_1 = function (up_event) {
-                            if (isFocus) {
-                                (lastFocusTarget || element).removeEventListener("blur", once_1);
-                            }
-                            else if (isMouseEnter) {
-                                pointerElement.removeEventListener("mouseleave", once_1);
-                            }
-                            else {
-                                window.removeEventListener("pointerup", once_1);
-                                window.removeEventListener("pointercancel", once_1);
-                                if (up_event.pointerId !== event.pointerId) {
-                                    return;
-                                }
-                            }
-                            currentRipple.end();
-                        };
-                        if (isFocus) {
-                            (lastFocusTarget || element).addEventListener("blur", once_1);
-                        }
-                        else if (isMouseEnter) {
-                            pointerElement.addEventListener("mouseleave", once_1);
                         }
                         else {
-                            window.addEventListener("pointerup", once_1);
-                            window.addEventListener("pointercancel", once_1);
+                            if (x >= rect.width / 2) {
+                                r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
+                            }
+                            else {
+                                r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
+                            }
                         }
                     }
-                    return currentRipple;
-                },
-                set: function (options) {
-                    var prevOptions = this[RIPPLE_OPTIONS];
-                    options = this[RIPPLE_OPTIONS] = __assign$1(__assign$1(__assign$1({}, prevOptions), options), { detectLabel: prevOptions.detectLabel });
-                    if (options.detectLabel != null && !options.detectLabel) {
-                        options.usePointerFocus = false;
+                }
+                let currentRipple = new Ripple(x, y, r, type).attachTo(element, () => {
+                    this[RIPPLE_COUNT]--;
+                });
+                this[RIPPLE_COUNT]++;
+                if (event && event.isTrusted) {
+                    let once = (up_event) => {
+                        if (isFocus) {
+                            (lastFocusTarget || element).removeEventListener("blur", once);
+                        }
+                        else if (isMouseEnter) {
+                            pointerElement.removeEventListener("mouseleave", once);
+                        }
+                        else {
+                            window.removeEventListener("pointerup", once);
+                            window.removeEventListener("pointercancel", once);
+                            if (up_event.pointerId !== event.pointerId) {
+                                return;
+                            }
+                        }
+                        currentRipple.end();
+                    };
+                    if (isFocus) {
+                        (lastFocusTarget || element).addEventListener("blur", once);
+                    }
+                    else if (isMouseEnter) {
+                        pointerElement.addEventListener("mouseleave", once);
                     }
                     else {
-                        options.detectLabel = true;
+                        window.addEventListener("pointerup", once);
+                        window.addEventListener("pointercancel", once);
                     }
-                    if (options.unbounded) {
-                        element.classList.add("rm-ripple-container--unbounded");
-                    }
-                    else {
-                        element.classList.remove("rm-ripple-container--unbounded");
-                    }
-                    if (options.highlight) {
-                        element.classList.add("rm-ripple-container--highlight");
-                    }
-                    else {
-                        element.classList.remove("rm-ripple-container--highlight");
-                    }
+                }
+                return currentRipple;
+            },
+            /**
+             * Cambia le impostazioni al creatore di increspature
+             * @param options
+             */
+            set(options) {
+                const prevOptions = this[RIPPLE_OPTIONS];
+                options = this[RIPPLE_OPTIONS] = {
+                    ...prevOptions,
+                    ...options,
+                    detectLabel: prevOptions.detectLabel
+                };
+                if (options.detectLabel != null && !options.detectLabel) {
+                    options.usePointerFocus = false;
+                }
+                else {
+                    options.detectLabel = true;
+                }
+                if (options.unbounded) {
+                    element.classList.add("rm-ripple-container--unbounded");
+                }
+                else {
+                    element.classList.remove("rm-ripple-container--unbounded");
+                }
+                if (options.highlight) {
+                    element.classList.add("rm-ripple-container--highlight");
+                }
+                else {
+                    element.classList.remove("rm-ripple-container--highlight");
+                }
+                if (element.style.setProperty) {
                     if (options.color) {
                         element.style.setProperty("--ripple-color", options.color);
                     }
                     else {
                         element.style.setProperty("--ripple-color", "black");
                     }
-                    if (options.focusTarget !== lastFocusTarget) {
-                        if (lastFocusTarget) {
-                            lastFocusTarget.removeEventListener("focus", onFocus);
-                            lastFocusTarget = undefined;
-                        }
-                        else {
-                            element.removeEventListener("focus", onFocus);
-                        }
-                        if (options.focusTarget) {
-                            lastFocusTarget = options.focusTarget;
-                            lastFocusTarget.addEventListener("focus", onFocus);
-                        }
-                        else {
-                            element.addEventListener("focus", onFocus);
-                        }
+                }
+                if (options.focusTarget !== lastFocusTarget) {
+                    if (lastFocusTarget) {
+                        lastFocusTarget.removeEventListener("focus", onFocus);
+                        lastFocusTarget = undefined;
                     }
                     else {
                         element.removeEventListener("focus", onFocus);
+                    }
+                    if (options.focusTarget) {
+                        lastFocusTarget = options.focusTarget;
+                        lastFocusTarget.addEventListener("focus", onFocus);
+                    }
+                    else {
                         element.addEventListener("focus", onFocus);
                     }
-                    pointerElement.removeEventListener("mouseenter", onMouseEnter);
-                    pointerElement.addEventListener("mouseenter", onMouseEnter);
-                    return this;
-                },
-                getOption: function (option) {
-                    return this[RIPPLE_OPTIONS][option];
                 }
+                else {
+                    element.removeEventListener("focus", onFocus);
+                    element.addEventListener("focus", onFocus);
+                }
+                pointerElement.removeEventListener("mouseenter", onMouseEnter);
+                pointerElement.addEventListener("mouseenter", onMouseEnter);
+                return this;
             },
-            _a[RIPPLE_OPTIONS] = options,
-            _a[RIPPLE_COUNT] = 0,
-            _a);
+            getOption(option) {
+                return this[RIPPLE_OPTIONS][option];
+            },
+            [RIPPLE_OPTIONS]: options,
+            [RIPPLE_COUNT]: 0
+        };
         if (options.detectLabel) {
-            var parent_1 = element.parentElement;
-            while (parent_1) {
-                if (parent_1.tagName === "LABEL") {
-                    pointerElement = parent_1;
+            let parent = element.parentElement;
+            while (parent) {
+                if (parent.tagName === "LABEL") {
+                    pointerElement = parent;
                     break;
                 }
-                parent_1 = parent_1.parentElement;
+                parent = parent.parentElement;
             }
         }
-        pointerElement.addEventListener("pointerdown", function (event) {
+        pointerElement.addEventListener("pointerdown", event => {
             if (!canEventStartRipple || ripple[RIPPLE_OPTIONS].disabled) {
                 return;
             }
-            var rect = element.getBoundingClientRect();
+            let rect = element.getBoundingClientRect();
             ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
             if (ripple[RIPPLE_OPTIONS].stopRippling) {
                 canEventStartRipple = false;
             }
-            setTimeout(function () {
+            setTimeout(() => {
             }, 0);
         });
         element[RIPPLE] = ripple;
@@ -903,48 +927,22 @@
         return element[RIPPLE] != null;
     }
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation.
-
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
-
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-
-    var __assign = function() {
-        __assign = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
-                s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-            }
-            return t;
-        };
-        return __assign.apply(this, arguments);
-    };
-
-    var currentOptions = {};
-    var container = null;
-    var actual = null;
-    var keydownListeners = [];
-    var keyupListeners = [];
+    let currentOptions = {};
+    let container = null;
+    let actual = null;
+    let keydownListeners = [];
+    let keyupListeners = [];
     function getElements() {
         if (container !== null) {
             return {
-                container: container,
+                container,
                 actual: actual
             };
         }
         container = document.createElement("div");
-        var previous = container.appendChild(document.createElement("span"));
+        const previous = container.appendChild(document.createElement("span"));
         actual = container.appendChild(document.createElement("span"));
-        var next = container.appendChild(document.createElement("span"));
+        const next = container.appendChild(document.createElement("span"));
         container.style.position = "fixed";
         container.style.top =
             container.style.left =
@@ -957,8 +955,8 @@
             actual.style.outline =
                 next.style.outline = "none";
         actual.addEventListener("blur", function onActualBlur(event) {
-            setTimeout(function () {
-                var element = document.activeElement;
+            setTimeout(() => {
+                const element = document.activeElement;
                 switch (element) {
                     case previous: {
                         if (currentOptions.onPrevious) {
@@ -973,14 +971,14 @@
                         break;
                     }
                     default: {
-                        var mainElement = currentOptions.element;
-                        var parent_1 = element;
+                        const mainElement = currentOptions.element;
+                        let parent = element;
                         if (mainElement != null) {
-                            while (parent_1 && parent_1 !== mainElement) {
-                                parent_1 = parent_1.parentElement;
+                            while (parent && parent !== mainElement) {
+                                parent = parent.parentElement;
                             }
                         }
-                        if (parent_1 != null) {
+                        if (parent != null) {
                             if (currentOptions.onFocusInside && currentOptions.onFocusInside(element)) {
                                 container.removeChild(previous);
                                 element.insertAdjacentElement("beforebegin", previous);
@@ -992,7 +990,7 @@
                                     next.parentElement.removeChild(next);
                                     actual.insertAdjacentElement("afterend", next);
                                     element.removeEventListener("blur", onElementBlur);
-                                    onActualBlur.call(null, event);
+                                    onActualBlur.call(actual, event);
                                 });
                                 return;
                             }
@@ -1009,26 +1007,27 @@
             });
         });
         actual.addEventListener("keydown", function onActualKeydown(event) {
-            var _this = this;
-            keydownListeners.forEach(function (listener) { return listener.call(_this, event); });
+            keydownListeners.forEach(listener => listener.call(this, event));
         });
         actual.addEventListener("keyup", function onActualKeyup(event) {
-            var _this = this;
-            keyupListeners.forEach(function (listener) { return listener.call(_this, event); });
+            keyupListeners.forEach(listener => listener.call(this, event));
         });
         return {
-            container: container,
-            actual: actual
+            container,
+            actual
         };
     }
     function hold(options) {
-        currentOptions = __assign({ element: document.body }, options);
-        var _a = getElements(), container = _a.container, actual = _a.actual;
+        currentOptions = {
+            element: document.body,
+            ...options
+        };
+        const { container, actual } = getElements();
         document.body.appendChild(container);
         actual.focus();
     }
     function release() {
-        var container = getElements().container;
+        const { container } = getElements();
         if (!container.isConnected) {
             return;
         }
@@ -1054,6 +1053,8 @@
     }
 
     function getMenuStyleAt(time, anchor) {
+        // time = 0 : closed
+        // time = 1 : opened
         time = parseFloat(time);
         if (isNaN(time)) {
             time = 0;
@@ -1067,7 +1068,7 @@
         };
     }
     function getRippleElement(element, container) {
-        var rippleElement = null;
+        let rippleElement = null;
         while (element && element !== container) {
             if (isRipple(element)) {
                 rippleElement = element;
@@ -1077,7 +1078,7 @@
         }
         return rippleElement;
     }
-    var Component = {
+    const Component = {
         _onkeydown: null,
         _lastOpenedProp: null,
         _anchorElement: null,
@@ -1086,15 +1087,15 @@
         _mounted: false,
         _time: 0,
         _realParent: null,
+        // @ts-ignore
         _canHighlight: null,
         _currentHighlighted: null,
         _lastHighlighted: null,
-        onBeforeMount: function () {
+        onBeforeMount() {
             this._closeThis = this.close.bind(this);
             this._canHighlight = new Map();
         },
-        onMounted: function () {
-            var _this = this;
+        onMounted() {
             this._mounted = true;
             menuAnimationFrame.call(this);
             [
@@ -1104,44 +1105,45 @@
                 "isOpened",
                 "open",
                 "setAnchorElement"
-            ].forEach(function (method) {
-                _this.root[method] = _this[method].bind(_this);
+            ].forEach(method => {
+                this.root[method] = this[method].bind(this);
             });
             Object.defineProperties(this.root, {
                 "options": {
-                    get: function () {
-                        return _this._getOptions();
+                    get: () => {
+                        return this._getOptions();
                     }
                 }
             });
-            this._onkeydown = function (event) {
-                if (!_this.isOpened()) {
+            this._onkeydown = event => {
+                if (!this.isOpened()) {
                     return;
                 }
                 switch (event.key) {
                     case "ArrowDown": {
-                        return _this.highlightNext();
+                        return this.highlightNext();
                     }
                     case "ArrowUp": {
-                        return _this.highlightPrevious();
+                        return this.highlightPrevious();
                     }
                     case "Enter": {
-                        _this._selectHighlighted(true);
+                        this._selectHighlighted(true);
                         event.preventDefault();
                         return;
                     }
                     case "Escape": {
-                        if (!_this.getPreventAutoClose()) {
-                            _this.close();
+                        if (!this.getPreventAutoClose()) {
+                            this.close();
                         }
                         else {
-                            var wantsCloseEvent = new CustomEvent("wantsclose", {
+                            // tslint:disable-next-line:typedef
+                            const wantsCloseEvent = new CustomEvent("wantsclose", {
                                 detail: { source: "Escape" },
                                 cancelable: true
                             });
-                            _this.root.dispatchEvent(wantsCloseEvent);
+                            this.root.dispatchEvent(wantsCloseEvent);
                             if (wantsCloseEvent.defaultPrevented) {
-                                _this.close();
+                                this.close();
                             }
                         }
                         return;
@@ -1154,12 +1156,12 @@
             }
         },
         _lastHighlightedBeforeUpdate: null,
-        onBeforeUpdate: function () {
-            var lastHighlighted = this._lastHighlighted;
+        onBeforeUpdate() {
+            const lastHighlighted = this._lastHighlighted;
             this._clean();
             this._lastHighlightedBeforeUpdate = lastHighlighted;
         },
-        onUpdated: function () {
+        onUpdated() {
             this._setup();
             this._lastHighlightedBeforeUpdate = null;
             if (this.props.opened !== this._lastOpenedProp) {
@@ -1171,18 +1173,18 @@
                 }
             }
         },
-        onUnmounted: function () {
+        onUnmounted() {
             this._mounted = false;
         },
-        _scrollToHighlighted: function () {
+        _scrollToHighlighted() {
             if (!this._lastHighlighted) {
                 return;
             }
-            var container = this.root.firstElementChild.firstElementChild;
-            var containerRect = container.getBoundingClientRect();
-            var highlightRect = this._lastHighlighted.getBoundingClientRect();
-            var highlightTop = highlightRect.top - containerRect.top;
-            var highlightBottom = highlightRect.bottom - containerRect.top;
+            const container = this.root.firstElementChild.firstElementChild;
+            const containerRect = container.getBoundingClientRect();
+            const highlightRect = this._lastHighlighted.getBoundingClientRect();
+            const highlightTop = highlightRect.top - containerRect.top;
+            const highlightBottom = highlightRect.bottom - containerRect.top;
             if (highlightTop < 0) {
                 container.scrollBy(0, highlightTop);
             }
@@ -1190,14 +1192,13 @@
                 container.scrollBy(0, highlightBottom - containerRect.height);
             }
         },
-        _selectHighlighted: function (programmatical) {
-            if (programmatical === void 0) { programmatical = false; }
+        _selectHighlighted(programmatical = false) {
             if (!this._lastHighlighted) {
                 return;
             }
-            var option = this._canHighlight.get(this._lastHighlighted);
+            const option = this._canHighlight.get(this._lastHighlighted);
             if (programmatical) {
-                ripple(this._lastHighlighted).start().end();
+                ripple(this._lastHighlighted).start(null, null).end();
                 option.click();
             }
             else {
@@ -1209,20 +1210,20 @@
                 }));
             }
         },
-        _handleClick: function (event) {
+        _handleClick(event) {
             if (!this._lastHighlighted ||
                 (this._lastHighlighted !== event.target && !this._lastHighlighted.contains(event.target))) {
                 return;
             }
             this._selectHighlighted();
         },
-        _onmousedown: function (event) {
+        _onmousedown(event) {
             if (this.getPreventFocus()) {
                 event.preventDefault();
             }
         },
         _bindedElement: null,
-        _bindTo: function (element) {
+        _bindTo(element) {
             if (this._bindedElement === element) {
                 return;
             }
@@ -1238,10 +1239,10 @@
                 this.setAnchorElement(null);
             }
         },
-        _getOptions: function () {
-            var options = [];
-            var container = this.root.firstElementChild.firstElementChild;
-            this.root.querySelectorAll("[menu-option]").forEach(function (option) {
+        _getOptions() {
+            const options = [];
+            const container = this.root.firstElementChild.firstElementChild;
+            this.root.querySelectorAll("[menu-option]").forEach(option => {
                 if (getRippleElement(option, container) == null) {
                     return;
                 }
@@ -1249,68 +1250,65 @@
             });
             return options;
         },
-        _clean: function () {
+        _clean() {
             this._lastHighlighted = this._lastHighlightedBeforeUpdate = null;
             this._clearHighlight();
-            this._canHighlight.forEach(function (_, element) {
+            this._canHighlight.forEach((_, element) => {
                 ripple(element, { highlight: true });
             });
             this._canHighlight.clear();
         },
-        _setup: function () {
-            var _this = this;
-            this._getOptions().forEach(function (option) {
-                var rippleElement = getRippleElement(option, _this.root.firstElementChild.firstElementChild);
-                if (ripple(rippleElement).getOption("highlight") && !_this._canHighlight.has(rippleElement)) {
-                    _this._canHighlight.set(rippleElement, option);
-                    var rippleObject = ripple(rippleElement, { highlight: false });
-                    var isSelected = "selected" in option && option.selected;
-                    if ((isSelected && !_this._lastHighlighted && !_this._lastHighlightedBeforeUpdate) ||
-                        _this._lastHighlightedBeforeUpdate === rippleElement) {
-                        _this._lastHighlighted = rippleElement;
-                        _this._currentHighlighted = rippleObject.highlight();
+        _setup() {
+            this._getOptions().forEach(option => {
+                const rippleElement = getRippleElement(option, this.root.firstElementChild.firstElementChild);
+                if (ripple(rippleElement).getOption("highlight") && !this._canHighlight.has(rippleElement)) {
+                    this._canHighlight.set(rippleElement, option);
+                    const rippleObject = ripple(rippleElement, { highlight: false });
+                    const isSelected = "selected" in option && option.selected;
+                    if ((isSelected && !this._lastHighlighted && !this._lastHighlightedBeforeUpdate) ||
+                        this._lastHighlightedBeforeUpdate === rippleElement) {
+                        this._lastHighlighted = rippleElement;
+                        this._currentHighlighted = rippleObject.highlight();
                     }
                 }
             });
         },
-        _clearHighlight: function () {
+        _clearHighlight() {
             if (this._currentHighlighted) {
                 this._currentHighlighted.end();
                 this._currentHighlighted = null;
             }
         },
-        _setHighlighted: function (event) {
-            var _this = this;
-            var rippleElement = getRippleElement(event.target, this.root.firstElementChild.firstElementChild);
+        _setHighlighted(event) {
+            const rippleElement = getRippleElement(event.target, this.root.firstElementChild.firstElementChild);
             if (!this.getKeepHighlight()) {
                 this._clearHighlight();
             }
             if (rippleElement != null) {
-                Array.from(this._canHighlight.keys()).some(function (highligthable) {
+                Array.from(this._canHighlight.keys()).some(highligthable => {
                     if (rippleElement !== highligthable) {
                         return false;
                     }
-                    _this._clearHighlight();
-                    _this._currentHighlighted = ripple(_this._lastHighlighted = rippleElement).highlight();
+                    this._clearHighlight();
+                    this._currentHighlighted = ripple(this._lastHighlighted = rippleElement).highlight();
                     return true;
                 });
             }
         },
-        _handleHighlightOnLeave: function () {
+        _handleHighlightOnLeave() {
             if (this.getKeepHighlight()) {
                 return;
             }
             this._clearHighlight();
         },
-        highlightNext: function () {
-            var _this = this;
+        highlightNext() {
             if (!this.isOpened() || this._canHighlight.size === 0) {
                 return;
             }
             this._clearHighlight();
-            var index = -1;
-            if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some(function (highlightable, i) {
-                if (_this._lastHighlighted === highlightable) {
+            let index = -1;
+            if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some((highlightable, i) => {
+                if (this._lastHighlighted === highlightable) {
                     index = i;
                     return true;
                 }
@@ -1322,15 +1320,14 @@
             }
             this._scrollToHighlighted();
         },
-        highlightPrevious: function () {
-            var _this = this;
+        highlightPrevious() {
             if (!this.isOpened() || this._canHighlight.size === 0) {
                 return;
             }
             this._clearHighlight();
-            var index = -1;
-            if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some(function (highlightable, i) {
-                if (_this._lastHighlighted === highlightable) {
+            let index = -1;
+            if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some((highlightable, i) => {
+                if (this._lastHighlighted === highlightable) {
                     index = i;
                     return true;
                 }
@@ -1342,13 +1339,13 @@
             }
             this._scrollToHighlighted();
         },
-        isOpened: function () {
+        isOpened() {
             if (this._direction === 0) {
                 return this._time > 0;
             }
             return this._direction > 0;
         },
-        open: function () {
+        open() {
             if (this._time > 0 && this._direction !== -1) {
                 return;
             }
@@ -1356,7 +1353,7 @@
             this._direction = 1;
             this.root.dispatchEvent(new Event("opening"));
         },
-        close: function () {
+        close() {
             if (this._time < 1 && this._direction !== 1) {
                 return;
             }
@@ -1366,8 +1363,8 @@
             this._direction = -1;
             this.root.dispatchEvent(new Event("closing"));
         },
-        setAnchorElement: function (element) {
-            var previousAnchorElement = this._anchorElement;
+        setAnchorElement(element) {
+            const previousAnchorElement = this._anchorElement;
             if (element == null) {
                 this._anchorElement = null;
             }
@@ -1399,156 +1396,158 @@
                 this.root.style.position = "";
             }
         },
-        getAnchorElement: function () {
+        getAnchorElement() {
             return this._anchorElement;
         },
-        getPreventFocus: function () {
+        getPreventFocus() {
             return this.props.preventFocus != null && this.props.preventFocus !== false;
         },
-        getPreventAutoClose: function () {
+        getPreventAutoClose() {
             return this.props.preventAutoClose != null && this.props.preventAutoClose !== false;
         },
-        getInheritWidth: function () {
+        getInheritWidth() {
             return this.props.inheritWidth == null && this.props.inheritWidth !== false;
         },
-        getKeepHighlight: function () {
+        getKeepHighlight() {
             return this.props.keepHighlight != null && this.props.keepHighlight !== false;
         }
     };
     function menuAnimationFrame() {
-        var _this = this;
-        var child = this.root.firstElementChild;
-        var _lastNow = Date.now();
-        var frame = function () {
-            if (_this._mounted) {
+        const child = this.root.firstElementChild;
+        let _lastNow = Date.now();
+        const frame = () => {
+            if (this._mounted) {
                 window.requestAnimationFrame(frame);
             }
-            if (!_this.root.isConnected) {
+            if (!this.root.isConnected) {
                 return;
             }
-            var last = _lastNow;
+            const last = _lastNow;
             _lastNow = Date.now();
-            if (_this._direction !== 0) {
-                var duration = 150;
-                var delta = (_lastNow - last) / duration;
-                if (_this._direction > 0) {
-                    if (_this._anchorElement == null) {
-                        _this._time = 1;
+            if (this._direction !== 0) {
+                const duration = 150;
+                const delta = (_lastNow - last) / duration;
+                if (this._direction > 0) {
+                    if (this._anchorElement == null) {
+                        this._time = 1;
                     }
                     else {
-                        _this._time = Math.min(_this._time + delta, 1);
+                        this._time = Math.min(this._time + delta, 1);
                     }
                 }
-                else if (_this._direction < 0) {
-                    if (_this._anchorElement == null) {
-                        _this._time = 0;
+                else if (this._direction < 0) {
+                    if (this._anchorElement == null) {
+                        this._time = 0;
                     }
                     else {
-                        _this._time = Math.max(_this._time - delta, 0);
+                        this._time = Math.max(this._time - delta, 0);
                     }
                 }
-                if (_this._time >= 1) {
-                    if (!_this.getPreventFocus() || !_this._anchorElement) {
+                if (this._time >= 1) {
+                    if (!this.getPreventFocus() || !this._anchorElement) {
                         hold({
                             element: child,
-                            onFocusInside: function () {
-                            },
-                            onFocusOutside: function () {
-                                if (_this.getPreventAutoClose()) {
-                                    var wantsCloseEvent = new CustomEvent("wantsclose", {
+                            // onFocusInside: () => {
+                            //     // should it do something?
+                            // },
+                            onFocusOutside: () => {
+                                if (this.getPreventAutoClose()) {
+                                    // tslint:disable-next-line:typedef
+                                    const wantsCloseEvent = new CustomEvent("wantsclose", {
                                         detail: { source: "FocusOutside" },
                                         cancelable: true
                                     });
-                                    _this.root.dispatchEvent(wantsCloseEvent);
+                                    this.root.dispatchEvent(wantsCloseEvent);
                                     if (!wantsCloseEvent.defaultPrevented) {
                                         return false;
                                     }
                                 }
-                                _this.close();
+                                this.close();
                                 return true;
                             },
-                            onNext: function () {
-                                _this.highlightNext();
+                            onNext: () => {
+                                this.highlightNext();
                             },
-                            onPrevious: function () {
-                                _this.highlightPrevious();
+                            onPrevious: () => {
+                                this.highlightPrevious();
                             }
                         });
-                        on("keydown", _this._onkeydown);
+                        on("keydown", this._onkeydown);
                     }
-                    _this._direction = 0;
-                    _this.root.dispatchEvent(new Event("open"));
+                    this._direction = 0;
+                    // this._setup();
+                    this.root.dispatchEvent(new Event("open"));
                 }
-                else if (_this._time <= 0) {
-                    _this._direction = 0;
-                    _this.root.dispatchEvent(new Event("close"));
+                else if (this._time <= 0) {
+                    this._direction = 0;
+                    this.root.dispatchEvent(new Event("close"));
                 }
             }
-            if (_this._time === 0) {
-                _this.root.style.display = "none";
+            if (this._time === 0) {
+                this.root.style.display = "none";
             }
             else {
-                _this.root.style.display = "";
-                var anchor = "top";
-                if (_this._anchorElement) {
-                    var height = window.innerHeight;
-                    var rect = _this._anchorElement.getBoundingClientRect();
+                this.root.style.display = "";
+                let anchor = "top";
+                if (this._anchorElement) {
+                    const height = window.innerHeight;
+                    const rect = this._anchorElement.getBoundingClientRect();
                     if (rect.bottom < 0) {
-                        _this.root.style.top = "0px";
-                        _this.root.style.bottom = "";
+                        this.root.style.top = "0px";
+                        this.root.style.bottom = "";
                         child.firstElementChild.style.maxHeight = height -
                             (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
                     }
                     else if (rect.top > height) {
-                        _this.root.style.top = "";
-                        _this.root.style.bottom = "0px";
+                        this.root.style.top = "";
+                        this.root.style.bottom = "0px";
                         child.firstElementChild.style.maxHeight = height -
                             (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
                         anchor = "bottom";
                     }
                     else {
-                        var heightTop = rect.top;
-                        var heightBottom = height - rect.bottom;
+                        const heightTop = rect.top;
+                        const heightBottom = height - rect.bottom;
                         if (heightTop < heightBottom) {
-                            _this.root.style.top = rect.bottom + "px";
-                            _this.root.style.bottom = "";
+                            this.root.style.top = rect.bottom + "px";
+                            this.root.style.bottom = "";
                             child.firstElementChild.style.maxHeight = height - rect.bottom -
                                 (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
                         }
                         else {
-                            _this.root.style.bottom = (height - rect.top) + "px";
-                            _this.root.style.top = "";
+                            this.root.style.bottom = (height - rect.top) + "px";
+                            this.root.style.top = "";
                             anchor = "bottom";
                             child.firstElementChild.style.maxHeight = rect.top -
                                 (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
                         }
                     }
-                    if (_this.getInheritWidth()) {
-                        var right = window.innerWidth - rect.right;
+                    if (this.getInheritWidth()) {
+                        const right = window.innerWidth - rect.right;
                         if (rect.left >= right) {
-                            _this.root.style.left = "";
-                            _this.root.style.right = right + "px";
+                            this.root.style.left = "";
+                            this.root.style.right = right + "px";
                         }
                         else {
-                            _this.root.style.left = rect.left + "px";
-                            _this.root.style.right = "";
+                            this.root.style.left = rect.left + "px";
+                            this.root.style.right = "";
                         }
                     }
                     else {
-                        _this.root.style.left = rect.left + "px";
-                        _this.root.style.width = rect.width + "px";
+                        this.root.style.left = rect.left + "px";
+                        this.root.style.width = rect.width + "px";
                     }
-                    _this.root.setAttribute("anchor", anchor);
+                    this.root.setAttribute("anchor", anchor);
                 }
-                var styleAt = getMenuStyleAt(_this._time, anchor);
+                const styleAt = getMenuStyleAt(this._time, anchor);
                 child.style.transform = styleAt.transform;
                 child.style.opacity = styleAt.opacity + "";
-                if (_this._direction > 0) {
-                    if (_this._lastHighlighted) {
-                        _this._scrollToHighlighted();
+                if (this._direction > 0) {
+                    if (this._lastHighlighted) {
+                        this._scrollToHighlighted();
                     }
                     else {
-                        _this.root.firstElementChild.firstElementChild.scrollTo(0, 0);
+                        this.root.firstElementChild.firstElementChild.scrollTo(0, 0);
                     }
                 }
             }
@@ -1556,7 +1555,7 @@
         frame();
     }
 
-    var index = {
+    var RmMenu = {
       'css': `rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; z-index: 100; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }`,
       'exports': Component,
 
@@ -1670,6 +1669,6 @@
       'name': 'rm-menu'
     };
 
-    return index;
+    return RmMenu;
 
-})));
+}));

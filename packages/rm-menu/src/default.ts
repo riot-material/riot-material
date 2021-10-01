@@ -1,11 +1,16 @@
-import { elevation } from '@riot-material/elevation';
-import { ripple, isRipple } from '@riot-material/ripple';
-import * as focusManager from '@riot-material/focus-manager';
 
-function getMenuStyleAt(time, anchor) {
+import { elevation } from "@riot-material/elevation";
+import { ripple, isRipple } from "@riot-material/ripple";
+import * as focusManager from "@riot-material/focus-manager";
+import { RiotComponent } from "riot";
+
+function getMenuStyleAt(time: number, anchor: "top" | "bottom"): {
+    opacity: number,
+    transform: string
+} {
     // time = 0 : closed
     // time = 1 : opened
-    time = parseFloat(time);
+    time = parseFloat(time as any);
     if (isNaN(time)) {
         time = 0;
     }
@@ -17,21 +22,74 @@ function getMenuStyleAt(time, anchor) {
         }[anchor] || -100) * (1 - time)) + "%) scale(" + (0.8 + (0.2 * time)) + ")"
     };
 }
-function getRippleElement(element, container) {
-    let rippleElement = null;
+
+interface IComponent {
+    _onkeydown: null | ((event: KeyboardEvent) => void);
+    _lastOpenedProp: any;
+    _anchorElement: null | HTMLElement;
+    _closeThis: null | (() => void);
+    _direction: number;
+    _mounted: boolean;
+    _time: number;
+    _realParent: HTMLElement | null;
+    _canHighlight: Map<HTMLElement, HTMLElement>;
+    _currentHighlighted: any;
+    _lastHighlighted: HTMLElement | null;
+    _lastHighlightedBeforeUpdate: HTMLElement | null;
+    _bindedElement: HTMLElement | null;
+    _bindTo(this: ComponentEnhanced, element: HTMLElement | null): void;
+    _onmousedown(this: ComponentEnhanced, event: Event): void;
+    _clean(this: ComponentEnhanced): void;
+    _setup(this: ComponentEnhanced): void;
+    _clearHighlight(this: ComponentEnhanced): void;
+    _setHighlighted(this: ComponentEnhanced, event: Event): void;
+    _handleHighlightOnLeave(this: ComponentEnhanced): void;
+    _handleClick(this: ComponentEnhanced, event: MouseEvent): void;
+    _selectHighlighted(this: ComponentEnhanced, programmatical?: boolean): void;
+    _scrollToHighlighted(this: ComponentEnhanced): void;
+    _getOptions(this: ComponentEnhanced): Array<HTMLElement>;
+    isOpened(this: ComponentEnhanced): boolean;
+    onBeforeMount(this: ComponentEnhanced): void;
+    onMounted(this: ComponentEnhanced): void;
+    onBeforeUpdate(this: ComponentEnhanced): void;
+    onUpdated(this: ComponentEnhanced): void;
+    onUnmounted(this: ComponentEnhanced): void;
+    open(this: ComponentEnhanced): void;
+    close(this: ComponentEnhanced): void;
+    highlightNext(this: ComponentEnhanced): void;
+    highlightPrevious(this: ComponentEnhanced): void;
+    setAnchorElement(this: ComponentEnhanced, element: HTMLElement | null): void;
+    getAnchorElement(this: ComponentEnhanced): HTMLElement | null;
+    getPreventFocus(this: ComponentEnhanced): boolean;
+    getPreventAutoClose(this: ComponentEnhanced): boolean;
+    getKeepHighlight(this: ComponentEnhanced): boolean;
+    getInheritWidth(this: ComponentEnhanced): boolean;
+}
+
+type ComponentEnhanced = RiotComponent<{
+    inheritWidth: any,
+    preventFocus: any,
+    preventAutoClose: any,
+    keepHighlight: any,
+    opened: boolean
+}> & IComponent;
+
+function getRippleElement(element: HTMLElement, container: HTMLElement): HTMLElement | null {
+    let rippleElement: HTMLElement | null = null;
     while (element && element !== container) {
         if (isRipple(element)) {
             rippleElement = element;
             break;
         }
-        element = element.parentElement;
+        element = element.parentElement as HTMLElement;
     }
     return rippleElement;
 }
-const Component = {
+
+const Component: IComponent = {
     _onkeydown: null,
     _lastOpenedProp: null,
-    _anchorElement: null,
+    _anchorElement: null as HTMLElement|null,
     _closeThis: null,
     _direction: 0,
     _mounted: false,
@@ -41,13 +99,14 @@ const Component = {
     _canHighlight: null,
     _currentHighlighted: null,
     _lastHighlighted: null,
-    onBeforeMount() {
+    onBeforeMount(): void {
         this._closeThis = this.close.bind(this);
-        this._canHighlight = new Map();
+        this._canHighlight = new Map<HTMLElement, HTMLElement>();
     },
-    onMounted() {
+    onMounted(): void {
         this._mounted = true;
         menuAnimationFrame.call(this);
+
         [
             "_bindTo",
             "close",
@@ -56,7 +115,7 @@ const Component = {
             "open",
             "setAnchorElement"
         ].forEach(method => {
-            this.root[method] = this[method].bind(this);
+            (this.root as any)[method] = (this as any)[method].bind(this);
         });
         Object.defineProperties(this.root, {
             "options": {
@@ -65,6 +124,7 @@ const Component = {
                 }
             }
         });
+
         this._onkeydown = event => {
             if (!this.isOpened()) {
                 return;
@@ -84,8 +144,7 @@ const Component = {
                 case "Escape": {
                     if (!this.getPreventAutoClose()) {
                         this.close();
-                    }
-                    else {
+                    } else {
                         // tslint:disable-next-line:typedef
                         const wantsCloseEvent = new CustomEvent("wantsclose", {
                             detail: { source: "Escape" },
@@ -106,52 +165,50 @@ const Component = {
         }
     },
     _lastHighlightedBeforeUpdate: null,
-    onBeforeUpdate() {
-        const lastHighlighted = this._lastHighlighted;
+    onBeforeUpdate(): void {
+        const lastHighlighted: HTMLElement | null = this._lastHighlighted;
         this._clean();
         this._lastHighlightedBeforeUpdate = lastHighlighted;
     },
-    onUpdated() {
+    onUpdated(): void {
         this._setup();
         this._lastHighlightedBeforeUpdate = null;
         if (this.props.opened !== this._lastOpenedProp) {
             if ((this._lastOpenedProp = this.props.opened) != null && this.props.opened !== false) {
                 this.open();
-            }
-            else {
+            } else {
                 this.close();
             }
         }
     },
-    onUnmounted() {
+    onUnmounted(): void {
         this._mounted = false;
     },
-    _scrollToHighlighted() {
+    _scrollToHighlighted(): void {
         if (!this._lastHighlighted) {
             return;
         }
-        const container = this.root.firstElementChild.firstElementChild;
-        const containerRect = container.getBoundingClientRect();
-        const highlightRect = this._lastHighlighted.getBoundingClientRect();
-        const highlightTop = highlightRect.top - containerRect.top;
-        const highlightBottom = highlightRect.bottom - containerRect.top;
+        const container: HTMLElement = this.root.firstElementChild!.firstElementChild as HTMLElement;
+        const containerRect: DOMRect = container.getBoundingClientRect();
+        const highlightRect: DOMRect = this._lastHighlighted.getBoundingClientRect();
+
+        const highlightTop: number = highlightRect.top - containerRect.top;
+        const highlightBottom: number = highlightRect.bottom - containerRect.top;
         if (highlightTop < 0) {
             container.scrollBy(0, highlightTop);
-        }
-        else if (highlightBottom > containerRect.height) {
+        } else if (highlightBottom > containerRect.height) {
             container.scrollBy(0, highlightBottom - containerRect.height);
         }
     },
-    _selectHighlighted(programmatical = false) {
+    _selectHighlighted(programmatical: boolean = false): void {
         if (!this._lastHighlighted) {
             return;
         }
-        const option = this._canHighlight.get(this._lastHighlighted);
+        const option: HTMLElement = this._canHighlight.get(this._lastHighlighted)!;
         if (programmatical) {
             ripple(this._lastHighlighted).start(null, null).end();
             option.click();
-        }
-        else {
+        } else {
             option.dispatchEvent(new CustomEvent("selected", {
                 detail: {
                     value: option.getAttribute("value")
@@ -160,39 +217,40 @@ const Component = {
             }));
         }
     },
-    _handleClick(event) {
-        if (!this._lastHighlighted ||
-            (this._lastHighlighted !== event.target && !this._lastHighlighted.contains(event.target))) {
+    _handleClick(event: MouseEvent): void {
+        if (
+            !this._lastHighlighted ||
+            (this._lastHighlighted !== event.target && !this._lastHighlighted.contains(event.target as HTMLElement))
+         ) {
             return;
         }
         this._selectHighlighted();
     },
-    _onmousedown(event) {
+    _onmousedown(event: Event): void {
         if (this.getPreventFocus()) {
             event.preventDefault();
         }
     },
     _bindedElement: null,
-    _bindTo(element) {
+    _bindTo(element: HTMLElement | null): void {
         if (this._bindedElement === element) {
             return;
         }
         if (this._bindedElement) {
-            this._bindedElement.removeEventListener("keydown", this._onkeydown);
+            this._bindedElement.removeEventListener("keydown", this._onkeydown!);
             this._bindedElement = null;
         }
         if (element && element instanceof HTMLElement) {
             this.setAnchorElement(this._bindedElement = element);
-            this._bindedElement.addEventListener("keydown", this._onkeydown);
-        }
-        else {
+            this._bindedElement.addEventListener("keydown", this._onkeydown!);
+        } else {
             this.setAnchorElement(null);
         }
     },
-    _getOptions() {
-        const options = [];
-        const container = this.root.firstElementChild.firstElementChild;
-        this.root.querySelectorAll("[menu-option]").forEach(option => {
+    _getOptions(): Array<HTMLElement> {
+        const options: Array<HTMLElement> = [];
+        const container: HTMLElement = this.root.firstElementChild!.firstElementChild as HTMLElement;
+        this.root.querySelectorAll<HTMLElement>("[menu-option]").forEach(option => {
             if (getRippleElement(option, container) == null) {
                 return;
             }
@@ -200,7 +258,7 @@ const Component = {
         });
         return options;
     },
-    _clean() {
+    _clean(): void {
         this._lastHighlighted = this._lastHighlightedBeforeUpdate = null;
         this._clearHighlight();
         this._canHighlight.forEach((_, element) => {
@@ -208,29 +266,36 @@ const Component = {
         });
         this._canHighlight.clear();
     },
-    _setup() {
+    _setup(): void {
         this._getOptions().forEach(option => {
-            const rippleElement = getRippleElement(option, this.root.firstElementChild.firstElementChild);
+            const rippleElement: HTMLElement = getRippleElement(
+                option, this.root.firstElementChild!.firstElementChild as HTMLElement
+            )!;
             if (ripple(rippleElement).getOption("highlight") && !this._canHighlight.has(rippleElement)) {
                 this._canHighlight.set(rippleElement, option);
-                const rippleObject = ripple(rippleElement, { highlight: false });
-                const isSelected = "selected" in option && option.selected;
-                if ((isSelected && !this._lastHighlighted && !this._lastHighlightedBeforeUpdate) ||
-                    this._lastHighlightedBeforeUpdate === rippleElement) {
+                const rippleObject: any = ripple(rippleElement, { highlight: false });
+                const isSelected: boolean = "selected" in option && (option as any).selected;
+                if (
+                    (isSelected && !this._lastHighlighted && !this._lastHighlightedBeforeUpdate) ||
+                    this._lastHighlightedBeforeUpdate === rippleElement
+                ) {
                     this._lastHighlighted = rippleElement;
                     this._currentHighlighted = rippleObject.highlight();
                 }
             }
         });
     },
-    _clearHighlight() {
+    _clearHighlight(): void {
         if (this._currentHighlighted) {
             this._currentHighlighted.end();
             this._currentHighlighted = null;
         }
     },
-    _setHighlighted(event) {
-        const rippleElement = getRippleElement(event.target, this.root.firstElementChild.firstElementChild);
+    _setHighlighted(event: Event): void {
+        const rippleElement: HTMLElement | null = getRippleElement(
+            event.target as HTMLElement,
+            this.root.firstElementChild!.firstElementChild as HTMLElement
+        );
         if (!this.getKeepHighlight()) {
             this._clearHighlight();
         }
@@ -245,100 +310,104 @@ const Component = {
             });
         }
     },
-    _handleHighlightOnLeave() {
+    _handleHighlightOnLeave(): void {
         if (this.getKeepHighlight()) {
             return;
         }
         this._clearHighlight();
     },
-    highlightNext() {
+    highlightNext(): void {
         if (!this.isOpened() || this._canHighlight.size === 0) {
             return;
         }
         this._clearHighlight();
-        let index = -1;
+        let index: number = -1;
         if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some((highlightable, i) => {
             if (this._lastHighlighted === highlightable) {
                 index = i;
                 return true;
             }
         })) {
-            this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[0]).highlight();
-        }
-        else {
-            this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]).highlight();
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[0]
+            ).highlight();
+        } else {
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[(index + 1) % this._canHighlight.size]
+            ).highlight();
         }
         this._scrollToHighlighted();
     },
-    highlightPrevious() {
+    highlightPrevious(): void {
         if (!this.isOpened() || this._canHighlight.size === 0) {
             return;
         }
         this._clearHighlight();
-        let index = -1;
+        let index: number = -1;
         if (!this._lastHighlighted || !Array.from(this._canHighlight.keys()).some((highlightable, i) => {
             if (this._lastHighlighted === highlightable) {
                 index = i;
                 return true;
             }
         })) {
-            this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]).highlight();
-        }
-        else {
-            this._currentHighlighted = ripple(this._lastHighlighted = Array.from(this._canHighlight.keys())[(index - 1 + this._canHighlight.size) % this._canHighlight.size]).highlight();
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[this._canHighlight.size - 1]
+            ).highlight();
+        } else {
+            this._currentHighlighted = ripple(
+                this._lastHighlighted = Array.from(this._canHighlight.keys())[
+                    (index - 1 + this._canHighlight.size) % this._canHighlight.size
+                ]
+            ).highlight();
         }
         this._scrollToHighlighted();
     },
-    isOpened() {
+    isOpened(): boolean {
         if (this._direction === 0) {
             return this._time > 0;
         }
         return this._direction > 0;
     },
-    open() {
+    open(this: ComponentEnhanced): void {
         if (this._time > 0 && this._direction !== -1) {
             return;
         }
-        elevation(this.root.firstElementChild, 4);
+        elevation(this.root.firstElementChild as HTMLElement, 4);
         this._direction = 1;
         this.root.dispatchEvent(new Event("opening"));
     },
-    close() {
+    close(): void {
         if (this._time < 1 && this._direction !== 1) {
             return;
         }
         focusManager.release();
         this._clean();
-        elevation(this.root.firstElementChild, 0);
+        elevation(this.root.firstElementChild as HTMLElement, 0);
         this._direction = -1;
         this.root.dispatchEvent(new Event("closing"));
     },
-    setAnchorElement(element) {
-        const previousAnchorElement = this._anchorElement;
+    setAnchorElement(element: HTMLElement | null): void {
+        const previousAnchorElement: HTMLElement | null = this._anchorElement;
         if (element == null) {
             this._anchorElement = null;
-        }
-        else if (element instanceof HTMLElement) {
+        } else if (element instanceof HTMLElement) {
             if (this.root.contains(element)) {
                 throw new Error("element is in menu tree");
-            }
-            else {
+            } else {
                 this._anchorElement = element;
             }
-        }
-        else {
+        } else {
             throw new Error("invalid element");
         }
         if (previousAnchorElement) {
             document.body.removeChild(this.root);
-            this._realParent.appendChild(this.root);
+            this._realParent!.appendChild(this.root);
         }
         if (this._anchorElement) {
-            (this._realParent = this.root.parentElement).removeChild(this.root);
+            (this._realParent = this.root.parentElement)!.removeChild(this.root);
             document.body.appendChild(this.root);
             this.root.style.position = "fixed";
-        }
-        else {
+        } else {
             this._realParent = null;
             this.root.style.top = "";
             this.root.style.left = "";
@@ -346,50 +415,48 @@ const Component = {
             this.root.style.position = "";
         }
     },
-    getAnchorElement() {
+    getAnchorElement(): HTMLElement | null {
         return this._anchorElement;
     },
-    getPreventFocus() {
+    getPreventFocus(): boolean {
         return this.props.preventFocus != null && this.props.preventFocus !== false;
     },
-    getPreventAutoClose() {
+    getPreventAutoClose(): boolean {
         return this.props.preventAutoClose != null && this.props.preventAutoClose !== false;
     },
-    getInheritWidth() {
+    getInheritWidth(): boolean {
         return this.props.inheritWidth == null && this.props.inheritWidth !== false;
     },
-    getKeepHighlight() {
+    getKeepHighlight(): boolean {
         return this.props.keepHighlight != null && this.props.keepHighlight !== false;
     }
 };
-function menuAnimationFrame() {
-    const child = this.root.firstElementChild;
-    let _lastNow = Date.now();
-    const frame = () => {
+
+function menuAnimationFrame(this: ComponentEnhanced): void {
+    const child: HTMLElement = this.root.firstElementChild as HTMLElement;
+    let _lastNow: number = Date.now();
+    const frame: () => void = () => {
         if (this._mounted) {
             window.requestAnimationFrame(frame);
         }
         if (!this.root.isConnected) {
             return;
         }
-        const last = _lastNow;
+        const last: number = _lastNow;
         _lastNow = Date.now();
         if (this._direction !== 0) {
-            const duration = 150;
-            const delta = (_lastNow - last) / duration;
+            const duration: number = 150;
+            const delta: number = (_lastNow - last) / duration;
             if (this._direction > 0) {
                 if (this._anchorElement == null) {
                     this._time = 1;
-                }
-                else {
+                } else {
                     this._time = Math.min(this._time + delta, 1);
                 }
-            }
-            else if (this._direction < 0) {
+            } else if (this._direction < 0) {
                 if (this._anchorElement == null) {
                     this._time = 0;
-                }
-                else {
+                } else {
                     this._time = Math.max(this._time - delta, 0);
                 }
             }
@@ -422,82 +489,81 @@ function menuAnimationFrame() {
                             this.highlightPrevious();
                         }
                     });
-                    focusManager.on("keydown", this._onkeydown);
+                    focusManager.on("keydown", this._onkeydown!);
                 }
                 this._direction = 0;
                 // this._setup();
                 this.root.dispatchEvent(new Event("open"));
-            }
-            else if (this._time <= 0) {
+            } else if (this._time <= 0) {
                 this._direction = 0;
                 this.root.dispatchEvent(new Event("close"));
             }
         }
         if (this._time === 0) {
             this.root.style.display = "none";
-        }
-        else {
+        } else {
             this.root.style.display = "";
-            let anchor = "top";
+            let anchor: "top" | "bottom" = "top";
             if (this._anchorElement) {
-                const height = window.innerHeight;
-                const rect = this._anchorElement.getBoundingClientRect();
+                const height: number = window.innerHeight;
+                const rect: DOMRect = this._anchorElement.getBoundingClientRect();
                 if (rect.bottom < 0) {
                     this.root.style.top = "0px";
                     this.root.style.bottom = "";
-                    child.firstElementChild.style.maxHeight = height -
-                        (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
-                }
-                else if (rect.top > height) {
+                    (child.firstElementChild as HTMLElement).style.maxHeight = height -
+                        (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px"
+                    ;
+                } else if (rect.top > height) {
                     this.root.style.top = "";
                     this.root.style.bottom = "0px";
-                    child.firstElementChild.style.maxHeight = height -
-                        (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                    (child.firstElementChild as HTMLElement).style.maxHeight = height -
+                        (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px"
+                    ;
                     anchor = "bottom";
-                }
-                else {
-                    const heightTop = rect.top;
-                    const heightBottom = height - rect.bottom;
+                } else {
+                    const heightTop: number = rect.top;
+                    const heightBottom: number = height - rect.bottom;
                     if (heightTop < heightBottom) {
                         this.root.style.top = rect.bottom + "px";
                         this.root.style.bottom = "";
-                        child.firstElementChild.style.maxHeight = height - rect.bottom -
-                            (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
-                    }
-                    else {
+                        (child.firstElementChild as HTMLElement).style.maxHeight = height - rect.bottom -
+                            (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px"
+                        ;
+                    } else {
                         this.root.style.bottom = (height - rect.top) + "px";
                         this.root.style.top = "";
                         anchor = "bottom";
-                        child.firstElementChild.style.maxHeight = rect.top -
-                            (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px";
+                        (child.firstElementChild as HTMLElement).style.maxHeight = rect.top -
+                            (parseFloat(window.getComputedStyle(child).fontSize) * 3) + "px"
+                        ;
                     }
                 }
                 if (this.getInheritWidth()) {
-                    const right = window.innerWidth - rect.right;
+                    const right: number = window.innerWidth - rect.right;
                     if (rect.left >= right) {
                         this.root.style.left = "";
                         this.root.style.right = right + "px";
-                    }
-                    else {
+                    } else {
                         this.root.style.left = rect.left + "px";
                         this.root.style.right = "";
                     }
-                }
-                else {
+                } else {
                     this.root.style.left = rect.left + "px";
                     this.root.style.width = rect.width + "px";
                 }
                 this.root.setAttribute("anchor", anchor);
             }
-            const styleAt = getMenuStyleAt(this._time, anchor);
+            const styleAt: {
+                opacity: number,
+                transform: string
+            } = getMenuStyleAt(this._time, anchor);
             child.style.transform = styleAt.transform;
             child.style.opacity = styleAt.opacity + "";
             if (this._direction > 0) {
                 if (this._lastHighlighted) {
                     this._scrollToHighlighted();
-                }
-                else {
-                    this.root.firstElementChild.firstElementChild.scrollTo(0, 0);
+                } else {
+                    this.root.firstElementChild!.firstElementChild!.scrollTo(0, 0);
                 }
             }
         }
@@ -505,118 +571,4 @@ function menuAnimationFrame() {
     frame();
 }
 
-var RmMenu = {
-  'css': `rm-menu,[is="rm-menu"]{ display: block; font-size: 16px; overflow: hidden; padding: 40px; margin: -40px; pointer-events: none; z-index: 100; } rm-menu:not([anchor]),[is="rm-menu"]:not([anchor]){ border-radius: 0; margin: 0; padding: 0; } rm-menu[anchor=top],[is="rm-menu"][anchor=top]{ padding-top: 0; margin-top: 0; border-radius: 0 0 0.25em 0.25em; } rm-menu:not([variant])[anchor=top],[is="rm-menu"]:not([variant])[anchor=top],rm-menu[variant=outlined][anchor=top],[is="rm-menu"][variant=outlined][anchor=top],rm-menu[variant=outlined]:not([anchor]),[is="rm-menu"][variant=outlined]:not([anchor]){ border-radius: 0.25em; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom]{ padding-bottom: 0; margin-bottom: 0; border-radius: 0.25em 0.25em 0 0; } rm-menu[anchor=bottom],[is="rm-menu"][anchor=bottom],rm-menu[variant=filled][anchor=bottom],[is="rm-menu"][variant=filled][anchor=bottom],rm-menu[variant=outlined][anchor=bottom],[is="rm-menu"][variant=outlined][anchor=bottom]{ border-radius: 0.25em; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; z-index: 99; pointer-events: all; border-radius: inherit; transform-origin: top center; user-select: none; } rm-menu > div,[is="rm-menu"] > div{ background: white; padding: .5em 0; transform: }`,
-  'exports': Component,
-
-  'template': function(
-    template,
-    expressionTypes,
-    bindingTypes,
-    getComponent
-  ) {
-    return template(
-      '<div expr0="expr0" tabindex="0" style="outline: none;"><div expr1="expr1" style="overflow-y: auto; position: relative;"><slot expr2="expr2"></slot><div style="position: absolute;" ref="item-highlight"></div></div></div>',
-      [
-        {
-          'redundantAttribute': 'expr0',
-          'selector': '[expr0]',
-
-          'expressions': [
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onmousedown',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._onmousedown;
-              }
-            }
-          ]
-        },
-        {
-          'redundantAttribute': 'expr1',
-          'selector': '[expr1]',
-
-          'expressions': [
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onmouseenter',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._setHighlighted;
-              }
-            },
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onmousemove',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._setHighlighted;
-              }
-            },
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onmouseleave',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._handleHighlightOnLeave;
-              }
-            },
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onclick',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._handleClick;
-              }
-            },
-            {
-              'type': expressionTypes.EVENT,
-              'name': 'onfocus',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope.open;
-              }
-            }
-          ]
-        },
-        {
-          'type': bindingTypes.SLOT,
-
-          'attributes': [
-            {
-              'type': expressionTypes.ATTRIBUTE,
-              'name': 'close-menu',
-
-              'evaluate': function(
-                _scope
-              ) {
-                return _scope._closeThis;
-              }
-            }
-          ],
-
-          'name': 'default',
-          'redundantAttribute': 'expr2',
-          'selector': '[expr2]'
-        }
-      ]
-    );
-  },
-
-  'name': 'rm-menu'
-};
-
-export { RmMenu as default };
+export default Component;
