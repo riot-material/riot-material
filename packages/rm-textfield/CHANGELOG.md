@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.3.0] - 2021-10-01
+- emit ts declarations
+- update dependencies
+
 ## [1.2.2] - 2021-09-18
 - expand input to whole container
 

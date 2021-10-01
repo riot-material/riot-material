@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/rm-textfield-container')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/rm-textfield-container'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.textfield = factory(global.riotMaterial.components.textfieldContainer)));
-}(this, (function (TextfieldContainerComponent) { 'use strict';
+})(this, (function (TextfieldContainerComponent) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -11,7 +11,7 @@
     const VALUE = Symbol("value");
     const IS_MOUNTED = Symbol("is-mounted");
 
-    var index = {
+    var RmTextfield = {
       'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0.625em 0; margin: -0.625em 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; opacity: 0; transition: opacity linear 150ms, margin linear 150ms, padding linear 150ms ; } rm-textfield[variant="filled"] .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-textfield--input,rm-textfield[variant="outlined"] .rm-textfield--input,[is="rm-textfield"][variant="outlined"] .rm-textfield--input{ padding: 0.875em 0.75em; margin: -0.875em -0.75em; } rm-textfield[variant="filled"] .rm-label-should-float .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-label-should-float .rm-textfield--input{ padding: 1.25em 0.75em 0.5em; margin: -1.25em -0.75em -0.5em; } rm-textfield .rm-textfield--input-visible,[is="rm-textfield"] .rm-textfield--input-visible{ opacity: 1; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
 
       'exports': {
@@ -171,7 +171,7 @@
         },
 
         components: {
-            "rm-textfield-container": TextfieldContainerComponent__default['default']
+            "rm-textfield-container": TextfieldContainerComponent__default["default"]
         }
       },
 
@@ -182,7 +182,7 @@
         getComponent
       ) {
         return template(
-          '<rm-textfield-container expr36="expr36"></rm-textfield-container>',
+          '<rm-textfield-container expr0="expr0"></rm-textfield-container>',
           [
             {
               'type': bindingTypes.TAG,
@@ -197,12 +197,12 @@
               'slots': [
                 {
                   'id': 'input',
-                  'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr37="expr37" size="1"/><template expr38="expr38"></template></span>',
+                  'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr1="expr1" size="1"/><template expr2="expr2"></template></span>',
 
                   'bindings': [
                     {
-                      'redundantAttribute': 'expr37',
-                      'selector': '[expr37]',
+                      'redundantAttribute': 'expr1',
+                      'selector': '[expr1]',
 
                       'expressions': [
                         {
@@ -280,8 +280,8 @@
                         return _scope.isDisabled() || _scope.isReadonly();
                       },
 
-                      'redundantAttribute': 'expr38',
-                      'selector': '[expr38]',
+                      'redundantAttribute': 'expr2',
+                      'selector': '[expr2]',
 
                       'template': template(
                         ' ',
@@ -307,21 +307,21 @@
                 },
                 {
                   'id': 'leading',
-                  'html': '<slot expr39="expr39" name="leading" slot="leading"></slot>',
+                  'html': '<slot expr3="expr3" name="leading" slot="leading"></slot>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'leading',
-                      'redundantAttribute': 'expr39',
-                      'selector': '[expr39]'
+                      'redundantAttribute': 'expr3',
+                      'selector': '[expr3]'
                     }
                   ]
                 },
                 {
                   'id': 'trailing',
-                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr40="expr40" variant="icon" dense></rm-button><slot expr41="expr41" name="trailing"></slot></span>',
+                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr4="expr4" variant="icon" dense></rm-button><slot expr5="expr5" name="trailing"></slot></span>',
 
                   'bindings': [
                     {
@@ -333,8 +333,8 @@
                         return _scope.isClearable() && _scope.root.value;
                       },
 
-                      'redundantAttribute': 'expr40',
-                      'selector': '[expr40]',
+                      'redundantAttribute': 'expr4',
+                      'selector': '[expr4]',
 
                       'template': template(
                         null,
@@ -387,8 +387,8 @@
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'trailing',
-                      'redundantAttribute': 'expr41',
-                      'selector': '[expr41]'
+                      'redundantAttribute': 'expr5',
+                      'selector': '[expr5]'
                     }
                   ]
                 }
@@ -457,8 +457,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr36',
-              'selector': '[expr36]'
+              'redundantAttribute': 'expr0',
+              'selector': '[expr0]'
             }
           ]
         );
@@ -467,6 +467,6 @@
       'name': 'rm-textfield'
     };
 
-    return index;
+    return RmTextfield;
 
-})));
+}));
