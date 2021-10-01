@@ -1,46 +1,23 @@
 const riot = require("rollup-plugin-riot");
+const typescript = require("rollup-plugin-ts");
 
 export default [
     {
-        input: "index.riot",
+        input: "src/index.ts",
         plugins: [
+            typescript(),
             riot()
         ],
-        output: {
-            file: "index.js",
-            format: "cjs",
-            exports: "auto"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            file: "index.es.js",
-            format: "es"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            file: "index.amd.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "index.riot",
-        plugins: [
-            riot()
-        ],
-        output: {
-            name: "riotMaterial.components.divider",
-            file: "index.umd.js",
-            format: "umd"
-        }
+        output: [
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            },
+            {
+                name: "riotMaterial.components.divider",
+                file: "dist/index.js",
+                format: "umd"
+            }
+        ]
     }
 ];
