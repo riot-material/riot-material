@@ -24,7 +24,7 @@ function restoreTabbable(tabbable) {
     delete tabbable[TABINDEX];
 }
 
-var index = {
+var RmList = {
   'css': `rm-list,[is="rm-list"]{ display: block; outline: none; }`,
 
   'exports': {
@@ -325,4 +325,4 @@ var index = {
   'name': 'rm-list'
 };
 
-export default index;
+export { RmList as default };

@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('tabbable'), require('riot'), require('@riot-material/ripple')) :
     typeof define === 'function' && define.amd ? define(['tabbable', 'riot', '@riot-material/ripple'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.list = factory(global.tabbable, global.riot, global.riotMaterial.ripple)));
-}(this, (function (tabbable, riot, ripple) { 'use strict';
+})(this, (function (tabbable, riot, ripple) { 'use strict';
 
     const TABINDEX = Symbol("tabindex");
     const RIPPLE_HIGHLIGHT = Symbol("ripple-highlight");
@@ -26,7 +26,7 @@
         delete tabbable[TABINDEX];
     }
 
-    var index = {
+    var RmList = {
       'css': `rm-list,[is="rm-list"]{ display: block; outline: none; }`,
 
       'exports': {
@@ -327,6 +327,6 @@
       'name': 'rm-list'
     };
 
-    return index;
+    return RmList;
 
-})));
+}));
