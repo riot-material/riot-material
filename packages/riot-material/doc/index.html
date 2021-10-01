@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RIOT-MATERIAL</title>
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body class="rm-background">
+        <rm-doc></rm-doc>
+
+        <script src="http://unpkg.com/riot/riot+compiler"></script>
+        <script src="../dist/index+libs.min.js"></script>
+        
+        <script src="navigation-rail-utils.js"></script>
+        <script data-src="rm-doc.riot" type="riot"></script>
+        <script data-src="rm-navigation-rail.riot" type="riot"></script>
+        <script data-src="rm-navigation-rail-destination.riot" type="riot"></script>
+        <script data-src="rm-drawer.riot" type="riot"></script>
+        <script data-src="rm-bottom-navigation-bar.riot" type="riot"></script>
+        <script data-src="rm-bottom-navigation-bar-item.riot" type="riot"></script>
+
+        <script>
+            const directives = {
+                "is-ripple": function (value) {
+                    if (typeof value !== "object") {
+                        value = {};
+                    }
+                    riotMaterial.ripple.ripple(this, value);
+                }
+            };
+            (function iterateAllProperties(obj) {
+                // https://stackoverflow.com/a/8024294/9228492
+                var props = [];
+
+                do {
+                    Object.getOwnPropertyNames( obj ).forEach(function ( prop ) {
+                        if ( props.indexOf( prop ) === -1 ) {
+                            props.push( prop );
+                                   
+                            // added code
+                            if (prop.startsWith("HTML") && prop.endsWith("Element")) {
+                                Object.defineProperty(window[prop].prototype, "is-ripple", {
+                                    set(value) {
+                                        directives["is-ripple"].call(this, value);
+                                    },
+                                    get() {
+                                        return riotMaterial.ripple.isRipple(this);
+                                    }
+                                });
+                            }
+                            // end added code
+                        }
+                    });
+                } while ( obj = Object.getPrototypeOf( obj ) );
+
+                return props;
+            })(window);
+            HTMLElement.prototype.setAttribute = (function (nativeSetAttribute) {
+                return function setAttribute(attr, value) {
+                    if (attr === "is-ripple") {
+                        riotMaterial.ripple.ripple(this, value);
+                    }
+                    nativeSetAttribute.apply(this, arguments);
+                };
+            })(HTMLElement.prototype.setAttribute);
+            riot.compile().then(() => {
+                riot.mount("rm-doc");
+            });
+        </script>
+    </body>
+</html>

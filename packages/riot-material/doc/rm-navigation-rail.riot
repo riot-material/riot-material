@@ -1,0 +1,116 @@
+<rm-navigation-rail>
+    <div style="height:0px;width:{ getWidth() }px;" if={ !isPlaceholder() }></div>
+    <div style="height:{
+        isFixed() ? 'unset' : '100%'
+    };width:{
+        getWidth()
+    }px;overflow:auto;{
+        isFixed() ? 'position:fixed;left:0;top:' + (hasOffset() ? getAppBarHeight() : 0) + 'px;bottom:0;' : ''
+    }box-shadow: rgba(0, 0, 0, 0.17) 1px 0;" if={ !isPlaceholder() } class="rm-white-surface">
+        <div style="height: 8px;"></div>
+        <slot destination-props={{ variant: props.variant, dense: isDense() }}></slot>
+        <!--  </template>
+        <template if={ isOpened() }>
+            <slot name="full" destination-style={{ style: props.style }}></slot>
+            <div style="padding: 8px 24px; user-select: none; cursor: pointer;"
+                each={ dest in props.fullDestinations } is-ripple={{
+                    highlight: true,
+                    instantHighlight: true
+                }}
+            >
+                <rm-icon style="margin-right: 24px; vertical-align: middle;">{ dest.icon }</rm-icon>
+                <span style="font-size: 14px;line-height: 1;text-align: center; vertical-align: middle;" if={ hasLabels() }>{ dest.name }</span>
+            </div>
+        </template>  -->
+        <div style="height: 8px;"></div>
+    </div>
+
+    <script>
+        function elementIsOrIsWithin(element, other) {
+            return element === other || other.contains(element);
+        }
+
+        export default {
+            state: {},
+            getAppBarHeight: riotMaterial.appBarUtils.getHeight,
+            getWidth: riotMaterial.navigationRailUtils.getWidth,
+            isDense: riotMaterial.navigationRailUtils.isDense,
+            _destinations: null,
+            _updateDestinations() {
+                this._destinations = [];
+                this.root.querySelectorAll("[rail-destination]").forEach((destination, index) => {
+                    if (this.getSelected() === -1) {
+                        this.state.selected = 0;
+                    }
+                    this._destinations.push(destination);
+                    const component = destination[riot.__.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                    if (component) {
+                        component.update({ selected: index === this.getSelected() });
+                    }
+                });
+            },
+            getSelected() {
+                return this.state.selected != null ?
+                    this.state.selected :
+                    (this.props.selectedDestination != null ? ((number) => {
+                        return isNaN(number) ? -1 : number;
+                    })(parseInt(this.props.selectedDestination, 10)) : -1)
+                ;
+            },
+            onMounted() {
+                this._updateDestinations();
+                this.root.addEventListener("click", event => {
+                    const target = event.target;
+                    if (this._destinations.some((destination, index) => {
+                        if (elementIsOrIsWithin(target, destination)) {
+                            if (index !== this.getSelected()) {
+                                this.update({ selected: index });
+                                this.root.dispatchEvent(new CustomEvent("selected", { detail: { index } }));
+                            }
+                            return true;
+                        }
+                        return false;
+                    })) {
+                        return;
+                    }
+                });
+                riotMaterial.appBarUtils.onChange(this.update, this);
+                riotMaterial.navigationRailUtils.on("change", this.update, this);
+            },
+            onUpdated() {
+                this._updateDestinations();
+            },
+            onBeforeUnmount() {
+                riotMaterial.appBarUtils.offChange(this.update, this);
+                riotMaterial.navigationRailUtils.off("change", this.update, this);
+            },
+            shouldUpdate(newProps, currentProps) {
+                if (currentProps.opened !== newProps.opened) {
+                    delete this.state.opened;
+                }
+                if (currentProps.selected !== newProps.selected) {
+                    delete this.state.selected;
+                }
+                return true;
+            },
+            isOpened() {
+                return this.state.opened == null ?
+                    this.props.opened != null && this.props.opened !== false :
+                    this.state.opened != null && this.state.opened !== false
+                ;
+            },
+            isFixed() {
+                return this.props.fixed != null && this.props.fixed !== false;
+            },
+            hasOffset() {
+                return this.props.withOffset != null && this.props.withOffset !== false;
+            },
+            hasLabels() {
+                return this.props.withLabels != null && this.props.withLabels !== false;
+            },
+            isPlaceholder() {
+                return this.props.placeholder != null && this.props.placeholder !== false;
+            }
+        }
+    </script>
+</rm-navigation-rail>

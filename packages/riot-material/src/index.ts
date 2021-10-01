@@ -21,13 +21,13 @@ import TabbedPagesComponent from "@riot-material/rm-tabbed-pages";
 import TextfieldComponent from "@riot-material/rm-textfield";
 import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
 
-import elevation from "@riot-material/elevation";
 
-import * as background from "@riot-material/background";
-import * as surfaces from "@riot-material/surfaces";
-import * as ripple from "@riot-material/ripple";
 import * as appBarUtils from "@riot-material/app-bar-utils";
+import * as background from "@riot-material/background";
 import * as beforeFocusListener from "@riot-material/before-focus-listener";
+import * as elevation from "@riot-material/elevation";
+import * as ripple from "@riot-material/ripple";
+import * as surfaces from "@riot-material/surfaces";
 
 import { register } from "riot";
 

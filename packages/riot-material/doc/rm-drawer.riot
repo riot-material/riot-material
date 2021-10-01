@@ -1,0 +1,33 @@
+<rm-drawer style={ hasOffset() ? "top:" + getAppBarHeight() + "px;" : "" } class="rm-white-surface">
+    <template if={ !isPlaceholder() }>
+        <slot></slot>
+    </template>
+
+    <style>
+        :host {
+            display: block;
+            width: 256px;
+            max-width: 100vw;
+            box-shadow: rgba(0, 0, 0, 0.17) 1px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+        :host[placeholder] {
+            position: static;
+        }
+    </style>
+
+    <script>
+        export default {
+            getAppBarHeight: riotMaterial.appBarUtils.getHeight,
+            isPlaceholder() {
+                return this.props.placeholder != null && this.props.placeholder !== false;
+            },
+            hasOffset() {
+                return this.props.withOffset != null && this.props.withOffset !== false;
+            }
+        }
+    </script>
+</rm-drawer>

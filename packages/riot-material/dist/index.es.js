@@ -12,25 +12,53 @@ import SelectComponent from '@riot-material/rm-select';
 import TabbedPagesComponent from '@riot-material/rm-tabbed-pages';
 import TextfieldComponent from '@riot-material/rm-textfield';
 import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
-export { default as elevation } from '@riot-material/elevation';
-import * as background from '@riot-material/background';
-export { background };
-import * as surfaces from '@riot-material/surfaces';
-export { surfaces };
-import * as ripple from '@riot-material/ripple';
-export { ripple };
 import * as appBarUtils from '@riot-material/app-bar-utils';
 export { appBarUtils };
+import * as background from '@riot-material/background';
+export { background };
+import * as elevation from '@riot-material/elevation';
+export { elevation };
+import * as ripple from '@riot-material/ripple';
+export { ripple };
+import * as surfaces from '@riot-material/surfaces';
+export { surfaces };
 import { register } from 'riot';
 
-var index$2 = {
+var RmListAvatar = {
   'css': `rm-list-avatar,[is="rm-list-avatar"]{ display: block; height: 40px; width: 40px; background: gray; } rm-list-avatar[circular],[is="rm-list-avatar"][circular]{ border-radius: 50%; }`,
   'exports': null,
-  'template': null,
+
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      null,
+      [
+        {
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'style',
+
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope.props.src ? "background: url(" + _scope.props.src + ");" : "";
+              }
+            }
+          ]
+        }
+      ]
+    );
+  },
+
   'name': 'rm-list-avatar'
 };
 
-var index$1 = {
+var RmListGroup = {
   'css': `rm-list-group > rm-list-item:not(:first-child),[is="rm-list-group"] > rm-list-item:not(:first-child),rm-list-group > [is="rm-list-item"]:not(:first-child),[is="rm-list-group"] > [is="rm-list-item"]:not(:first-child){ padding-left: 2em; }`,
 
   'exports': {
@@ -100,30 +128,56 @@ var index$1 = {
   'name': 'rm-list-group'
 };
 
-var index = {
+var RmListImage = {
   'css': `rm-list-image,[is="rm-list-image"]{ display: block; height: 56px; width: 56px; background: gray; } rm-list-image[large],[is="rm-list-image"][large]{ width: 100px; margin-left: -16px; }`,
   'exports': null,
-  'template': null,
+
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      null,
+      [
+        {
+          'expressions': [
+            {
+              'type': expressionTypes.ATTRIBUTE,
+              'name': 'style',
+
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope.props.src ? `background-image: url(${_scope.prop.src});` : "";
+              }
+            }
+          ]
+        }
+      ]
+    );
+  },
+
   'name': 'rm-list-image'
 };
 
-var BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
-var WAS_FUNCTION = Symbol("was-function");
+const BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
+const WAS_FUNCTION = Symbol("was-function");
 function addListener(element, handler) {
-    var _a;
     if (handler === void 0) {
         throw new Error("invalid handler");
     }
     if (typeof handler === "function") {
-        handler = (_a = {},
-            _a[WAS_FUNCTION] = true,
-            _a.handleEvent = handler,
-            _a);
+        handler = {
+            [WAS_FUNCTION]: true,
+            handleEvent: handler
+        };
     }
     else if (typeof handler !== "object" || !("handleEvent" in handler)) {
         throw new Error("invalid handler");
     }
-    var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+    let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
     if (instance) {
         instance.listeners.push(handler);
         if (instance.listeners.length === 1) {
@@ -131,9 +185,9 @@ function addListener(element, handler) {
         }
         return;
     }
-    var touchShouldFire;
-    var lastTouch = null;
-    var ontouchstart = function (event) {
+    let touchShouldFire;
+    let lastTouch = null;
+    let ontouchstart = event => {
         if (lastTouch == null || event.changedTouches[0].identifier === lastTouch) {
             return;
         }
@@ -141,13 +195,13 @@ function addListener(element, handler) {
     };
     window.addEventListener("touchstart", ontouchstart);
     function callListeners(event) {
-        var stop = false;
-        var stopImmediate = false;
-        var beforeFocusEvent = {
+        let stop = false;
+        let stopImmediate = false;
+        const beforeFocusEvent = {
             type: "beforefocus",
             detail: { nativeEvent: event },
-            initEvent: function () { return; },
-            initCustomEvent: function () { return; },
+            initEvent() { return; },
+            initCustomEvent() { return; },
             get cancelable() { return false; },
             get bubbles() { return false; },
             get composed() { return false; },
@@ -161,16 +215,16 @@ function addListener(element, handler) {
             get srcElement() { return this.currentTarget; },
             get target() { return this.currentTarget; },
             get timeStamp() { return event.timeStamp; },
-            composedPath: function () { return []; },
-            preventDefault: function () { event.preventDefault(); },
+            composedPath() { return []; },
+            preventDefault() { event.preventDefault(); },
             NONE: Event.NONE,
             BUBBLING_PHASE: Event.BUBBLING_PHASE,
             CAPTURING_PHASE: Event.CAPTURING_PHASE,
             AT_TARGET: Event.AT_TARGET,
-            stopPropagation: function () { stop = true; },
-            stopImmediatePropagation: function () { stopImmediate = true; }
+            stopPropagation() { stop = true; },
+            stopImmediatePropagation() { stopImmediate = true; }
         };
-        instance.listeners.some(function (handler) {
+        instance.listeners.some(handler => {
             if (handler[WAS_FUNCTION]) {
                 handler.handleEvent.call(null, beforeFocusEvent);
             }
@@ -188,43 +242,43 @@ function addListener(element, handler) {
             return false;
         });
     }
-    var eventHandled = false;
+    let eventHandled = false;
     element[BEFORE_FOCUS_CONTROLLER_INSTANCE] = instance = {
         _window_ontouchstart: ontouchstart,
-        ontouchstart: function (event) {
+        ontouchstart(event) {
             if (instance.listeners.length === 0 || lastTouch != null) {
                 return;
             }
             lastTouch = event.changedTouches[0].identifier;
             touchShouldFire = true;
         },
-        ontouchmove: function (event) {
+        ontouchmove(event) {
             if (instance.listeners.length === 0) {
                 return;
             }
             touchShouldFire = false;
         },
-        ontouchend: function (event) {
+        ontouchend(event) {
             if (instance.listeners.length === 0) {
                 return;
             }
             lastTouch = null;
             eventHandled = true;
-            setTimeout(function () { return eventHandled = false; }, 200);
+            setTimeout(() => eventHandled = false, 200);
             if (!touchShouldFire) {
                 return;
             }
             callListeners(event);
         },
-        ontouchcancel: function (event) {
+        ontouchcancel(event) {
             if (instance.listeners.length === 0) {
                 return;
             }
             lastTouch = null;
             eventHandled = true;
-            setTimeout(function () { return eventHandled = false; }, 200);
+            setTimeout(() => eventHandled = false, 200);
         },
-        onmousedown: function (event) {
+        onmousedown(event) {
             if (instance.listeners.length === 0 || eventHandled) {
                 return;
             }
@@ -239,12 +293,12 @@ function addListener(element, handler) {
     element.addEventListener("mousedown", instance.onmousedown);
 }
 function removeListener(element, handler) {
-    var instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
+    let instance = element[BEFORE_FOCUS_CONTROLLER_INSTANCE];
     if (!instance) {
         return;
     }
-    var index = -1;
-    if (instance.listeners.some(function (listener, i) {
+    let index = -1;
+    if (instance.listeners.some((listener, i) => {
         if (typeof handler === "function" ? listener.handleEvent === handler : listener === handler) {
             index = i;
             return true;
@@ -257,29 +311,47 @@ function removeListener(element, handler) {
         }
     }
 }
-var nativeAddEventListener = HTMLElement.prototype.addEventListener;
-HTMLElement.prototype.addEventListener = function (type, listener, options) {
-    if (type === "beforefocus") {
-        addListener(this, listener);
+let nativeAddEventListener = null;
+let nativeRemoveEventListener = null;
+function polyfill() {
+    if (nativeAddEventListener !== null) {
+        return;
     }
-    else {
-        nativeAddEventListener.call(this, type, listener, options);
+    nativeAddEventListener = HTMLElement.prototype.addEventListener;
+    HTMLElement.prototype.addEventListener = function (type, listener, options) {
+        if (type === "beforefocus") {
+            addListener(this, listener);
+        }
+        else {
+            nativeAddEventListener.call(this, type, listener, options);
+        }
+    };
+    nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
+    HTMLElement.prototype.removeEventListener = function (type, listener, options) {
+        if (type === "beforefocus") {
+            removeListener(this, listener);
+        }
+        else {
+            nativeRemoveEventListener.call(this, type, listener, options);
+        }
+    };
+}
+function restore() {
+    if (nativeAddEventListener === null) {
+        return;
     }
-};
-var nativeRemoveEventListener = HTMLElement.prototype.removeEventListener;
-HTMLElement.prototype.removeEventListener = function (type, listener, options) {
-    if (type === "beforefocus") {
-        removeListener(this, listener);
-    }
-    else {
-        nativeRemoveEventListener.call(this, type, listener, options);
-    }
-};
+    HTMLElement.prototype.addEventListener = nativeAddEventListener;
+    nativeAddEventListener = null;
+    HTMLElement.prototype.removeEventListener = nativeRemoveEventListener;
+    nativeRemoveEventListener = null;
+}
 
 var index_es = /*#__PURE__*/Object.freeze({
   __proto__: null,
   addListener: addListener,
-  removeListener: removeListener
+  polyfill: polyfill,
+  removeListener: removeListener,
+  restore: restore
 });
 
 register("rm-app-bar", AppBarComponent);
@@ -290,9 +362,9 @@ register("rm-checkbox", CheckboxComponent);
 register("rm-dialog", DialogComponent);
 register("rm-divider", DividerComponent);
 register("rm-icon", IconComponent);
-register("rm-list-avatar", index$2);
-register("rm-list-group", index$1);
-register("rm-list-image", index);
+register("rm-list-avatar", RmListAvatar);
+register("rm-list-group", RmListGroup);
+register("rm-list-image", RmListImage);
 register("rm-list-item", ListItemComponent);
 register("rm-menu", MenuComponent);
 register("rm-menu-item", MenuItemComponent);
@@ -304,7 +376,6 @@ register("rm-tabbed-pages", TabbedPagesComponent);
 // register("rm-textarea", TextareaComponent);
 register("rm-textfield", TextfieldComponent);
 register("rm-textfield-container", TextfieldContainerComponent);
-
 // tslint:disable-next-line:typedef
 const components = {
     appBar: AppBarComponent,
@@ -315,9 +386,9 @@ const components = {
     dialog: DialogComponent,
     divider: DividerComponent,
     icon: IconComponent,
-    listAvatar: index$2,
-    listGroup: index$1,
-    listImage: index,
+    listAvatar: RmListAvatar,
+    listGroup: RmListGroup,
+    listImage: RmListImage,
     listItem: ListItemComponent,
     menu: MenuComponent,
     menuItem: MenuItemComponent,

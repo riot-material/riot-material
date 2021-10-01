@@ -1,0 +1,81 @@
+<rm-navigation-rail-destination rail-destination>
+    <div>
+        <rm-icon>{ state.selected ? props.selectedIcon || props.icon : props.icon }</rm-icon>
+        <div style="font-size: 12px;line-height: 1;text-align: center;" if={ hasLabel() }>{ props.label }</div>
+    </div>
+
+    <style>
+        :host {
+            display: block;
+            width: 100%;
+            padding: 24px 0;
+            user-select: none;
+            cursor: pointer;
+            text-align: center;
+            color: black;
+        }
+        :host[dense] {
+            padding: 20px 0;
+        }
+
+        :host > div {
+            vertical-align: middle;
+            display: inline-block;
+            width: 100%;
+            font-size: 0;
+        }
+        
+        :host.rm-navigation-rail-destination--selected {
+            color: rgb(139, 0, 139);
+            color: rgb(var(--color-primary, 139, 0, 139));
+        }
+    </style>
+    
+    <script>
+        export default {
+            _updateRootPadding() {
+                if (this.hasLabel()) {
+                    this.root.style.paddingTop = this.root.style.paddingBottom = (this.isDense() ? 10 : 18) + "px";
+                } else {
+                    this.root.style.paddingTop = this.root.style.paddingBottom = "";
+                }
+            },
+            _updateClass() {
+                this.root.classList[this.state.selected ? "add" : "remove"]("rm-navigation-rail-destination--selected");
+            },
+            _finish() {
+                this._updateRootPadding();
+                this._updateClass();
+            },
+            onMounted() {
+                riotMaterial.ripple.ripple(this.root, {
+                    highlight: true, instantHighlight: true
+                });
+                this._finish();
+            },
+            onUpdated() {
+                this._finish();
+            },
+            getVariant() {
+                switch (this.props.variant) {
+                    case "all": {
+                        return "all";
+                    }
+                    case "none": {
+                        return "none";
+                    }
+                    default: {
+                        return "selected";
+                    }
+                }
+            },
+            hasLabel() {
+                const variant = this.getVariant();
+                return variant === "all" || variant === "selected" && this.state.selected;
+            },
+            isDense() {
+                return this.props.dense != null && this.props.dense !== false;
+            }
+        }
+    </script>
+</rm-navigation-rail-destination>

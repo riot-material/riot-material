@@ -1,6 +1,8 @@
 const commonjs = require("@rollup/plugin-commonjs");
-const nodeResolve = require("@rollup/plugin-node-resolve").default;
-const terser = require("rollup-plugin-terser").terser;
+const typescript = require("rollup-plugin-ts");
+
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const { terser } = require("rollup-plugin-terser");
 
 const plusLibsGlobals = {
     "riot": "riot"
@@ -38,11 +40,12 @@ const external = Object.keys(globals);
 
 export default [
     {
-        input: "src/index.js",
+        input: "src/index.ts",
         external,
         plugins: [
             nodeResolve(),
-            commonjs()
+            commonjs(),
+            typescript()
         ],
         output: [
             {
@@ -52,11 +55,12 @@ export default [
         ]
     },
     {
-        input: "src/index.js",
+        input: "src/index.ts",
         external: minusLibsExternal,
         plugins: [
             nodeResolve(),
-            commonjs()
+            commonjs(),
+            typescript()
         ],
         output: [
             {
@@ -75,11 +79,12 @@ export default [
         ]
     },
     {
-        input: "src/index.js",
+        input: "src/index.ts",
         external: plusLibsExternal,
         plugins: [
             nodeResolve(),
-            commonjs()
+            commonjs(),
+            typescript()
         ],
         output: [
             {

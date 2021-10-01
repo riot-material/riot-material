@@ -1,0 +1,81 @@
+<rm-doc>
+    <div style="display: table; width: 100%; min-height: 100vh;">
+        <div style="display: table-row; height: 1px; box-shadow: rgba(0, 0, 0, .17) 0 1px;">
+            <rm-app-bar placeholder></rm-app-bar>
+        </div>
+        <div style="display: table-row;">
+            <div style="display: table-cell; width: 1px;" if={ !navigationRailShouldHide() }>
+                <rm-navigation-rail fixed with-offset
+                    destinations={ getContexts() } selected-destination={ state.selectedIndex }
+                    variant="all" onselected={ event => select(event.detail.index) }
+                    if={ !state.drawerOpened }
+                >
+                    <rm-navigation-rail-destination each={ dest in getContexts() }
+                        { ...dest } { ...destinationProps }
+                    ></rm-navigation-rail-destination>
+                </rm-navigation-rail>
+                <rm-navigation-rail placeholder if={ !state.drawerOpened }></rm-navigation-rail>
+                <rm-drawer placeholder if={ state.drawerOpened }></rm-drawer>
+            </div>
+            <div style="display: table-cell;">
+                CIAONE
+                <template if={ navigationRailShouldHide() }>
+                    <rm-app-bar placeholder></rm-app-bar>
+                    <rm-bottom-navigation-bar surface="white">
+                        <navigate context={ context.name } each={ context in getContexts() }>
+                            <rm-bottom-navigation-bar-item { ...context }></rm-bottom-navigation-bar-item>
+                        </navigate>
+                    </rm-bottom-navigation-bar>
+                </template>
+            </div>
+        </div>
+    </div>
+    <rm-drawer if={ state.drawerOpened } with-offset>
+        <div style="height: 14px;"></div>
+        <rm-list-item
+            label={ dest.label } onclick={ select.bind(this, index) }
+            selected={ isSelected(index) } each={ (dest, index) in getContexts() }
+        >
+            <rm-icon slot="leading" style="margin-left: 8px; margin-right: -8px;">{
+                isSelected(index) ? dest.selectedIcon || dest.icon : dest.icon
+            }</rm-icon>
+        </rm-list-item>
+    </rm-drawer>
+    <rm-app-bar fixed surface="white">
+        <rm-button
+            variant="icon" style="margin:0 16px 0 8px;"
+            onclick={ () => this.update({ drawerOpened: !state.drawerOpened }) }
+        >{ state.drawerOpened ? "close" : "menu" }</rm-button>
+        <object data="../logo.svg" type="image/svg+xml" style="height: 40px; width: 40px; vertical-align: middle; box-sizing: border-box; padding: 4px;"></object>
+    </rm-app-bar>
+
+    <script>
+        const contexts = [
+            { icon: "home", label: "Home", name: "home" },
+            { icon: "line_style", selectedIcon: "view_quilt", label: "Components", name:"components" },
+            { icon: "search", label: "Search", name:"search" }
+        ];
+        export default {
+            state: {
+                selectedIndex: 0
+            },
+            getAppBarHeight: riotMaterial.appBarUtils.getHeight,
+            navigationRailShouldHide: riotMaterial.navigationRailUtils.shouldHide,
+            onMounted() {
+                riotMaterial.navigationRailUtils.on("visibility", this.update, this);
+            },
+            onBeforeUnmount() {
+                riotMaterial.navigationRailUtils.off("visibility", this.update, this);
+            },
+            getContexts() {
+                return contexts;
+            },
+            isSelected(index) {
+                return index === this.state.selectedIndex;
+            },
+            select(index) {
+                this.update({ selectedIndex: Math.max(Math.min(index, contexts.length - 1), 0) });
+            }
+        }
+    </script>
+</rm-doc>
