@@ -2,9 +2,9 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.menuItem = factory()));
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
-  /* Riot v6.0.1, @license MIT */
+  /* Riot v6.0.4, @license MIT */
   /**
    * Convert a string from camel case to dash-case
    * @param   {string} string - probably a component tag name
@@ -419,92 +419,92 @@
         while (bStart < bEnd) insertBefore(get(b[bStart++], 1), node);
       } // remove head or tail: fast path
       else if (bEnd === bStart) {
-          while (aStart < aEnd) {
-            // remove the node only if it's unknown or not live
-            if (!map || !map.has(a[aStart])) removeChild(get(a[aStart], -1));
-            aStart++;
-          }
-        } // same node: fast path
-        else if (a[aStart] === b[bStart]) {
-            aStart++;
-            bStart++;
-          } // same tail: fast path
-          else if (a[aEnd - 1] === b[bEnd - 1]) {
-              aEnd--;
-              bEnd--;
-            } // The once here single last swap "fast path" has been removed in v1.1.0
-            // https://github.com/WebReflection/udomdiff/blob/single-final-swap/esm/index.js#L69-L85
-            // reverse swap: also fast path
-            else if (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]) {
-                // this is a "shrink" operation that could happen in these cases:
-                // [1, 2, 3, 4, 5]
-                // [1, 4, 3, 2, 5]
-                // or asymmetric too
-                // [1, 2, 3, 4, 5]
-                // [1, 2, 3, 5, 6, 4]
-                const node = get(a[--aEnd], -1).nextSibling;
-                insertBefore(get(b[bStart++], 1), get(a[aStart++], -1).nextSibling);
-                insertBefore(get(b[--bEnd], 1), node); // mark the future index as identical (yeah, it's dirty, but cheap 👍)
-                // The main reason to do this, is that when a[aEnd] will be reached,
-                // the loop will likely be on the fast path, as identical to b[bEnd].
-                // In the best case scenario, the next loop will skip the tail,
-                // but in the worst one, this node will be considered as already
-                // processed, bailing out pretty quickly from the map index check
+        while (aStart < aEnd) {
+          // remove the node only if it's unknown or not live
+          if (!map || !map.has(a[aStart])) removeChild(get(a[aStart], -1));
+          aStart++;
+        }
+      } // same node: fast path
+      else if (a[aStart] === b[bStart]) {
+        aStart++;
+        bStart++;
+      } // same tail: fast path
+      else if (a[aEnd - 1] === b[bEnd - 1]) {
+        aEnd--;
+        bEnd--;
+      } // The once here single last swap "fast path" has been removed in v1.1.0
+      // https://github.com/WebReflection/udomdiff/blob/single-final-swap/esm/index.js#L69-L85
+      // reverse swap: also fast path
+      else if (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]) {
+        // this is a "shrink" operation that could happen in these cases:
+        // [1, 2, 3, 4, 5]
+        // [1, 4, 3, 2, 5]
+        // or asymmetric too
+        // [1, 2, 3, 4, 5]
+        // [1, 2, 3, 5, 6, 4]
+        const node = get(a[--aEnd], -1).nextSibling;
+        insertBefore(get(b[bStart++], 1), get(a[aStart++], -1).nextSibling);
+        insertBefore(get(b[--bEnd], 1), node); // mark the future index as identical (yeah, it's dirty, but cheap 👍)
+        // The main reason to do this, is that when a[aEnd] will be reached,
+        // the loop will likely be on the fast path, as identical to b[bEnd].
+        // In the best case scenario, the next loop will skip the tail,
+        // but in the worst one, this node will be considered as already
+        // processed, bailing out pretty quickly from the map index check
 
-                a[aEnd] = b[bEnd];
-              } // map based fallback, "slow" path
-              else {
-                  // the map requires an O(bEnd - bStart) operation once
-                  // to store all future nodes indexes for later purposes.
-                  // In the worst case scenario, this is a full O(N) cost,
-                  // and such scenario happens at least when all nodes are different,
-                  // but also if both first and last items of the lists are different
-                  if (!map) {
-                    map = new Map();
-                    let i = bStart;
+        a[aEnd] = b[bEnd];
+      } // map based fallback, "slow" path
+      else {
+        // the map requires an O(bEnd - bStart) operation once
+        // to store all future nodes indexes for later purposes.
+        // In the worst case scenario, this is a full O(N) cost,
+        // and such scenario happens at least when all nodes are different,
+        // but also if both first and last items of the lists are different
+        if (!map) {
+          map = new Map();
+          let i = bStart;
 
-                    while (i < bEnd) map.set(b[i], i++);
-                  } // if it's a future node, hence it needs some handling
-
-
-                  if (map.has(a[aStart])) {
-                    // grab the index of such node, 'cause it might have been processed
-                    const index = map.get(a[aStart]); // if it's not already processed, look on demand for the next LCS
-
-                    if (bStart < index && index < bEnd) {
-                      let i = aStart; // counts the amount of nodes that are the same in the future
-
-                      let sequence = 1;
-
-                      while (++i < aEnd && i < bEnd && map.get(a[i]) === index + sequence) sequence++; // effort decision here: if the sequence is longer than replaces
-                      // needed to reach such sequence, which would brings again this loop
-                      // to the fast path, prepend the difference before a sequence,
-                      // and move only the future list index forward, so that aStart
-                      // and bStart will be aligned again, hence on the fast path.
-                      // An example considering aStart and bStart are both 0:
-                      // a: [1, 2, 3, 4]
-                      // b: [7, 1, 2, 3, 6]
-                      // this would place 7 before 1 and, from that time on, 1, 2, and 3
-                      // will be processed at zero cost
+          while (i < bEnd) map.set(b[i], i++);
+        } // if it's a future node, hence it needs some handling
 
 
-                      if (sequence > index - bStart) {
-                        const node = get(a[aStart], 0);
+        if (map.has(a[aStart])) {
+          // grab the index of such node, 'cause it might have been processed
+          const index = map.get(a[aStart]); // if it's not already processed, look on demand for the next LCS
 
-                        while (bStart < index) insertBefore(get(b[bStart++], 1), node);
-                      } // if the effort wasn't good enough, fallback to a replace,
-                      // moving both source and target indexes forward, hoping that some
-                      // similar node will be found later on, to go back to the fast path
-                      else {
-                          replaceChild(get(b[bStart++], 1), get(a[aStart++], -1));
-                        }
-                    } // otherwise move the source forward, 'cause there's nothing to do
-                    else aStart++;
-                  } // this node has no meaning in the future list, so it's more than safe
-                  // to remove it, and check the next live node out instead, meaning
-                  // that only the live list index should be forwarded
-                  else removeChild(get(a[aStart++], -1));
-                }
+          if (bStart < index && index < bEnd) {
+            let i = aStart; // counts the amount of nodes that are the same in the future
+
+            let sequence = 1;
+
+            while (++i < aEnd && i < bEnd && map.get(a[i]) === index + sequence) sequence++; // effort decision here: if the sequence is longer than replaces
+            // needed to reach such sequence, which would brings again this loop
+            // to the fast path, prepend the difference before a sequence,
+            // and move only the future list index forward, so that aStart
+            // and bStart will be aligned again, hence on the fast path.
+            // An example considering aStart and bStart are both 0:
+            // a: [1, 2, 3, 4]
+            // b: [7, 1, 2, 3, 6]
+            // this would place 7 before 1 and, from that time on, 1, 2, and 3
+            // will be processed at zero cost
+
+
+            if (sequence > index - bStart) {
+              const node = get(a[aStart], 0);
+
+              while (bStart < index) insertBefore(get(b[bStart++], 1), node);
+            } // if the effort wasn't good enough, fallback to a replace,
+            // moving both source and target indexes forward, hoping that some
+            // similar node will be found later on, to go back to the fast path
+            else {
+              replaceChild(get(b[bStart++], 1), get(a[aStart++], -1));
+            }
+          } // otherwise move the source forward, 'cause there's nothing to do
+          else aStart++;
+        } // this node has no meaning in the future list, so it's more than safe
+        // to remove it, and check the next live node out instead, meaning
+        // that only the live list index should be forwarded
+        else removeChild(get(a[aStart++], -1));
+      }
     }
 
     return b;
@@ -2118,10 +2118,10 @@
       // intercept the mount calls to bind the DOM node to the pure object created
       // see also https://github.com/riot/riot/issues/2806
       if (method === MOUNT_METHOD_KEY) {
-        const [el] = args; // mark this node as pure element
+        const [element] = args; // mark this node as pure element
 
-        el[IS_PURE_SYMBOL] = true;
-        bindDOMNodeToComponentObject(el, component);
+        defineProperty(element, IS_PURE_SYMBOL, true);
+        bindDOMNodeToComponentObject(element, component);
       }
 
       component[method](...args);
@@ -2316,6 +2316,8 @@
           state = {};
         }
 
+        // any element mounted passing through this function can't be a pure component
+        defineProperty(element, IS_PURE_SYMBOL, false);
         this[PARENT_KEY_SYMBOL] = parentScope;
         this[ATTRIBUTES_KEY_SYMBOL] = createAttributeBindings(element, attributes).mount(parentScope);
         defineProperty(this, PROPS_KEY, Object.freeze(Object.assign({}, evaluateInitialProps(element, props), evaluateAttributeExpressions(this[ATTRIBUTES_KEY_SYMBOL].expressions))));
@@ -2902,84 +2904,85 @@
 
   var whatInput = whatInput$1.exports;
 
-  /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation.
-
-  Permission to use, copy, modify, and/or distribute this software for any
-  purpose with or without fee is hereby granted.
-
-  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  PERFORMANCE OF THIS SOFTWARE.
-  ***************************************************************************** */
-
-  var __assign = function() {
-      __assign = Object.assign || function __assign(t) {
-          for (var s, i = 1, n = arguments.length; i < n; i++) {
-              s = arguments[i];
-              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-          }
-          return t;
-      };
-      return __assign.apply(this, arguments);
-  };
-
-  var RIPPLE = Symbol("ripple");
-  var RIPPLE_COUNT = Symbol("ripple-count");
-  var RIPPLE_OPTIONS = Symbol("ripple_options");
+  const RIPPLE = Symbol("ripple");
+  const RIPPLE_COUNT = Symbol("ripple-count");
+  const RIPPLE_OPTIONS = Symbol("ripple_options");
   var TYPE;
   (function (TYPE) {
       TYPE[TYPE["NORMAL"] = 0] = "NORMAL";
       TYPE[TYPE["QUICK"] = 1] = "QUICK";
       TYPE[TYPE["INSTANT"] = 2] = "INSTANT";
   })(TYPE || (TYPE = {}));
-  var canEventStartRipple = true;
-  var scaleUpStyle;
-  var destroyer = null;
-  function init() {
-      if (destroyer !== null) {
-          return destroyer;
+  function requestAnimationFrame(fn) {
+      if (window.requestAnimationFrame) {
+          return window.requestAnimationFrame(fn);
       }
-      {
-          var div = document.createElement("div");
+      return setTimeout(fn, 0);
+  }
+  let scaleUpStyle = null;
+  function getScaleUpStyle() {
+      if (scaleUpStyle === null) {
+          let div = document.createElement("div");
           div.style.transform = "scale(1)";
           document.body.appendChild(div);
           scaleUpStyle = window.getComputedStyle(div).transform;
           document.body.removeChild(div);
       }
-      var style = document.head.appendChild(document.createElement("style"));
-      style.innerHTML = "\n    .rm-ripple-container { overflow: hidden; position: relative; }\n    .rm-ripple-container--unbounded { overflow: visible; }\n    .rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,\n    .rm-ripple-container--highlighto:not([disabled]):hover::after {\n        content: ''; position: absolute;\n        top: 0; right: 0; bottom: 0; left: 0;\n        background: black; background: var(--ripple-color, black); pointer-events: none;\n        border-radius: inherit; opacity: .1;\n    }\n    .rm-ripple {\n        position: absolute; border-radius: 50%; background: black; background: var(--ripple-color, black); pointer-events: none;\n        /*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/\n        transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;\n    }";
-      var listener = function () { canEventStartRipple = true; };
+      return scaleUpStyle;
+  }
+  let canEventStartRipple = true;
+  let destroyer = null;
+  function init() {
+      if (destroyer !== null) {
+          return destroyer;
+      }
+      const style = document.head.appendChild(document.createElement("style"));
+      style.innerHTML = `` +
+          `.rm-ripple-container { overflow: hidden; position: relative; }` +
+          `.rm-ripple-container--unbounded { overflow: visible; }` +
+          `.rm-ripple-container--highlighto.rm-ripple-container--highlighted:not([disabled])::after,` +
+          `.rm-ripple-container--highlighto:not([disabled]):hover::after {` +
+          `content: ''; position: absolute;` +
+          `top: 0; right: 0; bottom: 0; left: 0;` +
+          `background: black; background: var(--ripple-color, black); pointer-events: none;` +
+          `border-radius: inherit; opacity: .1;` +
+          `}` +
+          `.rm-ripple {` +
+          `position: absolute; border-radius: 50%; background: black;` +
+          `background: var(--ripple-color, black); pointer-events: none;` +
+          `/*transition: opacity cubic-bezier(.22,.61,.36,1) 450ms, transform cubic-bezier(.22,.61,.36,1) 400ms;*/` +
+          `transition: opacity cubic-bezier(0.4,0,0.2,1) 450ms, transform cubic-bezier(0.4,0,0.2,1) 450ms;` +
+          `}`;
+      const listener = () => { canEventStartRipple = true; };
       window.addEventListener("pointerdown", listener);
-      return destroyer = function () {
+      return destroyer = () => {
           document.head.removeChild(style);
           window.removeEventListener("pointerdown", listener);
           destroyer = null;
       };
   }
-  var Ripple = (function () {
-      function Ripple(x, y, r, type) {
-          if (type === void 0) { type = TYPE.NORMAL; }
-          this._ended = false;
-          this._onEnd = null;
-          var div = this._div = document.createElement("div");
+  class Ripple {
+      _div;
+      _computedStyle;
+      _ended = false;
+      _onEnd = null;
+      constructor(x, y, r, type = TYPE.NORMAL) {
+          let div = this._div = document.createElement("div");
           if (r == null) {
-              div.setAttribute("style", "left:0;top:0;bottom:0;right:0;" +
-                  "border-radius:inherit;transform:scale(0);" +
-                  "opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+              div.setAttribute("style", `left:0;top:0;bottom:0;right:0;` +
+                  `border-radius:inherit;transform:scale(0);` +
+                  `opacity:.12;opacity:var(--color-opacity-tertiary, .12);`);
           }
           else {
-              var cx = x - r;
-              var cy = y - r;
-              div.setAttribute("style", "left:" + cx +
-                  "px;top:" + cy +
-                  "px;width:" + (r * 2) +
-                  "px;height:" + (r * 2) +
-                  "px;transform:scale(0);opacity:.12;opacity:var(--color-opacity-tertiary, .12);");
+              let cx = x - r;
+              let cy = y - r;
+              div.setAttribute("style", `left:${cx}px;` +
+                  `top:${cy}px;` +
+                  `width:${r * 2}px;` +
+                  `height:${r * 2}px;` +
+                  `transform:scale(0);` +
+                  `opacity:.12;` +
+                  `opacity:var(--color-opacity-tertiary, .12);`);
           }
           switch (type) {
               case TYPE.QUICK: {
@@ -2993,14 +2996,17 @@
           div.classList.add("rm-ripple");
           this._computedStyle = window.getComputedStyle(div);
       }
-      Ripple.prototype._frame = function () {
-          var element = this._div.parentElement;
+      _frame() {
+          if (document.hidden || document.visibilityState !== "visible") {
+              return;
+          }
+          let element = this._div.parentElement;
           if (!element) {
               return;
           }
-          var rect = this._div.getBoundingClientRect();
+          let rect = this._div.getBoundingClientRect();
           if (rect.width !== 0 || rect.height !== 0) {
-              if (this._computedStyle.transform === scaleUpStyle) {
+              if (this._computedStyle.transform === getScaleUpStyle()) {
                   if (this._computedStyle.opacity === "0") {
                       element.removeChild(this._div);
                       return;
@@ -3013,15 +3019,14 @@
               }
           }
           requestAnimationFrame(this._frame.bind(this));
-      };
-      Ripple.prototype._scaleUp = function () {
-          var _this = this;
-          requestAnimationFrame(function () {
-              _this._div.style.transform = "scale(1)";
-              requestAnimationFrame(_this._frame.bind(_this));
+      }
+      _scaleUp() {
+          requestAnimationFrame(() => {
+              this._div.style.transform = "scale(1)";
+              requestAnimationFrame(this._frame.bind(this));
           });
-      };
-      Ripple.prototype.attachTo = function (element, onEnd) {
+      }
+      attachTo(element, onEnd) {
           if (this._div.parentElement) {
               throw new Error("Ripple already attached");
           }
@@ -3037,211 +3042,231 @@
           this._scaleUp();
           this._onEnd = onEnd || null;
           return this;
-      };
-      Ripple.prototype.end = function () {
+      }
+      end() {
           this._ended = true;
           if (this._onEnd) {
               this._onEnd();
           }
           return this;
-      };
-      return Ripple;
-  }());
+      }
+  }
   function ripple(element, options) {
-      var _a;
-      var ripple = element[RIPPLE];
+      // get the ripple generator stored in the element
+      let ripple = element[RIPPLE];
       if (options == null && ripple != null) {
           return ripple;
       }
       init();
-      options = __assign(__assign({ radius: undefined, unbounded: false, centered: false, disabled: false, highlight: false, instantHighlight: false, unboundedFocus: false, color: "currentColor", focusTarget: undefined, detectLabel: true, usePointerFocus: true, stopRippling: true }, (ripple != null ? ripple[RIPPLE_OPTIONS] : {})), options);
+      options = {
+          radius: undefined,
+          unbounded: false,
+          centered: false,
+          disabled: false,
+          highlight: false,
+          instantHighlight: false,
+          unboundedFocus: false,
+          color: "currentColor",
+          focusTarget: undefined,
+          detectLabel: true,
+          usePointerFocus: true,
+          stopRippling: true,
+          ...(ripple != null ? ripple[RIPPLE_OPTIONS] : {}),
+          ...options
+      };
       if (options.detectLabel != null && !options.detectLabel) {
           options.usePointerFocus = false;
       }
       else {
           options.detectLabel = true;
       }
+      // if already exists, set the new options
       if (ripple) {
           return ripple.set(options);
       }
-      var pointerElement = element;
-      var lastFocusTarget = undefined;
-      var onFocus = function (event) {
-          var _a;
-          if (((_a = whatInput === null || whatInput === void 0 ? void 0 : whatInput.ask) === null || _a === void 0 ? void 0 : _a.call(whatInput)) !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
+      let pointerElement = element;
+      let lastFocusTarget = undefined;
+      let onFocus = event => {
+          if (whatInput?.ask?.() !== "keyboard" && !ripple[RIPPLE_OPTIONS].usePointerFocus) {
               return;
           }
           ripple.start(null, null, event);
       };
-      var onMouseEnter = function (event) {
+      let onMouseEnter = event => {
           if (!ripple[RIPPLE_OPTIONS].highlight || ripple[RIPPLE_OPTIONS].disabled) {
               return;
           }
           ripple.start(null, null, event);
       };
-      ripple = (_a = {
-              highlight: function () {
-                  var _this = this;
-                  var currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, function () {
-                      _this[RIPPLE_COUNT]--;
-                  });
-                  this[RIPPLE_COUNT]++;
-                  return currentRipple;
-              },
-              start: function (x, y, event, type) {
-                  var _this = this;
-                  if (type === void 0) { type = TYPE.NORMAL; }
-                  var isFocus = !!(event && event.type === "focus");
-                  var isMouseEnter = !!(event && event.type === "mouseenter");
-                  var options = this[RIPPLE_OPTIONS];
-                  if (isFocus) {
-                      type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                  }
-                  else if (isMouseEnter) {
-                      type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
-                  }
-                  var r = null;
-                  var rect = null;
-                  if (options.centered || x == null) {
-                      x = (rect || element.getBoundingClientRect()).width / 2;
-                  }
-                  if (options.centered || y == null) {
-                      y = (rect || element.getBoundingClientRect()).height / 2;
-                  }
-                  if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
-                      r = options.radius || null;
-                      if (r == null || r <= 0) {
-                          rect = rect || element.getBoundingClientRect();
-                          if (y >= rect.height / 2) {
-                              if (x >= rect.width / 2) {
-                                  r = Math.sqrt(x * x + y * y);
-                              }
-                              else {
-                                  r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
-                              }
+      ripple = {
+          highlight() {
+              const currentRipple = new Ripple(0, 0, null, TYPE.INSTANT).attachTo(element, () => {
+                  this[RIPPLE_COUNT]--;
+              });
+              this[RIPPLE_COUNT]++;
+              return currentRipple;
+          },
+          start(x, y, event, type = TYPE.NORMAL) {
+              let isFocus = !!(event && event.type === "focus");
+              let isMouseEnter = !!(event && event.type === "mouseenter");
+              let options = this[RIPPLE_OPTIONS];
+              if (isFocus) {
+                  type = options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+              }
+              else if (isMouseEnter) {
+                  type = this[RIPPLE_COUNT] > 0 || options.instantHighlight ? TYPE.INSTANT : TYPE.QUICK;
+              }
+              let r = null;
+              let rect = null;
+              if (options.centered || x == null) {
+                  x = (rect || element.getBoundingClientRect()).width / 2;
+              }
+              if (options.centered || y == null) {
+                  y = (rect || element.getBoundingClientRect()).height / 2;
+              }
+              if (!(isFocus || isMouseEnter) || options.unboundedFocus) {
+                  r = options.radius || null;
+                  if (r == null || r <= 0) {
+                      rect = rect || element.getBoundingClientRect();
+                      if (y >= rect.height / 2) {
+                          if (x >= rect.width / 2) {
+                              r = Math.sqrt(x * x + y * y);
                           }
                           else {
-                              if (x >= rect.width / 2) {
-                                  r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
-                              }
-                              else {
-                                  r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
-                              }
+                              r = Math.sqrt(Math.pow(rect.width - x, 2) + y * y);
                           }
-                      }
-                  }
-                  var currentRipple = new Ripple(x, y, r, type).attachTo(element, function () {
-                      _this[RIPPLE_COUNT]--;
-                  });
-                  this[RIPPLE_COUNT]++;
-                  if (event && event.isTrusted) {
-                      var once_1 = function (up_event) {
-                          if (isFocus) {
-                              (lastFocusTarget || element).removeEventListener("blur", once_1);
-                          }
-                          else if (isMouseEnter) {
-                              pointerElement.removeEventListener("mouseleave", once_1);
-                          }
-                          else {
-                              window.removeEventListener("pointerup", once_1);
-                              window.removeEventListener("pointercancel", once_1);
-                              if (up_event.pointerId !== event.pointerId) {
-                                  return;
-                              }
-                          }
-                          currentRipple.end();
-                      };
-                      if (isFocus) {
-                          (lastFocusTarget || element).addEventListener("blur", once_1);
-                      }
-                      else if (isMouseEnter) {
-                          pointerElement.addEventListener("mouseleave", once_1);
                       }
                       else {
-                          window.addEventListener("pointerup", once_1);
-                          window.addEventListener("pointercancel", once_1);
+                          if (x >= rect.width / 2) {
+                              r = Math.sqrt(x * x + Math.pow(rect.height - y, 2));
+                          }
+                          else {
+                              r = Math.sqrt(Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2));
+                          }
                       }
                   }
-                  return currentRipple;
-              },
-              set: function (options) {
-                  var prevOptions = this[RIPPLE_OPTIONS];
-                  options = this[RIPPLE_OPTIONS] = __assign(__assign(__assign({}, prevOptions), options), { detectLabel: prevOptions.detectLabel });
-                  if (options.detectLabel != null && !options.detectLabel) {
-                      options.usePointerFocus = false;
+              }
+              let currentRipple = new Ripple(x, y, r, type).attachTo(element, () => {
+                  this[RIPPLE_COUNT]--;
+              });
+              this[RIPPLE_COUNT]++;
+              if (event && event.isTrusted) {
+                  let once = (up_event) => {
+                      if (isFocus) {
+                          (lastFocusTarget || element).removeEventListener("blur", once);
+                      }
+                      else if (isMouseEnter) {
+                          pointerElement.removeEventListener("mouseleave", once);
+                      }
+                      else {
+                          window.removeEventListener("pointerup", once);
+                          window.removeEventListener("pointercancel", once);
+                          if (up_event.pointerId !== event.pointerId) {
+                              return;
+                          }
+                      }
+                      currentRipple.end();
+                  };
+                  if (isFocus) {
+                      (lastFocusTarget || element).addEventListener("blur", once);
+                  }
+                  else if (isMouseEnter) {
+                      pointerElement.addEventListener("mouseleave", once);
                   }
                   else {
-                      options.detectLabel = true;
+                      window.addEventListener("pointerup", once);
+                      window.addEventListener("pointercancel", once);
                   }
-                  if (options.unbounded) {
-                      element.classList.add("rm-ripple-container--unbounded");
-                  }
-                  else {
-                      element.classList.remove("rm-ripple-container--unbounded");
-                  }
-                  if (options.highlight) {
-                      element.classList.add("rm-ripple-container--highlight");
-                  }
-                  else {
-                      element.classList.remove("rm-ripple-container--highlight");
-                  }
+              }
+              return currentRipple;
+          },
+          /**
+           * Cambia le impostazioni al creatore di increspature
+           * @param options
+           */
+          set(options) {
+              const prevOptions = this[RIPPLE_OPTIONS];
+              options = this[RIPPLE_OPTIONS] = {
+                  ...prevOptions,
+                  ...options,
+                  detectLabel: prevOptions.detectLabel
+              };
+              if (options.detectLabel != null && !options.detectLabel) {
+                  options.usePointerFocus = false;
+              }
+              else {
+                  options.detectLabel = true;
+              }
+              if (options.unbounded) {
+                  element.classList.add("rm-ripple-container--unbounded");
+              }
+              else {
+                  element.classList.remove("rm-ripple-container--unbounded");
+              }
+              if (options.highlight) {
+                  element.classList.add("rm-ripple-container--highlight");
+              }
+              else {
+                  element.classList.remove("rm-ripple-container--highlight");
+              }
+              if (element.style.setProperty) {
                   if (options.color) {
                       element.style.setProperty("--ripple-color", options.color);
                   }
                   else {
                       element.style.setProperty("--ripple-color", "black");
                   }
-                  if (options.focusTarget !== lastFocusTarget) {
-                      if (lastFocusTarget) {
-                          lastFocusTarget.removeEventListener("focus", onFocus);
-                          lastFocusTarget = undefined;
-                      }
-                      else {
-                          element.removeEventListener("focus", onFocus);
-                      }
-                      if (options.focusTarget) {
-                          lastFocusTarget = options.focusTarget;
-                          lastFocusTarget.addEventListener("focus", onFocus);
-                      }
-                      else {
-                          element.addEventListener("focus", onFocus);
-                      }
+              }
+              if (options.focusTarget !== lastFocusTarget) {
+                  if (lastFocusTarget) {
+                      lastFocusTarget.removeEventListener("focus", onFocus);
+                      lastFocusTarget = undefined;
                   }
                   else {
                       element.removeEventListener("focus", onFocus);
+                  }
+                  if (options.focusTarget) {
+                      lastFocusTarget = options.focusTarget;
+                      lastFocusTarget.addEventListener("focus", onFocus);
+                  }
+                  else {
                       element.addEventListener("focus", onFocus);
                   }
-                  pointerElement.removeEventListener("mouseenter", onMouseEnter);
-                  pointerElement.addEventListener("mouseenter", onMouseEnter);
-                  return this;
-              },
-              getOption: function (option) {
-                  return this[RIPPLE_OPTIONS][option];
               }
+              else {
+                  element.removeEventListener("focus", onFocus);
+                  element.addEventListener("focus", onFocus);
+              }
+              pointerElement.removeEventListener("mouseenter", onMouseEnter);
+              pointerElement.addEventListener("mouseenter", onMouseEnter);
+              return this;
           },
-          _a[RIPPLE_OPTIONS] = options,
-          _a[RIPPLE_COUNT] = 0,
-          _a);
+          getOption(option) {
+              return this[RIPPLE_OPTIONS][option];
+          },
+          [RIPPLE_OPTIONS]: options,
+          [RIPPLE_COUNT]: 0
+      };
       if (options.detectLabel) {
-          var parent_1 = element.parentElement;
-          while (parent_1) {
-              if (parent_1.tagName === "LABEL") {
-                  pointerElement = parent_1;
+          let parent = element.parentElement;
+          while (parent) {
+              if (parent.tagName === "LABEL") {
+                  pointerElement = parent;
                   break;
               }
-              parent_1 = parent_1.parentElement;
+              parent = parent.parentElement;
           }
       }
-      pointerElement.addEventListener("pointerdown", function (event) {
+      pointerElement.addEventListener("pointerdown", event => {
           if (!canEventStartRipple || ripple[RIPPLE_OPTIONS].disabled) {
               return;
           }
-          var rect = element.getBoundingClientRect();
+          let rect = element.getBoundingClientRect();
           ripple.start(event.clientX - rect.x, event.clientY - rect.y, event);
           if (ripple[RIPPLE_OPTIONS].stopRippling) {
               canEventStartRipple = false;
           }
-          setTimeout(function () {
+          setTimeout(() => {
           }, 0);
       });
       element[RIPPLE] = ripple;
@@ -3250,7 +3275,7 @@
       return ripple;
   }
 
-  var index = {
+  var RmMenuItem = {
     'css': `rm-menu-item,[is="rm-menu-item"]{ display: contents; } rm-menu-item > button,[is="rm-menu-item"] > button{ font-size: 16px; line-height: 1.5em; padding: 0.75em 1em; border: 0; background: none; width: 100%; text-align: left; cursor: pointer; outline: none; display: block; min-height: 3em; } rm-menu-item[title] > button,[is="rm-menu-item"][title] > button{ font-weight: bold; color: rgba(0, 0, 0, 0.9); } rm-menu-item[inset] > button,[is="rm-menu-item"][inset] > button{ padding-left: 4.5em; } rm-menu-item[short-inset] > button,[is="rm-menu-item"][short-inset] > button{ padding-left: 2em; } rm-menu-item[passive] > button,[is="rm-menu-item"][passive] > button{ cursor: initial; }`,
 
     'exports': {
@@ -3396,6 +3421,6 @@
     'name': 'rm-menu-item'
   };
 
-  return index;
+  return RmMenuItem;
 
-})));
+}));
