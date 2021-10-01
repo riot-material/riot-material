@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.0] - 2021-10-01
+- emit ts declarations
+- update dependencies
+
 ## [1.1.1] - 2021-09-17
 - use `clientWidth` instead of `getBoundingClientRect().width`
 
