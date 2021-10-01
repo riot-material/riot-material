@@ -24,6 +24,7 @@ export interface IRippleOptions {
     detectLabel?: boolean;
     usePointerFocus?: boolean;
     stopRippling?: boolean;
+    [key: string]: any;
 }
 
 export enum TYPE {

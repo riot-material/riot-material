@@ -1,6 +1,7 @@
-const typescript = require("@rollup/plugin-typescript");
 const commonjs = require("@rollup/plugin-commonjs");
-const nodeResolve = require("@rollup/plugin-node-resolve").default;
+const typescript = require("rollup-plugin-ts");
+
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
 const globals = {
     "what-input": "whatInput"
