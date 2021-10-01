@@ -1,17 +1,19 @@
 {
   "name": "@riot-material/background",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
+  "module": "index.es.js",
+  "jsnext:main": "index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^6.1.0",
-    "rollup": "^2.33.3",
+    "rollup": "^2.57.0",
+    "rollup-plugin-ts": "^1.4.7",
     "tslib": "^2.0.3",
-    "typescript": "^4.1.2"
+    "typescript": "^4.4.3"
   }
 }

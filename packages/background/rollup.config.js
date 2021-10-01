@@ -1,36 +1,21 @@
-const typescript = require("@rollup/plugin-typescript");
+const typescript = require("rollup-plugin-ts");
 
 export default [
     {
-        input: "index.ts",
+        input: "src/index.ts",
         plugins: [
             typescript()
         ],
-        output: {
-            file: "index.amd.js",
-            format: "amd"
-        }
-    },
-    {
-        input: "index.ts",
-        plugins: [
-            typescript()
-        ],
-        output: {
-            file: "index.js",
-            exports: "auto",
-            format: "cjs"
-        }
-    },
-    {
-        input: "index.ts",
-        plugins: [
-            typescript()
-        ],
-        output: {
-            name: "riotMaterial.background",
-            file: "index.umd.js",
-            format: "umd"
-        }
+        output: [
+            {
+                file: "dist/index.js",
+                format: "umd",
+                name: "riotMaterial.background"
+            },
+            {
+                file: "dist/index.es.js",
+                format: "es"
+            }
+        ]
     }
 ]
