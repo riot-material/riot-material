@@ -1,9 +1,11 @@
 const riot = require("rollup-plugin-riot");
+const typescript = require("rollup-plugin-ts");
 
 export default [
     {
-        input: "src/index.riot",
+        input: "src/index.ts",
         plugins: [
+            typescript(),
             riot()
         ],
         output: [
