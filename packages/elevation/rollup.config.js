@@ -1,7 +1,8 @@
-const typescript = require("@rollup/plugin-typescript");
-const nodeResolve = require("@rollup/plugin-node-resolve").default;
 const postcss = require("rollup-plugin-postcss");
 const postcssurl = require("postcss-url");
+const typescript = require("rollup-plugin-ts");
+
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
 export default [
     {
@@ -20,8 +21,7 @@ export default [
             {
                 name: "riotMaterial.elevation",
                 file: "dist/index.js",
-                format: "umd",
-                exports: "named"
+                format: "umd"
             },
             {
                 file: "dist/index.es.js",

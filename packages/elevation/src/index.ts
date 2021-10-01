@@ -14,6 +14,12 @@ export function init() {
         destroyer = null;
     };
 }
+export function restore() {
+    if (destroyer === null) {
+        return;
+    }
+    destroyer();
+}
 
 export function elevation(element: HTMLElement, elevation: number | null): void {
     init();
@@ -30,4 +36,3 @@ export function elevation(element: HTMLElement, elevation: number | null): void 
         element.classList.remove("mdc-elevation-transition");
     }
 }
-export default elevation;
