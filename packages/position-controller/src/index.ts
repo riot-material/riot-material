@@ -11,6 +11,12 @@ interface IPositionEvent {
     "positionchanged": PositionChangedEvent;
 }
 
+declare global {
+    interface HTMLElement {
+        [POSITION_CONTROLLER]?: IPositionController;
+    }
+}
+
 export interface IPositionController {
     getPosition(): number;
     getSelectedIndex(): number;
@@ -22,7 +28,7 @@ export interface IPositionController {
 }
 
 export default function positionController(element: HTMLElement): IPositionController {
-    const existingPositionController: IPositionController | null = element[POSITION_CONTROLLER];
+    const existingPositionController = element[POSITION_CONTROLLER];
     if (existingPositionController != null) {
         return existingPositionController;
     }

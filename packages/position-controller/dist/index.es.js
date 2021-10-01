@@ -1,30 +1,30 @@
-var POSITION_CONTROLLER = Symbol("position-controller");
+const POSITION_CONTROLLER = Symbol("position-controller");
 function positionController(element) {
-    var existingPositionController = element[POSITION_CONTROLLER];
+    const existingPositionController = element[POSITION_CONTROLLER];
     if (existingPositionController != null) {
         return existingPositionController;
     }
-    var self;
-    var eventTarget = new EventTarget();
-    var length = 0;
-    var getLength = function () {
+    let self;
+    let eventTarget = new EventTarget();
+    let length = 0;
+    const getLength = () => {
         return length;
     };
-    var setLength = function (l) {
+    const setLength = l => {
         length = l;
         return self;
     };
-    var index = 0;
-    var getSelectedIndex = function () {
+    let index = 0;
+    const getSelectedIndex = () => {
         return index;
     };
-    var setSelectedIndex = function (i) {
+    const setSelectedIndex = i => {
         index = Math.min(Math.max(0, i), length - 1);
         return self;
     };
-    var position = 0;
-    var getPosition = function () {
-        var m = parseFloat(position);
+    let position = 0;
+    const getPosition = () => {
+        let m = parseFloat(position);
         if (isNaN(m)) {
             return 0;
         }
@@ -32,76 +32,75 @@ function positionController(element) {
         return (index === 0 && m < 0 || index === (length - 1) && m > 0) ? 0 : m;
     };
     {
-        var _touchIdentifier_1 = null;
-        var startX_1 = 0;
-        var lastDirection_1 = null;
-        var positioningStarted_1 = true;
-        var startPositioning = function (event) {
-            if (_touchIdentifier_1 != null) {
+        let _touchIdentifier = null;
+        let startX = 0;
+        let lastDirection = null;
+        let positioningStarted = true;
+        const startPositioning = event => {
+            if (_touchIdentifier != null) {
                 return;
             }
-            var touch = event.targetTouches[0];
-            _touchIdentifier_1 = touch.identifier;
-            startX_1 = touch.clientX;
-            lastDirection_1 = null;
-            positioningStarted_1 = true;
+            const touch = event.targetTouches[0];
+            _touchIdentifier = touch.identifier;
+            startX = touch.clientX;
+            lastDirection = null;
+            positioningStarted = true;
         };
-        var updatePosition = function (event) {
-            if (!positioningStarted_1) {
+        const updatePosition = event => {
+            if (!positioningStarted) {
                 return;
             }
-            var index;
-            if (!Array.prototype.some.call(event.changedTouches, function (touch, i) {
+            let index;
+            if (!Array.prototype.some.call(event.changedTouches, (touch, i) => {
                 index = i;
-                return touch.identifier === _touchIdentifier_1;
+                return touch.identifier === _touchIdentifier;
             })) {
                 return;
             }
-            var lastPosition = getPosition();
-            var touch = event.changedTouches[index];
-            var endX = touch.clientX;
-            var delta = endX - startX_1;
+            const lastPosition = getPosition();
+            const touch = event.changedTouches[index];
+            const endX = touch.clientX;
+            const delta = endX - startX;
             position = -delta / element.getBoundingClientRect().width;
-            var newPosition = getPosition();
+            const newPosition = getPosition();
             if (newPosition !== lastPosition) {
-                lastDirection_1 = newPosition > lastPosition ? 1 : -1;
+                lastDirection = newPosition > lastPosition ? 1 : -1;
             }
             eventTarget.dispatchEvent(new CustomEvent("positionchanged", { detail: { position: newPosition } }));
         };
-        var endPositioning = function (event) {
-            if (!positioningStarted_1) {
+        const endPositioning = event => {
+            if (!positioningStarted) {
                 return;
             }
-            if (!Array.prototype.some.call(event.changedTouches, function (touch) {
-                return touch.identifier === _touchIdentifier_1;
+            if (!Array.prototype.some.call(event.changedTouches, touch => {
+                return touch.identifier === _touchIdentifier;
             })) {
                 return;
             }
-            if (lastDirection_1 != null) {
-                var m = getPosition();
+            if (lastDirection != null) {
+                const m = getPosition();
                 position = 0;
-                var newM = void 0;
+                let newM;
                 if (m < 0) {
-                    newM = lastDirection_1 < 0 ? -1 : 0;
+                    newM = lastDirection < 0 ? -1 : 0;
                 }
                 else {
-                    newM = lastDirection_1 > 0 ? 1 : 0;
+                    newM = lastDirection > 0 ? 1 : 0;
                 }
-                lastDirection_1 = null;
-                var roundedPosition = Math.round(newM);
-                var previousIndex = getSelectedIndex();
+                lastDirection = null;
+                const roundedPosition = Math.round(newM);
+                const previousIndex = getSelectedIndex();
                 if (roundedPosition !== 0) {
                     setSelectedIndex(previousIndex + roundedPosition);
                 }
                 eventTarget.dispatchEvent(new CustomEvent("positionapplied", {
                     detail: {
-                        previousIndex: previousIndex,
-                        currentIndex: getSelectedIndex()
+                        previousIndex, currentIndex: getSelectedIndex()
                     }
                 }));
             }
-            _touchIdentifier_1 = null;
-            positioningStarted_1 = false;
+            _touchIdentifier = null;
+            positioningStarted = false;
         };
         element.addEventListener("touchstart", startPositioning);
         element.addEventListener("touchmove", updatePosition);
@@ -109,20 +108,20 @@ function positionController(element) {
         element.addEventListener("touchend", endPositioning);
     }
     return element[POSITION_CONTROLLER] = self = {
-        getPosition: getPosition,
-        getSelectedIndex: getSelectedIndex,
-        setSelectedIndex: setSelectedIndex,
-        getLength: getLength,
-        setLength: setLength,
-        on: function (type, callback) {
+        getPosition,
+        getSelectedIndex,
+        setSelectedIndex,
+        getLength,
+        setLength,
+        on(type, callback) {
             eventTarget.addEventListener(type, callback);
             return self;
         },
-        off: function (type, callback) {
+        off(type, callback) {
             eventTarget.removeEventListener(type, callback);
             return self;
         }
     };
 }
 
-export default positionController;
+export { positionController as default };
