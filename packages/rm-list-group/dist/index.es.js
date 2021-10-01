@@ -1,6 +1,6 @@
 import ListItemComponent from '@riot-material/rm-list-item';
 
-var index = {
+var RmListGroup = {
   'css': `rm-list-group > rm-list-item:not(:first-child),[is="rm-list-group"] > rm-list-item:not(:first-child),rm-list-group > [is="rm-list-item"]:not(:first-child),[is="rm-list-group"] > [is="rm-list-item"]:not(:first-child){ padding-left: 2em; }`,
 
   'exports': {
@@ -70,4 +70,4 @@ var index = {
   'name': 'rm-list-group'
 };
 
-export default index;
+export { RmListGroup as default };
