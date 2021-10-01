@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.0] - 2021-10-01
+- emit ts declarations
+- update dependencies
+
 ## [1.1.0] - 2021-07-23
 - avoid setup on module import
 - change "package.json" entry points

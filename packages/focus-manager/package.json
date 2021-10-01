@@ -1,7 +1,7 @@
 {
   "name": "@riot-material/focus-manager",
-  "version": "1.1.0",
-  "description": "You can install it via nodejs\r ```sh\r npm install @riot-material/focus-manager\r ```\r or download one of the bundled file\r ```js\r /**\r  * `dist/index.amd.js`\r  * `dist/index.umd.js`\r  */\r requirejs.config({\r   paths: {\r     \"@riot-material/focus-manager\": \"path/to/@riot-material/focus-manager\",\r   },\r });",
+  "version": "1.2.0",
+  "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
@@ -11,9 +11,9 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.2.3",
-    "rollup": "^2.53.3",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "rollup": "^2.57.0",
+    "rollup-plugin-ts": "^1.4.7",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.3"
   }
 }

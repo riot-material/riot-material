@@ -33,7 +33,7 @@ function getElements() {
     
     actual.addEventListener("blur", function onActualBlur(event: FocusEvent): void {
         setTimeout(() => {
-            const element: Element = document.activeElement;
+            const element = document.activeElement as HTMLElement;
             switch (element) {
                 case previous: {
                     if (currentOptions.onPrevious) {
@@ -57,17 +57,17 @@ function getElements() {
                     }
                     if (parent != null) {
                         if (currentOptions.onFocusInside && currentOptions.onFocusInside(element)) {
-                            container.removeChild(previous);
+                            container!.removeChild(previous);
                             element.insertAdjacentElement("beforebegin", previous);
-                            container.removeChild(next);
+                            container!.removeChild(next);
                             element.insertAdjacentElement("afterend", next);
-                            element.addEventListener("blur", function onElementBlur(event: Event): void {
-                                previous.parentElement.removeChild(previous);
-                                actual.insertAdjacentElement("beforebegin", previous);
-                                next.parentElement.removeChild(next);
-                                actual.insertAdjacentElement("afterend", next);
+                            element.addEventListener("blur", function onElementBlur(event: FocusEvent): void {
+                                previous.parentElement!.removeChild(previous);
+                                actual!.insertAdjacentElement("beforebegin", previous);
+                                next.parentElement!.removeChild(next);
+                                actual!.insertAdjacentElement("afterend", next);
                                 element.removeEventListener("blur", onElementBlur);
-                                onActualBlur.call(null, event);
+                                onActualBlur.call(actual!, event);
                             });
                             return;
                         }
@@ -79,7 +79,7 @@ function getElements() {
                     }
                 }
             }
-            actual.focus();
+            actual!.focus();
         });
     });
     
