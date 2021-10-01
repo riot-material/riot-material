@@ -1,10 +1,20 @@
 <rm-button>
-    <button if={ !isIcon() } style={ props.buttonStyle } disabled={ isDisabled() }
-        type={ props.type } tabindex={ props.tabindex }
-    ><slot /></button>
-    <button if={ isIcon() } disabled={ isDisabled() }
-        type={ props.type } tabindex={ props.tabindex }
-    ><rm-icon style={ "vertical-align: middle;" + (props.iconStyle || "") }><slot /></rm-icon></button>
+    <button
+        style={ !isIcon() && props.buttonStyle }
+        disabled={ isDisabled() }
+        type={ props.type }
+        tabindex={ props.tabindex }
+    >
+        <rm-icon
+            if={ isIcon() }
+            style={ "vertical-align: middle;" + (props.iconStyle || "") }
+        >
+            <slot></slot>
+        </rm-icon>
+        <template if={ !isIcon }>
+            <slot></slot>
+        </template>
+    </button>
 
     <!--  https://material.angular.io/components/button/examples  -->
 
@@ -435,7 +445,10 @@
         import * as riot from "riot";
         import IconComponent from "@riot-material/rm-icon";
 
-        import "@riot-material/before-focus-listener";
+        import {
+            addListener,
+            removeListener
+        } from "@riot-material/before-focus-listener";
 
         export default {
             _onclick: null,
@@ -514,7 +527,7 @@
                 });
                 let openOverlay = this.props.openOverlay;
                 if (openOverlay) {
-                    button.addEventListener("beforefocus", this._onclick = () => {
+                    addListener(button, this._onclick = () => {
                         let overlay = document.querySelector("#" + openOverlay);
                         if (!overlay) {
                             return;
@@ -531,7 +544,7 @@
             },
             onBeforeUnmount() {
                 if (this._onclick) {
-                    this.root.querySelector("button").removeEventListener("beforefocus", this._onclick);
+                    removeListener(this.root.querySelector("button"), this._onclick);
                 }
             },
             onUpdated() {

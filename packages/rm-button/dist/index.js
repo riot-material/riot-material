@@ -1,8 +1,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/ripple'), require('riot'), require('@riot-material/rm-icon'), require('@riot-material/before-focus-listener')) :
     typeof define === 'function' && define.amd ? define(['@riot-material/ripple', 'riot', '@riot-material/rm-icon', '@riot-material/before-focus-listener'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.button = factory(global.riotMaterial.ripple, global.riot, global.riotMaterial.components.icon)));
-}(this, (function (ripple, riot, IconComponent) { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.button = factory(global.riotMaterial.ripple, global.riot, global.riotMaterial.components.icon, global.riotMaterial.beforeFocusListener)));
+})(this, (function (ripple, riot, IconComponent, beforeFocusListener) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -15,14 +15,12 @@
                     var d = Object.getOwnPropertyDescriptor(e, k);
                     Object.defineProperty(n, k, d.get ? d : {
                         enumerable: true,
-                        get: function () {
-                            return e[k];
-                        }
+                        get: function () { return e[k]; }
                     });
                 }
             });
         }
-        n['default'] = e;
+        n["default"] = e;
         return Object.freeze(n);
     }
 
@@ -111,7 +109,7 @@
             });
             let openOverlay = this.props.openOverlay;
             if (openOverlay) {
-                button.addEventListener("beforefocus", this._onclick = () => {
+                beforeFocusListener.addListener(button, this._onclick = () => {
                     let overlay = document.querySelector("#" + openOverlay);
                     if (!overlay) {
                         return;
@@ -129,7 +127,7 @@
 
         onBeforeUnmount() {
             if (this._onclick) {
-                this.root.querySelector("button").removeEventListener("beforefocus", this._onclick);
+                beforeFocusListener.removeListener(this.root.querySelector("button"), this._onclick);
             }
         },
 
@@ -178,7 +176,7 @@
         },
 
         components: {
-            "rm-icon": IconComponent__default['default']
+            "rm-icon": IconComponent__default["default"]
         }
       },
 
@@ -189,76 +187,54 @@
         getComponent
       ) {
         return template(
-          '<button expr0="expr0"></button><button expr2="expr2"></button>',
+          '<button expr0="expr0"><rm-icon expr1="expr1"></rm-icon><template expr3="expr3"></template></button>',
           [
             {
-              'type': bindingTypes.IF,
-
-              'evaluate': function(
-                _scope
-              ) {
-                return !_scope.isIcon();
-              },
-
               'redundantAttribute': 'expr0',
               'selector': '[expr0]',
 
-              'template': template(
-                '<slot expr1="expr1"></slot>',
-                [
-                  {
-                    'expressions': [
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'style',
+              'expressions': [
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'style',
 
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.props.buttonStyle;
-                        }
-                      },
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'disabled',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.isDisabled();
-                        }
-                      },
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'type',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.props.type;
-                        }
-                      },
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'tabindex',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.props.tabindex;
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    'type': bindingTypes.SLOT,
-                    'attributes': [],
-                    'name': 'default',
-                    'redundantAttribute': 'expr1',
-                    'selector': '[expr1]'
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return !_scope.isIcon() && _scope.props.buttonStyle;
                   }
-                ]
-              )
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'disabled',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.isDisabled();
+                  }
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'type',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.props.type;
+                  }
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'tabindex',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.props.tabindex;
+                  }
+                }
+              ]
             },
             {
               'type': bindingTypes.IF,
@@ -269,46 +245,12 @@
                 return _scope.isIcon();
               },
 
-              'redundantAttribute': 'expr2',
-              'selector': '[expr2]',
+              'redundantAttribute': 'expr1',
+              'selector': '[expr1]',
 
               'template': template(
-                '<rm-icon expr3="expr3"></rm-icon>',
+                null,
                 [
-                  {
-                    'expressions': [
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'disabled',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.isDisabled();
-                        }
-                      },
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'type',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.props.type;
-                        }
-                      },
-                      {
-                        'type': expressionTypes.ATTRIBUTE,
-                        'name': 'tabindex',
-
-                        'evaluate': function(
-                          _scope
-                        ) {
-                          return _scope.props.tabindex;
-                        }
-                      }
-                    ]
-                  },
                   {
                     'type': bindingTypes.TAG,
                     'getComponent': getComponent,
@@ -322,15 +264,15 @@
                     'slots': [
                       {
                         'id': 'default',
-                        'html': '<slot expr4="expr4"></slot>',
+                        'html': '<slot expr2="expr2"></slot>',
 
                         'bindings': [
                           {
                             'type': bindingTypes.SLOT,
                             'attributes': [],
                             'name': 'default',
-                            'redundantAttribute': 'expr4',
-                            'selector': '[expr4]'
+                            'redundantAttribute': 'expr2',
+                            'selector': '[expr2]'
                           }
                         ]
                       }
@@ -347,10 +289,32 @@
                           return "vertical-align: middle;" + (_scope.props.iconStyle || "");
                         }
                       }
-                    ],
+                    ]
+                  }
+                ]
+              )
+            },
+            {
+              'type': bindingTypes.IF,
 
-                    'redundantAttribute': 'expr3',
-                    'selector': '[expr3]'
+              'evaluate': function(
+                _scope
+              ) {
+                return !_scope.isIcon;
+              },
+
+              'redundantAttribute': 'expr3',
+              'selector': '[expr3]',
+
+              'template': template(
+                '<slot expr4="expr4"></slot>',
+                [
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'default',
+                    'redundantAttribute': 'expr4',
+                    'selector': '[expr4]'
                   }
                 ]
               )
@@ -364,4 +328,4 @@
 
     return index;
 
-})));
+}));

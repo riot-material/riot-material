@@ -1,20 +1,21 @@
 const riot = require("rollup-plugin-riot");
 const commonjs = require("@rollup/plugin-commonjs");
-const nodeResolve = require("@rollup/plugin-node-resolve").default;
 
-const registerPreprocessor = require("@riotjs/compiler").registerPreprocessor;
-const sass = require("sass");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
-registerPreprocessor('css', 'sass', function(code, { options }) {
-  const { css } = sass.renderSync({
-    data: code
-  })
+// const { registerPreprocessor } = require("@riotjs/compiler").registerPreprocessor;
+// const sass = require("sass");
 
-  return {
-    code: css.toString(),
-    map: null
-  }
-})
+// registerPreprocessor('css', 'sass', function(code, { options }) {
+//   const { css } = sass.renderSync({
+//     data: code
+//   })
+
+//   return {
+//     code: css.toString(),
+//     map: null
+//   }
+// })
 
 const globals = {
     "@riot-material/before-focus-listener": "riotMaterial.beforeFocusListener",
