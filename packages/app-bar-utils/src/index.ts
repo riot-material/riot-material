@@ -35,14 +35,14 @@ function get_height(): number {
     let documentHeight: number = document.documentElement.clientHeight;
     let documentWidth: number = document.documentElement.clientWidth;
     let barHeight: number = 48;
-    let heightBreakpoints: any;
+    let heightBreakpoints: typeof breakpoints[0];
     // iterazione su tutti i punti di interruzione della larghezza,
     // per recuperare i punti di interruzzione dell'altezza
-    (Object as any).entries(breakpoints).some(entry => {
+    Object.entries(breakpoints).some(entry => {
         let [minWidth, heightBreakpoints_] = entry;
         // se il punto d'interruzione supera la larghezza attuale della finestra
         // usare i punti di interruzione dell'altezza precedentemente salvati
-        if (documentWidth < minWidth) {
+        if (documentWidth < parseFloat(minWidth)) {
             return true;
         }
         // salvataggio dei punti di interruzione dell'altezza
@@ -52,11 +52,11 @@ function get_height(): number {
     });
     // iterazione su tutti i punti di interruzione dell'altezza,
     // per impostare l'altezza delle barre
-    (Object as any).entries(heightBreakpoints).some(entry => {
+    Object.entries(heightBreakpoints!).some(entry => {
         let [minHeight, height] = entry;
         // se il punto di interruzione supera l'altezza attuale della finestra
         // uscire dalle iterazioni e usare l'ultima altezza delle barre salvata
-        if (documentHeight < minHeight) {
+        if (documentHeight < parseFloat(minHeight)) {
             return true;
         }
         // salvataggio dell'altezza delle barre dell'attuale punto di interruzione
