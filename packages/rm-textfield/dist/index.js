@@ -4089,7 +4089,7 @@
 	                            'evaluate': function(
 	                              _scope
 	                            ) {
-	                              return _scope.props.type === "password" ? "•".repeat(_scope.root.value.length) : _scope.root.value;
+	                              return _scope.props.type === "password" ? "●".repeat(_scope.root.value.length) : _scope.root.value;
 	                            }
 	                          }
 	                        ]

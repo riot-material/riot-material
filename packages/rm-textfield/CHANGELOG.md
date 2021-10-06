@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.4.3] - 2021-10-06
+- use correct character in `type="password"` placeholder
+
 ## [1.4.2] - 2021-10-06
 - fix `type="password"` reveals when disabled
 

@@ -20,7 +20,7 @@
                 size="1"
             >
             <template if={ isDisabled() || isReadonly() }>{
-                props.type === "password" ? "•".repeat(root.value.length) : root.value
+                props.type === "password" ? "●".repeat(root.value.length) : root.value
             }</template>
         </span>
         <slot name="leading" slot="leading"></slot>
