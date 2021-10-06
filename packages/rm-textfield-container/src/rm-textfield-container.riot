@@ -14,6 +14,9 @@
                     </template>
                     <slot name="input"></slot>
                 </div>
+                <div class="rm-textfield-container--helper-text">
+                    <div style="font-size: .75em;">{ props.helperText }</div>
+                </div>
             </div>
         </div>
         <div class="rm-textfield-container--trailing">
@@ -23,9 +26,6 @@
         <div class="rm-textfield-container--underline"></div>
         <div class="rm-textfield-container--disabled-block"></div>
     </label>
-    <div style="height: 1em; line-height: 1em; margin-bottom: -1em; pointer-events: none;">
-        <div style="font-size: .75em;">{ props.helperText }</div>
-    </div>
 
     <style>
         :host {
@@ -425,6 +425,19 @@
         }
         :host[disabled] .rm-textfield-container--disabled-block {
             display: block;
+        }
+
+        /* HELPER TEXT */
+        .rm-textfield-container--helper-text {
+            height: 1em;
+            line-height: 1em;
+            pointer-events: none;
+            margin-top: 0.625em;
+            position: absolute;
+        }
+        :host[variant=outlined] .rm-textfield-container--helper-text,
+        :host[variant=filled] .rm-textfield-container--helper-text {
+            margin-top: 0.875em;
         }
     </style>
 

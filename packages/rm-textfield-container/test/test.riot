@@ -1,20 +1,33 @@
 <test>
-    <rm-textfield-container>
-        <div slot="input">INPUT SLOT</div>
-        <div slot="trailing" style="white-space: nowrap;">TRAILING SLOT</div>
-    </rm-textfield-container>
-    <div class="rm-dark-surface">
-        <rm-textfield-container>
-            <div slot="leading" style="white-space: nowrap;">LEADING SLOT</div>
+    <div>
+        <rm-textfield-container
+            variant="flat"
+            helper-text="Something here"
+            full-width
+        >
+            <div slot="leading" style="white-space: nowrap;">TYPE</div>
             <div slot="input">INPUT SLOT</div>
+            <div slot="trailing" style="white-space: nowrap;">X</div>
         </rm-textfield-container>
-        <rm-textfield-container variant="filled">
-            <div slot="leading" style="white-space: nowrap;">LEADING SLOT</div>
+    </div>
+    <div>
+        <rm-textfield-container
+            variant="outlined"
+            helper-text="Something here"
+            full-width
+        >
             <div slot="input">INPUT SLOT</div>
+            <div slot="trailing" style="white-space: nowrap;">X</div>
         </rm-textfield-container>
-        <rm-textfield-container variant="outlined">
-            <div slot="leading" style="white-space: nowrap;"></div>
-            <input style="margin: -14px -12px; padding: 14px 12px; border: none; height: 21px; box-sizing: content-box; vertical-align: top; background: none; border-radius: 4px; color: white;">
+    </div>
+    <div>
+        <rm-textfield-container
+            variant="filled"
+            helper-text="Something here"
+            full-width
+        >
+            <div slot="input">INPUT SLOT</div>
+            <div slot="trailing" style="white-space: nowrap;">X</div>
         </rm-textfield-container>
     </div>
 </test>
