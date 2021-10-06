@@ -4325,7 +4325,7 @@
 	            },
 	            {
 	              'id': 'trailing',
-	              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr11="expr11" variant="icon" dense></rm-button><rm-button expr12="expr12" variant="icon" dense></rm-button><slot expr13="expr13" name="trailing"></slot></span>',
+	              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr11="expr11" variant="icon" dense type="button"></rm-button><rm-button expr12="expr12" variant="icon" dense type="button"></rm-button><slot expr13="expr13" name="trailing"></slot></span>',
 
 	              'bindings': [
 	                {

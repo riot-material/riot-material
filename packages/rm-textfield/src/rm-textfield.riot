@@ -25,9 +25,11 @@
         <span style="white-space: nowrap;" slot="trailing">
             <rm-button variant="icon" onclick={ clear }
                 if={ isClearable() && root.value } dense tabindex={ isDisabled() ? "-1" : null }
+                type="button"
             >clear</rm-button>
             <rm-button variant="icon" onclick={ togglePasswordVisibility }
                 if={ getType() === "password" } dense tabindex={ isDisabled() ? "-1" : null }
+                type="button"
             >{
                 state.passwordVisibility ? "visibility" : "visibility_off"
             }</rm-button>

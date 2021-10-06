@@ -4107,7 +4107,7 @@ var RmTextfield = {
             },
             {
               'id': 'trailing',
-              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr4="expr4" variant="icon" dense></rm-button><rm-button expr5="expr5" variant="icon" dense></rm-button><slot expr6="expr6" name="trailing"></slot></span>',
+              'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr4="expr4" variant="icon" dense type="button"></rm-button><rm-button expr5="expr5" variant="icon" dense type="button"></rm-button><slot expr6="expr6" name="trailing"></slot></span>',
 
               'bindings': [
                 {

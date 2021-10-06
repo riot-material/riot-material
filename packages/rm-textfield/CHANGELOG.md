@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.4.1] - 2021-10-06
+- fix buttons submits form
+
 ## [1.4.0] - 2021-10-06
 - implement password visibility toggler
 - fix `rm-button` not imported
