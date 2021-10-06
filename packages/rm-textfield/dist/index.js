@@ -437,6 +437,16 @@
                 },
                 {
                   'type': expressionTypes.ATTRIBUTE,
+                  'name': 'helper-text',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.props.helperText;
+                  }
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
                   'name': 'class',
 
                   'evaluate': function(

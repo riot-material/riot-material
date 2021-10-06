@@ -1,7 +1,12 @@
 <rm-textfield>
-    <rm-textfield-container variant={ props.variant }
-        label={ props.label } full-width={ isFullWidth() } disabled={ isDisabled() }
-        class={ _getTextfieldContainerClass() } onmousedown={ _oncontainermousedown }
+    <rm-textfield-container
+        variant={ props.variant }
+        label={ props.label }
+        full-width={ isFullWidth() }
+        disabled={ isDisabled() }
+        helper-text={ props.helperText }
+        class={ _getTextfieldContainerClass() }
+        onmousedown={ _oncontainermousedown }
     >
         <span class="rm-textfield--input-wrap" slot="input">
             <input class="rm-textfield--input{
