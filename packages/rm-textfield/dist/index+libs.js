@@ -4299,7 +4299,7 @@
 	                            'evaluate': function(
 	                              _scope
 	                            ) {
-	                              return _scope.root.value;
+	                              return _scope.props.type === "password" ? "•".repeat(_scope.root.value.length) : _scope.root.value;
 	                            }
 	                          }
 	                        ]
@@ -4393,7 +4393,7 @@
 	                  'evaluate': function(
 	                    _scope
 	                  ) {
-	                    return _scope.getType() === "password";
+	                    return _scope.props.type === "password";
 	                  },
 
 	                  'redundantAttribute': 'expr12',

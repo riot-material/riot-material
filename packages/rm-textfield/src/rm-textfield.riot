@@ -19,7 +19,9 @@
                 placeholder={ props.placeholder }
                 size="1"
             >
-            <template if={ isDisabled() || isReadonly() }>{ root.value }</template>
+            <template if={ isDisabled() || isReadonly() }>{
+                props.type === "password" ? "•".repeat(root.value.length) : root.value
+            }</template>
         </span>
         <slot name="leading" slot="leading"></slot>
         <span style="white-space: nowrap;" slot="trailing">
@@ -28,7 +30,7 @@
                 type="button"
             >clear</rm-button>
             <rm-button variant="icon" onclick={ togglePasswordVisibility }
-                if={ getType() === "password" } dense tabindex={ isDisabled() ? "-1" : null }
+                if={ props.type === "password" } dense tabindex={ isDisabled() ? "-1" : null }
                 type="button"
             >{
                 state.passwordVisibility ? "visibility" : "visibility_off"
