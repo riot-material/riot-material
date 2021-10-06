@@ -12,8 +12,12 @@
             <input class="rm-textfield--input{
                     state.focused || root.value ? ' rm-textfield--input-visible' : ''
                 }"
-                oninput={ _oninputinput } type={ getType() } value={ root.value }
-                name={ props.name } placeholder={ props.placeholder } size="1"
+                oninput={ _oninputinput }
+                type={ state.passwordVisibility ? "text" : getType() }
+                value={ root.value }
+                name={ props.name }
+                placeholder={ props.placeholder }
+                size="1"
             >
             <template if={ isDisabled() || isReadonly() }>{ root.value }</template>
         </span>
@@ -22,6 +26,11 @@
             <rm-button variant="icon" onclick={ clear }
                 if={ isClearable() && root.value } dense tabindex={ isDisabled() ? "-1" : null }
             >clear</rm-button>
+            <rm-button variant="icon" onclick={ togglePasswordVisibility }
+                if={ getType() === "password" } dense tabindex={ isDisabled() ? "-1" : null }
+            >{
+                state.passwordVisibility ? "visibility" : "visibility_off"
+            }</rm-button>
             <slot name="trailing"></slot>
         </span>
     </rm-textfield-container>
@@ -79,7 +88,8 @@
     </style>
 
     <script>
-        import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
+        import RmButton from "@riot-material/rm-button";
+        import RmTextfieldContainer from "@riot-material/rm-textfield-container";
 
         const VALUE = Symbol("value");
         const IS_MOUNTED = Symbol("is-mounted");
@@ -225,7 +235,17 @@
                 this.update();
             },
             components: {
-                "rm-textfield-container": TextfieldContainerComponent
+                RmButton,
+                RmTextfieldContainer
+            },
+            state: {
+                passwordVisibility: false
+            },
+            togglePasswordVisibility() {
+                if (this.getType() !== "password") {
+                    return;
+                }
+                this.update({ passwordVisibility: !this.state.passwordVisibility });
             }
         }
     </script>

@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.4.0] - 2021-10-06
+- implement password visibility toggler
+- fix `rm-button` not imported
+
 ## [1.3.1] - 2021-10-06
 - update dependencies
 
