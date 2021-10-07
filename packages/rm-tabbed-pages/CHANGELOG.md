@@ -1,6 +1,9 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [1.2.1] - 2021-10-07
+- fix slot being hidden if any falsy "if" binding in it
+
 ## [1.2.0] - 2021-10-01
 - emit ts declarations
 - update dependencies

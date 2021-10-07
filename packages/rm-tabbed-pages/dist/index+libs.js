@@ -1102,7 +1102,17 @@
             this.slots.forEach((slot, index) => {
                 if (slot.bindings.some(binding => {
                     const parent = this[riot__namespace.__.globals.PARENT_KEY_SYMBOL] || null;
-                    if (binding.type !== 1 || binding.evaluate(Object.create(parent))) {
+                    if (
+                        binding.type !== 1 ||
+                        slot.html.match(
+                            new RegExp(`^<[^>]+\\s+(?:[^>]+\\s+)*${
+                            binding.redundantAttribute
+                        }(?:="${
+                            binding.redundantAttribute
+                        }")?(?:\\s+[^>]+)*(?=>)>`)
+                        ) === null ||
+                        binding.evaluate(Object.create(parent))
+                    ) {
                         return false;
                     }
 
