@@ -1,12 +1,16 @@
 <test>
     <rm-textfield
-        onfocus={ console.log }
-        onblur={ console.log }
-        oninput={ console.log }
         label="Label" ref="focusable"
         variant={ state.variant }
+        disabled={ state.disabled }
         type="password"
     ></rm-textfield>
+    <rm-button
+        variant="icon"
+        onclick={ () => update({ disabled: !state.disabled })}
+    >{
+        state.disabled ? "remove_circle" : "block"
+    }</rm-button>
         <!--  onfocus={ console.log }
         onblur={ console.log }
         oninput={ console.log }  -->
@@ -27,6 +31,7 @@
     <script>
         export default {
             state: {
+                disabled: false,
                 readonly: true,
                 variant: "flat"
             },

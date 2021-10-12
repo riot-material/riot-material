@@ -17,9 +17,10 @@
                 value={ root.value }
                 name={ props.name }
                 placeholder={ props.placeholder }
+                disabled={ isDisabled() }
                 size="1"
             >
-            <template if={ isDisabled() || isReadonly() }>{
+            <template if={ isReadonly() }>{
                 props.type === "password" ? "●".repeat(root.value.length) : root.value
             }</template>
         </span>
@@ -195,7 +196,7 @@
                 return Object.keys(names).join(" ");
             },
             getType() {
-                if (this.isReadonly() || this.isDisabled()) {
+                if (this.isReadonly()) {
                     return "hidden";
                 }
                 switch (this.props.type) {

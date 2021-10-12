@@ -14,6 +14,7 @@
 
         <script>
             riot.compile().then(() => {
+                riot.register("rm-button", riotMaterial.components.textfield.exports.components.RmButton);
                 riot.register("rm-textfield", riotMaterial.components.textfield);
                 riot.mount("test");
             })
