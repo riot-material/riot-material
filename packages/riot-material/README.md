@@ -65,6 +65,7 @@ Refer to each sub-package documentation:
 - [`components.tabbedPages` **rm-tabbed-pages** tag](https://github.com/riot-material/rm-tabbed-pages#properties)
 - [`components.textfieldContainer` **rm-textfield-container** tag](https://github.com/riot-material/rm-textfield-container#properties)
 - [`components.textfield` **rm-textfield** tag](https://github.com/riot-material/rm-textfield#properties)
+- [`components.visibilityTrigger` **rm-visibility-trigger** tag](https://github.com/riot-material/rm-visibility-trigger)
 <!--  -->
 - [`appBarUtils` **app-bar-utils** sub-package](https://github.com/riot-material/app-bar-utils#documentation)
 - `background` **background** sub-package - *Not yet available*
