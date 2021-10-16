@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [3.1.0] - 2021-10-01
+## [3.1.1] - 2021-10-16
+- update dependencies
+
+## [3.1.0] - 2021-10-16
 - add `rm-visibility-trigger` component
 
 ## [3.0.2] - 2021-10-01

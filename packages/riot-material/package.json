@@ -1,6 +1,6 @@
 {
   "name": "riot-material",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Riot.js implementation of Material Design",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -28,7 +28,7 @@
     "@riot-material/rm-tabbed-pages": "^1.2.1",
     "@riot-material/rm-textfield": "^1.4.4",
     "@riot-material/rm-textfield-container": "^1.2.1",
-    "@riot-material/rm-visibility-trigger": "^1.0.0",
+    "@riot-material/rm-visibility-trigger": "^1.0.1",
     "@riot-material/surfaces": "^2.2.0",
     "riot": "^6.0.4"
   },
