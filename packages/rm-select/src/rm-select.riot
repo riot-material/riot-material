@@ -50,7 +50,8 @@
         .rm-select--input {
             display: inline-block;
             font: inherit;
-            padding: 0;
+            padding: 0.625em 0;
+            margin: -0.625em 0;
             font-size: inherit;
             line-height: inherit;
             border: 0;
@@ -62,6 +63,15 @@
             cursor: default;
             position: absolute;
             left: -1px; top: -1px;
+        }
+        :host[variant="filled"] .rm-textfield--input,
+        :host[variant="outlined"] .rm-textfield--input {
+            padding: 0.875em  0.75em;
+            margin: -0.875em -0.75em;
+        }
+        :host[variant="filled"] .rm-label-should-float .rm-textfield--input {
+            padding: 1.25em  0.75em  0.5em;
+            margin: -1.25em -0.75em -0.5em;
         }
         :host[filterable] .rm-select--input {
             position: static;
@@ -89,12 +99,12 @@
         import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
         import ButtonComponent from "@riot-material/rm-button";
         import MenuComponent from "@riot-material/rm-menu";
-        import { ripple } from "@riot-material/ripple";
 
         import {
             addListener,
             removeListener
         } from "@riot-material/before-focus-listener";
+        import { ripple } from "@riot-material/ripple";
 
         const blockedInputs = [];
         window.addEventListener("change", event => {
@@ -145,6 +155,9 @@
                     },
                     selectedOptions: {
                         get: () => this.getSelected()
+                    },
+                    menu: {
+                        get: () => this._selectMenu
                     }
                 });
             },
@@ -197,6 +210,9 @@
                     },
                     selectedOptions: {
                         get: () => this.getSelected()
+                    },
+                    menu: {
+                        get: () => this.root.menu
                     }
                 });
 

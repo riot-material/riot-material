@@ -8,26 +8,30 @@
         <test></test>
 
         <script src="../node_modules/riot/riot+compiler.js"></script>
+        <script src="../node_modules/@riot-material/background/dist/index.js"></script>
         <script src="../node_modules/@riot-material/before-focus-listener/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-icon/dist/index.js"></script>
         <script src="../node_modules/@riot-material/ripple/dist/index+libs.js"></script>
         <script src="../node_modules/@riot-material/rm-button/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-textfield-container/dist/index.js"></script>
-        <script src="../node_modules/@riot-material/focus-manager/dist/index.umd.js"></script>
-        <script src="../node_modules/@riot-material/elevation/dist/index.umd.js"></script>
+        <script src="../node_modules/@riot-material/focus-manager/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/elevation/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-menu/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-list-item/dist/index.js"></script>
         <script src="../node_modules/@riot-material/rm-list-group/dist/index.js"></script>
+        <script src="../node_modules/@riot-material/rm-visibility-trigger/dist/index.js"></script>
         <script src="../dist/index.js"></script>
         <script data-src="test.riot" type="riot"></script>
         <script data-src="filterable-with-dynamic-option.riot" type="riot"></script>
 
         <script>
+            riotMaterial.background.init();
+            document.body.classList.add(riotMaterial.background.cssName);
             riot.compile().then(() => {
-                console.log(riotMaterial);
                 riot.register("rm-select", riotMaterial.components.select);
                 riot.register("rm-list-group", riotMaterial.components.listGroup);
                 riot.register("rm-list-item", riotMaterial.components.listItem);
+                riot.register("rm-visibility-trigger", riotMaterial.components.visibilityTrigger);
                 riot.mount("test");
             });
         </script>

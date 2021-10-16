@@ -1,15 +1,60 @@
 <filterable-with-dynamic-option>
     <rm-select filterable oninput={ updateOption } onchange={ removeOption } variant={ props.variant }>
-        <slot />
+        <rm-list-item value={ item.id } each={ item in state.items }>{ item.label }</rm-list-item>
         <rm-list-item if={ state.dynamicOption } value="dynamic" label={ state.dynamicOption }>Aggiungi "{
             state.dynamicOption
         }"</rm-list-item>
+        <rm-visibility-trigger
+            if={ state.hasNext }
+            onvisible={ loadNext }
+            onhidden={ console.log }
+        >
+            <rm-list-item passive>Caricamento...</rm-list-item>
+        </rm-visibility-trigger>
     </rm-select>
 
     <script>
+        function getNext(lastId, maxId, perPage) {
+            return new Promise(resolve => {
+                setTimeout(() => resolve({
+                    content: Array.from({ length: perPage }).map((_, index) => ({
+                        id: lastId + index + 1,
+                        label: Array.from({ length: 5 }).map(()=>"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".charAt(Math.random()*62)).join("")
+                    })).filter(({ id }) => id < maxId),
+                    pagination: {
+                        next: lastId + perPage < maxId ? lastId + perPage : null
+                    }
+                }), 1000 + (1000 * Math.random()));
+            });
+        }
+
         export default {
+            _lastId: 0,
+            loadNext() {
+                if (!this.state.hasNext) {
+                    return;
+                }
+                getNext(this._lastId, 52, 12)
+                .then(({ content, pagination }) => {
+                    this._lastId = pagination.next;
+                    this.update({ hasNext: this._lastId !== null, items: this.state.items.concat(content) });
+                    const visibilityTriggerEl = this.root.firstElementChild.menu.querySelector("rm-visibility-trigger");
+                    if (visibilityTriggerEl) {
+                        window.requestAnimationFrame(() => {
+                            window.requestAnimationFrame(() => {
+                                if (!visibilityTriggerEl.visible) {
+                                    return;
+                                }
+                                this.loadNext();
+                            });
+                        });
+                    }
+                });
+            },
             state: {
-                dynamicOption: null
+                dynamicOption: null,
+                hasNext: true,
+                items: []
             },
             updateOption(event) {
                 this.update({ dynamicOption: event.target.filter });

@@ -1,6 +1,10 @@
 # Changelog
 All notable changed to this project will be documented in this file
 
+## [2.1.0] - 2021-10-16
+- add `menu` property
+- fix input sizing
+
 ## [2.0.0] - 2021-10-01
 - emit ts declarations
 - update dependencies
