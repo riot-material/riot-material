@@ -20,6 +20,7 @@ import TabbedPagesComponent from "@riot-material/rm-tabbed-pages";
 // import TextareaComponent from "@riot-material/rm-textarea";
 import TextfieldComponent from "@riot-material/rm-textfield";
 import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
+import VisibilityTriggerComponent from "@riot-material/rm-visibility-trigger";
 
 
 import * as appBarUtils from "@riot-material/app-bar-utils";
@@ -53,6 +54,7 @@ register("rm-tabbed-pages", TabbedPagesComponent);
 // register("rm-textarea", TextareaComponent);
 register("rm-textfield", TextfieldComponent);
 register("rm-textfield-container", TextfieldContainerComponent);
+register("rm-visibility-trigger", VisibilityTriggerComponent);
 
 // tslint:disable-next-line:typedef
 const components = {
@@ -77,7 +79,8 @@ const components = {
     // tabs: TabsComponent,
     // textarea: TextareaComponent,
     textfield: TextfieldComponent,
-    textfieldContainer: TextfieldContainerComponent
+    textfieldContainer: TextfieldContainerComponent,
+    visibilityTrigger: VisibilityTriggerComponent
 };
 
 export {

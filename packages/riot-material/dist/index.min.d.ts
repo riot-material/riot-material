@@ -27,5 +27,6 @@ declare const components: {
     tabbedPages: import("riot").RiotComponent<{}, {}>;
     textfield: import("riot").RiotComponent<{}, {}>;
     textfieldContainer: import("riot").RiotComponent<{}, {}>;
+    visibilityTrigger: any;
 };
 export { appBarUtils, background, beforeFocusListener, components, elevation, ripple, surfaces };

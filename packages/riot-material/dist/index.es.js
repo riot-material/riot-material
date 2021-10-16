@@ -162,6 +162,60 @@ var RmListImage = {
   'name': 'rm-list-image'
 };
 
+var RmVisibilityTrigger = {
+  'css': null,
+
+  'exports': {
+    onMounted() {
+        let wasVisible = false;
+        Object.defineProperties(this.root, {
+            visible: {
+                get() { return wasVisible; }
+            }
+        });
+
+        let options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: [ 0 ]
+        };
+
+        let observer = new IntersectionObserver(([entry]) => {
+            const { x, y, width, height } = entry.intersectionRect;
+            let visible = !(x === 0 && y === 0 && width === 0 && height === 0);
+            if (wasVisible === visible) {
+                return;
+            }
+            wasVisible = visible;
+            this.root.dispatchEvent(new Event(visible ? "visible" : "hidden"), { cancelable: false, bubbles: false });
+        }, options);
+        observer.observe(this.root);
+    }
+  },
+
+  'template': function(
+    template,
+    expressionTypes,
+    bindingTypes,
+    getComponent
+  ) {
+    return template(
+      '<slot expr0="expr0"></slot>',
+      [
+        {
+          'type': bindingTypes.SLOT,
+          'attributes': [],
+          'name': 'default',
+          'redundantAttribute': 'expr0',
+          'selector': '[expr0]'
+        }
+      ]
+    );
+  },
+
+  'name': 'rm-visibility-trigger'
+};
+
 const BEFORE_FOCUS_CONTROLLER_INSTANCE = Symbol("before-focus-controller-instance");
 const WAS_FUNCTION = Symbol("was-function");
 function addListener(element, handler) {
@@ -376,6 +430,7 @@ register("rm-tabbed-pages", TabbedPagesComponent);
 // register("rm-textarea", TextareaComponent);
 register("rm-textfield", TextfieldComponent);
 register("rm-textfield-container", TextfieldContainerComponent);
+register("rm-visibility-trigger", RmVisibilityTrigger);
 // tslint:disable-next-line:typedef
 const components = {
     appBar: AppBarComponent,
@@ -399,7 +454,8 @@ const components = {
     // tabs: TabsComponent,
     // textarea: TextareaComponent,
     textfield: TextfieldComponent,
-    textfieldContainer: TextfieldContainerComponent
+    textfieldContainer: TextfieldContainerComponent,
+    visibilityTrigger: RmVisibilityTrigger
 };
 
 export { index_es as beforeFocusListener, components };
