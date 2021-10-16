@@ -1,0 +1,25 @@
+{
+  "name": "@riot-material/rm-visibility-trigger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kal Aster",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "riot": "^6.0.4",
+    "rollup": "^2.58.0",
+    "rollup-plugin-riot": "^6.0.0",
+    "rollup-plugin-ts": "^1.4.7"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}
