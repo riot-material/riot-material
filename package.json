@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/riot-material",
   "dependencies": {
-    "aracne": "^1.0.2"
+    "aracne": "^1.0.3"
   }
 }
