@@ -11,8 +11,8 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riot-material/before-focus-listener": "^1.3.0",
-    "@riot-material/rm-list-item": "^1.3.0",
+    "@riot-material/before-focus-listener": "file:../../packed_packages/riot-material-before-focus-listener-2.0.0.tgz",
+    "@riot-material/rm-list-item": "file:../../packed_packages/riot-material-rm-list-item-1.3.0.tgz",
     "@riotjs/compiler": "^6.0.4",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
@@ -23,9 +23,9 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/elevation": "^3.0.0",
-    "@riot-material/focus-manager": "^1.2.0",
-    "@riot-material/ripple": "^1.2.0"
+    "@riot-material/elevation": "file:../../packed_packages/riot-material-elevation-3.0.0.tgz",
+    "@riot-material/focus-manager": "file:../../packed_packages/riot-material-focus-manager-1.2.0.tgz",
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
   },
   "files": [
     "dist",
