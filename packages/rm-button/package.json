@@ -22,7 +22,7 @@
   "dependencies": {
     "@riot-material/before-focus-listener": "file:../../packed_packages/riot-material-before-focus-listener-2.0.0.tgz",
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
-    "@riot-material/rm-icon": "^1.2.0"
+    "@riot-material/rm-icon": "file:../../packed_packages/riot-material-rm-icon-1.2.0.tgz"
   },
   "files": [
     "dist",
