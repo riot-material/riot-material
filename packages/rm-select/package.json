@@ -29,6 +29,6 @@
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
     "@riot-material/rm-menu": "file:../../packed_packages/riot-material-rm-menu-2.0.0.tgz",
-    "@riot-material/rm-textfield-container": "^1.2.1"
+    "@riot-material/rm-textfield-container": "file:../../packed_packages/riot-material-rm-textfield-container-1.2.1.tgz"
   }
 }
