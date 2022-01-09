@@ -20,7 +20,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/elevation": "3.0.0",
+    "@riot-material/elevation": "file:../../packed_packages/riot-material-elevation-3.0.0.tgz",
     "@riot-material/surfaces": "^2.2.0"
   },
   "files": [
