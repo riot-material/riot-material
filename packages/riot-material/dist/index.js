@@ -8618,7 +8618,7 @@
         getComponent
       ) {
         return template(
-          '<rm-textfield-container expr14="expr14"></rm-textfield-container>',
+          '<rm-textfield-container expr0="expr0"></rm-textfield-container>',
           [
             {
               'type': bindingTypes.TAG,
@@ -8633,12 +8633,12 @@
               'slots': [
                 {
                   'id': 'input',
-                  'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr15="expr15" size="1"/><template expr16="expr16"></template></span>',
+                  'html': '<span class="rm-textfield--input-wrap" slot="input"><input expr1="expr1" size="1"/><template expr2="expr2"></template></span>',
 
                   'bindings': [
                     {
-                      'redundantAttribute': 'expr15',
-                      'selector': '[expr15]',
+                      'redundantAttribute': 'expr1',
+                      'selector': '[expr1]',
 
                       'expressions': [
                         {
@@ -8726,8 +8726,8 @@
                         return _scope.isReadonly();
                       },
 
-                      'redundantAttribute': 'expr16',
-                      'selector': '[expr16]',
+                      'redundantAttribute': 'expr2',
+                      'selector': '[expr2]',
 
                       'template': template(
                         ' ',
@@ -8753,21 +8753,21 @@
                 },
                 {
                   'id': 'leading',
-                  'html': '<slot expr17="expr17" name="leading" slot="leading"></slot>',
+                  'html': '<slot expr3="expr3" name="leading" slot="leading"></slot>',
 
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'leading',
-                      'redundantAttribute': 'expr17',
-                      'selector': '[expr17]'
+                      'redundantAttribute': 'expr3',
+                      'selector': '[expr3]'
                     }
                   ]
                 },
                 {
                   'id': 'trailing',
-                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr18="expr18" variant="icon" dense type="button"></rm-button><rm-button expr19="expr19" variant="icon" dense type="button"></rm-button><slot expr20="expr20" name="trailing"></slot></span>',
+                  'html': '<span style="white-space: nowrap;" slot="trailing"><rm-button expr4="expr4" variant="icon" dense type="button"></rm-button><rm-button expr5="expr5" variant="icon" dense type="button"></rm-button><slot expr6="expr6" name="trailing"></slot></span>',
 
                   'bindings': [
                     {
@@ -8779,8 +8779,8 @@
                         return _scope.isClearable() && _scope.root.value;
                       },
 
-                      'redundantAttribute': 'expr18',
-                      'selector': '[expr18]',
+                      'redundantAttribute': 'expr4',
+                      'selector': '[expr4]',
 
                       'template': template(
                         null,
@@ -8838,8 +8838,8 @@
                         return _scope.props.type === "password";
                       },
 
-                      'redundantAttribute': 'expr19',
-                      'selector': '[expr19]',
+                      'redundantAttribute': 'expr5',
+                      'selector': '[expr5]',
 
                       'template': template(
                         null,
@@ -8908,8 +8908,8 @@
                       'type': bindingTypes.SLOT,
                       'attributes': [],
                       'name': 'trailing',
-                      'redundantAttribute': 'expr20',
-                      'selector': '[expr20]'
+                      'redundantAttribute': 'expr6',
+                      'selector': '[expr6]'
                     }
                   ]
                 }
@@ -8988,8 +8988,8 @@
                 }
               ],
 
-              'redundantAttribute': 'expr14',
-              'selector': '[expr14]'
+              'redundantAttribute': 'expr0',
+              'selector': '[expr0]'
             }
           ]
         );
