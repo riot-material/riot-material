@@ -33,10 +33,18 @@ and access it via
 window.riotMaterial.beforeFocusListener;
 ```
 ## Documentation
+
 ### addListener\<T>(element: HTMLElement, handler: (this: T, event: TouchEvent | MouseEvent) => void, context?: T): void
 `element: HTMLElement`  
 `handler: (this: T, event: TouchEvent | MouseEvent) => void`  
 `context?: T`
+
 ### removeListener(element: HTMLElement, handler: (event: TouchEvent | MouseEvent) => void): void
 `element: HTMLElement`  
 `handler: (event: TouchEvent | MouseEvent) => void`  
+
+### polyfill(): void
+redirect `HTMLElement.addEventListener("beforefocus", ...)` and `HTMLElement.removeEventListener("beforefocus", ...)` to its respective method
+
+### restore(): void
+restores native `HTMLElement.addEventListener` and `HTMLElement.removeEventListener`, if overridden by [polyfill](#polyfill-void)
