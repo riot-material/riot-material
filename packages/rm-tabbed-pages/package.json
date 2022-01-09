@@ -19,8 +19,8 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/position-controller": "^1.2.0",
-    "@riot-material/ripple": "^1.2.0",
+    "@riot-material/position-controller": "file:../../packed_packages/riot-material-position-controller-1.2.0.tgz",
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "riot": "^6.0.4"
   }
 }
