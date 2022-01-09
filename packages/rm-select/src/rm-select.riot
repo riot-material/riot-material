@@ -96,6 +96,8 @@
     </style>
 
     <script>
+        import newPropsWrapper from "@riot-material/new-props-wrapper";
+
         import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
         import ButtonComponent from "@riot-material/rm-button";
         import MenuComponent from "@riot-material/rm-menu";
@@ -113,7 +115,7 @@
             }
         }, true);
 
-        export default {
+        export default newPropsWrapper({
             _mounted: false,
             _menu: null,
             _input: null,
@@ -123,6 +125,8 @@
                 this.dispatchMenuEvent(event);
             },
             onBeforeMount() {
+                this.state.helperText = this.props.helperText;
+
                 Object.defineProperties(this.root, {
                     value: {
                         get: () => {
@@ -158,6 +162,16 @@
                     },
                     menu: {
                         get: () => this._selectMenu
+                    },
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.state.helperText = (
+                                this.root.querySelector(
+                                    "rm-textfield-container"
+                                ).helperText
+                            ) = value;
+                        }
                     }
                 });
             },
@@ -331,6 +345,8 @@
                 }
 
                 this._manipulate();
+
+                this._finalizeInputProperties();
             },
             onBeforeUnmount() {
                 this._restoreManipulated();
@@ -365,7 +381,10 @@
                 }
             },
             _lastSelected: null,
-            onBeforeUpdate() {
+            onBeforeUpdate(_, __, newProps) {
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
                 // this._restoreManipulated();
             },
             onUpdated() {
@@ -488,7 +507,21 @@
                 "rm-textfield-container": TextfieldContainerComponent,
                 "rm-button": ButtonComponent,
                 "rm-menu": MenuComponent
+            },
+            _finalizeInputProperties() {
+                const { _input } = this;
+                [
+                    [ "helperText", {
+                        get: () => this.root.helperText,
+                        set: (value) => this.root.helperText = value
+                    } ]
+                ].forEach(([name, options]) => {
+                    if (_input.hasOwnProperty(name)) {
+                        return;
+                    }
+                    Object.defineProperty(_input, name, options);
+                });
             }
-        }
+        });
     </script>
 </rm-select>

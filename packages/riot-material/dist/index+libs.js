@@ -145,7 +145,7 @@
         }
     }
 
-    var index_es$5 = /*#__PURE__*/Object.freeze({
+    var index_es$6 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         getHeight: getHeight,
         offChange: offChange,
@@ -192,7 +192,7 @@
         }
     }
 
-    var index_es$4 = /*#__PURE__*/Object.freeze({
+    var index_es$5 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         elevation: elevation,
         init: init$4,
@@ -1270,7 +1270,7 @@
         return element[RIPPLE$1] != null;
     }
 
-    var index_es$3 = /*#__PURE__*/Object.freeze({
+    var index_es$4 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         get TYPE () { return TYPE$1; },
         init: init$3,
@@ -1524,7 +1524,7 @@
         nativeRemoveEventListener = null;
     }
 
-    var index_es$2 = /*#__PURE__*/Object.freeze({
+    var index_es$3 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         addListener: addListener$1,
         polyfill: polyfill,
@@ -2010,7 +2010,7 @@
     const light = "rm-light-surface";
     const white = "rm-white-surface";
 
-    var index_es$1 = /*#__PURE__*/Object.freeze({
+    var index_es$2 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         black: black,
         dark: dark,
@@ -3674,89 +3674,154 @@
       'name': 'rm-radio'
     };
 
+    const LAST_PROPS = Symbol("last-props");
+    const NEW_PROPS = Symbol("new-props");
+    function newPropsWrapper(exports) {
+        return {
+            ...exports,
+            onBeforeUpdate(props, state) {
+                const newProps = this[NEW_PROPS] = (getNewProps(this[LAST_PROPS], props));
+                this[LAST_PROPS] = props;
+                return exports.onBeforeUpdate?.call(this, props, state, newProps);
+            },
+            onBeforeMount(props, state) {
+                this[LAST_PROPS] = props;
+                return exports.onBeforeMount?.call(this, props, state);
+            },
+            onUpdated(props, state) {
+                return exports.onUpdated?.call(this, props, state, this[NEW_PROPS]);
+            }
+        };
+        function getNewProps(lastProps, props) {
+            return Object.freeze(Object.entries(props).filter(([prop, value]) => {
+                return lastProps[prop] !== value;
+            }).reduce((result, [prop, value]) => {
+                result[prop] = value;
+                return result;
+            }, {}));
+        }
+    }
+
+    var index_es$1 = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        'default': newPropsWrapper
+    });
+
     var RmTextfieldContainer = {
       'css': `rm-textfield-container,[is="rm-textfield-container"]{ display: inline-block; font: message-box; font-size: 16px; margin-top: 0.5em; margin-bottom: 1em; vertical-align: middle; cursor: inherit; border-radius: 0; margin-right: .5em; user-select: none; } rm-textfield-container[full-width],[is="rm-textfield-container"][full-width]{ width: 100%; margin-right: 0; } rm-textfield-container[variant=filled],[is="rm-textfield-container"][variant=filled]{ border-radius: .25em .25em 0 0; } rm-textfield-container[variant=outlined],[is="rm-textfield-container"][variant=outlined]{ border-radius: 0.25em; } rm-textfield-container[disabled],[is="rm-textfield-container"][disabled]{ opacity: 0.6; } rm-textfield-container .rm-textfield-container--container,[is="rm-textfield-container"] .rm-textfield-container--container{ display: table-cell; vertical-align: middle; position: relative; font-size: inherit; box-sizing: border-box; padding: 0.625em 0 0.625em 0; line-height: 1.25em; transition: padding linear 150ms; color: inherit; width: 100%; } rm-textfield-container[variant=filled] .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container[variant=filled].rm-label-should-float .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled].rm-label-should-float .rm-textfield-container--container{ padding-top: 1.25em; padding-bottom: 0.5em; } rm-textfield-container[variant=outlined] .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--container,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--container{ border: none !important; } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--container{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary, 139, 0, 139)); } rm-textfield-container[variant=outlined] .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border: rgba(0, 0, 0, .42) 1px solid; border: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px solid; border-radius: inherit; transition: border 150ms linear; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } .rm-black-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary, 139, 0, 139)) 2px solid; } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-black, 238, 130, 238)) 2px solid; } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-dark, 238, 130, 238)) 2px solid; } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-light, 139, 0, 139)) 2px solid; } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-white, 139, 0, 139)) 2px solid; } rm-textfield-container .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--border-notch{ position: absolute; top: 0; font-size: 0.6em; padding: 0 0.4166666666666667em; transform: translateY(-50%) scaleX(0); background: inherit; color: transparent; transition: transform ease-in-out 150ms; display: inline-block; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--border-notch{ margin-left: 0.8333333333333334em; } rm-textfield-container.rm-label-should-float .rm-textfield-container--border-notch,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--border-notch{ transform: translateY(-50%) scaleX(1); } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--border-notch,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--border-notch{ display: none; } rm-textfield-container .rm-textfield-container--label,[is="rm-textfield-container"] .rm-textfield-container--label{ position: absolute; top: 0; left: 0; font-size: inherit; transition: transform linear 150ms, color linear 150ms; transform-origin: left bottom; color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-primary, .6)); -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; line-height: inherit; } .rm-black-surface rm-textfield-container .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-light-surface rm-textfield-container .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-primary, .6)); } .rm-white-surface rm-textfield-container .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-primary, .6)); } rm-textfield-container.rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-100%) scale(.6); } rm-textfield-container[variant=outlined] .rm-textfield-container--content,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--content,rm-textfield-container[variant=outlined] .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--label{ background: inherit; } rm-textfield-container[variant=outlined].rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-140%) scale(.6); } rm-textfield-container.rm-focused .rm-textfield-container--label,[is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } .rm-black-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--basic-underline,[is="rm-textfield-container"] .rm-textfield-container--basic-underline{ position: absolute; background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); bottom: 0; left: 0; right: 0; height: 1px; } .rm-black-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container:not([variant])[disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"]:not([variant])[disabled] .rm-textfield-container--basic-underline,rm-textfield-container[variant=flat][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=flat][disabled] .rm-textfield-container--basic-underline{ border-bottom: rgba(0, 0, 0, .42) 1px dashed; border-bottom: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px dashed; height: 0; background: transparent; } rm-textfield-container[variant=filled][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=filled][disabled] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--underline,[is="rm-textfield-container"] .rm-textfield-container--underline{ position: absolute; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: center; transition: transform linear 150ms, opacity linear 150ms; } .rm-black-surface rm-textfield-container .rm-textfield-container--underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container .rm-textfield-container--underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container .rm-textfield-container--underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container.rm-focused .rm-textfield-container--underline,[is="rm-textfield-container"].rm-focused .rm-textfield-container--underline{ transform: scale(1) !important; opacity: 1 !important; } rm-textfield-container[variant=outlined] .rm-textfield-container--underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--underline,rm-textfield-container[variant=outlined] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--content,[is="rm-textfield-container"] .rm-textfield-container--content{ position: relative; } rm-textfield-container .rm-textfield-container--main,[is="rm-textfield-container"] .rm-textfield-container--main{ display: inline-table; position: relative; background: rgb(245, 245, 245); background: rgb(var(--color-background, 245, 245, 245)); color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); font-size: inherit; cursor: inherit; border-radius: inherit; width: 100%; vertical-align: middle; } .rm-black-surface rm-textfield-container .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(0, 0, 0); background: rgb(var(--color-black-surface, 0, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-black, 255, 255, 255)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(10, 10, 10); background: rgb(var(--color-dark-surface, 10, 10, 10)); color: rgb(255, 255, 255); color: rgb(var(--color-on-dark, 255, 255, 255)); } .rm-light-surface rm-textfield-container .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(250, 250, 250); background: rgb(var(--color-light-surface, 250, 250, 250)); color: rgb(0, 0, 0); color: rgb(var(--color-on-light, 0, 0, 0)); } .rm-white-surface rm-textfield-container .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } rm-textfield-container[variant=filled] .rm-textfield-container--main,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-dark-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-light-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-white-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--leading{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-right: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--leading,rm-textfield-container[variant=outlined] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--leading{ padding-left: .5em; padding-right: 0; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--leading{ display: none; } rm-textfield-container .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--trailing{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-left: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--trailing,rm-textfield-container[variant=outlined] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--trailing{ padding-right: .5em; padding-left: 0; } rm-textfield-container .rm-textfield-container--no-trailing .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--no-trailing .rm-textfield-container--trailing{ display: none; } rm-textfield-container .rm-textfield-container--disabled-block,[is="rm-textfield-container"] .rm-textfield-container--disabled-block{ display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } rm-textfield-container[disabled] .rm-textfield-container--disabled-block,[is="rm-textfield-container"][disabled] .rm-textfield-container--disabled-block{ display: block; } rm-textfield-container .rm-textfield-container--helper-text,[is="rm-textfield-container"] .rm-textfield-container--helper-text{ height: 1em; line-height: 1em; pointer-events: none; margin-top: 0.625em; position: absolute; } rm-textfield-container[variant=outlined] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--helper-text,rm-textfield-container[variant=filled] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--helper-text{ margin-top: 0.875em; }`,
 
-      'exports': {
-        onMounted() {
-            this._refreshCaps();
-        },
+      'exports': newPropsWrapper(
+        {
+            onBeforeMount() {
+                this.state.helperText = this.props.helperText;
+                this.state.label = this.state.label;
 
-        _onlabelpointerdown(event) {
-            const control = this.root.children[0].control;
-            if (control === document.activeElement && event.target !== control) {
-                event.preventDefault();
-            }
-        },
-
-        _hasInputSlot() {
-            return this.slots.some(slot => {
-                return slot.id === "input";
-            });
-        },
-
-        _hasSlot(name) {
-            let index;
-            return this.slots.some((slot, i) => (index = i, slot.id === name)) && console.log(this.slots[index]);
-        },
-
-        _getLeadingIcons() {
-            const leadingIcons = this.props.leadingIcons;
-            if (leadingIcons == null) {
-                return [];
-            }
-            switch (typeof leadingIcons) {
-                case "string": {
-                    return leadingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                Object.defineProperties(this.root, {
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--helper-text > div"
+                            ).childNodes[0].data = this.state.helperText = (
+                                value?.toString() || ""
+                            );
+                        }
+                    },
+                    label: {
+                        get: () => this.state.label,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--border-notch"
+                            ).childNodes[0].data = this.root.querySelector(
+                                ".rm-textfield-container--label"
+                            ).childNodes[0].data = this.state.label = (
+                                value?.toString() || ""
+                            );
+                        }
+                    }
+                });
+            },
+            onMounted() {
+                this._refreshCaps();
+            },
+            _onlabelpointerdown(event) {
+                const control = this.root.children[0].control;
+                if (control === document.activeElement && event.target !== control) {
+                    event.preventDefault();
                 }
-                case "object": {
-                    return Array.isArray(leadingIcons) ? leadingIcons : [];
-                }
-                default: {
+            },
+            _hasInputSlot() {
+                return this.slots.some(slot => {
+                    return slot.id === "input";
+                });
+            },
+            _hasSlot(name) {
+                let index;
+                return this.slots.some((slot, i) => (index = i, slot.id === name)) && console.log(this.slots[index]);
+            },
+            _getLeadingIcons() {
+                const leadingIcons = this.props.leadingIcons;
+                if (leadingIcons == null) {
                     return [];
                 }
-            }
-        },
-
-        _getTrailingIcons() {
-            const trailingIcons = this.props.trailingIcons;
-            if (trailingIcons == null) {
-                return [];
-            }
-            switch (typeof trailingIcons) {
-                case "string": {
-                    return trailingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                switch (typeof leadingIcons) {
+                    case "string": {
+                        return leadingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                    }
+                    case "object": {
+                        return Array.isArray(leadingIcons) ? leadingIcons : [];
+                    }
+                    default: {
+                        return [];
+                    }
                 }
-                case "object": {
-                    return Array.isArray(trailingIcons) ? trailingIcons : [];
-                }
-                default: {
+            },
+            _getTrailingIcons() {
+                const trailingIcons = this.props.trailingIcons;
+                if (trailingIcons == null) {
                     return [];
                 }
+                switch (typeof trailingIcons) {
+                    case "string": {
+                        return trailingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                    }
+                    case "object": {
+                        return Array.isArray(trailingIcons) ? trailingIcons : [];
+                    }
+                    default: {
+                        return [];
+                    }
+                }
+            },
+            _refreshCaps() {
+                const label = this.root.firstElementChild;
+                label.classList.remove("rm-textfield-container--no-leading", "rm-textfield-container--no-trailing");
+                const leading = this.root.querySelector("label > .rm-textfield-container--leading");
+                if (leading.children.length === 0 || leading.clientWidth <= 9) {
+                    label.classList.add("rm-textfield-container--no-leading");
+                } else {
+                    label.classList.remove("rm-textfield-container--no-leading");
+                }
+                const trailing = this.root.querySelector("label > .rm-textfield-container--trailing");
+                if (trailing.children.length === 0 || trailing.clientWidth <= 9) {
+                    label.classList.add("rm-textfield-container--no-trailing");
+                } else {
+                    label.classList.remove("rm-textfield-container--no-trailing");
+                }
+            },
+            onBeforeUpdate(_, __, newProps) {
+                if ("label" in newProps) {
+                    this.state.label = newProps.label;
+                }
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
+            },
+            onUpdated() {
+                this._refreshCaps();
             }
-        },
-
-        _refreshCaps() {
-            const label = this.root.firstElementChild;
-            label.classList.remove("rm-textfield-container--no-leading", "rm-textfield-container--no-trailing");
-            const leading = this.root.querySelector("label > .rm-textfield-container--leading");
-            if (leading.children.length === 0 || leading.clientWidth <= 9) {
-                label.classList.add("rm-textfield-container--no-leading");
-            } else {
-                label.classList.remove("rm-textfield-container--no-leading");
-            }
-            const trailing = this.root.querySelector("label > .rm-textfield-container--trailing");
-            if (trailing.children.length === 0 || trailing.clientWidth <= 9) {
-                label.classList.add("rm-textfield-container--no-trailing");
-            } else {
-                label.classList.remove("rm-textfield-container--no-trailing");
-            }
-        },
-
-        onUpdated() {
-            this._refreshCaps();
         }
-      },
+      ),
 
       'template': function(
         template,
@@ -3803,7 +3868,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return _scope.props.label;
+                    return _scope.state.label;
                   }
                 }
               ]
@@ -3820,7 +3885,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return _scope.props.label;
+                    return _scope.state.label;
                   }
                 }
               ]
@@ -3869,7 +3934,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return _scope.props.helperText;
+                    return _scope.state.helperText;
                   }
                 }
               ]
@@ -3898,414 +3963,416 @@
     var RmSelect = {
       'css': `rm-select,[is="rm-select"]{ position: relative; } rm-select[filterable],[is="rm-select"][filterable]{ cursor: text; } rm-select[disabled],[is="rm-select"][disabled],rm-select[readonly],[is="rm-select"][readonly]{ cursor: default; } rm-select .rm-select--arrow,[is="rm-select"] .rm-select--arrow{ transition: transform ease-in-out 150ms; transform: rotate(0deg); } rm-select .rm-select--arrow.rm-select--arrow-rotated,[is="rm-select"] .rm-select--arrow.rm-select--arrow-rotated{ transform: rotate(180deg); } rm-select .rm-select--input,[is="rm-select"] .rm-select--input{ display: inline-block; font: inherit; padding: 0.625em 0; margin: -0.625em 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 0px; height: 0px; color: currentColor; opacity: 0; cursor: default; position: absolute; left: -1px; top: -1px; } rm-select[variant="filled"] .rm-textfield--input,[is="rm-select"][variant="filled"] .rm-textfield--input,rm-select[variant="outlined"] .rm-textfield--input,[is="rm-select"][variant="outlined"] .rm-textfield--input{ padding: 0.875em 0.75em; margin: -0.875em -0.75em; } rm-select[variant="filled"] .rm-label-should-float .rm-textfield--input,[is="rm-select"][variant="filled"] .rm-label-should-float .rm-textfield--input{ padding: 1.25em 0.75em 0.5em; margin: -1.25em -0.75em -0.5em; } rm-select[filterable] .rm-select--input,[is="rm-select"][filterable] .rm-select--input{ position: static; width: 100%; height: auto; opacity: 1; cursor: text; } rm-select .rm-select--input-wrap,[is="rm-select"] .rm-select--input-wrap{ position: relative; height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-select[full-width] .rm-select--input-wrap,[is="rm-select"][full-width] .rm-select--input-wrap{ width: 100%; }`,
 
-      'exports': {
-        _mounted: false,
-        _menu: null,
-        _input: null,
+      'exports': newPropsWrapper(
+        {
+            _mounted: false,
+            _menu: null,
+            _input: null,
+            _onmenuselected(event) {
+                this._lastSelectedOption = event.target;
+                this.update({ refreshLabel: true, menuopened: false });
+                this.dispatchMenuEvent(event);
+            },
+            onBeforeMount() {
+                this.state.helperText = this.props.helperText;
 
-        _onmenuselected(event) {
-            this._lastSelectedOption = event.target;
-            this.update({ refreshLabel: true, menuopened: false });
-            this.dispatchMenuEvent(event);
-        },
-
-        onBeforeMount() {
-            Object.defineProperties(this.root, {
-                value: {
-                    get: () => {
-                        const selected = this.getSelected().map(option => option.value);
-                        return this.isMultiple() ? selected : selected[0] || "";
+                Object.defineProperties(this.root, {
+                    value: {
+                        get: () => {
+                            const selected = this.getSelected().map(option => option.value);
+                            return this.isMultiple() ? selected : selected[0] || "";
+                        },
+                        set: value => {
+                            let option = null;
+                            if (this.getOptions().some(opt => {
+                                if (opt.value == value) {
+                                    option = opt;
+                                    return true;
+                                }
+                                return false;
+                            })) {
+                                this.select(option);
+                            }
+                        }
                     },
-                    set: value => {
-                        let option = null;
-                        if (this.getOptions().some(opt => {
-                            if (opt.value == value) {
-                                option = opt;
-                                return true;
-                            }
-                            return false;
-                        })) {
-                            this.select(option);
+                    label: {
+                        get: () => {
+                            return this._input ? this._input.label : "";
+                        }
+                    },
+                    selectedIndex: {
+                        get: () => this.getSelectedIndex()
+                    },
+                    options: {
+                        get: () => this.getOptions()
+                    },
+                    selectedOptions: {
+                        get: () => this.getSelected()
+                    },
+                    menu: {
+                        get: () => this._selectMenu
+                    },
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.state.helperText = (
+                                this.root.querySelector(
+                                    "rm-textfield-container"
+                                ).helperText
+                            ) = value;
                         }
                     }
-                },
-                label: {
-                    get: () => {
-                        return this._input ? this._input.label : "";
-                    }
-                },
-                selectedIndex: {
-                    get: () => this.getSelectedIndex()
-                },
-                options: {
-                    get: () => this.getOptions()
-                },
-                selectedOptions: {
-                    get: () => this.getSelected()
-                },
-                menu: {
-                    get: () => this._selectMenu
-                }
-            });
-        },
-
-        _onclickFirstChild: null,
-        _onclickArrow: null,
-
-        onMounted() {
-            let _lastSelectedOption = null;
-            Object.defineProperty(this, "_lastSelectedOption", {
-                set(option) {
-                    if (option === this._lastSelectedOption) {
-                        return;
-                    }
-                    option.selected = true;
-                    // const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                    // if (newOptionComponent != null) {
-                    //     newOptionComponent.update({ selected: true });
-                    // }
-                    if (_lastSelectedOption != null && !this.isMultiple()) {
-                        _lastSelectedOption.selected = false;
-                        // const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
-                        // if (lastOptionComponent != null) {
-                        //     lastOptionComponent.update({ selected: false });
+                });
+            },
+            _onclickFirstChild: null,
+            _onclickArrow: null,
+            onMounted() {
+                let _lastSelectedOption = null;
+                Object.defineProperty(this, "_lastSelectedOption", {
+                    set(option) {
+                        if (option === this._lastSelectedOption) {
+                            return;
+                        }
+                        option.selected = true;
+                        // const newOptionComponent = option[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                        // if (newOptionComponent != null) {
+                        //     newOptionComponent.update({ selected: true });
                         // }
-                    }
-                    _lastSelectedOption = option;
-                },
-                get() {
-                    return _lastSelectedOption;
-                }
-            });
-
-            const input = this._input = this.root.querySelector("input");
-            
-            Object.defineProperties(input, {
-                value: {
-                    get: () => this.root.value,
-                    set: value => { this.root.value = value; }
-                },
-                label: {
-                    get: () => this.getLabel()
-                },
-                filter: {
-                    get: () => this.getFilter()
-                },
-                selectedIndex: {
-                    get: () => this.getSelectedIndex()
-                },
-                options: {
-                    get: () => this.getOptions()
-                },
-                selectedOptions: {
-                    get: () => this.getSelected()
-                },
-                menu: {
-                    get: () => this.root.menu
-                }
-            });
-
-            this.root.children[1].addEventListener("keydown", event => {
-                if (!this.state.menuopened && [ " " ].some(key => event.key === key)) {
-                    this.update({ menuopened: true });
-                    event.stopImmediatePropagation();
-                } else if (this.state.menuopened && [ "Escape" ].some(key => event.key === key)) {
-                    this.update({ menuopened: false });
-                    event.stopImmediatePropagation();
-                } else if (!this.state.menuopened) {
-                    switch (event.key) {
-                        case "ArrowDown": {
-                            if (this.isMultiple() || this.isFilterable()) {
-                                this.update({ menuopened: true });
-                            } else {
-                                const options = this.getOptions();
-                                if (options.length !== 0) {
-                                    let index = -1;
-                                    if (options.some((option, i) => {
-                                        if (option === this._lastSelectedOption) {
-                                            index = i;
-                                            return true;
-                                        }
-                                        return false;
-                                    })) {
-                                        if (++index < options.length) {
-                                            this._lastSelectedOption = options[index];
-                                            this.update();
-                                        }
-                                    }
-                                }
-                            }
-                            event.stopImmediatePropagation();
-                            event.preventDefault();
-                            break;
+                        if (_lastSelectedOption != null && !this.isMultiple()) {
+                            _lastSelectedOption.selected = false;
+                            // const lastOptionComponent = _lastSelectedOption[__r.globals.DOM_COMPONENT_INSTANCE_PROPERTY];
+                            // if (lastOptionComponent != null) {
+                            //     lastOptionComponent.update({ selected: false });
+                            // }
                         }
-                        case "ArrowUp": {
-                            if (this.isMultiple() || this.isFilterable()) {
-                                this.update({ menuopened: true });
-                            } else {
-                                const options = this.getOptions();
-                                if (options.length !== 0) {
-                                    let index = -1;
-                                    if (options.some((option, i) => {
-                                        if (option === this._lastSelectedOption) {
-                                            index = i;
-                                            return true;
-                                        }
-                                        return false;
-                                    })) {
-                                        if (--index >= 0) {
-                                            this._lastSelectedOption = options[index];
-                                            this.update();
-                                        }
-                                    }
-                                }
-                            }
-                            event.stopImmediatePropagation();
-                            event.preventDefault();
-                            break;
-                        }
-                    }
-                }
-            });
-            this._selectMenu = this.root.querySelector("[ref='rm-select-menu']");
-            (this._menu = this.root.firstElementChild)._bindTo(this.root.children[1]);
-
-            blockedInputs.push(input);
-
-            addListener$1(this.root.firstElementChild, this._onclickFirstChild = event => {
-                if (this.isDisabled() || this.isReadonly()) {
-                    return;
-                }
-                if (document.activeElement !== input) {
-                    if (!this.state.menuopened) {
-                        this.update({ menuopened: true });
-                    }
-                    event.preventDefault();
-                    input.focus();
-                } else if (!this.isFilterable()) {
-                    this.update({ menuopened: !this.state.menuopened });
-                }
-            });
-            addListener$1(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
-                if (this.isDisabled() || this.isReadonly()) {
-                    return;
-                }
-                if (this.isFilterable()) {
-                    this.update({ menuopened: !this.state.menuopened });
-                }
-            });
-
-            this.root.focus = () => input.focus();
-            this.root.blur = () => input.blur();
-
-            this._mounted = true;
-
-            const options = this.getOptions();
-            if (options.length) {
-                options.forEach(option => {
-                    if (option.selected) {
-                        this._lastSelectedOption = option;
+                        _lastSelectedOption = option;
+                    },
+                    get() {
+                        return _lastSelectedOption;
                     }
                 });
 
-                if (this._lastSelectedOption == null) {
-                    this._lastSelectedOption = options[0];
+                const input = this._input = this.root.querySelector("input");
+                
+                Object.defineProperties(input, {
+                    value: {
+                        get: () => this.root.value,
+                        set: value => { this.root.value = value; }
+                    },
+                    label: {
+                        get: () => this.getLabel()
+                    },
+                    filter: {
+                        get: () => this.getFilter()
+                    },
+                    selectedIndex: {
+                        get: () => this.getSelectedIndex()
+                    },
+                    options: {
+                        get: () => this.getOptions()
+                    },
+                    selectedOptions: {
+                        get: () => this.getSelected()
+                    },
+                    menu: {
+                        get: () => this.root.menu
+                    }
+                });
+
+                this.root.children[1].addEventListener("keydown", event => {
+                    if (!this.state.menuopened && [ " " ].some(key => event.key === key)) {
+                        this.update({ menuopened: true });
+                        event.stopImmediatePropagation();
+                    } else if (this.state.menuopened && [ "Escape" ].some(key => event.key === key)) {
+                        this.update({ menuopened: false });
+                        event.stopImmediatePropagation();
+                    } else if (!this.state.menuopened) {
+                        switch (event.key) {
+                            case "ArrowDown": {
+                                if (this.isMultiple() || this.isFilterable()) {
+                                    this.update({ menuopened: true });
+                                } else {
+                                    const options = this.getOptions();
+                                    if (options.length !== 0) {
+                                        let index = -1;
+                                        if (options.some((option, i) => {
+                                            if (option === this._lastSelectedOption) {
+                                                index = i;
+                                                return true;
+                                            }
+                                            return false;
+                                        })) {
+                                            if (++index < options.length) {
+                                                this._lastSelectedOption = options[index];
+                                                this.update();
+                                            }
+                                        }
+                                    }
+                                }
+                                event.stopImmediatePropagation();
+                                event.preventDefault();
+                                break;
+                            }
+                            case "ArrowUp": {
+                                if (this.isMultiple() || this.isFilterable()) {
+                                    this.update({ menuopened: true });
+                                } else {
+                                    const options = this.getOptions();
+                                    if (options.length !== 0) {
+                                        let index = -1;
+                                        if (options.some((option, i) => {
+                                            if (option === this._lastSelectedOption) {
+                                                index = i;
+                                                return true;
+                                            }
+                                            return false;
+                                        })) {
+                                            if (--index >= 0) {
+                                                this._lastSelectedOption = options[index];
+                                                this.update();
+                                            }
+                                        }
+                                    }
+                                }
+                                event.stopImmediatePropagation();
+                                event.preventDefault();
+                                break;
+                            }
+                        }
+                    }
+                });
+                this._selectMenu = this.root.querySelector("[ref='rm-select-menu']");
+                (this._menu = this.root.firstElementChild)._bindTo(this.root.children[1]);
+
+                blockedInputs.push(input);
+
+                addListener$1(this.root.firstElementChild, this._onclickFirstChild = event => {
+                    if (this.isDisabled() || this.isReadonly()) {
+                        return;
+                    }
+                    if (document.activeElement !== input) {
+                        if (!this.state.menuopened) {
+                            this.update({ menuopened: true });
+                        }
+                        event.preventDefault();
+                        input.focus();
+                    } else if (!this.isFilterable()) {
+                        this.update({ menuopened: !this.state.menuopened });
+                    }
+                });
+                addListener$1(this.root.querySelector(".rm-select--arrow"), this._onclickArrow = event => {
+                    if (this.isDisabled() || this.isReadonly()) {
+                        return;
+                    }
+                    if (this.isFilterable()) {
+                        this.update({ menuopened: !this.state.menuopened });
+                    }
+                });
+
+                this.root.focus = () => input.focus();
+                this.root.blur = () => input.blur();
+
+                this._mounted = true;
+
+                const options = this.getOptions();
+                if (options.length) {
+                    options.forEach(option => {
+                        if (option.selected) {
+                            this._lastSelectedOption = option;
+                        }
+                    });
+
+                    if (this._lastSelectedOption == null) {
+                        this._lastSelectedOption = options[0];
+                    }
+
+                    this._lastSelected = this.getSelected();
+                    HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
+                    this.update();
+                } else {
+                    this._lastSelected = [];
                 }
 
-                this._lastSelected = this.getSelected();
-                HTMLInputElement.prototype.__lookupSetter__("value").call(input, this.getLabel());
-                this.update();
-            } else {
-                this._lastSelected = [];
-            }
+                this._manipulate();
 
-            this._manipulate();
-        },
-
-        onBeforeUnmount() {
-            this._restoreManipulated();
-            let index;
-            if (blockedInputs.some((input, i) => {
-                index = i;
-                return this._input === input;
-            })) {
-                blockedInputs.splice(index, 1);
-            }
-            removeListener$1(this.root.firstElementChild, this._onclickFirstChild);
-            removeListener$1(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
-        },
-
-        _manipulated: [],
-
-        _manipulate() {
-            this._selectMenu.querySelectorAll("option").forEach(option => {
-                const container = document.createElement("div");
-                option.replaceWith(container);
-                option.setAttribute("menu-option", "");
-                option.style.padding = "8px 12px";
-                container.appendChild(option);
-                ripple$1(container, { highlight: true });
-                this._manipulated.push(option);
-            });
-        },
-
-        _restoreManipulated() {
-            while (this._manipulated.length > 0) {
-                const option = this._manipulated.pop();
-                const container = option.parentElement;
-                container.removeChild(option);
-                container.replaceWith(option);
-            }
-        },
-
-        _lastSelected: null,
-
-        onBeforeUpdate() {
-            // this._restoreManipulated();
-        },
-
-        onUpdated() {
-            // this._manipulate();
-            if (this.state.refreshLabel || document.activeElement !== this._input) {
-                HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
-                delete this.state.refreshLabel;
-                delete this.state.filtering;
-            }
-            const selected = this.getSelected();
-            if (selected.some((option, i) => option !== this._lastSelected[i])) {
-                this._lastSelected = selected;
-                this.root.dispatchEvent(new Event("change", { bubbles: true }));
-            }
-        },
-
-        _oninputfocus() {
-            this._labelWhenOnFocus = this.root.label;
-            this.update({ focused: true }); // , menuopened: true });
-        },
-
-        _oninputblur() {
-            this.update({ focused: false, menuopened: false, refreshLabel: true });
-        },
-
-        _oninputinput() {
-            this.state.filtering = true;
-            if (this.isFilterable() && !this.state.menuopened) {
-                this.update({ menuopened: true });
-            }
-        },
-
-        _getClassNames() {
-            const classNames = {};
-            if (this.state.focused) {
-                classNames["rm-focused"] = true;
-                if (this.isFilterable()) {
+                this._finalizeInputProperties();
+            },
+            onBeforeUnmount() {
+                this._restoreManipulated();
+                let index;
+                if (blockedInputs.some((input, i) => {
+                    index = i;
+                    return this._input === input;
+                })) {
+                    blockedInputs.splice(index, 1);
+                }
+                removeListener$1(this.root.firstElementChild, this._onclickFirstChild);
+                removeListener$1(this.root.querySelector(".rm-select--arrow"), this._onclickArrow);
+            },
+            _manipulated: [],
+            _manipulate() {
+                this._selectMenu.querySelectorAll("option").forEach(option => {
+                    const container = document.createElement("div");
+                    option.replaceWith(container);
+                    option.setAttribute("menu-option", "");
+                    option.style.padding = "8px 12px";
+                    container.appendChild(option);
+                    ripple$1(container, { highlight: true });
+                    this._manipulated.push(option);
+                });
+            },
+            _restoreManipulated() {
+                while (this._manipulated.length > 0) {
+                    const option = this._manipulated.pop();
+                    const container = option.parentElement;
+                    container.removeChild(option);
+                    container.replaceWith(option);
+                }
+            },
+            _lastSelected: null,
+            onBeforeUpdate(_, __, newProps) {
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
+                // this._restoreManipulated();
+            },
+            onUpdated() {
+                // this._manipulate();
+                if (this.state.refreshLabel || document.activeElement !== this._input) {
+                    HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
+                    delete this.state.refreshLabel;
+                    delete this.state.filtering;
+                }
+                const selected = this.getSelected();
+                if (selected.some((option, i) => option !== this._lastSelected[i])) {
+                    this._lastSelected = selected;
+                    this.root.dispatchEvent(new Event("change", { bubbles: true }));
+                }
+            },
+            _oninputfocus() {
+                this._labelWhenOnFocus = this.root.label;
+                this.update({ focused: true }); // , menuopened: true });
+            },
+            _oninputblur() {
+                this.update({ focused: false, menuopened: false, refreshLabel: true });
+            },
+            _oninputinput() {
+                this.state.filtering = true;
+                if (this.isFilterable() && !this.state.menuopened) {
+                    this.update({ menuopened: true });
+                }
+            },
+            _getClassNames() {
+                const classNames = {};
+                if (this.state.focused) {
+                    classNames["rm-focused"] = true;
+                    if (this.isFilterable()) {
+                        classNames["rm-label-should-float"] = true;
+                    }
+                }
+                const label = this.getLabel();
+                if (label !== "") {
                     classNames["rm-label-should-float"] = true;
                 }
-            }
-            const label = this.getLabel();
-            if (label !== "") {
-                classNames["rm-label-should-float"] = true;
-            }
-            return Object.keys(classNames).join(" ");
-        },
-
-        clear() {
-            this.update({ menuopened: true, refreshLabel: true });
-        },
-
-        getSelected() {
-            return this.getOptions().filter(option => option.selected && !option.disabled);
-        },
-
-        getSelectedIndex() {
-            let index = -1;
-            this.getOptions().some((option, i) => {
-                if (option.selected) {
-                    index = i;
-                    return true;
+                return Object.keys(classNames).join(" ");
+            },
+            clear() {
+                this.update({ menuopened: true, refreshLabel: true });
+            },
+            getSelected() {
+                return this.getOptions().filter(option => option.selected && !option.disabled);
+            },
+            getSelectedIndex() {
+                let index = -1;
+                this.getOptions().some((option, i) => {
+                    if (option.selected) {
+                        index = i;
+                        return true;
+                    }
+                    return false;
+                });
+                return index;
+            },
+            getOptions() {
+                return this._menu != null ? this._menu.options : [];
+            },
+            getLabel() {
+                return this.getSelected().map(option => option.label).join(", ");
+            },
+            getVariant() {
+                switch (this.props.variant) {
+                    case "outlined": return "outlined";
+                    case "filled": return "filled";
+                    default: return "flat";
                 }
+            },
+            isFilterable() {
+                return this.props.filterable != null && this.props.filterable !== "false" && this.props.filterable !== false;
+            },
+            isMultiple() {
                 return false;
-            });
-            return index;
-        },
-
-        getOptions() {
-            return this._menu != null ? this._menu.options : [];
-        },
-
-        getLabel() {
-            return this.getSelected().map(option => option.label).join(", ");
-        },
-
-        getVariant() {
-            switch (this.props.variant) {
-                case "outlined": return "outlined";
-                case "filled": return "filled";
-                default: return "flat";
-            }
-        },
-
-        isFilterable() {
-            return this.props.filterable != null && this.props.filterable !== "false" && this.props.filterable !== false;
-        },
-
-        isMultiple() {
-            return false;
-        },
-
-        isClearable() {
-            return this.props.clearable != null && this.props.clearable !== false;
-        },
-
-        isDisabled() {
-            return this.props.disabled != null && this.props.disabled !== false;
-        },
-
-        isReadonly() {
-            return this.props.readonly != null && this.props.readonly !== false;
-        },
-
-        isFullWidth() {
-            return this.props.fullWidth != null && this.props.fullWidth !== false;
-        },
-
-        select(option) {
-            if (option.selected) {
-                return;
-            }
-            if (!this.isMultiple()) {
-                const selected = this.getSelected()[0];
-                if (selected) {
-                    selected.selected = false;
+            },
+            isClearable() {
+                return this.props.clearable != null && this.props.clearable !== false;
+            },
+            isDisabled() {
+                return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
+            },
+            isFullWidth() {
+                return this.props.fullWidth != null && this.props.fullWidth !== false;
+            },
+            select(option) {
+                if (option.selected) {
+                    return;
                 }
+                if (!this.isMultiple()) {
+                    const selected = this.getSelected()[0];
+                    if (selected) {
+                        selected.selected = false;
+                    }
+                }
+                option.selected = true;
+                this._lastSelectedOption = option;
+                if (this._mounted) {
+                    this.update({ menuopened: this.isMultiple() ? this.state.menuopened : false, refreshLabel: true });
+                }
+                HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
+            },
+            getFilter() {
+                return this.state.filtering ?
+                    HTMLInputElement.prototype.__lookupGetter__("value").call(this._input, this.getLabel())
+                    : null
+                ;
+            },
+            dispatchMenuEvent(event) {
+                this.root.dispatchEvent(new CustomEvent("menu" + event.type, {
+                    detail: { originatingEvent: event }
+                }));
+            },
+            components: {
+                "rm-textfield-container": RmTextfieldContainer,
+                "rm-button": RmButton$1,
+                "rm-menu": RmMenu
+            },
+            _finalizeInputProperties() {
+                const { _input } = this;
+                [
+                    [ "helperText", {
+                        get: () => this.root.helperText,
+                        set: (value) => this.root.helperText = value
+                    } ]
+                ].forEach(([name, options]) => {
+                    if (_input.hasOwnProperty(name)) {
+                        return;
+                    }
+                    Object.defineProperty(_input, name, options);
+                });
             }
-            option.selected = true;
-            this._lastSelectedOption = option;
-            if (this._mounted) {
-                this.update({ menuopened: this.isMultiple() ? this.state.menuopened : false, refreshLabel: true });
-            }
-            HTMLInputElement.prototype.__lookupSetter__("value").call(this._input, this.getLabel());
-        },
-
-        getFilter() {
-            return this.state.filtering ?
-                HTMLInputElement.prototype.__lookupGetter__("value").call(this._input, this.getLabel())
-                : null
-            ;
-        },
-
-        dispatchMenuEvent(event) {
-            this.root.dispatchEvent(new CustomEvent("menu" + event.type, {
-                detail: { originatingEvent: event }
-            }));
-        },
-
-        components: {
-            "rm-textfield-container": RmTextfieldContainer,
-            "rm-button": RmButton$1,
-            "rm-menu": RmMenu
         }
-      },
+      ),
 
       'template': function(
         template,
@@ -8952,178 +9019,194 @@
     var RmTextfield = {
       'css': `rm-textfield,[is="rm-textfield"]{ cursor: text; } rm-textfield[disabled],[is="rm-textfield"][disabled],rm-textfield[readonly],[is="rm-textfield"][readonly],rm-textfield[disabled] input,[is="rm-textfield"][disabled] input,rm-textfield[readonly] input,[is="rm-textfield"][readonly] input{ cursor: default; } rm-textfield .rm-textfield--input,[is="rm-textfield"] .rm-textfield--input{ display: inline-block; font: inherit; padding: 0.625em 0; margin: -0.625em 0; font-size: inherit; line-height: inherit; border: 0; background: none; outline: none; width: 100%; color: currentColor; opacity: 0; transition: opacity linear 150ms, margin linear 150ms, padding linear 150ms ; } rm-textfield[variant="filled"] .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-textfield--input,rm-textfield[variant="outlined"] .rm-textfield--input,[is="rm-textfield"][variant="outlined"] .rm-textfield--input{ padding: 0.875em 0.75em; margin: -0.875em -0.75em; } rm-textfield[variant="filled"] .rm-label-should-float .rm-textfield--input,[is="rm-textfield"][variant="filled"] .rm-label-should-float .rm-textfield--input{ padding: 1.25em 0.75em 0.5em; margin: -1.25em -0.75em -0.5em; } rm-textfield .rm-textfield--input-visible,[is="rm-textfield"] .rm-textfield--input-visible{ opacity: 1; } rm-textfield .rm-textfield--input-wrap,[is="rm-textfield"] .rm-textfield--input-wrap{ height: 1.25em; overflow: hidden; display: inline-block; vertical-align: top; width: 100px; } rm-textfield[full-width] .rm-textfield--input-wrap,[is="rm-textfield"][full-width] .rm-textfield--input-wrap{ width: 100%; }`,
 
-      'exports': {
-        [IS_MOUNTED]: false,
-        [VALUE]: null,
+      'exports': newPropsWrapper(
+        {
+            [IS_MOUNTED]: false,
+            [VALUE]: null,
+            onBeforeMount() {
+                this.state.helperText = this.props.helperText;
 
-        onBeforeMount() {
-            Object.defineProperty(this.root, "value", {
-                get: () => {
-                    if (!this[IS_MOUNTED]) {
-                        return this.props.value || "";
+                Object.defineProperties(this.root, {
+                    value: {
+                        get: () => {
+                            if (!this[IS_MOUNTED]) {
+                                return this.props.value || "";
+                            }
+                            const tmpValue = this[VALUE];
+                            if (tmpValue != null) {
+                                return tmpValue;
+                            }
+                            const input = this._input;
+                            const value = input ? input.value : this.props.value || "";
+                            return value;
+                        },
+                        set: value => {
+                            const input = this._input;
+                            if (input == null) {
+                                return;
+                            }
+                            input.value = value;
+                            this.update();
+                        }
+                    },
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.state.helperText = (
+                                this.root.children[0].helperText
+                            ) = value;
+                        }
                     }
-                    const tmpValue = this[VALUE];
-                    if (tmpValue != null) {
-                        return tmpValue;
+                });
+                let input = null;
+                Object.defineProperty(this, "_input", {
+                    get: () => {
+                        if (input == null || !input.isConnected) {
+                            input = this.root.querySelector("input.rm-textfield--input");
+                        }
+                        return input;
                     }
-                    const input = this._input;
-                    const value = input ? input.value : this.props.value || "";
-                    return value;
-                },
-                set: value => {
-                    const input = this._input;
-                    if (input == null) {
+                });
+            },
+            _onfocus: null,
+            _onblur: null,
+            onMounted() {
+                const input = this._input;
+                window.addEventListener("focus", this._onfocus = event => {
+                    if (event.target !== input) {
                         return;
                     }
-                    input.value = value;
-                    this.update();
-                }
-            });
-            let input = null;
-            Object.defineProperty(this, "_input", {
-                get: () => {
-                    if (input == null || !input.isConnected) {
-                        input = this.root.querySelector("input.rm-textfield--input");
+                    event.stopImmediatePropagation();
+                    this.update({ focused: true });
+                    this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
+                }, true);
+                window.addEventListener("blur", this._onblur = event => {
+                    if (event.target !== input) {
+                        return;
                     }
-                    return input;
+                    event.stopImmediatePropagation();
+                    this.update({ focused: false });
+                    this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
+                }, true);
+
+                this.root.focus = () => input.focus();
+                this.root.blur = () => input.blur();
+
+                this._finalizeInputProperties();
+
+                this[IS_MOUNTED] = true;
+            },
+            onBeforeUnmount() {
+                window.removeEventListener("focus", this._onfocus, true);
+                window.removeEventListener("blur", this._onblur, true);
+            },
+            onBeforeUpdate(_, __, newProps) {
+                this[VALUE] = this.root.value;
+
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
                 }
-            });
-        },
-
-        _onfocus: null,
-        _onblur: null,
-
-        onMounted() {
-            const input = this._input;
-            window.addEventListener("focus", this._onfocus = event => {
-                if (event.target !== input) {
+            },
+            onUpdated() {
+                this._input.value = this[VALUE];
+                this[VALUE] = null;
+            },
+            _oncontainermousedown(event) {
+                if (this.props.disabled) {
                     return;
                 }
-                event.stopImmediatePropagation();
-                this.update({ focused: true });
-                this.root.dispatchEvent(new FocusEvent("focus", { bubbles: false, cancelable: false }));
-            }, true);
-            window.addEventListener("blur", this._onblur = event => {
-                if (event.target !== input) {
+                const input = this.root.querySelector("input");
+                if (document.activeElement !== input){
+                    event.preventDefault();
+                    input.focus();
+                }
+            },
+            _oninputinput() {
+                this.update();
+            },
+            _getTextfieldContainerClass() {
+                const names = {};
+                if (this.state.focused) {
+                    names["rm-focused"] = names["rm-label-should-float"] = true;
+                }
+                if (this.root.value) {
+                    names["rm-label-should-float"] = true;
+                }
+                return Object.keys(names).join(" ");
+            },
+            getType() {
+                if (this.isReadonly()) {
+                    return "hidden";
+                }
+                switch (this.props.type) {
+                    case "email": {
+                        return "email";
+                    }
+                    case "number": {
+                        return "number";
+                    }
+                    case "password": {
+                        return "password";
+                    }
+                    case "search": {
+                        return "search";
+                    }
+                    case "tel": {
+                        return "tel";
+                    }
+                    case "url": {
+                        return "url";
+                    }
+                    default: {
+                        return "text";
+                    }
+                }
+            },
+            isClearable() {
+                return this.props.clearable != null && this.props.clearable !== false;
+            },
+            isDisabled() {
+                return this.props.disabled != null && this.props.disabled !== false;
+            },
+            isFullWidth() {
+                return this.props.fullWidth != null && this.props.fullWidth !== false;
+            },
+            isReadonly() {
+                return this.props.readonly != null && this.props.readonly !== false;
+            },
+            clear() {
+                this.root.value = "";
+                this.update();
+            },
+            components: {
+                RmButton,
+                RmTextfieldContainer
+            },
+            state: {
+                passwordVisibility: false
+            },
+            togglePasswordVisibility() {
+                if (this.getType() !== "password") {
                     return;
                 }
-                event.stopImmediatePropagation();
-                this.update({ focused: false });
-                this.root.dispatchEvent(new FocusEvent("blur", { bubbles: false, cancelable: false }));
-            }, true);
-
-            this.root.focus = () => input.focus();
-            this.root.blur = () => input.blur();
-
-            this[IS_MOUNTED] = true;
-        },
-
-        onBeforeUnmount() {
-            window.removeEventListener("focus", this._onfocus, true);
-            window.removeEventListener("blur", this._onblur, true);
-        },
-
-        onBeforeUpdate() {
-            this[VALUE] = this.root.value;
-        },
-
-        onUpdated() {
-            this._input.value = this[VALUE];
-            this[VALUE] = null;
-        },
-
-        _oncontainermousedown(event) {
-            if (this.props.disabled) {
-                return;
+                this.update({ passwordVisibility: !this.state.passwordVisibility });
+            },
+            _finalizeInputProperties() {
+                const { _input } = this;
+                [
+                    [ "helperText", {
+                        get: () => this.root.helperText,
+                        set: (value) => this.root.helperText = value
+                    } ]
+                ].forEach(([name, options]) => {
+                    if (_input.hasOwnProperty(name)) {
+                        return;
+                    }
+                    Object.defineProperty(_input, name, options);
+                });
             }
-            const input = this.root.querySelector("input");
-            if (document.activeElement !== input){
-                event.preventDefault();
-                input.focus();
-            }
-        },
-
-        _oninputinput() {
-            this.update();
-        },
-
-        _getTextfieldContainerClass() {
-            const names = {};
-            if (this.state.focused) {
-                names["rm-focused"] = names["rm-label-should-float"] = true;
-            }
-            if (this.root.value) {
-                names["rm-label-should-float"] = true;
-            }
-            return Object.keys(names).join(" ");
-        },
-
-        getType() {
-            if (this.isReadonly()) {
-                return "hidden";
-            }
-            switch (this.props.type) {
-                case "email": {
-                    return "email";
-                }
-                case "number": {
-                    return "number";
-                }
-                case "password": {
-                    return "password";
-                }
-                case "search": {
-                    return "search";
-                }
-                case "tel": {
-                    return "tel";
-                }
-                case "url": {
-                    return "url";
-                }
-                default: {
-                    return "text";
-                }
-            }
-        },
-
-        isClearable() {
-            return this.props.clearable != null && this.props.clearable !== false;
-        },
-
-        isDisabled() {
-            return this.props.disabled != null && this.props.disabled !== false;
-        },
-
-        isFullWidth() {
-            return this.props.fullWidth != null && this.props.fullWidth !== false;
-        },
-
-        isReadonly() {
-            return this.props.readonly != null && this.props.readonly !== false;
-        },
-
-        clear() {
-            this.root.value = "";
-            this.update();
-        },
-
-        components: {
-            RmButton,
-            RmTextfieldContainer
-        },
-
-        state: {
-            passwordVisibility: false
-        },
-
-        togglePasswordVisibility() {
-            if (this.getType() !== "password") {
-                return;
-            }
-            this.update({ passwordVisibility: !this.state.passwordVisibility });
         }
-      },
+      ),
 
       'template': function(
         template,
@@ -9477,7 +9560,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return _scope.props.helperText;
+                    return _scope.state.helperText;
                   }
                 },
                 {
@@ -9635,13 +9718,14 @@
         visibilityTrigger: RmVisibilityTrigger
     };
 
-    exports.appBarUtils = index_es$5;
+    exports.appBarUtils = index_es$6;
     exports.background = index_es;
-    exports.beforeFocusListener = index_es$2;
+    exports.beforeFocusListener = index_es$3;
     exports.components = components;
-    exports.elevation = index_es$4;
-    exports.ripple = index_es$3;
-    exports.surfaces = index_es$1;
+    exports.elevation = index_es$5;
+    exports.newPropsWrapper = index_es$1;
+    exports.ripple = index_es$4;
+    exports.surfaces = index_es$2;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

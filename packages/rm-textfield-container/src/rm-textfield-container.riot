@@ -4,10 +4,10 @@
         <div class="rm-textfield-container--leading">
             <slot name="leading"></slot>
         </div>
-        <div class="rm-textfield-container--border-notch">{ props.label }</div>
+        <div class="rm-textfield-container--border-notch">{ state.label }</div>
         <div class="rm-textfield-container--container">
             <div class="rm-textfield-container--content">
-                <div class="rm-textfield-container--label">{ props.label }</div>
+                <div class="rm-textfield-container--label">{ state.label }</div>
                 <div style="position: relative; user-select: auto; min-height: 1.3125em;">
                     <template if={ !_hasInputSlot() }>
                         <slot></slot>
@@ -15,7 +15,7 @@
                     <slot name="input"></slot>
                 </div>
                 <div class="rm-textfield-container--helper-text">
-                    <div style="font-size: .75em;">{ props.helperText }</div>
+                    <div style="font-size: .75em;">{ state.helperText }</div>
                 </div>
             </div>
         </div>
@@ -442,7 +442,38 @@
     </style>
 
     <script>
-        export default {
+        import newPropsWrapper from "@riot-material/new-props-wrapper";
+
+        export default newPropsWrapper({
+            onBeforeMount() {
+                this.state.helperText = this.props.helperText;
+                this.state.label = this.state.label;
+
+                Object.defineProperties(this.root, {
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--helper-text > div"
+                            ).childNodes[0].data = this.state.helperText = (
+                                value?.toString() || ""
+                            );
+                        }
+                    },
+                    label: {
+                        get: () => this.state.label,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--border-notch"
+                            ).childNodes[0].data = this.root.querySelector(
+                                ".rm-textfield-container--label"
+                            ).childNodes[0].data = this.state.label = (
+                                value?.toString() || ""
+                            );
+                        }
+                    }
+                });
+            },
             onMounted() {
                 this._refreshCaps();
             },
@@ -511,9 +542,17 @@
                     label.classList.remove("rm-textfield-container--no-trailing");
                 }
             },
+            onBeforeUpdate(_, __, newProps) {
+                if ("label" in newProps) {
+                    this.state.label = newProps.label;
+                }
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
+            },
             onUpdated() {
                 this._refreshCaps();
             }
-        }
+        });
     </script>
 </rm-textfield-container>

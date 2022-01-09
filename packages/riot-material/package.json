@@ -10,6 +10,7 @@
     "@riot-material/background": "file:../../packed_packages/riot-material-background-2.0.1.tgz",
     "@riot-material/before-focus-listener": "file:../../packed_packages/riot-material-before-focus-listener-2.0.0.tgz",
     "@riot-material/elevation": "file:../../packed_packages/riot-material-elevation-3.0.0.tgz",
+    "@riot-material/new-props-wrapper": "file:../../packed_packages/riot-material-new-props-wrapper-1.0.0.tgz",
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "@riot-material/rm-app-bar": "file:../../packed_packages/riot-material-rm-app-bar-2.0.0.tgz",
     "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",

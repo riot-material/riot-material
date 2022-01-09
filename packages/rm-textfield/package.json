@@ -19,12 +19,13 @@
     "rollup-plugin-riot": "^6.0.0",
     "rollup-plugin-ts": "^1.4.7"
   },
-  "dependencies": {
-    "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
-    "@riot-material/rm-textfield-container": "file:../../packed_packages/riot-material-rm-textfield-container-1.2.1.tgz"
-  },
   "files": [
     "dist",
     "src"
-  ]
+  ],
+  "dependencies": {
+    "@riot-material/new-props-wrapper": "file:../../packed_packages/riot-material-new-props-wrapper-1.0.0.tgz",
+    "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
+    "@riot-material/rm-textfield-container": "file:../../packed_packages/riot-material-rm-textfield-container-1.2.1.tgz"
+  }
 }

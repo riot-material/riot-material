@@ -6,6 +6,7 @@ const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
 const globals = {
     "@riot-material/before-focus-listener": "riotMaterial.beforeFocusListener",
+    "@riot-material/new-props-wrapper": "riotMaterial.newPropsWrapper",
     "@riot-material/ripple": "riotMaterial.ripple",
     "@riot-material/rm-button": "riotMaterial.components.button",
     "@riot-material/rm-menu": "riotMaterial.components.menu",

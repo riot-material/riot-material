@@ -1,10 +1,19 @@
 const riot = require("rollup-plugin-riot");
 const typescript = require("rollup-plugin-ts");
 
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+
+const globals = {
+    "@riot-material/new-props-wrapper": "riotMaterial.newPropsWrapper",
+};
+const external = Object.keys(globals);
+
 export default [
     {
         input: "src/index.ts",
+        external,
         plugins: [
+            nodeResolve(),
             typescript(),
             riot()
         ],
@@ -16,8 +25,22 @@ export default [
             {
                 name: "riotMaterial.components.textfieldContainer",
                 file: "dist/index.js",
-                format: "umd"
+                format: "umd",
+                globals
             }
         ]
+    },
+    {
+        input: "src/index.ts",
+        plugins: [
+            nodeResolve(),
+            typescript(),
+            riot()
+        ],
+        output: {
+            name: "riotMaterial.components.textfieldContainer",
+            file: "dist/index+libs.js",
+            format: "umd"
+        }
     }
 ];

@@ -5,6 +5,7 @@ const typescript = require("rollup-plugin-ts");
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
 const globals = {
+    "@riot-material/new-props-wrapper": "riotMaterial.newPropsWrapper",
     "@riot-material/rm-textfield-container": "riotMaterial.components.textfieldContainer"
 };
 const external = Object.keys(globals);

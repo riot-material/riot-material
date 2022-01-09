@@ -4,7 +4,7 @@
         label={ props.label }
         full-width={ isFullWidth() }
         disabled={ isDisabled() }
-        helper-text={ props.helperText }
+        helper-text={ state.helperText }
         class={ _getTextfieldContainerClass() }
         onmousedown={ _oncontainermousedown }
     >
@@ -93,36 +93,49 @@
     </style>
 
     <script>
+        import newPropsWrapper from "@riot-material/new-props-wrapper";
         import RmButton from "@riot-material/rm-button";
         import RmTextfieldContainer from "@riot-material/rm-textfield-container";
 
         const VALUE = Symbol("value");
         const IS_MOUNTED = Symbol("is-mounted");
 
-        export default {
+        export default newPropsWrapper({
             [IS_MOUNTED]: false,
             [VALUE]: null,
             onBeforeMount() {
-                Object.defineProperty(this.root, "value", {
-                    get: () => {
-                        if (!this[IS_MOUNTED]) {
-                            return this.props.value || "";
+                this.state.helperText = this.props.helperText;
+
+                Object.defineProperties(this.root, {
+                    value: {
+                        get: () => {
+                            if (!this[IS_MOUNTED]) {
+                                return this.props.value || "";
+                            }
+                            const tmpValue = this[VALUE];
+                            if (tmpValue != null) {
+                                return tmpValue;
+                            }
+                            const input = this._input;
+                            const value = input ? input.value : this.props.value || "";
+                            return value;
+                        },
+                        set: value => {
+                            const input = this._input;
+                            if (input == null) {
+                                return;
+                            }
+                            input.value = value;
+                            this.update();
                         }
-                        const tmpValue = this[VALUE];
-                        if (tmpValue != null) {
-                            return tmpValue;
-                        }
-                        const input = this._input;
-                        const value = input ? input.value : this.props.value || "";
-                        return value;
                     },
-                    set: value => {
-                        const input = this._input;
-                        if (input == null) {
-                            return;
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.state.helperText = (
+                                this.root.children[0].helperText
+                            ) = value;
                         }
-                        input.value = value;
-                        this.update();
                     }
                 });
                 let input = null;
@@ -133,7 +146,7 @@
                         }
                         return input;
                     }
-                })
+                });
             },
             _onfocus: null,
             _onblur: null,
@@ -159,14 +172,20 @@
                 this.root.focus = () => input.focus();
                 this.root.blur = () => input.blur();
 
+                this._finalizeInputProperties();
+
                 this[IS_MOUNTED] = true;
             },
             onBeforeUnmount() {
                 window.removeEventListener("focus", this._onfocus, true);
                 window.removeEventListener("blur", this._onblur, true);
             },
-            onBeforeUpdate() {
+            onBeforeUpdate(_, __, newProps) {
                 this[VALUE] = this.root.value;
+
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
             },
             onUpdated() {
                 this._input.value = this[VALUE];
@@ -251,7 +270,21 @@
                     return;
                 }
                 this.update({ passwordVisibility: !this.state.passwordVisibility });
+            },
+            _finalizeInputProperties() {
+                const { _input } = this;
+                [
+                    [ "helperText", {
+                        get: () => this.root.helperText,
+                        set: (value) => this.root.helperText = value
+                    } ]
+                ].forEach(([name, options]) => {
+                    if (_input.hasOwnProperty(name)) {
+                        return;
+                    }
+                    Object.defineProperty(_input, name, options);
+                });
             }
-        }
+        });
     </script>
 </rm-textfield>
