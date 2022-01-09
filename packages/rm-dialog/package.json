@@ -23,6 +23,6 @@
     "src"
   ],
   "dependencies": {
-    "@riot-material/surfaces": "^2.2.0"
+    "@riot-material/surfaces": "file:../../packed_packages/riot-material-surfaces-2.2.0.tgz"
   }
 }

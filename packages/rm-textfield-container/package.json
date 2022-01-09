@@ -11,7 +11,7 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riot-material/surfaces": "^2.2.0",
+    "@riot-material/surfaces": "file:../../packed_packages/riot-material-surfaces-2.2.0.tgz",
     "@riotjs/compiler": "^6.0.4",
     "riot": "^6.0.4",
     "rollup": "^2.58.0",
