@@ -11,10 +11,10 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riot-material/rm-button": "^1.1.1",
-    "@riot-material/rm-circular-avatar": "^1.2.0",
-    "@riot-material/rm-icon": "^1.2.0",
-    "@riot-material/rm-list-image": "^1.1.0",
+    "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
+    "@riot-material/rm-circular-avatar": "file:../../packed_packages/riot-material-rm-circular-avatar-1.2.0.tgz",
+    "@riot-material/rm-icon": "file:../../packed_packages/riot-material-rm-icon-1.2.0.tgz",
+    "@riot-material/rm-list-image": "file:../../packed_packages/riot-material-rm-list-image-1.2.0.tgz",
     "@riotjs/compiler": "^6.0.4",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
@@ -24,7 +24,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.2.0"
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
   },
   "files": [
     "dist",
