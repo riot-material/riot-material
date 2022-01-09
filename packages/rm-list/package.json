@@ -11,8 +11,8 @@
   "author": "Kal Aster",
   "license": "MIT",
   "devDependencies": {
-    "@riot-material/rm-button": "^1.1.1",
-    "@riot-material/rm-floating-surface": "^1.1.0",
+    "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
+    "@riot-material/rm-floating-surface": "file:../../packed_packages/riot-material-rm-floating-surface-2.0.0.tgz",
     "@riot-material/rm-list-item": "^1.2.0",
     "@riot-material/rm-textfield": "^1.2.2",
     "@riotjs/compiler": "^6.0.4",
@@ -24,7 +24,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.2.0",
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "tabbable": "^5.2.1"
   },
   "files": [
