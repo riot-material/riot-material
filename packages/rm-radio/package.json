@@ -20,7 +20,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/ripple": "^1.2.0"
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
   },
   "files": [
     "dist",
