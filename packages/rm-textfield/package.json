@@ -20,7 +20,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/rm-button": "^2.1.1",
+    "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
     "@riot-material/rm-textfield-container": "^1.2.1"
   },
   "files": [
