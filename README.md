@@ -52,25 +52,25 @@ Importing this package will occur in `register`ing all the components globally i
 
 Refer to each sub-package documentation:
 - `components.appBar` **rm-app-bar** tag - *Not yet available*
-- [`components.button` **rm-button** tag](../rm-button/README.md)
-- [`components.checkbox` **rm-checkbox** tag](../rm-checkbox/README.md)
-- [`components.dialog` **rm-dialog** tag](../rm-dialog/README.md)
+- [`components.button` **rm-button** tag](packages/rm-button/README.md)
+- [`components.checkbox` **rm-checkbox** tag](packages/rm-checkbox/README.md)
+- [`components.dialog` **rm-dialog** tag](packages/rm-dialog/README.md)
 - `components.divider` **rm-divider** tag - *Not yet available*
-- [`components.icon` **rm-icon** tag](../rm-icon/README.md)
-- [`components.listItem` **rm-list-item** tag](../rm-list-item/README.md)
-- [`components.menuItem` **rm-menu-item** tag](../rm-menu-item/README.md)
-- [`components.menu` **rm-menu** tag](../rm-menu/README.md)
-- [`components.radio` **rm-radio** tag](../rm-radio/README.md)
-- [`components.select` **rm-select** tag](../rm-select/README.md)
-- [`components.tabbedPages` **rm-tabbed-pages** tag](../rm-tabbed-pages/README.md)
-- [`components.textfieldContainer` **rm-textfield-container** tag](../rm-textfield-container/README.md)
-- [`components.textfield` **rm-textfield** tag](../rm-textfield/README.md)
-- [`components.visibilityTrigger` **rm-visibility-trigger** tag](../rm-visibility-trigger/README.md)
+- [`components.icon` **rm-icon** tag](packages/rm-icon/README.md)
+- [`components.listItem` **rm-list-item** tag](packages/rm-list-item/README.md)
+- [`components.menuItem` **rm-menu-item** tag](packages/rm-menu-item/README.md)
+- [`components.menu` **rm-menu** tag](packages/rm-menu/README.md)
+- [`components.radio` **rm-radio** tag](packages/rm-radio/README.md)
+- [`components.select` **rm-select** tag](packages/rm-select/README.md)
+- [`components.tabbedPages` **rm-tabbed-pages** tag](packages/rm-tabbed-pages/README.md)
+- [`components.textfieldContainer` **rm-textfield-container** tag](packages/rm-textfield-container/README.md)
+- [`components.textfield` **rm-textfield** tag](packages/rm-textfield/README.md)
+- [`components.visibilityTrigger` **rm-visibility-trigger** tag](packages/rm-visibility-trigger/README.md)
 <!--  -->
-- [`appBarUtils` **app-bar-utils** sub-package](../app-bar-utils/README.md)
+- [`appBarUtils` **app-bar-utils** sub-package](packages/app-bar-utils/README.md)
 - `background` **background** sub-package - *Not yet available*
 - `elevation` **elevation** sub-package - *Not yet available*
-- [`positionController` **position-controller** sub-package](../position-controller/README.md)
+- [`positionController` **position-controller** sub-package](packages/position-controller/README.md)
 - `beforeFocusListener` **before-focus-listener** sub-package - *Not yet available*
-- [`ripple` **ripple** sub-package](../ripple/README.md)
+- [`ripple` **ripple** sub-package](packages/ripple/README.md)
 - `surfaces` **surfaces** sub-package - *Not yet available*
