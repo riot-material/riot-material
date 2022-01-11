@@ -29,5 +29,10 @@
   "files": [
     "dist",
     "src"
-  ]
+  ],
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-list-item"
+  }
 }

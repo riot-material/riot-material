@@ -21,5 +21,10 @@
   },
   "dependencies": {
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-menu-item"
   }
 }

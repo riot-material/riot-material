@@ -22,5 +22,10 @@
     "@riot-material/position-controller": "file:../../packed_packages/riot-material-position-controller-1.2.0.tgz",
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "riot": "^6.0.4"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-tabbed-pages"
   }
 }

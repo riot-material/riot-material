@@ -25,5 +25,10 @@
   ],
   "dependencies": {
     "@riot-material/new-props-wrapper": "file:../../packed_packages/riot-material-new-props-wrapper-1.0.0.tgz"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-textfield-container"
   }
 }

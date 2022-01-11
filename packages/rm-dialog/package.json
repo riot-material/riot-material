@@ -24,5 +24,10 @@
   ],
   "dependencies": {
     "@riot-material/surfaces": "file:../../packed_packages/riot-material-surfaces-2.2.0.tgz"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-dialog"
   }
 }

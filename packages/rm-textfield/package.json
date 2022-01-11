@@ -27,5 +27,10 @@
     "@riot-material/new-props-wrapper": "file:../../packed_packages/riot-material-new-props-wrapper-1.0.0.tgz",
     "@riot-material/rm-button": "file:../../packed_packages/riot-material-rm-button-2.1.1.tgz",
     "@riot-material/rm-textfield-container": "file:../../packed_packages/riot-material-rm-textfield-container-1.3.0.tgz"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material",
+    "directory": "packages/rm-textfield"
   }
 }

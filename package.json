@@ -2,5 +2,9 @@
   "name": "@riot-material/riot-material",
   "dependencies": {
     "aracne": "^1.0.5"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/riot-material/riot-material"
   }
 }
