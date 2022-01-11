@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/riot-material/riot-material/master/logo.svg" width="125">
+<img src="logo.svg" width="125">
 
 # [Riot.js](https://riot.js.org/) implementation of [Material Design](https://material.io/)
 ## Installation
