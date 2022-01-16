@@ -7,7 +7,7 @@ var RmTextfieldContainer = {
     {
         onBeforeMount() {
             this.state.helperText = this.props.helperText;
-            this.state.label = this.state.label;
+            this.state.label = this.props.label;
 
             Object.defineProperties(this.root, {
                 helperText: {
