@@ -22,11 +22,6 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-ts": "^1.4.7"
   },
-  "dependencies": {
-    "@riot-material/elevation": "file:../../packed_packages/riot-material-elevation-3.0.0.tgz",
-    "@riot-material/focus-manager": "file:../../packed_packages/riot-material-focus-manager-1.2.0.tgz",
-    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
-  },
   "files": [
     "dist",
     "src"
@@ -35,5 +30,10 @@
     "type": "github",
     "url": "https://github.com/riot-material/riot-material",
     "directory": "packages/rm-menu"
+  },
+  "dependencies": {
+    "@riot-material/elevation": "file:../../packed_packages/riot-material-elevation-3.0.0.tgz",
+    "@riot-material/focus-manager": "file:../../packed_packages/riot-material-focus-manager-1.2.0.tgz",
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
   }
 }

@@ -19,9 +19,6 @@
     "rollup-plugin-riot": "^6.0.0",
     "rollup-plugin-ts": "^1.4.7"
   },
-  "dependencies": {
-    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
-  },
   "files": [
     "dist",
     "src"
@@ -30,5 +27,8 @@
     "type": "github",
     "url": "https://github.com/riot-material/riot-material",
     "directory": "packages/rm-radio"
+  },
+  "dependencies": {
+    "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz"
   }
 }
