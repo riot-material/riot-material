@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-button",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
