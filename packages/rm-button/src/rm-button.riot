@@ -1,6 +1,6 @@
 <rm-button>
     <button
-        style={ !isIcon() && props.buttonStyle }
+        style={ isIcon() ? "" : props.buttonStyle }
         disabled={ isDisabled() }
         type={ props.type }
         tabindex={ props.tabindex }

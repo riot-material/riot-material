@@ -1706,7 +1706,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return !_scope.isIcon() && _scope.props.buttonStyle;
+                    return _scope.isIcon() ? "" : _scope.props.buttonStyle;
                   }
                 },
                 {
@@ -8888,7 +8888,7 @@
                   'evaluate': function(
                     _scope
                   ) {
-                    return !_scope.isIcon() && _scope.props.buttonStyle;
+                    return _scope.isIcon() ? "" : _scope.props.buttonStyle;
                   }
                 },
                 {
