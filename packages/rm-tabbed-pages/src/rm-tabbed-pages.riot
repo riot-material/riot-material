@@ -29,7 +29,7 @@
         :host > div:first-child > div:first-child {
             display: block;
             width: 100%;
-            overflow: auto visible;
+            overflow: scroll visible;
             position: relative;
             user-select: none;
             text-align: center;
@@ -68,7 +68,7 @@
         :host > div:first-child > div:first-child > div:nth-child(2) {
             position: absolute;
             bottom: 0; left: 0;
-            height: 2px; width: 1px;
+            height: 2px; width: 100px;
             transition: transform ease-in-out 200ms;
             transform-origin: left;
             background: rgb(139, 0, 139);
@@ -103,6 +103,12 @@
         export default {
             onMounted() {
                 this._manipulate();
+                {
+                    const header = this.root.firstElementChild.firstElementChild;
+                    header.style.marginBottom = `-${ (
+                        header.getBoundingClientRect().height - header.clientHeight
+                    ).toFixed(3) }px`;
+                }
                 let width = this.root.getBoundingClientRect().width;
                 const frame = () => {
                     if (!this.root.isConnected) {
@@ -140,6 +146,7 @@
             },
             _lastHiddenTabsPropValue: undefined,
             _hiddenTabs: [],
+            _indicatorTimeout: null,
             _manipulate(update = false) {
                 const tabContainer = this.root
                     .firstElementChild // SCROLLBAR HIDER
@@ -226,16 +233,17 @@
                 // update positionController length
                 positionController(this.root.children[1]).setLength(this.getLength());
 
-                // set indicator to correct position and size
-                this._updateIndicator(!update || this.state.instant);
-
-                // hide scrollbar, if visible
-                const header = this.root
-                    .firstElementChild // SCROLLBAR HIDER
-                    .firstElementChild // HEADER
-                ;
-                const rect = header.getBoundingClientRect();
-                header.style.marginBottom = header.clientHeight - rect.height + "px";
+                {
+                    if (this._indicatorTimeout !== null) {
+                        clearTimeout(this._indicatorTimeout);
+                    }
+                    let instant = !update || this.state.instant;
+                    this._indicatorTimeout = setTimeout(() => {
+                        // set indicator to correct position and size
+                        this._updateIndicator(instant);
+                        this._indicatorTimeout = null;
+                    });
+                }
 
                 if (!this.state.instant) {
                     const selectedIndex = this.getSelectedIndex();
@@ -265,7 +273,7 @@
                     .children[1]       // INDICATOR
                 ;
                 indicator.style.transition = instant ? "none" : "";
-                indicator.style.transform = `translateX(${ this._getIndicatorLeft() }px) scaleX(${ this._getIndicatorWidth() })`;
+                indicator.style.transform = `translateX(${ this._getIndicatorLeft() }px) scaleX(${ this._getIndicatorWidth()/100 })`;
             },
             _getUpdatedIndexOf(index) {
                 return index - this._hiddenTabs.filter(a => a < index).length;
