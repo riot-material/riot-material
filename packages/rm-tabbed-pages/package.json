@@ -1,6 +1,6 @@
 {
   "name": "@riot-material/rm-tabbed-pages",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -19,7 +19,7 @@
     "rollup-plugin-ts": "^1.4.7"
   },
   "dependencies": {
-    "@riot-material/position-controller": "file:../../packed_packages/riot-material-position-controller-1.2.0.tgz",
+    "@riot-material/position-controller": "file:../../packed_packages/riot-material-position-controller-1.2.1.tgz",
     "@riot-material/ripple": "file:../../packed_packages/riot-material-ripple-1.2.0.tgz",
     "riot": "^6.0.4"
   },
