@@ -1,5 +1,5 @@
 const POSITION_CONTROLLER = Symbol("position-controller");
-function positionController(element) {
+function positionController(element, actionThreshold = 10) {
     const existingPositionController = element[POSITION_CONTROLLER];
     if (existingPositionController != null) {
         return existingPositionController;
@@ -34,6 +34,7 @@ function positionController(element) {
     {
         let _touchIdentifier = null;
         let startX = 0;
+        let startY = 0;
         let lastDirection = null;
         let positioningStarted = true;
         const startPositioning = event => {
@@ -43,9 +44,11 @@ function positionController(element) {
             const touch = event.targetTouches[0];
             _touchIdentifier = touch.identifier;
             startX = touch.clientX;
+            startY = touch.clientY;
             lastDirection = null;
             positioningStarted = true;
         };
+        let preventedScroll = false;
         const updatePosition = event => {
             if (!positioningStarted) {
                 return;
@@ -60,8 +63,20 @@ function positionController(element) {
             const lastPosition = getPosition();
             const touch = event.changedTouches[index];
             const endX = touch.clientX;
-            const delta = endX - startX;
-            position = -delta / element.getBoundingClientRect().width;
+            const endY = touch.clientY;
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+            if (Math.abs(deltaX) > actionThreshold) {
+                preventedScroll = true;
+            }
+            if (!preventedScroll && Math.abs(deltaY) > actionThreshold) {
+                positioningStarted = false;
+                return;
+            }
+            if (preventedScroll) {
+                event.preventDefault();
+            }
+            position = -deltaX / element.getBoundingClientRect().width;
             const newPosition = getPosition();
             if (newPosition !== lastPosition) {
                 lastDirection = newPosition > lastPosition ? 1 : -1;
@@ -69,12 +84,14 @@ function positionController(element) {
             eventTarget.dispatchEvent(new CustomEvent("positionchanged", { detail: { position: newPosition } }));
         };
         const endPositioning = event => {
-            if (!positioningStarted) {
-                return;
-            }
             if (!Array.prototype.some.call(event.changedTouches, touch => {
                 return touch.identifier === _touchIdentifier;
             })) {
+                return;
+            }
+            _touchIdentifier = null;
+            preventedScroll = false;
+            if (!positioningStarted) {
                 return;
             }
             if (lastDirection != null) {
@@ -99,7 +116,6 @@ function positionController(element) {
                     }
                 }));
             }
-            _touchIdentifier = null;
             positioningStarted = false;
         };
         element.addEventListener("touchstart", startPositioning);

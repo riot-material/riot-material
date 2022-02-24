@@ -1,18 +1,18 @@
 <test>
     <rm-tabbed-pages>
-        <div slot="Prova if" if={ state.hidden }>
+        <div style="height: 150vh;" slot="Prova if" if={ state.hidden }>
             <nested-component></nested-component>
             <button onclick={ onclick }>Toggle</button>
         </div>
-        <div slot="Other tab">
+        <div style="height: 150vh;" slot="Other tab">
             OK <button onclick={ onclick }>Toggle</button>
         </div>
-        <div slot="YEAH">
+        <div style="height: 150vh;" slot="YEAH">
             This is great! <button onclick={ onclick }>Toggle</button>
             <div>ALTRO TESTO + LUNGO</div>
             <div if={ test() }>TEST</div>
         </div>
-        <div slot="PROVA ASYNC" if={ console.log("async") || state.loaded }>
+        <div style="height: 150vh;" slot="PROVA ASYNC" if={ console.log("async") || state.loaded }>
             OK
         </div>
     </rm-tabbed-pages>

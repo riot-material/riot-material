@@ -24,5 +24,5 @@ interface IPositionController {
     on<T extends keyof IPositionEvent>(type: T, callback: (event: IPositionEvent[T]) => void): IPositionController;
     off<T extends keyof IPositionEvent>(type: T, callback: (event: IPositionEvent[T]) => void): IPositionController;
 }
-declare function positionController(element: HTMLElement): IPositionController;
+declare function positionController(element: HTMLElement, actionThreshold?: number): IPositionController;
 export { PositionChangedEvent, PositionAppliedEvent, IPositionController, positionController as default };

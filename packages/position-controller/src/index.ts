@@ -27,7 +27,10 @@ export interface IPositionController {
     off<T extends keyof IPositionEvent>(type: T, callback: (event: IPositionEvent[T]) => void): IPositionController;
 }
 
-export default function positionController(element: HTMLElement): IPositionController {
+export default function positionController(
+    element: HTMLElement,
+    actionThreshold: number = 10
+): IPositionController {
     const existingPositionController = element[POSITION_CONTROLLER];
     if (existingPositionController != null) {
         return existingPositionController;
@@ -62,6 +65,7 @@ export default function positionController(element: HTMLElement): IPositionContr
     {
         let _touchIdentifier: number | null = null;
         let startX: number = 0;
+        let startY: number = 0;
         let lastDirection: number | null = null;
         let positioningStarted: boolean = true;
         const startPositioning: (event: TouchEvent) => void = event => {
@@ -71,9 +75,12 @@ export default function positionController(element: HTMLElement): IPositionContr
             const touch: Touch = event.targetTouches[0];
             _touchIdentifier = touch.identifier;
             startX = touch.clientX;
+            startY = touch.clientY;
             lastDirection = null;
             positioningStarted = true;
         };
+
+        let preventedScroll = false;
         const updatePosition: (event: TouchEvent) => void = event => {
             if (!positioningStarted) {
                 return;
@@ -88,8 +95,21 @@ export default function positionController(element: HTMLElement): IPositionContr
             const lastPosition: number = getPosition();
             const touch: Touch = event.changedTouches[index!];
             const endX: number = touch.clientX;
-            const delta: number = endX - startX;
-            position = -delta / element.getBoundingClientRect().width;
+            const endY: number = touch.clientY;
+            const deltaX: number = endX - startX;
+            const deltaY: number = endY - startY;
+
+            if (Math.abs(deltaX) > actionThreshold) {
+                preventedScroll = true;
+            }
+            if (!preventedScroll && Math.abs(deltaY) > actionThreshold) {
+                positioningStarted = false;
+                return;
+            }
+            if (preventedScroll) {
+                event.preventDefault();
+            }
+            position = -deltaX / element.getBoundingClientRect().width;
             const newPosition: number = getPosition();
             if (newPosition !== lastPosition) {
                 lastDirection = newPosition > lastPosition ? 1 : -1;
@@ -97,12 +117,14 @@ export default function positionController(element: HTMLElement): IPositionContr
             eventTarget.dispatchEvent(new CustomEvent("positionchanged", { detail: { position: newPosition } }));
         };
         const endPositioning: (event: TouchEvent) => void = event => {
-            if (!positioningStarted) {
-                return;
-            }
             if (!Array.prototype.some.call(event.changedTouches, touch => {
                 return touch.identifier === _touchIdentifier;
             })) {
+                return;
+            }
+            _touchIdentifier = null;
+            preventedScroll = false;
+            if (!positioningStarted) {
                 return;
             }
             if (lastDirection != null) {
@@ -126,7 +148,6 @@ export default function positionController(element: HTMLElement): IPositionContr
                     }
                 }));
             }
-            _touchIdentifier = null;
             positioningStarted = false;
         };
         element.addEventListener("touchstart", startPositioning);
