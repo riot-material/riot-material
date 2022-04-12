@@ -11,6 +11,7 @@ const globals = {
     "@riot-material/rm-button": "riotMaterial.components.button",
     "@riot-material/rm-menu": "riotMaterial.components.menu",
     "@riot-material/rm-textfield-container": "riotMaterial.components.textfieldContainer",
+    "@riot-material/rm-list-item": "riotMaterial.components.listItem",
     "riot": "riot"
 };
 const external = Object.keys(globals);

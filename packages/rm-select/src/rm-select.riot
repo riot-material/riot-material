@@ -2,7 +2,10 @@
     <rm-menu onselected={ _onmenuselected } opened={ state.menuopened } inherit-width prevent-close-on-click-out
         prevent-focus variant={ getVariant() } selected={ state.selected } keep-highlight
         onopen={ dispatchMenuEvent } onclose={ dispatchMenuEvent }
-    ><div ref="rm-select-menu"><slot></slot></div></rm-menu>
+    ><div ref="rm-select-menu">
+        <slot {..._getSlotProps()}></slot>
+        <!--slot></slot-->
+    </div></rm-menu>
     <rm-textfield-container variant={ getVariant() }
         label={ props.label } full-width={ isFullWidth() }
         class={ _getClassNames() } disabled={ isDisabled() }
@@ -101,12 +104,15 @@
         import TextfieldContainerComponent from "@riot-material/rm-textfield-container";
         import ButtonComponent from "@riot-material/rm-button";
         import MenuComponent from "@riot-material/rm-menu";
+        import ListItemComponent from "@riot-material/rm-list-item";
 
         import {
             addListener,
             removeListener
         } from "@riot-material/before-focus-listener";
         import { ripple } from "@riot-material/ripple";
+
+        const FILTER = ListItemComponent.exports._filterSymbol;
 
         const blockedInputs = [];
         window.addEventListener("change", event => {
@@ -118,6 +124,19 @@
         export default newPropsWrapper({
             _mounted: false,
             _menu: null,
+            _getSlotProps() {
+                return {
+                    [FILTER]: this.state.filtering ? (item) => {
+                        const filter = this.getFilter()?.toLowerCase();
+                        return (
+                            !filter ||
+                            (
+                                item.getLabel().toLowerCase()
+                            ).indexOf(filter) >= 0
+                        );
+                    } : null
+                };
+            },
             _input: null,
             _onmenuselected(event) {
                 this._lastSelectedOption = event.target;
@@ -408,10 +427,12 @@
                 this.update({ focused: false, menuopened: false, refreshLabel: true });
             },
             _oninputinput() {
-                this.state.filtering = true;
-                if (this.isFilterable() && !this.state.menuopened) {
-                    this.update({ menuopened: true });
+                if (!this.isFilterable()) {
+                    return;
                 }
+
+                this.state.filtering = true;
+                this.update({ menuopened: true });
             },
             _getClassNames() {
                 const classNames = {};
