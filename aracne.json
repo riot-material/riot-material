@@ -1,7 +1,9 @@
 {
+    "lang": "js",
     "build": "npx rollup -c",
     "source": [
         "src/**",
         "dist/**"
-    ]
+    ],
+    "packages": "packages/*"
 }
