@@ -5,6 +5,7 @@ const typescript = require("rollup-plugin-ts");
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 
 const globals = {
+    "riot": "riot",
     "@riot-material/ripple": "riotMaterial.ripple",
 };
 const external = Object.keys(globals);

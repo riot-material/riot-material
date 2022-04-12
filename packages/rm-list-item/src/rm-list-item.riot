@@ -7,7 +7,10 @@
         </div>
         <div style="display: table-cell; max-width: 256px; padding: 0.25em 0; vertical-align: middle;"><div>
             <span style="float: right;"><slot name="trailing"></slot></span>
-            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <div
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                ref="label"
+            >
                 <template if={ !_hasSlot("default") }>{ props.label || "\xa0" }</template>
                 <slot></slot>
             </div>
@@ -41,15 +44,49 @@
         :host[passive] {
             cursor: default;
         }
+
+        :host.rm-list-item--filtered-out {
+            display: none;
+        }
     </style>
 
     <script>
+        import { __ } from "riot";
+
         import { ripple } from "@riot-material/ripple";
 
+        const {
+            globals: {
+                PARENT_KEY_SYMBOL
+            }
+        } = __;
+
+        const FILTER = Symbol("filter");
+
         export default {
+            _filterSymbol: FILTER,
             _selectedHighlight: null,
             _hasSlot(name) {
                 return this.slots.some(slot => slot.id === name);
+            },
+            _updateFilter() {
+                if (this.isPassive()) {
+                    return;
+                }
+                const filter = this[PARENT_KEY_SYMBOL]?.[FILTER];
+                if (
+                    filter == null ||
+                    typeof filter !== "function"
+                ) {
+                    return;
+                }
+                if (!filter(this)) {
+                    this.state.selected = false;
+                    this.root.classList.remove("selected");
+                    this.root.classList.add("rm-list-item--filtered-out");
+                } else {
+                    this.root.classList.remove("rm-list-item--filtered-out");
+                }
             },
             _updateRipple() {
                 const passive = this.isPassive();
@@ -107,6 +144,7 @@
                 if (this.props.value != null && this.props.menuOption == null) {
                     this.root.setAttribute("menu-option", "");
                 }
+                this._updateFilter();
                 this._updateRipple();
                 this._updateSelected();
             },
@@ -116,6 +154,7 @@
                 }
             },
             onUpdated() {
+                this._updateFilter();
                 this._updateRipple();
                 this._updateSelected();
             },
@@ -127,6 +166,9 @@
                         (this.props.selected != null && this.props.selected !== false)
                     )
                 ;
+            },
+            getLabel() {
+                return this.root.label;
             }
         }
     </script>
