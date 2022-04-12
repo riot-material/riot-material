@@ -1,8 +1,8 @@
 import newPropsWrapper from '@riot-material/new-props-wrapper';
+import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import ButtonComponent from '@riot-material/rm-button';
 import MenuComponent from '@riot-material/rm-menu';
 import ListItemComponent from '@riot-material/rm-list-item';
-import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import { addListener, removeListener } from '@riot-material/before-focus-listener';
 import { ripple } from '@riot-material/ripple';
 
@@ -311,26 +311,6 @@ var RmSelect = {
                 delete this.state.refreshLabel;
                 delete this.state.filtering;
             }
-
-            // Array.prototype.forEach.call(
-            //     this._selectMenu.querySelectorAll("rm-list-item"),
-            //     option => {
-            //         if (option.passive) {
-            //             return;
-            //         }
-
-            //         if (this.state.filtering) {
-            //             const filter = this.getFilter()?.toLowerCase();
-            //             if (option.label.toLowerCase().indexOf(filter) < 0) {
-            //                 option.classList.add("rm-list-item--filtered-out");
-            //                 option.selected = false;
-            //                 return;
-            //             }
-            //         }
-            //         option.classList.remove("rm-list-item--filtered-out");
-            //     }
-            // );
-
             const selected = this.getSelected();
             if (selected.some((option, i) => option !== this._lastSelected[i])) {
                 this._lastSelected = selected;

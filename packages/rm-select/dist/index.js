@@ -1,16 +1,16 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/new-props-wrapper'), require('@riot-material/rm-button'), require('@riot-material/rm-menu'), require('@riot-material/rm-list-item'), require('@riot-material/rm-textfield-container'), require('@riot-material/before-focus-listener'), require('@riot-material/ripple')) :
-    typeof define === 'function' && define.amd ? define(['@riot-material/new-props-wrapper', '@riot-material/rm-button', '@riot-material/rm-menu', '@riot-material/rm-list-item', '@riot-material/rm-textfield-container', '@riot-material/before-focus-listener', '@riot-material/ripple'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.select = factory(global.riotMaterial.newPropsWrapper, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riotMaterial.components.listItem, global.riotMaterial.components.textfieldContainer, global.riotMaterial.beforeFocusListener, global.riotMaterial.ripple)));
-})(this, (function (newPropsWrapper, ButtonComponent, MenuComponent, ListItemComponent, TextfieldContainerComponent, beforeFocusListener, ripple) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@riot-material/new-props-wrapper'), require('@riot-material/rm-textfield-container'), require('@riot-material/rm-button'), require('@riot-material/rm-menu'), require('@riot-material/rm-list-item'), require('@riot-material/before-focus-listener'), require('@riot-material/ripple')) :
+    typeof define === 'function' && define.amd ? define(['@riot-material/new-props-wrapper', '@riot-material/rm-textfield-container', '@riot-material/rm-button', '@riot-material/rm-menu', '@riot-material/rm-list-item', '@riot-material/before-focus-listener', '@riot-material/ripple'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (global.riotMaterial = global.riotMaterial || {}, global.riotMaterial.components = global.riotMaterial.components || {}, global.riotMaterial.components.select = factory(global.riotMaterial.newPropsWrapper, global.riotMaterial.components.textfieldContainer, global.riotMaterial.components.button, global.riotMaterial.components.menu, global.riotMaterial.components.listItem, global.riotMaterial.beforeFocusListener, global.riotMaterial.ripple)));
+})(this, (function (newPropsWrapper, TextfieldContainerComponent, ButtonComponent, MenuComponent, ListItemComponent, beforeFocusListener, ripple) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
     var newPropsWrapper__default = /*#__PURE__*/_interopDefaultLegacy(newPropsWrapper);
+    var TextfieldContainerComponent__default = /*#__PURE__*/_interopDefaultLegacy(TextfieldContainerComponent);
     var ButtonComponent__default = /*#__PURE__*/_interopDefaultLegacy(ButtonComponent);
     var MenuComponent__default = /*#__PURE__*/_interopDefaultLegacy(MenuComponent);
     var ListItemComponent__default = /*#__PURE__*/_interopDefaultLegacy(ListItemComponent);
-    var TextfieldContainerComponent__default = /*#__PURE__*/_interopDefaultLegacy(TextfieldContainerComponent);
 
     const FILTER = ListItemComponent__default["default"].exports._filterSymbol;
 
@@ -317,26 +317,6 @@
                     delete this.state.refreshLabel;
                     delete this.state.filtering;
                 }
-
-                // Array.prototype.forEach.call(
-                //     this._selectMenu.querySelectorAll("rm-list-item"),
-                //     option => {
-                //         if (option.passive) {
-                //             return;
-                //         }
-
-                //         if (this.state.filtering) {
-                //             const filter = this.getFilter()?.toLowerCase();
-                //             if (option.label.toLowerCase().indexOf(filter) < 0) {
-                //                 option.classList.add("rm-list-item--filtered-out");
-                //                 option.selected = false;
-                //                 return;
-                //             }
-                //         }
-                //         option.classList.remove("rm-list-item--filtered-out");
-                //     }
-                // );
-
                 const selected = this.getSelected();
                 if (selected.some((option, i) => option !== this._lastSelected[i])) {
                     this._lastSelected = selected;
