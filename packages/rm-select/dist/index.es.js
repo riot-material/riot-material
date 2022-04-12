@@ -1,9 +1,12 @@
 import newPropsWrapper from '@riot-material/new-props-wrapper';
-import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import ButtonComponent from '@riot-material/rm-button';
 import MenuComponent from '@riot-material/rm-menu';
+import ListItemComponent from '@riot-material/rm-list-item';
+import TextfieldContainerComponent from '@riot-material/rm-textfield-container';
 import { addListener, removeListener } from '@riot-material/before-focus-listener';
 import { ripple } from '@riot-material/ripple';
+
+const FILTER = ListItemComponent.exports._filterSymbol;
 
 const blockedInputs = [];
 window.addEventListener("change", event => {
@@ -19,6 +22,19 @@ var RmSelect = {
     {
         _mounted: false,
         _menu: null,
+        _getSlotProps() {
+            return {
+                [FILTER]: this.state.filtering ? (item) => {
+                    const filter = this.getFilter()?.toLowerCase();
+                    return (
+                        !filter ||
+                        (
+                            item.getLabel().toLowerCase()
+                        ).indexOf(filter) >= 0
+                    );
+                } : null
+            };
+        },
         _input: null,
         _onmenuselected(event) {
             this._lastSelectedOption = event.target;
@@ -295,6 +311,26 @@ var RmSelect = {
                 delete this.state.refreshLabel;
                 delete this.state.filtering;
             }
+
+            // Array.prototype.forEach.call(
+            //     this._selectMenu.querySelectorAll("rm-list-item"),
+            //     option => {
+            //         if (option.passive) {
+            //             return;
+            //         }
+
+            //         if (this.state.filtering) {
+            //             const filter = this.getFilter()?.toLowerCase();
+            //             if (option.label.toLowerCase().indexOf(filter) < 0) {
+            //                 option.classList.add("rm-list-item--filtered-out");
+            //                 option.selected = false;
+            //                 return;
+            //             }
+            //         }
+            //         option.classList.remove("rm-list-item--filtered-out");
+            //     }
+            // );
+
             const selected = this.getSelected();
             if (selected.some((option, i) => option !== this._lastSelected[i])) {
                 this._lastSelected = selected;
@@ -309,10 +345,12 @@ var RmSelect = {
             this.update({ focused: false, menuopened: false, refreshLabel: true });
         },
         _oninputinput() {
-            this.state.filtering = true;
-            if (this.isFilterable() && !this.state.menuopened) {
-                this.update({ menuopened: true });
+            if (!this.isFilterable()) {
+                return;
             }
+
+            this.state.filtering = true;
+            this.update({ menuopened: true });
         },
         _getClassNames() {
             const classNames = {};
@@ -453,7 +491,20 @@ var RmSelect = {
               'bindings': [
                 {
                   'type': bindingTypes.SLOT,
-                  'attributes': [],
+
+                  'attributes': [
+                    {
+                      'type': expressionTypes.ATTRIBUTE,
+                      'name': null,
+
+                      'evaluate': function(
+                        _scope
+                      ) {
+                        return _scope._getSlotProps();
+                      }
+                    }
+                  ],
+
                   'name': 'default',
                   'redundantAttribute': 'expr1',
                   'selector': '[expr1]'

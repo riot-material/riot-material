@@ -1795,14 +1795,43 @@
       'name': 'rm-list-avatar'
     };
 
+    const {
+        globals: {
+            PARENT_KEY_SYMBOL: PARENT_KEY_SYMBOL$1
+        }
+    } = riot.__;
+
+    const FILTER$1 = Symbol("filter");
+
     var RmListItem = {
-      'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; }`,
+      'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; } rm-list-item.rm-list-item--filtered-out,[is="rm-list-item"].rm-list-item--filtered-out{ display: none; }`,
 
       'exports': {
+        _filterSymbol: FILTER$1,
         _selectedHighlight: null,
 
         _hasSlot(name) {
             return this.slots.some(slot => slot.id === name);
+        },
+
+        _updateFilter() {
+            if (this.isPassive()) {
+                return;
+            }
+            const filter = this[PARENT_KEY_SYMBOL$1]?.[FILTER$1];
+            if (
+                filter == null ||
+                typeof filter !== "function"
+            ) {
+                return;
+            }
+            if (!filter(this)) {
+                this.state.selected = false;
+                this.root.classList.remove("selected");
+                this.root.classList.add("rm-list-item--filtered-out");
+            } else {
+                this.root.classList.remove("rm-list-item--filtered-out");
+            }
         },
 
         _updateRipple() {
@@ -1864,6 +1893,7 @@
             if (this.props.value != null && this.props.menuOption == null) {
                 this.root.setAttribute("menu-option", "");
             }
+            this._updateFilter();
             this._updateRipple();
             this._updateSelected();
         },
@@ -1875,6 +1905,7 @@
         },
 
         onUpdated() {
+            this._updateFilter();
             this._updateRipple();
             this._updateSelected();
         },
@@ -1887,6 +1918,10 @@
                     (this.props.selected != null && this.props.selected !== false)
                 )
             ;
+        },
+
+        getLabel() {
+            return this.root.label;
         }
       },
 
@@ -1897,7 +1932,7 @@
         getComponent
       ) {
         return template(
-          '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 256px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
+          '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 256px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" ref="label"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
           [
             {
               'expressions': [
@@ -3439,6 +3474,8 @@
       'name': 'rm-textfield-container'
     };
 
+    const FILTER = RmListItem.exports._filterSymbol;
+
     const blockedInputs = [];
     window.addEventListener("change", event => {
         if (blockedInputs.some(input => event.target === input)) {
@@ -3453,6 +3490,19 @@
         {
             _mounted: false,
             _menu: null,
+            _getSlotProps() {
+                return {
+                    [FILTER]: this.state.filtering ? (item) => {
+                        const filter = this.getFilter()?.toLowerCase();
+                        return (
+                            !filter ||
+                            (
+                                item.getLabel().toLowerCase()
+                            ).indexOf(filter) >= 0
+                        );
+                    } : null
+                };
+            },
             _input: null,
             _onmenuselected(event) {
                 this._lastSelectedOption = event.target;
@@ -3729,6 +3779,26 @@
                     delete this.state.refreshLabel;
                     delete this.state.filtering;
                 }
+
+                // Array.prototype.forEach.call(
+                //     this._selectMenu.querySelectorAll("rm-list-item"),
+                //     option => {
+                //         if (option.passive) {
+                //             return;
+                //         }
+
+                //         if (this.state.filtering) {
+                //             const filter = this.getFilter()?.toLowerCase();
+                //             if (option.label.toLowerCase().indexOf(filter) < 0) {
+                //                 option.classList.add("rm-list-item--filtered-out");
+                //                 option.selected = false;
+                //                 return;
+                //             }
+                //         }
+                //         option.classList.remove("rm-list-item--filtered-out");
+                //     }
+                // );
+
                 const selected = this.getSelected();
                 if (selected.some((option, i) => option !== this._lastSelected[i])) {
                     this._lastSelected = selected;
@@ -3743,10 +3813,12 @@
                 this.update({ focused: false, menuopened: false, refreshLabel: true });
             },
             _oninputinput() {
-                this.state.filtering = true;
-                if (this.isFilterable() && !this.state.menuopened) {
-                    this.update({ menuopened: true });
+                if (!this.isFilterable()) {
+                    return;
                 }
+
+                this.state.filtering = true;
+                this.update({ menuopened: true });
             },
             _getClassNames() {
                 const classNames = {};
@@ -3887,7 +3959,20 @@
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
-                      'attributes': [],
+
+                      'attributes': [
+                        {
+                          'type': expressionTypes.ATTRIBUTE,
+                          'name': null,
+
+                          'evaluate': function(
+                            _scope
+                          ) {
+                            return _scope._getSlotProps();
+                          }
+                        }
+                      ],
+
                       'name': 'default',
                       'redundantAttribute': 'expr1',
                       'selector': '[expr1]'

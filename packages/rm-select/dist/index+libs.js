@@ -52,252 +52,6 @@
         }
     }
 
-    var RmTextfieldContainer = {
-      'css': `rm-textfield-container,[is="rm-textfield-container"]{ display: inline-block; font: message-box; font-size: 16px; margin-top: 0.5em; margin-bottom: 1em; vertical-align: middle; cursor: inherit; border-radius: 0; margin-right: .5em; user-select: none; } rm-textfield-container[full-width],[is="rm-textfield-container"][full-width]{ width: 100%; margin-right: 0; } rm-textfield-container[variant=filled],[is="rm-textfield-container"][variant=filled]{ border-radius: .25em .25em 0 0; } rm-textfield-container[variant=outlined],[is="rm-textfield-container"][variant=outlined]{ border-radius: 0.25em; } rm-textfield-container[disabled],[is="rm-textfield-container"][disabled]{ opacity: 0.6; } rm-textfield-container .rm-textfield-container--container,[is="rm-textfield-container"] .rm-textfield-container--container{ display: table-cell; vertical-align: middle; position: relative; font-size: inherit; box-sizing: border-box; padding: 0.625em 0 0.625em 0; line-height: 1.25em; transition: padding linear 150ms; color: inherit; width: 100%; } rm-textfield-container[variant=filled] .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container[variant=filled].rm-label-should-float .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled].rm-label-should-float .rm-textfield-container--container{ padding-top: 1.25em; padding-bottom: 0.5em; } rm-textfield-container[variant=outlined] .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--container,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--container{ border: none !important; } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--container{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary, 139, 0, 139)); } rm-textfield-container[variant=outlined] .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border: rgba(0, 0, 0, .42) 1px solid; border: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px solid; border-radius: inherit; transition: border 150ms linear; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } .rm-black-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary, 139, 0, 139)) 2px solid; } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-black, 238, 130, 238)) 2px solid; } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-dark, 238, 130, 238)) 2px solid; } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-light, 139, 0, 139)) 2px solid; } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-white, 139, 0, 139)) 2px solid; } rm-textfield-container .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--border-notch{ position: absolute; top: 0; font-size: 0.6em; padding: 0 0.4166666666666667em; transform: translateY(-50%) scaleX(0); background: inherit; color: transparent; transition: transform ease-in-out 150ms; display: inline-block; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--border-notch{ margin-left: 0.8333333333333334em; } rm-textfield-container.rm-label-should-float .rm-textfield-container--border-notch,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--border-notch{ transform: translateY(-50%) scaleX(1); } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--border-notch,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--border-notch{ display: none; } rm-textfield-container .rm-textfield-container--label,[is="rm-textfield-container"] .rm-textfield-container--label{ position: absolute; top: 0; left: 0; font-size: inherit; transition: transform linear 150ms, color linear 150ms; transform-origin: left bottom; color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-primary, .6)); -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; line-height: inherit; } .rm-black-surface rm-textfield-container .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-light-surface rm-textfield-container .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-primary, .6)); } .rm-white-surface rm-textfield-container .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-primary, .6)); } rm-textfield-container.rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-100%) scale(.6); } rm-textfield-container[variant=outlined] .rm-textfield-container--content,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--content,rm-textfield-container[variant=outlined] .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--label{ background: inherit; } rm-textfield-container[variant=outlined].rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-140%) scale(.6); } rm-textfield-container.rm-focused .rm-textfield-container--label,[is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } .rm-black-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--basic-underline,[is="rm-textfield-container"] .rm-textfield-container--basic-underline{ position: absolute; background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); bottom: 0; left: 0; right: 0; height: 1px; } .rm-black-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container:not([variant])[disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"]:not([variant])[disabled] .rm-textfield-container--basic-underline,rm-textfield-container[variant=flat][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=flat][disabled] .rm-textfield-container--basic-underline{ border-bottom: rgba(0, 0, 0, .42) 1px dashed; border-bottom: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px dashed; height: 0; background: transparent; } rm-textfield-container[variant=filled][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=filled][disabled] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--underline,[is="rm-textfield-container"] .rm-textfield-container--underline{ position: absolute; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: center; transition: transform linear 150ms, opacity linear 150ms; } .rm-black-surface rm-textfield-container .rm-textfield-container--underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container .rm-textfield-container--underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container .rm-textfield-container--underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container.rm-focused .rm-textfield-container--underline,[is="rm-textfield-container"].rm-focused .rm-textfield-container--underline{ transform: scale(1) !important; opacity: 1 !important; } rm-textfield-container[variant=outlined] .rm-textfield-container--underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--underline,rm-textfield-container[variant=outlined] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--content,[is="rm-textfield-container"] .rm-textfield-container--content{ position: relative; } rm-textfield-container .rm-textfield-container--main,[is="rm-textfield-container"] .rm-textfield-container--main{ display: inline-table; position: relative; background: rgb(245, 245, 245); background: rgb(var(--color-background, 245, 245, 245)); color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); font-size: inherit; cursor: inherit; border-radius: inherit; width: 100%; vertical-align: middle; } .rm-black-surface rm-textfield-container .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(0, 0, 0); background: rgb(var(--color-black-surface, 0, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-black, 255, 255, 255)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(10, 10, 10); background: rgb(var(--color-dark-surface, 10, 10, 10)); color: rgb(255, 255, 255); color: rgb(var(--color-on-dark, 255, 255, 255)); } .rm-light-surface rm-textfield-container .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(250, 250, 250); background: rgb(var(--color-light-surface, 250, 250, 250)); color: rgb(0, 0, 0); color: rgb(var(--color-on-light, 0, 0, 0)); } .rm-white-surface rm-textfield-container .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } rm-textfield-container[variant=filled] .rm-textfield-container--main,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-dark-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-light-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-white-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--leading{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-right: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--leading,rm-textfield-container[variant=outlined] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--leading{ padding-left: .5em; padding-right: 0; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--leading{ display: none; } rm-textfield-container .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--trailing{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-left: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--trailing,rm-textfield-container[variant=outlined] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--trailing{ padding-right: .5em; padding-left: 0; } rm-textfield-container .rm-textfield-container--no-trailing .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--no-trailing .rm-textfield-container--trailing{ display: none; } rm-textfield-container .rm-textfield-container--disabled-block,[is="rm-textfield-container"] .rm-textfield-container--disabled-block{ display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } rm-textfield-container[disabled] .rm-textfield-container--disabled-block,[is="rm-textfield-container"][disabled] .rm-textfield-container--disabled-block{ display: block; } rm-textfield-container .rm-textfield-container--helper-text,[is="rm-textfield-container"] .rm-textfield-container--helper-text{ height: 1em; line-height: 1em; pointer-events: none; margin-top: 0.625em; position: absolute; } rm-textfield-container[variant=outlined] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--helper-text,rm-textfield-container[variant=filled] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--helper-text{ margin-top: 0.875em; }`,
-
-      'exports': newPropsWrapper(
-        {
-            onBeforeMount() {
-                this.state.helperText = this.props.helperText;
-                this.state.label = this.props.label;
-
-                Object.defineProperties(this.root, {
-                    helperText: {
-                        get: () => this.state.helperText,
-                        set: (value) => {
-                            this.root.querySelector(
-                                ".rm-textfield-container--helper-text > div"
-                            ).childNodes[0].data = this.state.helperText = (
-                                value?.toString() || ""
-                            );
-                        }
-                    },
-                    label: {
-                        get: () => this.state.label,
-                        set: (value) => {
-                            this.root.querySelector(
-                                ".rm-textfield-container--border-notch"
-                            ).childNodes[0].data = this.root.querySelector(
-                                ".rm-textfield-container--label"
-                            ).childNodes[0].data = this.state.label = (
-                                value?.toString() || ""
-                            );
-                        }
-                    }
-                });
-            },
-            onMounted() {
-                this._refreshCaps();
-            },
-            _onlabelpointerdown(event) {
-                const control = this.root.children[0].control;
-                if (control === document.activeElement && event.target !== control) {
-                    event.preventDefault();
-                }
-            },
-            _hasInputSlot() {
-                return this.slots.some(slot => {
-                    return slot.id === "input";
-                });
-            },
-            _hasSlot(name) {
-                let index;
-                return this.slots.some((slot, i) => (index = i, slot.id === name)) && console.log(this.slots[index]);
-            },
-            _getLeadingIcons() {
-                const leadingIcons = this.props.leadingIcons;
-                if (leadingIcons == null) {
-                    return [];
-                }
-                switch (typeof leadingIcons) {
-                    case "string": {
-                        return leadingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
-                    }
-                    case "object": {
-                        return Array.isArray(leadingIcons) ? leadingIcons : [];
-                    }
-                    default: {
-                        return [];
-                    }
-                }
-            },
-            _getTrailingIcons() {
-                const trailingIcons = this.props.trailingIcons;
-                if (trailingIcons == null) {
-                    return [];
-                }
-                switch (typeof trailingIcons) {
-                    case "string": {
-                        return trailingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
-                    }
-                    case "object": {
-                        return Array.isArray(trailingIcons) ? trailingIcons : [];
-                    }
-                    default: {
-                        return [];
-                    }
-                }
-            },
-            _refreshCaps() {
-                const label = this.root.firstElementChild;
-                label.classList.remove("rm-textfield-container--no-leading", "rm-textfield-container--no-trailing");
-                const leading = this.root.querySelector("label > .rm-textfield-container--leading");
-                if (leading.children.length === 0 || leading.clientWidth <= 9) {
-                    label.classList.add("rm-textfield-container--no-leading");
-                } else {
-                    label.classList.remove("rm-textfield-container--no-leading");
-                }
-                const trailing = this.root.querySelector("label > .rm-textfield-container--trailing");
-                if (trailing.children.length === 0 || trailing.clientWidth <= 9) {
-                    label.classList.add("rm-textfield-container--no-trailing");
-                } else {
-                    label.classList.remove("rm-textfield-container--no-trailing");
-                }
-            },
-            onBeforeUpdate(_, __, newProps) {
-                if ("label" in newProps) {
-                    this.state.label = newProps.label;
-                }
-                if ("helperText" in newProps) {
-                    this.state.helperText = newProps.helperText;
-                }
-            },
-            onUpdated() {
-                this._refreshCaps();
-            }
-        }
-      ),
-
-      'template': function(
-        template,
-        expressionTypes,
-        bindingTypes,
-        getComponent
-      ) {
-        return template(
-          '<label expr0="expr0" class="rm-textfield-container--main"><div class="rm-textfield-container--border"></div><div class="rm-textfield-container--leading"><slot expr1="expr1" name="leading"></slot></div><div expr2="expr2" class="rm-textfield-container--border-notch"> </div><div class="rm-textfield-container--container"><div class="rm-textfield-container--content"><div expr3="expr3" class="rm-textfield-container--label"> </div><div style="position: relative; user-select: auto; min-height: 1.3125em;"><template expr4="expr4"></template><slot expr6="expr6" name="input"></slot></div><div class="rm-textfield-container--helper-text"><div expr7="expr7" style="font-size: .75em;"> </div></div></div></div><div class="rm-textfield-container--trailing"><slot expr8="expr8" name="trailing"></slot></div><div class="rm-textfield-container--basic-underline"></div><div class="rm-textfield-container--underline"></div><div class="rm-textfield-container--disabled-block"></div></label>',
-          [
-            {
-              'redundantAttribute': 'expr0',
-              'selector': '[expr0]',
-
-              'expressions': [
-                {
-                  'type': expressionTypes.EVENT,
-                  'name': 'onmousedown',
-
-                  'evaluate': function(
-                    _scope
-                  ) {
-                    return _scope._onlabelpointerdown;
-                  }
-                }
-              ]
-            },
-            {
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'leading',
-              'redundantAttribute': 'expr1',
-              'selector': '[expr1]'
-            },
-            {
-              'redundantAttribute': 'expr2',
-              'selector': '[expr2]',
-
-              'expressions': [
-                {
-                  'type': expressionTypes.TEXT,
-                  'childNodeIndex': 0,
-
-                  'evaluate': function(
-                    _scope
-                  ) {
-                    return _scope.state.label;
-                  }
-                }
-              ]
-            },
-            {
-              'redundantAttribute': 'expr3',
-              'selector': '[expr3]',
-
-              'expressions': [
-                {
-                  'type': expressionTypes.TEXT,
-                  'childNodeIndex': 0,
-
-                  'evaluate': function(
-                    _scope
-                  ) {
-                    return _scope.state.label;
-                  }
-                }
-              ]
-            },
-            {
-              'type': bindingTypes.IF,
-
-              'evaluate': function(
-                _scope
-              ) {
-                return !_scope._hasInputSlot();
-              },
-
-              'redundantAttribute': 'expr4',
-              'selector': '[expr4]',
-
-              'template': template(
-                '<slot expr5="expr5"></slot>',
-                [
-                  {
-                    'type': bindingTypes.SLOT,
-                    'attributes': [],
-                    'name': 'default',
-                    'redundantAttribute': 'expr5',
-                    'selector': '[expr5]'
-                  }
-                ]
-              )
-            },
-            {
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'input',
-              'redundantAttribute': 'expr6',
-              'selector': '[expr6]'
-            },
-            {
-              'redundantAttribute': 'expr7',
-              'selector': '[expr7]',
-
-              'expressions': [
-                {
-                  'type': expressionTypes.TEXT,
-                  'childNodeIndex': 0,
-
-                  'evaluate': function(
-                    _scope
-                  ) {
-                    return _scope.state.helperText;
-                  }
-                }
-              ]
-            },
-            {
-              'type': bindingTypes.SLOT,
-              'attributes': [],
-              'name': 'trailing',
-              'redundantAttribute': 'expr8',
-              'selector': '[expr8]'
-            }
-          ]
-        );
-      },
-
-      'name': 'rm-textfield-container'
-    };
-
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
     var whatInput$1 = {exports: {}};
@@ -2474,6 +2228,495 @@
       'name': 'rm-menu'
     };
 
+    const {
+        globals: {
+            PARENT_KEY_SYMBOL
+        }
+    } = riot.__;
+
+    const FILTER$1 = Symbol("filter");
+
+    var RmListItem = {
+      'css': `rm-list-item,[is="rm-list-item"]{ outline: none; display: block; padding: .5em 1em; line-height: 1.5em; cursor: pointer; user-select: none; } rm-list-item rm-icon,[is="rm-list-item"] rm-icon,rm-list-item .material-icons,[is="rm-list-item"] .material-icons{ margin-right: 16px; } rm-list-item rm-button,[is="rm-list-item"] rm-button{ margin: -8px; vertical-align: top; } rm-list-item.selected,[is="rm-list-item"].selected{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } rm-list-item[passive],[is="rm-list-item"][passive]{ cursor: default; } rm-list-item.rm-list-item--filtered-out,[is="rm-list-item"].rm-list-item--filtered-out{ display: none; }`,
+
+      'exports': {
+        _filterSymbol: FILTER$1,
+        _selectedHighlight: null,
+
+        _hasSlot(name) {
+            return this.slots.some(slot => slot.id === name);
+        },
+
+        _updateFilter() {
+            if (this.isPassive()) {
+                return;
+            }
+            const filter = this[PARENT_KEY_SYMBOL]?.[FILTER$1];
+            if (
+                filter == null ||
+                typeof filter !== "function"
+            ) {
+                return;
+            }
+            if (!filter(this)) {
+                this.state.selected = false;
+                this.root.classList.remove("selected");
+                this.root.classList.add("rm-list-item--filtered-out");
+            } else {
+                this.root.classList.remove("rm-list-item--filtered-out");
+            }
+        },
+
+        _updateRipple() {
+            const passive = this.isPassive();
+            ripple(this.root, { highlight: !passive, instantHighlight: true, disabled: passive });
+        },
+
+        _updateSelected() {
+            if (this.isSelected()) {
+                this.root.classList.add("selected");
+                if (this._selectedHighlight == null) {
+                    this._selectedHighlight = ripple(this.root).highlight();
+                }
+            } else {
+                this.root.classList.remove("selected");
+                if (this._selectedHighlight != null) {
+                    this._selectedHighlight.end();
+                    this._selectedHighlight = null;
+                }
+            }
+        },
+
+        isPassive() {
+            return this.props.passive != null && this.props.passive !== false;
+        },
+
+        onMounted() {
+            let value = undefined;
+            Object.defineProperties(this.root, {
+                value: {
+                    get: () => {
+                        if (value === undefined) {
+                            return this.props.value == null ? null : this.props.value + "";
+                        }
+                        return value;
+                    },
+                    set(v) {
+                        value = v == null ? null : this.props.value + "";
+                    }
+                },
+                label: {
+                    get: () => {
+                        return this.props.label == null ?
+                            (this._hasSlot("default") ? this.root.innerText : "") :
+                            this.props.label + ""
+                        ;
+                    }
+                },
+                selected: {
+                    get: () => this.isSelected(),
+                    set: value => {
+                        this.update({ selected: value != null && value !== false });
+                    }
+                },
+                passive: {
+                    get: () => this.isPassive()
+                }
+            });
+            if (this.props.value != null && this.props.menuOption == null) {
+                this.root.setAttribute("menu-option", "");
+            }
+            this._updateFilter();
+            this._updateRipple();
+            this._updateSelected();
+        },
+
+        shouldUpdate(newProps, currentProps) {
+            if ("selected" in newProps) {
+                delete this.state.selected;
+            }
+        },
+
+        onUpdated() {
+            this._updateFilter();
+            this._updateRipple();
+            this._updateSelected();
+        },
+
+        isSelected() {
+            return this.isPassive() ?
+                false :
+                (this.state.selected != null ?
+                    this.state.selected !== false :
+                    (this.props.selected != null && this.props.selected !== false)
+                )
+            ;
+        },
+
+        getLabel() {
+            return this.root.label;
+        }
+      },
+
+      'template': function(
+        template,
+        expressionTypes,
+        bindingTypes,
+        getComponent
+      ) {
+        return template(
+          '<div style="display: table; width: 100%;"><div expr0="expr0" style="display: table-cell; width: 1px; padding-right: 16px; vertical-align: middle;"></div><div style="display: table-cell; max-width: 256px; padding: 0.25em 0; vertical-align: middle;"><div><span style="float: right;"><slot expr2="expr2" name="trailing"></slot></span><div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" ref="label"><template expr3="expr3"></template><slot expr4="expr4"></slot></div><div style="clear: both;"></div></div></div></div>',
+          [
+            {
+              'expressions': [
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'tabindex',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.isPassive() ? "" : "0";
+                  }
+                },
+                {
+                  'type': expressionTypes.ATTRIBUTE,
+                  'name': 'style',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.isSelected() && _scope.props.selectedColor != null ? "color:" + _scope.props.selectedColor + ";" : "";
+                  }
+                }
+              ]
+            },
+            {
+              'type': bindingTypes.IF,
+
+              'evaluate': function(
+                _scope
+              ) {
+                return _scope._hasSlot("leading");
+              },
+
+              'redundantAttribute': 'expr0',
+              'selector': '[expr0]',
+
+              'template': template(
+                '<slot expr1="expr1" name="leading"></slot>',
+                [
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'leading',
+                    'redundantAttribute': 'expr1',
+                    'selector': '[expr1]'
+                  }
+                ]
+              )
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'trailing',
+              'redundantAttribute': 'expr2',
+              'selector': '[expr2]'
+            },
+            {
+              'type': bindingTypes.IF,
+
+              'evaluate': function(
+                _scope
+              ) {
+                return !_scope._hasSlot("default");
+              },
+
+              'redundantAttribute': 'expr3',
+              'selector': '[expr3]',
+
+              'template': template(
+                ' ',
+                [
+                  {
+                    'expressions': [
+                      {
+                        'type': expressionTypes.TEXT,
+                        'childNodeIndex': 0,
+
+                        'evaluate': function(
+                          _scope
+                        ) {
+                          return _scope.props.label || "\xa0";
+                        }
+                      }
+                    ]
+                  }
+                ]
+              )
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'default',
+              'redundantAttribute': 'expr4',
+              'selector': '[expr4]'
+            }
+          ]
+        );
+      },
+
+      'name': 'rm-list-item'
+    };
+
+    var RmTextfieldContainer = {
+      'css': `rm-textfield-container,[is="rm-textfield-container"]{ display: inline-block; font: message-box; font-size: 16px; margin-top: 0.5em; margin-bottom: 1em; vertical-align: middle; cursor: inherit; border-radius: 0; margin-right: .5em; user-select: none; } rm-textfield-container[full-width],[is="rm-textfield-container"][full-width]{ width: 100%; margin-right: 0; } rm-textfield-container[variant=filled],[is="rm-textfield-container"][variant=filled]{ border-radius: .25em .25em 0 0; } rm-textfield-container[variant=outlined],[is="rm-textfield-container"][variant=outlined]{ border-radius: 0.25em; } rm-textfield-container[disabled],[is="rm-textfield-container"][disabled]{ opacity: 0.6; } rm-textfield-container .rm-textfield-container--container,[is="rm-textfield-container"] .rm-textfield-container--container{ display: table-cell; vertical-align: middle; position: relative; font-size: inherit; box-sizing: border-box; padding: 0.625em 0 0.625em 0; line-height: 1.25em; transition: padding linear 150ms; color: inherit; width: 100%; } rm-textfield-container[variant=filled] .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container[variant=filled].rm-label-should-float .rm-textfield-container--container,[is="rm-textfield-container"][variant=filled].rm-label-should-float .rm-textfield-container--container{ padding-top: 1.25em; padding-bottom: 0.5em; } rm-textfield-container[variant=outlined] .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--container{ padding: 0.875em 0.25em 0.875em 0.25em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-leading .rm-textfield-container--container{ padding-left: 0.75em; } rm-textfield-container[variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--no-trailing .rm-textfield-container--container{ padding-right: 0.75em; } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--container,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--container{ border: none !important; } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--container,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--container{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary, 139, 0, 139)); } rm-textfield-container[variant=outlined] .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border: rgba(0, 0, 0, .42) 1px solid; border: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px solid; border-radius: inherit; transition: border 150ms linear; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } .rm-black-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(255, 255, 255, .42); border-color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container[variant=outlined] .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined] .rm-textfield-container--border{ border-color: rgba(0, 0, 0, .42); border-color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,[is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary, 139, 0, 139)) 2px solid; } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-black, 238, 130, 238)) 2px solid; } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(238, 130, 238) 2px solid; border: rgb(var(--color-primary-on-dark, 238, 130, 238)) 2px solid; } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-light, 139, 0, 139)) 2px solid; } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--border,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--border{ border: rgb(139, 0, 139) 2px solid; border: rgb(var(--color-primary-on-white, 139, 0, 139)) 2px solid; } rm-textfield-container .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--border-notch{ position: absolute; top: 0; font-size: 0.6em; padding: 0 0.4166666666666667em; transform: translateY(-50%) scaleX(0); background: inherit; color: transparent; transition: transform ease-in-out 150ms; display: inline-block; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--border-notch,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--border-notch{ margin-left: 0.8333333333333334em; } rm-textfield-container.rm-label-should-float .rm-textfield-container--border-notch,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--border-notch{ transform: translateY(-50%) scaleX(1); } rm-textfield-container:not([variant=outlined]) .rm-textfield-container--border-notch,[is="rm-textfield-container"]:not([variant=outlined]) .rm-textfield-container--border-notch{ display: none; } rm-textfield-container .rm-textfield-container--label,[is="rm-textfield-container"] .rm-textfield-container--label{ position: absolute; top: 0; left: 0; font-size: inherit; transition: transform linear 150ms, color linear 150ms; transform-origin: left bottom; color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-primary, .6)); -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; line-height: inherit; } .rm-black-surface rm-textfield-container .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(255, 255, 255, .6); color: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-primary, .6)); } .rm-light-surface rm-textfield-container .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-primary, .6)); } .rm-white-surface rm-textfield-container .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--label{ color: rgba(0, 0, 0, .6); color: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-primary, .6)); } rm-textfield-container.rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-100%) scale(.6); } rm-textfield-container[variant=outlined] .rm-textfield-container--content,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--content,rm-textfield-container[variant=outlined] .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--label{ background: inherit; } rm-textfield-container[variant=outlined].rm-label-should-float .rm-textfield-container--label,[is="rm-textfield-container"][variant=outlined].rm-label-should-float .rm-textfield-container--label{ transform: translateY(-140%) scale(.6); } rm-textfield-container.rm-focused .rm-textfield-container--label,[is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary, 139, 0, 139)); } .rm-black-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-black-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-dark-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(238, 130, 238); color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-light-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container.rm-focused .rm-textfield-container--label,.rm-white-surface [is="rm-textfield-container"].rm-focused .rm-textfield-container--label{ color: rgb(139, 0, 139); color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--basic-underline,[is="rm-textfield-container"] .rm-textfield-container--basic-underline{ position: absolute; background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)); bottom: 0; left: 0; right: 0; height: 1px; } .rm-black-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(255, 255, 255, .42); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-secondary, .42)); } .rm-light-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-secondary, .42)); } .rm-white-surface rm-textfield-container .rm-textfield-container--basic-underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--basic-underline{ background: rgba(0, 0, 0, .42); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-secondary, .42)); } rm-textfield-container:not([variant])[disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"]:not([variant])[disabled] .rm-textfield-container--basic-underline,rm-textfield-container[variant=flat][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=flat][disabled] .rm-textfield-container--basic-underline{ border-bottom: rgba(0, 0, 0, .42) 1px dashed; border-bottom: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-secondary, .42)) 1px dashed; height: 0; background: transparent; } rm-textfield-container[variant=filled][disabled] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=filled][disabled] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--underline,[is="rm-textfield-container"] .rm-textfield-container--underline{ position: absolute; background: rgb(139, 0, 139); background: rgb(var(--color-primary, 139, 0, 139)); bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: center; transition: transform linear 150ms, opacity linear 150ms; } .rm-black-surface rm-textfield-container .rm-textfield-container--underline,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--underline,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(238, 130, 238); background: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container .rm-textfield-container--underline,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container .rm-textfield-container--underline,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--underline{ background: rgb(139, 0, 139); background: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container.rm-focused .rm-textfield-container--underline,[is="rm-textfield-container"].rm-focused .rm-textfield-container--underline{ transform: scale(1) !important; opacity: 1 !important; } rm-textfield-container[variant=outlined] .rm-textfield-container--underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--underline,rm-textfield-container[variant=outlined] .rm-textfield-container--basic-underline,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--basic-underline{ display: none; } rm-textfield-container .rm-textfield-container--content,[is="rm-textfield-container"] .rm-textfield-container--content{ position: relative; } rm-textfield-container .rm-textfield-container--main,[is="rm-textfield-container"] .rm-textfield-container--main{ display: inline-table; position: relative; background: rgb(245, 245, 245); background: rgb(var(--color-background, 245, 245, 245)); color: rgb(0, 0, 0); color: rgb(var(--color-on-background, 0, 0, 0)); font-size: inherit; cursor: inherit; border-radius: inherit; width: 100%; vertical-align: middle; } .rm-black-surface rm-textfield-container .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(0, 0, 0); background: rgb(var(--color-black-surface, 0, 0, 0)); color: rgb(255, 255, 255); color: rgb(var(--color-on-black, 255, 255, 255)); } .rm-dark-surface rm-textfield-container .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(10, 10, 10); background: rgb(var(--color-dark-surface, 10, 10, 10)); color: rgb(255, 255, 255); color: rgb(var(--color-on-dark, 255, 255, 255)); } .rm-light-surface rm-textfield-container .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(250, 250, 250); background: rgb(var(--color-light-surface, 250, 250, 250)); color: rgb(0, 0, 0); color: rgb(var(--color-on-light, 0, 0, 0)); } .rm-white-surface rm-textfield-container .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"] .rm-textfield-container--main{ background: rgb(255, 255, 255); background: rgb(var(--color-white-surface, 255, 255, 255)); color: rgb(0, 0, 0); color: rgb(var(--color-on-white, 0, 0, 0)); } rm-textfield-container[variant=filled] .rm-textfield-container--main,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-background, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-black, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-dark-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(255, 255, 255, .12); background: rgba(var(--color-on-dark, 255, 255, 255), var(--color-opacity-tertiary, .12)); } .rm-light-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-light, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-white-surface rm-textfield-container[variant=filled] .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=filled] .rm-textfield-container--main{ background: rgba(0, 0, 0, .12); background: rgba(var(--color-on-white, 0, 0, 0), var(--color-opacity-tertiary, .12)); } .rm-black-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-black-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-black, 238, 130, 238)); } .rm-dark-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-dark-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(238, 130, 238); border-color: rgb(var(--color-primary-on-dark, 238, 130, 238)); } .rm-light-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-light-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-light, 139, 0, 139)); } .rm-white-surface rm-textfield-container[variant=outlined].rm-focused .rm-textfield-container--main,.rm-white-surface [is="rm-textfield-container"][variant=outlined].rm-focused .rm-textfield-container--main{ border-color: rgb(139, 0, 139); border-color: rgb(var(--color-primary-on-white, 139, 0, 139)); } rm-textfield-container .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--leading{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-right: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--leading,rm-textfield-container[variant=outlined] .rm-textfield-container--leading,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--leading{ padding-left: .5em; padding-right: 0; } rm-textfield-container .rm-textfield-container--no-leading .rm-textfield-container--leading,[is="rm-textfield-container"] .rm-textfield-container--no-leading .rm-textfield-container--leading{ display: none; } rm-textfield-container .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--trailing{ display: table-cell; width: 1px; vertical-align: middle; position: relative; padding-left: .5em; } rm-textfield-container[variant=filled] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--trailing,rm-textfield-container[variant=outlined] .rm-textfield-container--trailing,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--trailing{ padding-right: .5em; padding-left: 0; } rm-textfield-container .rm-textfield-container--no-trailing .rm-textfield-container--trailing,[is="rm-textfield-container"] .rm-textfield-container--no-trailing .rm-textfield-container--trailing{ display: none; } rm-textfield-container .rm-textfield-container--disabled-block,[is="rm-textfield-container"] .rm-textfield-container--disabled-block{ display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; } rm-textfield-container[disabled] .rm-textfield-container--disabled-block,[is="rm-textfield-container"][disabled] .rm-textfield-container--disabled-block{ display: block; } rm-textfield-container .rm-textfield-container--helper-text,[is="rm-textfield-container"] .rm-textfield-container--helper-text{ height: 1em; line-height: 1em; pointer-events: none; margin-top: 0.625em; position: absolute; } rm-textfield-container[variant=outlined] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=outlined] .rm-textfield-container--helper-text,rm-textfield-container[variant=filled] .rm-textfield-container--helper-text,[is="rm-textfield-container"][variant=filled] .rm-textfield-container--helper-text{ margin-top: 0.875em; }`,
+
+      'exports': newPropsWrapper(
+        {
+            onBeforeMount() {
+                this.state.helperText = this.props.helperText;
+                this.state.label = this.props.label;
+
+                Object.defineProperties(this.root, {
+                    helperText: {
+                        get: () => this.state.helperText,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--helper-text > div"
+                            ).childNodes[0].data = this.state.helperText = (
+                                value?.toString() || ""
+                            );
+                        }
+                    },
+                    label: {
+                        get: () => this.state.label,
+                        set: (value) => {
+                            this.root.querySelector(
+                                ".rm-textfield-container--border-notch"
+                            ).childNodes[0].data = this.root.querySelector(
+                                ".rm-textfield-container--label"
+                            ).childNodes[0].data = this.state.label = (
+                                value?.toString() || ""
+                            );
+                        }
+                    }
+                });
+            },
+            onMounted() {
+                this._refreshCaps();
+            },
+            _onlabelpointerdown(event) {
+                const control = this.root.children[0].control;
+                if (control === document.activeElement && event.target !== control) {
+                    event.preventDefault();
+                }
+            },
+            _hasInputSlot() {
+                return this.slots.some(slot => {
+                    return slot.id === "input";
+                });
+            },
+            _hasSlot(name) {
+                let index;
+                return this.slots.some((slot, i) => (index = i, slot.id === name)) && console.log(this.slots[index]);
+            },
+            _getLeadingIcons() {
+                const leadingIcons = this.props.leadingIcons;
+                if (leadingIcons == null) {
+                    return [];
+                }
+                switch (typeof leadingIcons) {
+                    case "string": {
+                        return leadingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                    }
+                    case "object": {
+                        return Array.isArray(leadingIcons) ? leadingIcons : [];
+                    }
+                    default: {
+                        return [];
+                    }
+                }
+            },
+            _getTrailingIcons() {
+                const trailingIcons = this.props.trailingIcons;
+                if (trailingIcons == null) {
+                    return [];
+                }
+                switch (typeof trailingIcons) {
+                    case "string": {
+                        return trailingIcons.split(/[\W]+/).filter(icon => icon.length > 0);
+                    }
+                    case "object": {
+                        return Array.isArray(trailingIcons) ? trailingIcons : [];
+                    }
+                    default: {
+                        return [];
+                    }
+                }
+            },
+            _refreshCaps() {
+                const label = this.root.firstElementChild;
+                label.classList.remove("rm-textfield-container--no-leading", "rm-textfield-container--no-trailing");
+                const leading = this.root.querySelector("label > .rm-textfield-container--leading");
+                if (leading.children.length === 0 || leading.clientWidth <= 9) {
+                    label.classList.add("rm-textfield-container--no-leading");
+                } else {
+                    label.classList.remove("rm-textfield-container--no-leading");
+                }
+                const trailing = this.root.querySelector("label > .rm-textfield-container--trailing");
+                if (trailing.children.length === 0 || trailing.clientWidth <= 9) {
+                    label.classList.add("rm-textfield-container--no-trailing");
+                } else {
+                    label.classList.remove("rm-textfield-container--no-trailing");
+                }
+            },
+            onBeforeUpdate(_, __, newProps) {
+                if ("label" in newProps) {
+                    this.state.label = newProps.label;
+                }
+                if ("helperText" in newProps) {
+                    this.state.helperText = newProps.helperText;
+                }
+            },
+            onUpdated() {
+                this._refreshCaps();
+            }
+        }
+      ),
+
+      'template': function(
+        template,
+        expressionTypes,
+        bindingTypes,
+        getComponent
+      ) {
+        return template(
+          '<label expr0="expr0" class="rm-textfield-container--main"><div class="rm-textfield-container--border"></div><div class="rm-textfield-container--leading"><slot expr1="expr1" name="leading"></slot></div><div expr2="expr2" class="rm-textfield-container--border-notch"> </div><div class="rm-textfield-container--container"><div class="rm-textfield-container--content"><div expr3="expr3" class="rm-textfield-container--label"> </div><div style="position: relative; user-select: auto; min-height: 1.3125em;"><template expr4="expr4"></template><slot expr6="expr6" name="input"></slot></div><div class="rm-textfield-container--helper-text"><div expr7="expr7" style="font-size: .75em;"> </div></div></div></div><div class="rm-textfield-container--trailing"><slot expr8="expr8" name="trailing"></slot></div><div class="rm-textfield-container--basic-underline"></div><div class="rm-textfield-container--underline"></div><div class="rm-textfield-container--disabled-block"></div></label>',
+          [
+            {
+              'redundantAttribute': 'expr0',
+              'selector': '[expr0]',
+
+              'expressions': [
+                {
+                  'type': expressionTypes.EVENT,
+                  'name': 'onmousedown',
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope._onlabelpointerdown;
+                  }
+                }
+              ]
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'leading',
+              'redundantAttribute': 'expr1',
+              'selector': '[expr1]'
+            },
+            {
+              'redundantAttribute': 'expr2',
+              'selector': '[expr2]',
+
+              'expressions': [
+                {
+                  'type': expressionTypes.TEXT,
+                  'childNodeIndex': 0,
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.state.label;
+                  }
+                }
+              ]
+            },
+            {
+              'redundantAttribute': 'expr3',
+              'selector': '[expr3]',
+
+              'expressions': [
+                {
+                  'type': expressionTypes.TEXT,
+                  'childNodeIndex': 0,
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.state.label;
+                  }
+                }
+              ]
+            },
+            {
+              'type': bindingTypes.IF,
+
+              'evaluate': function(
+                _scope
+              ) {
+                return !_scope._hasInputSlot();
+              },
+
+              'redundantAttribute': 'expr4',
+              'selector': '[expr4]',
+
+              'template': template(
+                '<slot expr5="expr5"></slot>',
+                [
+                  {
+                    'type': bindingTypes.SLOT,
+                    'attributes': [],
+                    'name': 'default',
+                    'redundantAttribute': 'expr5',
+                    'selector': '[expr5]'
+                  }
+                ]
+              )
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'input',
+              'redundantAttribute': 'expr6',
+              'selector': '[expr6]'
+            },
+            {
+              'redundantAttribute': 'expr7',
+              'selector': '[expr7]',
+
+              'expressions': [
+                {
+                  'type': expressionTypes.TEXT,
+                  'childNodeIndex': 0,
+
+                  'evaluate': function(
+                    _scope
+                  ) {
+                    return _scope.state.helperText;
+                  }
+                }
+              ]
+            },
+            {
+              'type': bindingTypes.SLOT,
+              'attributes': [],
+              'name': 'trailing',
+              'redundantAttribute': 'expr8',
+              'selector': '[expr8]'
+            }
+          ]
+        );
+      },
+
+      'name': 'rm-textfield-container'
+    };
+
+    const FILTER = RmListItem.exports._filterSymbol;
+
     const blockedInputs = [];
     window.addEventListener("change", event => {
         if (blockedInputs.some(input => event.target === input)) {
@@ -2488,6 +2731,19 @@
         {
             _mounted: false,
             _menu: null,
+            _getSlotProps() {
+                return {
+                    [FILTER]: this.state.filtering ? (item) => {
+                        const filter = this.getFilter()?.toLowerCase();
+                        return (
+                            !filter ||
+                            (
+                                item.getLabel().toLowerCase()
+                            ).indexOf(filter) >= 0
+                        );
+                    } : null
+                };
+            },
             _input: null,
             _onmenuselected(event) {
                 this._lastSelectedOption = event.target;
@@ -2764,6 +3020,26 @@
                     delete this.state.refreshLabel;
                     delete this.state.filtering;
                 }
+
+                // Array.prototype.forEach.call(
+                //     this._selectMenu.querySelectorAll("rm-list-item"),
+                //     option => {
+                //         if (option.passive) {
+                //             return;
+                //         }
+
+                //         if (this.state.filtering) {
+                //             const filter = this.getFilter()?.toLowerCase();
+                //             if (option.label.toLowerCase().indexOf(filter) < 0) {
+                //                 option.classList.add("rm-list-item--filtered-out");
+                //                 option.selected = false;
+                //                 return;
+                //             }
+                //         }
+                //         option.classList.remove("rm-list-item--filtered-out");
+                //     }
+                // );
+
                 const selected = this.getSelected();
                 if (selected.some((option, i) => option !== this._lastSelected[i])) {
                     this._lastSelected = selected;
@@ -2778,10 +3054,12 @@
                 this.update({ focused: false, menuopened: false, refreshLabel: true });
             },
             _oninputinput() {
-                this.state.filtering = true;
-                if (this.isFilterable() && !this.state.menuopened) {
-                    this.update({ menuopened: true });
+                if (!this.isFilterable()) {
+                    return;
                 }
+
+                this.state.filtering = true;
+                this.update({ menuopened: true });
             },
             _getClassNames() {
                 const classNames = {};
@@ -2922,7 +3200,20 @@
                   'bindings': [
                     {
                       'type': bindingTypes.SLOT,
-                      'attributes': [],
+
+                      'attributes': [
+                        {
+                          'type': expressionTypes.ATTRIBUTE,
+                          'name': null,
+
+                          'evaluate': function(
+                            _scope
+                          ) {
+                            return _scope._getSlotProps();
+                          }
+                        }
+                      ],
+
                       'name': 'default',
                       'redundantAttribute': 'expr10',
                       'selector': '[expr10]'
